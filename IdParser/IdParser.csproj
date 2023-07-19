@@ -11,7 +11,7 @@
 		<Copyright>Copyright 2019</Copyright>
 		<PackageLicenseUrl></PackageLicenseUrl>
 		<PackageProjectUrl>https://github.com/c0shea/IdParser</PackageProjectUrl>
-		<PackageIconUrl>https://raw.githubusercontent.com/c0shea/IdParser/master/NuGet%20Package%20Icon.png</PackageIconUrl>
+		<PackageIcon>NuGet Package Icon.png</PackageIcon>
 		<PackageTags>Drivers License Identification Card Parser PDF417 AAMVA Standard</PackageTags>
 		<AssemblyVersion>5.0.0</AssemblyVersion>
 		<FileVersion>5.0.0</FileVersion>
@@ -24,6 +24,10 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\NuGet Package Icon.png" Pack="true" PackagePath="\"/>
+	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
 	  <NoWarn>1591;1701;1702</NoWarn>

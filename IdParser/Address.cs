@@ -5,11 +5,11 @@
 /// </summary>
 public class Address
 {
-    public string StreetLine1 { get; set; }
-    public string StreetLine2 { get; set; }
-    public string City { get; set; }
-    public string JurisdictionCode { get; set; }
-    public string PostalCode { get; set; }
+    public string StreetLine1 { get; set; } = null!;
+    public string? StreetLine2 { get; set; }
+    public string City { get; set; } = null!;
+    public string JurisdictionCode { get; set; } = null!;
+    public string? PostalCode { get; set; }
     public Country Country { get; set; }
 
     public string PostalCodeDisplay
@@ -30,7 +30,8 @@ public class Address
         }
     }
 
-    public override string ToString() => StreetLine2 == null
+    public override string ToString() 
+        => StreetLine2 is null
         ? $"{StreetLine1}{Environment.NewLine}{City}, {JurisdictionCode} {PostalCodeDisplay}"
         : $"{StreetLine1}{Environment.NewLine}{StreetLine2}{Environment.NewLine}{City}, {JurisdictionCode} {PostalCodeDisplay}";
 }

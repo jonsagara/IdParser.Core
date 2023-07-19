@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace IdParser;
+﻿namespace IdParser;
 
 public class IdentificationCard
 {
     public IssuerIdentificationNumber IssuerIdentificationNumber { get; set; }
     public Version AamvaVersionNumber { get; set; }
     public byte JurisdictionVersionNumber { get; set; }
-    public string IdNumber { get; set; }
+    public string IdNumber { get; set; } = null!;
 
     public Name Name { get; set; } = new Name();
     public Address Address { get; set; } = new Address();
@@ -26,15 +23,15 @@ public class IdentificationCard
     public EyeColor? EyeColor { get; set; }
     public HairColor? HairColor { get; set; }
     public Ethnicity? Ethnicity { get; set; }
-    public Height Height { get; set; }
-    public Weight Weight { get; set; }
-    
-    public string DocumentDiscriminator { get; set; }
-    
-    public string PlaceOfBirth { get; set; }
-    public string AuditInformation { get; set; }
-    public string InventoryControlNumber { get; set; }
-    
+    public Height? Height { get; set; }
+    public Weight Weight { get; set; } = null!;
+
+    public string? DocumentDiscriminator { get; set; }
+
+    public string PlaceOfBirth { get; set; } = null!;
+    public string AuditInformation { get; set; } = null!;
+    public string InventoryControlNumber { get; set; } = null!;
+
     public ComplianceType? ComplianceType { get; set; }
 
     public bool? HasTemporaryLawfulStatus { get; set; }

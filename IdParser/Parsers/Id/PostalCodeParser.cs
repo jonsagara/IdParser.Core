@@ -8,7 +8,8 @@ public class PostalCodeParser : AbstractParser
 {
     private const string NonAlphaNumericPattern = @"[^\w\d]";
 
-    public PostalCodeParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public PostalCodeParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 
@@ -27,7 +28,8 @@ public class PostalCodeParser : AbstractParser
             input = input.Substring(0, indexOfSpaces);
         }
 
-        IdCard.Address.PostalCode = new Regex(NonAlphaNumericPattern).Replace(input, "")
-                                                                     .Replace("0000", "", StringComparison.Ordinal);
+        IdCard.Address.PostalCode = new Regex(NonAlphaNumericPattern)
+            .Replace(input, "")
+            .Replace("0000", "", StringComparison.Ordinal);
     }
 }
