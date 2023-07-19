@@ -192,7 +192,7 @@ namespace IdParser
             {
                 records.RemoveAt(0);
             }
-            else if (records[0].StartsWith("DL") || records[0].StartsWith("ID"))
+            else if (records[0].StartsWith("DL", StringComparison.Ordinal) || records[0].StartsWith("ID", StringComparison.Ordinal))
             {
                 records[0] = records[0].Substring(2);
             }
@@ -257,7 +257,7 @@ namespace IdParser
                 var elementId = subfileRecord.Substring(0, 3);
                 var data = subfileRecord.Substring(3).Trim();
 
-                if (elementId.StartsWith("Z") && !idCard.AdditionalJurisdictionElements.ContainsKey(elementId))
+                if (elementId.StartsWith("Z", StringComparison.Ordinal) && !idCard.AdditionalJurisdictionElements.ContainsKey(elementId))
                 {
                     idCard.AdditionalJurisdictionElements.Add(elementId, data);
                     continue;

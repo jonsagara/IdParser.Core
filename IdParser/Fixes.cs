@@ -58,7 +58,7 @@ namespace IdParser
         {
             input = input.TrimStart();
 
-            if (input[0] != '@' || input.StartsWith(Barcode.ExpectedHeader))
+            if (input[0] != '@' || input.StartsWith(Barcode.ExpectedHeader, StringComparison.Ordinal))
             {
                 return input;
             }

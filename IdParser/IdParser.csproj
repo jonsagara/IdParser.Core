@@ -18,6 +18,7 @@
 		<PackageReleaseNotes></PackageReleaseNotes>
 		<SignAssembly>False</SignAssembly>
 		<RootNamespace>IdParser</RootNamespace>
+		<!--<AnalysisMode>AllEnabledByDefault</AnalysisMode>-->
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
