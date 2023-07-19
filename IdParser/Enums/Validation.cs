@@ -1,9 +1,8 @@
 ﻿// ReSharper disable once CheckNamespace
-namespace IdParser
+namespace IdParser;
+
+public enum Validation
 {
-    public enum Validation
-    {
-        None,
-        Strict
-    }
+    None,
+    Strict
 }

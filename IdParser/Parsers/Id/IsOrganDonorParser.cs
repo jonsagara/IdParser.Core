@@ -1,38 +1,37 @@
 ﻿using System;
 using IdParser.Attributes;
 
-namespace IdParser.Parsers.Id
-{
-    [Parser("DDK")]
-    public class IsOrganDonorParser : AbstractParser
-    {
-        public IsOrganDonorParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
-        {
-        }
+namespace IdParser.Parsers.Id;
 
-        public override void ParseAndSet(string input)
-        {
-            IdCard.IsOrganDonor = ParseBool(input) ?? false;
-        }
+[Parser("DDK")]
+public class IsOrganDonorParser : AbstractParser
+{
+    public IsOrganDonorParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    {
     }
 
-    [Parser("DBH")]
-    public class IsOrganDonorLegacyParser : AbstractParser
+    public override void ParseAndSet(string input)
     {
-        public IsOrganDonorLegacyParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
-        {
-        }
+        IdCard.IsOrganDonor = ParseBool(input) ?? false;
+    }
+}
 
-        public override void ParseAndSet(string input)
+[Parser("DBH")]
+public class IsOrganDonorLegacyParser : AbstractParser
+{
+    public IsOrganDonorLegacyParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    {
+    }
+
+    public override void ParseAndSet(string input)
+    {
+        if (Version == Version.Aamva2000)
         {
-            if (Version == Version.Aamva2000)
+            IdCard.IsOrganDonor = ParseBool(input) ?? false;
+
+            if (input.Equals("DONOR", StringComparison.OrdinalIgnoreCase))
             {
-                IdCard.IsOrganDonor = ParseBool(input) ?? false;
-
-                if (input.Equals("DONOR", StringComparison.OrdinalIgnoreCase))
-                {
-                    IdCard.IsOrganDonor = true;
-                }
+                IdCard.IsOrganDonor = true;
             }
         }
     }

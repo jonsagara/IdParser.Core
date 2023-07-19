@@ -1,35 +1,34 @@
 ﻿using IdParser.Attributes;
 
 // ReSharper disable once CheckNamespace
-namespace IdParser
+namespace IdParser;
+
+public enum EyeColor
 {
-    public enum EyeColor
-    {
-        [Abbreviation("BLK")]
-        Black,
+    [Abbreviation("BLK")]
+    Black,
 
-        [Abbreviation("BLU")]
-        Blue,
+    [Abbreviation("BLU")]
+    Blue,
 
-        [Abbreviation("BRO")]
-        Brown,
+    [Abbreviation("BRO")]
+    Brown,
 
-        [Abbreviation("DIC")]
-        Dichromatic,
+    [Abbreviation("DIC")]
+    Dichromatic,
 
-        [Abbreviation("GRY")]
-        Gray,
+    [Abbreviation("GRY")]
+    Gray,
 
-        [Abbreviation("GRN")]
-        Green,
+    [Abbreviation("GRN")]
+    Green,
 
-        [Abbreviation("HAZ")]
-        Hazel,
+    [Abbreviation("HAZ")]
+    Hazel,
 
-        [Abbreviation("MAR")]
-        Maroon,
+    [Abbreviation("MAR")]
+    Maroon,
 
-        [Abbreviation("PNK")]
-        Pink
-    }
+    [Abbreviation("PNK")]
+    Pink
 }

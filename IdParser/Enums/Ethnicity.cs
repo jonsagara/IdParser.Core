@@ -1,30 +1,29 @@
 ﻿using IdParser.Attributes;
 
 // ReSharper disable once CheckNamespace
-namespace IdParser
+namespace IdParser;
+
+public enum Ethnicity
 {
-    public enum Ethnicity
-    {
-        [Abbreviation("AI")]
-        [Description("Alaskan or American Indian")]
-        AlaskanAmericanIndian,
+    [Abbreviation("AI")]
+    [Description("Alaskan or American Indian")]
+    AlaskanAmericanIndian,
 
-        [Abbreviation("AP")]
-        [Description("Asian or Pacific Islander")]
-        AsianPacificIslander,
+    [Abbreviation("AP")]
+    [Description("Asian or Pacific Islander")]
+    AsianPacificIslander,
 
-        [Abbreviation("BK")]
-        Black,
+    [Abbreviation("BK")]
+    Black,
 
-        [Abbreviation("H")]
-        [Description("Hispanic Origin")]
-        HispanicOrigin,
+    [Abbreviation("H")]
+    [Description("Hispanic Origin")]
+    HispanicOrigin,
 
-        [Abbreviation("O")]
-        [Description("Non-Hispanic")]
-        NonHispanic,
+    [Abbreviation("O")]
+    [Description("Non-Hispanic")]
+    NonHispanic,
 
-        [Abbreviation("W")]
-        White
-    }
+    [Abbreviation("W")]
+    White
 }

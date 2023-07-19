@@ -1,10 +1,9 @@
 ﻿// ReSharper disable once CheckNamespace
-namespace IdParser
+namespace IdParser;
+
+public enum Sex : byte
 {
-    public enum Sex : byte
-    {
-        Male = 1,
-        Female = 2,
-        NotSpecified = 9
-    }
+    Male = 1,
+    Female = 2,
+    NotSpecified = 9
 }

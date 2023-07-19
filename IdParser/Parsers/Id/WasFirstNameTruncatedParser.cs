@@ -1,17 +1,16 @@
 ﻿using IdParser.Attributes;
 
-namespace IdParser.Parsers.Id
-{
-    [Parser("DDF")]
-    public class WasFirstNameTruncatedParser : AbstractParser
-    {
-        public WasFirstNameTruncatedParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
-        {
-        }
+namespace IdParser.Parsers.Id;
 
-        public override void ParseAndSet(string input)
-        {
-            IdCard.Name.WasFirstTruncated = ParseBool(input);
-        }
+[Parser("DDF")]
+public class WasFirstNameTruncatedParser : AbstractParser
+{
+    public WasFirstNameTruncatedParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    {
+    }
+
+    public override void ParseAndSet(string input)
+    {
+        IdCard.Name.WasFirstTruncated = ParseBool(input);
     }
 }

@@ -1,40 +1,39 @@
 ﻿using IdParser.Attributes;
 
-namespace IdParser.Parsers.License
+namespace IdParser.Parsers.License;
+
+[Parser("DCB")]
+public class RestrictionCodesParser : AbstractParser
 {
-    [Parser("DCB")]
-    public class RestrictionCodesParser : AbstractParser
+    public RestrictionCodesParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
     {
-        public RestrictionCodesParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
-        {
-        }
-
-        public override void ParseAndSet(string input)
-        {
-            if (StringHasNoValue(input))
-            {
-                return;
-            }
-
-            License.Jurisdiction.RestrictionCodes = input;
-        }
     }
 
-    [Parser("DAS")]
-    public class RestrictionCodesLegacyParser : AbstractParser
+    public override void ParseAndSet(string input)
     {
-        public RestrictionCodesLegacyParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+        if (StringHasNoValue(input))
         {
+            return;
         }
 
-        public override void ParseAndSet(string input)
-        {
-            if (StringHasNoValue(input))
-            {
-                return;
-            }
+        License.Jurisdiction.RestrictionCodes = input;
+    }
+}
 
-            License.Jurisdiction.RestrictionCodes = input;
+[Parser("DAS")]
+public class RestrictionCodesLegacyParser : AbstractParser
+{
+    public RestrictionCodesLegacyParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    {
+    }
+
+    public override void ParseAndSet(string input)
+    {
+        if (StringHasNoValue(input))
+        {
+            return;
         }
+
+        License.Jurisdiction.RestrictionCodes = input;
     }
 }

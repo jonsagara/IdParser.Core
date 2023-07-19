@@ -1,18 +1,15 @@
-﻿using System;
+﻿namespace IdParser.Attributes;
 
-namespace IdParser.Attributes
+/// <summary>
+/// Specifies an abbreviated display value for the target.
+/// </summary>
+[AttributeUsage(AttributeTargets.All)]
+public sealed class AbbreviationAttribute : Attribute
 {
-    /// <summary>
-    /// Specifies an abbreviated display value for the target.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.All)]
-    public class AbbreviationAttribute : Attribute
-    {
-        public string Abbreviation { get; set; }
+    public string Abbreviation { get; }
 
-        public AbbreviationAttribute(string abbreviation)
-        {
-            Abbreviation = abbreviation;
-        }
+    public AbbreviationAttribute(string abbreviation)
+    {
+        Abbreviation = abbreviation;
     }
 }

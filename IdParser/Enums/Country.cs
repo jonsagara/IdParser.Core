@@ -1,18 +1,17 @@
 ﻿using IdParser.Attributes;
 
 // ReSharper disable once CheckNamespace
-namespace IdParser
+namespace IdParser;
+
+public enum Country
 {
-    public enum Country
-    {
-        [Description("United States of America")]
-        [Abbreviation("US")]
-        Usa,
+    [Description("United States of America")]
+    [Abbreviation("US")]
+    Usa,
 
-        [Abbreviation("CA")]
-        Canada,
+    [Abbreviation("CA")]
+    Canada,
 
-        [Abbreviation("MX")]
-        Mexico
-    }
+    [Abbreviation("MX")]
+    Mexico
 }

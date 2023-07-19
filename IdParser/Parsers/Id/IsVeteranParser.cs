@@ -1,17 +1,16 @@
 ﻿using IdParser.Attributes;
 
-namespace IdParser.Parsers.Id
-{
-    [Parser("DDL")]
-    public class IsVeteranParser : AbstractParser
-    {
-        public IsVeteranParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
-        {
-        }
+namespace IdParser.Parsers.Id;
 
-        public override void ParseAndSet(string input)
-        {
-            IdCard.IsVeteran = ParseBool(input) ?? false;
-        }
+[Parser("DDL")]
+public class IsVeteranParser : AbstractParser
+{
+    public IsVeteranParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    {
+    }
+
+    public override void ParseAndSet(string input)
+    {
+        IdCard.IsVeteran = ParseBool(input) ?? false;
     }
 }

@@ -1,45 +1,44 @@
 ﻿using Xunit;
 
-namespace IdParser.Test
+namespace IdParser.Test;
+
+public class NameTests
 {
-    public class NameTests
+    [Fact]
+    public void NoMiddleNameTest()
     {
-        [Fact]
-        public void NoMiddleNameTest()
+        var name = new Name
         {
-            var name = new Name
-            {
-                First = "John",
-                Last = "Doe"
-            };
+            First = "John",
+            Last = "Doe"
+        };
 
-            Assert.Equal("John Doe", name.ToString());
-        }
+        Assert.Equal("John Doe", name.ToString());
+    }
 
-        [Fact]
-        public void FullNameTest()
+    [Fact]
+    public void FullNameTest()
+    {
+        var name = new Name
         {
-            var name = new Name
-            {
-                First = "John",
-                Middle = "Martin",
-                Last = "Doe"
-            };
+            First = "John",
+            Middle = "Martin",
+            Last = "Doe"
+        };
 
-            Assert.Equal("John Martin Doe", name.ToString());
-        }
+        Assert.Equal("John Martin Doe", name.ToString());
+    }
 
-        [Fact]
-        public void SuffixTest()
+    [Fact]
+    public void SuffixTest()
+    {
+        var name = new Name
         {
-            var name = new Name
-            {
-                First = "John",
-                Last = "Doe",
-                Suffix = "Jr"
-            };
+            First = "John",
+            Last = "Doe",
+            Suffix = "Jr"
+        };
 
-            Assert.Equal("John Doe, Jr", name.ToString());
-        }
+        Assert.Equal("John Doe, Jr", name.ToString());
     }
 }

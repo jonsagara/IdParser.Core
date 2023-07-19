@@ -1,17 +1,16 @@
 ﻿using IdParser.Attributes;
 
 // ReSharper disable once CheckNamespace
-namespace IdParser
+namespace IdParser;
+
+public enum ComplianceType
 {
-    public enum ComplianceType
-    {
-        [Description("Materially Compliant")]
-        MateriallyCompliant,
+    [Description("Materially Compliant")]
+    MateriallyCompliant,
 
-        [Description("Fully Compliant")]
-        FullyCompliant,
+    [Description("Fully Compliant")]
+    FullyCompliant,
 
-        [Description("Non-Compliant")]
-        NonCompliant
-    }
+    [Description("Non-Compliant")]
+    NonCompliant
 }

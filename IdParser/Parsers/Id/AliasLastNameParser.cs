@@ -1,22 +1,21 @@
 ﻿using IdParser.Attributes;
 
-namespace IdParser.Parsers.Id
+namespace IdParser.Parsers.Id;
+
+[Parser("DBN")]
+public class AliasLastNameParser : AbstractParser
 {
-    [Parser("DBN")]
-    public class AliasLastNameParser : AbstractParser
+    public AliasLastNameParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
     {
-        public AliasLastNameParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    }
+
+    public override void ParseAndSet(string input)
+    {
+        if (StringHasNoValue(input))
         {
+            return;
         }
 
-        public override void ParseAndSet(string input)
-        {
-            if (StringHasNoValue(input))
-            {
-                return;
-            }
-
-            IdCard.Name.AliasLast = input;
-        }
+        IdCard.Name.AliasLast = input;
     }
 }

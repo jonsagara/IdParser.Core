@@ -1,33 +1,32 @@
 ﻿using IdParser.Attributes;
 
 // ReSharper disable once CheckNamespace
-namespace IdParser
+namespace IdParser;
+
+public enum HairColor
 {
-    public enum HairColor
-    {
-        [Abbreviation("BAL")]
-        Bald,
+    [Abbreviation("BAL")]
+    Bald,
 
-        [Abbreviation("BLK")]
-        Black,
+    [Abbreviation("BLK")]
+    Black,
 
-        [Abbreviation("BLN")]
-        Blond,
+    [Abbreviation("BLN")]
+    Blond,
 
-        [Abbreviation("BRO")]
-        Brown,
+    [Abbreviation("BRO")]
+    Brown,
 
-        [Abbreviation("GRY")]
-        Gray,
+    [Abbreviation("GRY")]
+    Gray,
 
-        [Abbreviation("RED")]
-        [Description("Red/Auburn")]
-        RedAuburn,
+    [Abbreviation("RED")]
+    [Description("Red/Auburn")]
+    RedAuburn,
 
-        [Abbreviation("SDY")]
-        Sandy,
+    [Abbreviation("SDY")]
+    Sandy,
 
-        [Abbreviation("WHI")]
-        White
-    }
+    [Abbreviation("WHI")]
+    White
 }

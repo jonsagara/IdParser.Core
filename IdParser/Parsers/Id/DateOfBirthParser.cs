@@ -1,22 +1,21 @@
 ﻿using IdParser.Attributes;
 
-namespace IdParser.Parsers.Id
+namespace IdParser.Parsers.Id;
+
+[Parser("DBB")]
+public class DateOfBirthParser : AbstractParser
 {
-    [Parser("DBB")]
-    public class DateOfBirthParser : AbstractParser
+    public DateOfBirthParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
     {
-        public DateOfBirthParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    }
+
+    public override void ParseAndSet(string input)
+    {
+        if (DateHasNoValue(input))
         {
+            return;
         }
 
-        public override void ParseAndSet(string input)
-        {
-            if (DateHasNoValue(input))
-            {
-                return;
-            }
-
-            IdCard.DateOfBirth = ParseDate(input);
-        }
+        IdCard.DateOfBirth = ParseDate(input);
     }
 }

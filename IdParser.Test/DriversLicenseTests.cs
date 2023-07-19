@@ -3,3440 +3,3439 @@ using System.IO;
 using System.Linq;
 using Xunit;
 
-namespace IdParser.Test
+namespace IdParser.Test;
+
+public class DriversLicenseTests : BaseTest
 {
-    public class DriversLicenseTests : BaseTest
+    [Fact]
+    public void TestMA2009License()
     {
-        [Fact]
-        public void TestMA2009License()
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "ROBERT",
-                    Middle = "LOWNEY",
-                    Last = "SMITH",
+                First = "ROBERT",
+                Middle = "LOWNEY",
+                Last = "SMITH",
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "123 MAIN STREET",
-                    City = "BOSTON",
-                    JurisdictionCode = "MA",
-                    PostalCode = "021080",
-                    Country = Country.Usa
-                },
-
-                DateOfBirth = new DateTime(1977, 07, 07),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(72),
-
-                IdNumber = "S65807412",
-                AamvaVersionNumber = Version.Aamva2009,
-
-                IssueDate = new DateTime(2016, 06, 29),
-                ExpirationDate = new DateTime(2020, 07, 07),
-                RevisionDate = new DateTime(2009, 07, 15),
-
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D"
-                }
-            };
-
-            var file = License("MA 2009");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("Massachusetts", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestMA2016License()
-        {
-            var expected = new DriversLicense
+            Address = new Address
             {
-                Name = new Name
-                {
-                    First = "MORRIS",
-                    Middle = "T",
-                    Last = "SAMPLE",
+                StreetLine1 = "123 MAIN STREET",
+                City = "BOSTON",
+                JurisdictionCode = "MA",
+                PostalCode = "021080",
+                Country = Country.Usa
+            },
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+            DateOfBirth = new DateTime(1977, 07, 07),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(72),
 
-                Address = new Address
-                {
-                    StreetLine1 = "24 BEACON STREET",
-                    City = "BOSTON",
-                    JurisdictionCode = "MA",
-                    PostalCode = "02133",
-                    Country = Country.Usa
-                },
+            IdNumber = "S65807412",
+            AamvaVersionNumber = Version.Aamva2009,
 
-                DateOfBirth = new DateTime(1971, 12, 31),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(62),
+            IssueDate = new DateTime(2016, 06, 29),
+            ExpirationDate = new DateTime(2020, 07, 07),
+            RevisionDate = new DateTime(2009, 07, 15),
 
-                IdNumber = "S12345678",
-                AamvaVersionNumber = Version.Aamva2013,
-
-                IssueDate = new DateTime(2016, 08, 09),
-                ExpirationDate = new DateTime(2021, 08, 16),
-                RevisionDate = new DateTime(2016, 02, 22),
-
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D"
-                }
-            };
-
-            var file = License("MA 2016");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("02133", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Massachusetts", idCard.IssuerIdentificationNumber.GetDescription());
-
-            Assert.Equal("08102016 REV 02222016", idCard.DocumentDiscriminator);
-            Assert.Equal("12345S123456780612", idCard.InventoryControlNumber);
-
-            Assert.Equal("MA504", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZMZ").Value);
-            Assert.Equal("08102016", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZMB").Value);
-        }
-
-        [Fact]
-        public void TestMALicenseWithNoMiddleName()
-        {
-            var expected = new DriversLicense
+            Jurisdiction = new DriversLicenseJurisdiction
             {
-                Name = new Name
-                {
-                    First = "TONY",
-                    Last = "ROBERT",
-
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
-
-                Address = new Address
-                {
-                    StreetLine1 = "123 MAIN STREET",
-                    City = "BOSTON",
-                    JurisdictionCode = "MA",
-                    PostalCode = "021080",
-                    Country = Country.Usa
-                },
-
-                DateOfBirth = new DateTime(1977, 07, 07),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(72),
-
-                IdNumber = "S65807412",
-                AamvaVersionNumber = Version.Aamva2009,
-
-                IssueDate = new DateTime(2016, 06, 29),
-                ExpirationDate = new DateTime(2020, 07, 07),
-                RevisionDate = new DateTime(2009, 07, 15),
-
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D"
-                }
-            };
-
-            var file = License("MA No Middle Name");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("Massachusetts", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestNYLicense()
-        {
-            var expected = new DriversLicense
-            {
-                Name = new Name
-                {
-                    First = "M",
-                    Middle = "Motorist",
-                    Last = "Michael",
-
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
-
-                Address = new Address
-                {
-                    StreetLine1 = "2345 ANYWHERE STREET",
-                    City = "YOUR CITY",
-                    JurisdictionCode = "NY",
-                    PostalCode = "12345",
-                    Country = Country.Usa
-                },
-
-                DateOfBirth = new DateTime(2013, 08, 31),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(64),
-                EyeColor = EyeColor.Brown,
-
-                IdNumber = "NONE",
-                AamvaVersionNumber = Version.Aamva2012,
-
-                IssueDate = new DateTime(2013, 08, 31),
-                ExpirationDate = new DateTime(2013, 08, 31)
-            };
-
-            var file = License("NY");
-            var idCard = Barcode.Parse(file);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("New York", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestVALicense()
-        {
-            var expected = new DriversLicense
-            {
-                Name = new Name
-                {
-                    First = "JUSTIN",
-                    Middle = "WILLIAM",
-                    Last = "MAURY"
-                },
-
-                Address = new Address
-                {
-                    StreetLine1 = "17 FIRST STREET",
-                    City = "STAUNTON",
-                    JurisdictionCode = "VA",
-                    PostalCode = "24401",
-                    Country = Country.Usa
-                },
-
-                DateOfBirth = new DateTime(1958, 07, 15),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(75),
-                EyeColor = EyeColor.Brown,
-
-                IdNumber = "T16700185",
-                AamvaVersionNumber = Version.Aamva2005,
-
-                IssueDate = new DateTime(2009, 08, 14),
-                ExpirationDate = new DateTime(2017, 08, 14),
-                RevisionDate = new DateTime(2008, 12, 10),
-
-                HasTemporaryLawfulStatus = false,
-                ComplianceType = ComplianceType.NonCompliant,
-
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    RestrictionCodes = "158X9",
-                    EndorsementCodes = "S"
-                }
-            };
-
-            var file = License("VA");
-            var idCard = Barcode.Parse(file);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("Virginia", idCard.IssuerIdentificationNumber.GetDescription());
-
-            Assert.IsType<DriversLicense>(idCard);
-
-            if (idCard is DriversLicense license)
-            {
-                Assert.Equal("158X9", license.Jurisdiction.RestrictionCodes);
+                VehicleClass = "D"
             }
-        }
+        };
 
-        [Fact]
-        public void TestGALicense()
+        var file = License("MA 2009");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("Massachusetts", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestMA2016License()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "JANICE",
-                    Last = "SAMPLE",
-                    Suffix = "PH.D."
-                },
+                First = "MORRIS",
+                Middle = "T",
+                Last = "SAMPLE",
 
-                Address = new Address
-                {
-                    StreetLine1 = "123 NORTH STATE ST.",
-                    City = "ANYTOWN",
-                    JurisdictionCode = "GA",
-                    PostalCode = "30334",
-                    Country = Country.Usa
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                DateOfBirth = new DateTime(1957, 07, 01),
-                Sex = Sex.Female,
-                Height = Height.FromImperial(64),
-                Weight = Weight.FromRange(WeightRange.Lbs101To130),
-                EyeColor = EyeColor.Blue,
-
-                IdNumber = "100000001",
-                AamvaVersionNumber = Version.Aamva2005,
-
-                IssueDate = new DateTime(2006, 07, 01),
-                ExpirationDate = new DateTime(2013, 02, 01),
-
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C",
-                    EndorsementCodes = "P"
-                }
-            };
-
-            var file = License("GA");
-            var idCard = Barcode.Parse(file);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("Georgia", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestCTLicense()
-        {
-            var expected = new DriversLicense
+            Address = new Address
             {
-                Name = new Name
-                {
-                    First = "ADULT",
-                    Middle = "A",
-                    Last = "CTLIC"
-                },
+                StreetLine1 = "24 BEACON STREET",
+                City = "BOSTON",
+                JurisdictionCode = "MA",
+                PostalCode = "02133",
+                Country = Country.Usa
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "60 STATE ST",
-                    City = "WETHERSFIELD",
-                    JurisdictionCode = "CT",
-                    PostalCode = "061091896",
-                    Country = Country.Usa
-                },
+            DateOfBirth = new DateTime(1971, 12, 31),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(62),
 
-                DateOfBirth = new DateTime(1961, 01, 01),
-                Sex = Sex.Female,
-                Height = Height.FromImperial(5, 6),
-                EyeColor = EyeColor.Blue,
+            IdNumber = "S12345678",
+            AamvaVersionNumber = Version.Aamva2013,
 
-                IdNumber = "990000001",
-                AamvaVersionNumber = Version.Aamva2000,
+            IssueDate = new DateTime(2016, 08, 09),
+            ExpirationDate = new DateTime(2021, 08, 16),
+            RevisionDate = new DateTime(2016, 02, 22),
 
-                IssueDate = new DateTime(2009, 02, 23),
-                ExpirationDate = new DateTime(2015, 01, 01),
-
-                IsOrganDonor = true,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "B"
-                }
-            };
-
-            var file = License("CT");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
-
-            Assert.IsType<DriversLicense>(idCard);
-
-            if (idCard is DriversLicense license)
+            Jurisdiction = new DriversLicenseJurisdiction
             {
-                Assert.Equal("D", license.Jurisdiction.VehicleClass);
-                Assert.Equal("B", license.Jurisdiction.RestrictionCodes);
+                VehicleClass = "D"
             }
-        }
+        };
 
-        [Fact]
-        public void TestCTLicenseWebBrowser()
+        var file = License("MA 2016");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("02133", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Massachusetts", idCard.IssuerIdentificationNumber.GetDescription());
+
+        Assert.Equal("08102016 REV 02222016", idCard.DocumentDiscriminator);
+        Assert.Equal("12345S123456780612", idCard.InventoryControlNumber);
+
+        Assert.Equal("MA504", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZMZ").Value);
+        Assert.Equal("08102016", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZMB").Value);
+    }
+
+    [Fact]
+    public void TestMALicenseWithNoMiddleName()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "ADULT",
-                    Middle = "A",
-                    Last = "CTLIC"
-                },
+                First = "TONY",
+                Last = "ROBERT",
 
-                Address = new Address
-                {
-                    StreetLine1 = "60 STATE ST",
-                    City = "WETHERSFIELD",
-                    JurisdictionCode = "CT",
-                    PostalCode = "061091896",
-                    Country = Country.Usa
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                DateOfBirth = new DateTime(1961, 01, 01),
-                Sex = Sex.Female,
-                Height = Height.FromImperial(5, 6),
-                EyeColor = EyeColor.Blue,
-
-                IdNumber = "990000001",
-                AamvaVersionNumber = Version.Aamva2000,
-
-                IssueDate = new DateTime(2009, 02, 23),
-                ExpirationDate = new DateTime(2015, 01, 01),
-
-                IsOrganDonor = true,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "B"
-                }
-            };
-
-            var file = License("CT Web Browser");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestCTLicenseNoMiddleName()
-        {
-            var expected = new DriversLicense
+            Address = new Address
             {
-                Name = new Name
-                {
-                    First = "CHUNG",
-                    Last = "WANG"
-                },
+                StreetLine1 = "123 MAIN STREET",
+                City = "BOSTON",
+                JurisdictionCode = "MA",
+                PostalCode = "021080",
+                Country = Country.Usa
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "123 SIDE ST",
-                    City = "WATERBURY",
-                    JurisdictionCode = "CT",
-                    PostalCode = "067081897",
-                    Country = Country.Usa
-                },
+            DateOfBirth = new DateTime(1977, 07, 07),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(72),
 
-                DateOfBirth = new DateTime(1949, 03, 03),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(5, 8),
-                EyeColor = EyeColor.Brown,
+            IdNumber = "S65807412",
+            AamvaVersionNumber = Version.Aamva2009,
 
-                IdNumber = "035032278",
-                AamvaVersionNumber = Version.Aamva2000,
+            IssueDate = new DateTime(2016, 06, 29),
+            ExpirationDate = new DateTime(2020, 07, 07),
+            RevisionDate = new DateTime(2009, 07, 15),
 
-                IssueDate = new DateTime(2017, 01, 19),
-                ExpirationDate = new DateTime(2023, 03, 03),
-
-                IsOrganDonor = false,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D"
-                }
-            };
-
-            var file = License("CT No Middle Name");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestMOLicense()
-        {
-            var expected = new DriversLicense
+            Jurisdiction = new DriversLicenseJurisdiction
             {
-                Name = new Name
-                {
-                    First = "FirstNameTest",
-                    Last = "LastNameTest"
-                },
-
-                Address = new Address
-                {
-                    StreetLine1 = "123 ABC TEST ADDRESS 2ND FL",
-                    City = "ST LOUIS",
-                    JurisdictionCode = "MO",
-                    PostalCode = "633011",
-                    Country = Country.Usa
-                },
-
-                DateOfBirth = new DateTime(2017, 08, 09),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(5, 8),
-                Weight = Weight.FromImperial(155),
-                EyeColor = EyeColor.Brown,
-
-                IdNumber = "X100097001",
-                AamvaVersionNumber = Version.Aamva2000,
-
-                IssueDate = new DateTime(2011, 06, 30),
-                ExpirationDate = new DateTime(2018, 02, 04),
-
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "F"
-                }
-            };
-
-            var file = License("MO");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("Missouri", idCard.IssuerIdentificationNumber.GetDescription());
-
-            Assert.Equal("MAST LOUIS CITY", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZMZ").Value);
-            Assert.Equal("112001810097", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZMB").Value);
-
-            Assert.IsType<DriversLicense>(idCard);
-
-            if (idCard is DriversLicense license)
-            {
-                Assert.Equal("F", license.Jurisdiction.VehicleClass);
+                VehicleClass = "D"
             }
-        }
+        };
 
-        [Fact]
-        public void TestFLLicense()
+        var file = License("MA No Middle Name");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("Massachusetts", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestNYLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "JOEY",
-                    Middle = "MIDLAND",
-                    Last = "TESTER"
-                },
+                First = "M",
+                Middle = "Motorist",
+                Last = "Michael",
 
-                Address = new Address
-                {
-                    StreetLine1 = "1234 PARK ST LOT 504",
-                    City = "KEY WEST",
-                    JurisdictionCode = "FL",
-                    PostalCode = "330400504",
-                    Country = Country.Usa
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                DateOfBirth = new DateTime(1941, 05, 09),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(6, 1),
-
-                IdNumber = "H574712510891",
-                AamvaVersionNumber = Version.Aamva2000,
-
-                IssueDate = new DateTime(2014, 05, 01),
-                ExpirationDate = new DateTime(2022, 03, 09),
-
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "E",
-                    RestrictionCodes = "A"
-                }
-            };
-
-            var file = License("FL");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("33040-0504", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Florida", idCard.IssuerIdentificationNumber.GetDescription());
-
-            Assert.Equal(5, idCard.AdditionalJurisdictionElements.Count);
-            Assert.Equal("FA", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZFZ").Value);
-
-            if (idCard is DriversLicense license)
+            Address = new Address
             {
-                Assert.Equal("A", license.Jurisdiction.RestrictionCodes);
-                Assert.Equal("E", license.Jurisdiction.VehicleClass);
+                StreetLine1 = "2345 ANYWHERE STREET",
+                City = "YOUR CITY",
+                JurisdictionCode = "NY",
+                PostalCode = "12345",
+                Country = Country.Usa
+            },
+
+            DateOfBirth = new DateTime(2013, 08, 31),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(64),
+            EyeColor = EyeColor.Brown,
+
+            IdNumber = "NONE",
+            AamvaVersionNumber = Version.Aamva2012,
+
+            IssueDate = new DateTime(2013, 08, 31),
+            ExpirationDate = new DateTime(2013, 08, 31)
+        };
+
+        var file = License("NY");
+        var idCard = Barcode.Parse(file);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("New York", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestVALicense()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
+            {
+                First = "JUSTIN",
+                Middle = "WILLIAM",
+                Last = "MAURY"
+            },
+
+            Address = new Address
+            {
+                StreetLine1 = "17 FIRST STREET",
+                City = "STAUNTON",
+                JurisdictionCode = "VA",
+                PostalCode = "24401",
+                Country = Country.Usa
+            },
+
+            DateOfBirth = new DateTime(1958, 07, 15),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(75),
+            EyeColor = EyeColor.Brown,
+
+            IdNumber = "T16700185",
+            AamvaVersionNumber = Version.Aamva2005,
+
+            IssueDate = new DateTime(2009, 08, 14),
+            ExpirationDate = new DateTime(2017, 08, 14),
+            RevisionDate = new DateTime(2008, 12, 10),
+
+            HasTemporaryLawfulStatus = false,
+            ComplianceType = ComplianceType.NonCompliant,
+
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                RestrictionCodes = "158X9",
+                EndorsementCodes = "S"
             }
-        }
+        };
 
-        [Fact]
-        public void TestNHLicense()
+        var file = License("VA");
+        var idCard = Barcode.Parse(file);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("Virginia", idCard.IssuerIdentificationNumber.GetDescription());
+
+        Assert.IsType<DriversLicense>(idCard);
+
+        if (idCard is DriversLicense license)
         {
-            var expected = new DriversLicense
+            Assert.Equal("158X9", license.Jurisdiction.RestrictionCodes);
+        }
+    }
+
+    [Fact]
+    public void TestGALicense()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "DONNIE",
-                    Middle = "G",
-                    Last = "TESTER",
+                First = "JANICE",
+                Last = "SAMPLE",
+                Suffix = "PH.D."
+            },
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
-
-                Address = new Address
-                {
-                    City = "SOMETOWN",
-                    StreetLine1 = "802 WILLIAMS ST",
-                    JurisdictionCode = "NH",
-                    PostalCode = "01234",
-                    Country = Country.Usa
-                },
-
-                DateOfBirth = new DateTime(1977, 11, 06),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(69),
-                EyeColor = EyeColor.Green,
-
-                IdNumber = "NHI17128755",
-                AamvaVersionNumber = Version.Aamva2013,
-
-                IssueDate = new DateTime(2017, 12, 19),
-                ExpirationDate = new DateTime(2022, 11, 06),
-                RevisionDate = new DateTime(2016, 06, 09),
-
-                ComplianceType = ComplianceType.NonCompliant,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "C",
-                    EndorsementCodes = "MC"
-                }
-            };
-
-            var file = License("NH");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("01234", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("New Hampshire", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestTXLicense()
-        {
-            var expected = new DriversLicense
+            Address = new Address
             {
-                Name = new Name
-                {
-                    First = "ROBERTO",
-                    Last = "GONSALVES"
-                },
+                StreetLine1 = "123 NORTH STATE ST.",
+                City = "ANYTOWN",
+                JurisdictionCode = "GA",
+                PostalCode = "30334",
+                Country = Country.Usa
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "1254 FIRST",
-                    City = "EL PASO",
-                    JurisdictionCode = "TX",
-                    PostalCode = "79936",
-                    Country = Country.Usa
-                },
+            DateOfBirth = new DateTime(1957, 07, 01),
+            Sex = Sex.Female,
+            Height = Height.FromImperial(64),
+            Weight = Weight.FromRange(WeightRange.Lbs101To130),
+            EyeColor = EyeColor.Blue,
 
-                DateOfBirth = new DateTime(1993, 10, 24),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(65),
-                EyeColor = EyeColor.Brown,
-                HairColor = HairColor.Brown,
+            IdNumber = "100000001",
+            AamvaVersionNumber = Version.Aamva2005,
 
-                IdNumber = "37110073",
-                AamvaVersionNumber = Version.Aamva2005,
+            IssueDate = new DateTime(2006, 07, 01),
+            ExpirationDate = new DateTime(2013, 02, 01),
 
-                IssueDate = new DateTime(2014, 10, 25),
-                ExpirationDate = new DateTime(2019, 10, 24),
-
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C"
-                }
-            };
-
-            var file = License("TX");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("79936", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Texas", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestPALicense()
-        {
-            var expected = new DriversLicense
+            Jurisdiction = new DriversLicenseJurisdiction
             {
-                Name = new Name
-                {
-                    First = "JOHN",
-                    Middle = "P",
-                    Last = "SMITH"
-                },
+                VehicleClass = "C",
+                EndorsementCodes = "P"
+            }
+        };
 
-                Address = new Address
-                {
-                    StreetLine1 = "140 MAIN ST",
-                    City = "PHILADELPHIA",
-                    JurisdictionCode = "PA",
-                    PostalCode = "19130",
-                    Country = Country.Usa
-                },
+        var file = License("GA");
+        var idCard = Barcode.Parse(file);
 
-                DateOfBirth = new DateTime(1986, 02, 02),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(6, 0),
-                EyeColor = EyeColor.Hazel,
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-                IdNumber = "26798765",
-                AamvaVersionNumber = Version.Aamva2000,
+        Assert.Equal("Georgia", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-                IssueDate = new DateTime(2016, 01, 04),
-                ExpirationDate = new DateTime(2020, 02, 03),
-
-                IsOrganDonor = true,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C",
-                    RestrictionCodes = "*/1",
-                    EndorsementCodes = "----"
-                }
-            };
-
-            var file = License("PA");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("19130", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Pennsylvania", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestPALicenseTwoMiddleNames()
+    [Fact]
+    public void TestCTLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "JOHN",
-                    Middle = "ROBERT LEE",
-                    Last = "SMITH"
-                },
+                First = "ADULT",
+                Middle = "A",
+                Last = "CTLIC"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "140 MAIN ST",
-                    City = "PHILADELPHIA",
-                    JurisdictionCode = "PA",
-                    PostalCode = "19130",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "60 STATE ST",
+                City = "WETHERSFIELD",
+                JurisdictionCode = "CT",
+                PostalCode = "061091896",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1986, 02, 02),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(6, 0),
-                EyeColor = EyeColor.Hazel,
+            DateOfBirth = new DateTime(1961, 01, 01),
+            Sex = Sex.Female,
+            Height = Height.FromImperial(5, 6),
+            EyeColor = EyeColor.Blue,
 
-                IdNumber = "26798765",
-                AamvaVersionNumber = Version.Aamva2000,
+            IdNumber = "990000001",
+            AamvaVersionNumber = Version.Aamva2000,
 
-                IssueDate = new DateTime(2016, 01, 04),
-                ExpirationDate = new DateTime(2020, 02, 03),
+            IssueDate = new DateTime(2009, 02, 23),
+            ExpirationDate = new DateTime(2015, 01, 01),
 
-                IsOrganDonor = true,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C",
-                    RestrictionCodes = "*/1",
-                    EndorsementCodes = "----"
-                }
-            };
+            IsOrganDonor = true,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "B"
+            }
+        };
 
-            var file = License("PA Two Middle Names");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("CT");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("19130", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Pennsylvania", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
 
-        [Fact]
-        public void TestPALicenseThreeMiddleNames()
+        Assert.IsType<DriversLicense>(idCard);
+
+        if (idCard is DriversLicense license)
         {
-            var expected = new Name
+            Assert.Equal("D", license.Jurisdiction.VehicleClass);
+            Assert.Equal("B", license.Jurisdiction.RestrictionCodes);
+        }
+    }
+
+    [Fact]
+    public void TestCTLicenseWebBrowser()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
+            {
+                First = "ADULT",
+                Middle = "A",
+                Last = "CTLIC"
+            },
+
+            Address = new Address
+            {
+                StreetLine1 = "60 STATE ST",
+                City = "WETHERSFIELD",
+                JurisdictionCode = "CT",
+                PostalCode = "061091896",
+                Country = Country.Usa
+            },
+
+            DateOfBirth = new DateTime(1961, 01, 01),
+            Sex = Sex.Female,
+            Height = Height.FromImperial(5, 6),
+            EyeColor = EyeColor.Blue,
+
+            IdNumber = "990000001",
+            AamvaVersionNumber = Version.Aamva2000,
+
+            IssueDate = new DateTime(2009, 02, 23),
+            ExpirationDate = new DateTime(2015, 01, 01),
+
+            IsOrganDonor = true,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "B"
+            }
+        };
+
+        var file = License("CT Web Browser");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestCTLicenseNoMiddleName()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
+            {
+                First = "CHUNG",
+                Last = "WANG"
+            },
+
+            Address = new Address
+            {
+                StreetLine1 = "123 SIDE ST",
+                City = "WATERBURY",
+                JurisdictionCode = "CT",
+                PostalCode = "067081897",
+                Country = Country.Usa
+            },
+
+            DateOfBirth = new DateTime(1949, 03, 03),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(5, 8),
+            EyeColor = EyeColor.Brown,
+
+            IdNumber = "035032278",
+            AamvaVersionNumber = Version.Aamva2000,
+
+            IssueDate = new DateTime(2017, 01, 19),
+            ExpirationDate = new DateTime(2023, 03, 03),
+
+            IsOrganDonor = false,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D"
+            }
+        };
+
+        var file = License("CT No Middle Name");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestMOLicense()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
+            {
+                First = "FirstNameTest",
+                Last = "LastNameTest"
+            },
+
+            Address = new Address
+            {
+                StreetLine1 = "123 ABC TEST ADDRESS 2ND FL",
+                City = "ST LOUIS",
+                JurisdictionCode = "MO",
+                PostalCode = "633011",
+                Country = Country.Usa
+            },
+
+            DateOfBirth = new DateTime(2017, 08, 09),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(5, 8),
+            Weight = Weight.FromImperial(155),
+            EyeColor = EyeColor.Brown,
+
+            IdNumber = "X100097001",
+            AamvaVersionNumber = Version.Aamva2000,
+
+            IssueDate = new DateTime(2011, 06, 30),
+            ExpirationDate = new DateTime(2018, 02, 04),
+
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "F"
+            }
+        };
+
+        var file = License("MO");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("Missouri", idCard.IssuerIdentificationNumber.GetDescription());
+
+        Assert.Equal("MAST LOUIS CITY", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZMZ").Value);
+        Assert.Equal("112001810097", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZMB").Value);
+
+        Assert.IsType<DriversLicense>(idCard);
+
+        if (idCard is DriversLicense license)
+        {
+            Assert.Equal("F", license.Jurisdiction.VehicleClass);
+        }
+    }
+
+    [Fact]
+    public void TestFLLicense()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
+            {
+                First = "JOEY",
+                Middle = "MIDLAND",
+                Last = "TESTER"
+            },
+
+            Address = new Address
+            {
+                StreetLine1 = "1234 PARK ST LOT 504",
+                City = "KEY WEST",
+                JurisdictionCode = "FL",
+                PostalCode = "330400504",
+                Country = Country.Usa
+            },
+
+            DateOfBirth = new DateTime(1941, 05, 09),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(6, 1),
+
+            IdNumber = "H574712510891",
+            AamvaVersionNumber = Version.Aamva2000,
+
+            IssueDate = new DateTime(2014, 05, 01),
+            ExpirationDate = new DateTime(2022, 03, 09),
+
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "E",
+                RestrictionCodes = "A"
+            }
+        };
+
+        var file = License("FL");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("33040-0504", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Florida", idCard.IssuerIdentificationNumber.GetDescription());
+
+        Assert.Equal(5, idCard.AdditionalJurisdictionElements.Count);
+        Assert.Equal("FA", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZFZ").Value);
+
+        if (idCard is DriversLicense license)
+        {
+            Assert.Equal("A", license.Jurisdiction.RestrictionCodes);
+            Assert.Equal("E", license.Jurisdiction.VehicleClass);
+        }
+    }
+
+    [Fact]
+    public void TestNHLicense()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
+            {
+                First = "DONNIE",
+                Middle = "G",
+                Last = "TESTER",
+
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
+
+            Address = new Address
+            {
+                City = "SOMETOWN",
+                StreetLine1 = "802 WILLIAMS ST",
+                JurisdictionCode = "NH",
+                PostalCode = "01234",
+                Country = Country.Usa
+            },
+
+            DateOfBirth = new DateTime(1977, 11, 06),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(69),
+            EyeColor = EyeColor.Green,
+
+            IdNumber = "NHI17128755",
+            AamvaVersionNumber = Version.Aamva2013,
+
+            IssueDate = new DateTime(2017, 12, 19),
+            ExpirationDate = new DateTime(2022, 11, 06),
+            RevisionDate = new DateTime(2016, 06, 09),
+
+            ComplianceType = ComplianceType.NonCompliant,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "C",
+                EndorsementCodes = "MC"
+            }
+        };
+
+        var file = License("NH");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("01234", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("New Hampshire", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestTXLicense()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
+            {
+                First = "ROBERTO",
+                Last = "GONSALVES"
+            },
+
+            Address = new Address
+            {
+                StreetLine1 = "1254 FIRST",
+                City = "EL PASO",
+                JurisdictionCode = "TX",
+                PostalCode = "79936",
+                Country = Country.Usa
+            },
+
+            DateOfBirth = new DateTime(1993, 10, 24),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(65),
+            EyeColor = EyeColor.Brown,
+            HairColor = HairColor.Brown,
+
+            IdNumber = "37110073",
+            AamvaVersionNumber = Version.Aamva2005,
+
+            IssueDate = new DateTime(2014, 10, 25),
+            ExpirationDate = new DateTime(2019, 10, 24),
+
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "C"
+            }
+        };
+
+        var file = License("TX");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("79936", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Texas", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestPALicense()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
             {
                 First = "JOHN",
-                Middle = "ROBERT LEE JOHNSON",
+                Middle = "P",
                 Last = "SMITH"
-            };
+            },
 
-            var file = License("PA Three Middle Names");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            Assert.Equal(expected.First, idCard.Name.First);
-            Assert.Equal(expected.Middle, idCard.Name.Middle);
-            Assert.Equal(expected.Last, idCard.Name.Last);
-            Assert.Equal(expected.Suffix, idCard.Name.Suffix);
-        }
-
-        [Fact]
-        public void TestPA2016License()
-        {
-            var expected = new DriversLicense
+            Address = new Address
             {
-                Name = new Name
-                {
-                    First = "CAPTAIN",
-                    Middle = "JACK",
-                    Last = "MORGAN",
+                StreetLine1 = "140 MAIN ST",
+                City = "PHILADELPHIA",
+                JurisdictionCode = "PA",
+                PostalCode = "19130",
+                Country = Country.Usa
+            },
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+            DateOfBirth = new DateTime(1986, 02, 02),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(6, 0),
+            EyeColor = EyeColor.Hazel,
 
-                Address = new Address
-                {
-                    StreetLine1 = "1725 SLOUGH AVE",
-                    StreetLine2 = "APT 4",
-                    City = "SCRANTON",
-                    JurisdictionCode = "PA",
-                    PostalCode = "18503",
-                    Country = Country.Usa
-                },
+            IdNumber = "26798765",
+            AamvaVersionNumber = Version.Aamva2000,
 
-                DateOfBirth = new DateTime(1960, 05, 22),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(71),
-                EyeColor = EyeColor.Brown,
+            IssueDate = new DateTime(2016, 01, 04),
+            ExpirationDate = new DateTime(2020, 02, 03),
 
-                IdNumber = "25881776",
-                AamvaVersionNumber = Version.Aamva2016,
-
-                IssueDate = new DateTime(2017, 11, 28),
-                ExpirationDate = new DateTime(2021, 05, 23),
-                RevisionDate = new DateTime(2016, 06, 07),
-
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C",
-                    RestrictionCodes = "1"
-                }
-            };
-
-            var file = License("PA 2016");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("18503", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Pennsylvania", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestRILicense()
-        {
-            var expected = new DriversLicense
+            IsOrganDonor = true,
+            Jurisdiction = new DriversLicenseJurisdiction
             {
-                Name = new Name
-                {
-                    First = "LOIS",
-                    Middle = "PATRICE",
-                    Last = "GRIFFIN",
+                VehicleClass = "C",
+                RestrictionCodes = "*/1",
+                EndorsementCodes = "----"
+            }
+        };
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+        var file = License("PA");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-                Address = new Address
-                {
-                    StreetLine1 = "31 SPOONER ST",
-                    StreetLine2 = "APT T2",
-                    City = "QUAHOG",
-                    JurisdictionCode = "RI",
-                    PostalCode = "000931760",
-                    Country = Country.Usa
-                },
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-                DateOfBirth = new DateTime(1988, 04, 21),
-                Sex = Sex.Female,
-                Height = Height.FromImperial(66),
-                Weight = Weight.FromImperial(170),
-                EyeColor = EyeColor.Brown,
-                HairColor = HairColor.Black,
+        Assert.Equal("19130", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Pennsylvania", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-                IdNumber = "30005037",
-                AamvaVersionNumber = Version.Aamva2013,
-
-                IssueDate = new DateTime(2017, 10, 17),
-                ExpirationDate = new DateTime(2019, 04, 21),
-                RevisionDate = new DateTime(2016, 01, 26),
-
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "10",
-                    RestrictionCodes = "A"
-                }
-            };
-
-            var file = License("RI");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("00093-1760", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Rhode Island", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestNJLicense()
+    [Fact]
+    public void TestPALicenseTwoMiddleNames()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MELISSA",
-                    Middle = "R",
-                    Last = "FOX",
+                First = "JOHN",
+                Middle = "ROBERT LEE",
+                Last = "SMITH"
+            },
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+            Address = new Address
+            {
+                StreetLine1 = "140 MAIN ST",
+                City = "PHILADELPHIA",
+                JurisdictionCode = "PA",
+                PostalCode = "19130",
+                Country = Country.Usa
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "1435 AUBURN AVE",
-                    City = "VERNON",
-                    JurisdictionCode = "NJ",
-                    PostalCode = "074182554",
-                    Country = Country.Usa
-                },
+            DateOfBirth = new DateTime(1986, 02, 02),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(6, 0),
+            EyeColor = EyeColor.Hazel,
 
-                DateOfBirth = new DateTime(1983, 02, 04),
-                Sex = Sex.Female,
-                Height = Height.FromImperial(62),
-                EyeColor = EyeColor.Green,
+            IdNumber = "26798765",
+            AamvaVersionNumber = Version.Aamva2000,
 
-                IdNumber = "P62472647457903",
-                AamvaVersionNumber = Version.Aamva2009,
+            IssueDate = new DateTime(2016, 01, 04),
+            ExpirationDate = new DateTime(2020, 02, 03),
 
-                IssueDate = new DateTime(2015, 02, 28),
-                ExpirationDate = new DateTime(2019, 02, 28),
-                RevisionDate = new DateTime(2010, 07, 23),
+            IsOrganDonor = true,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "C",
+                RestrictionCodes = "*/1",
+                EndorsementCodes = "----"
+            }
+        };
 
-                HasTemporaryLawfulStatus = false,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D"
-                }
-            };
+        var file = License("PA Two Middle Names");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            var file = License("NJ");
-            var idCard = Barcode.Parse(file, Validation.None);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        Assert.Equal("19130", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Pennsylvania", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            Assert.Equal("07418-2554", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("New Jersey", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestNCLicense()
+    [Fact]
+    public void TestPALicenseThreeMiddleNames()
+    {
+        var expected = new Name
         {
-            var expected = new DriversLicense
-            {
-                Name = new Name
-                {
-                    First = "RICK",
-                    Middle = "SANTIAGO",
-                    Last = "MORALES MARTIZ",
+            First = "JOHN",
+            Middle = "ROBERT LEE JOHNSON",
+            Last = "SMITH"
+        };
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+        var file = License("PA Three Middle Names");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-                Address = new Address
-                {
-                    StreetLine1 = "1440 BROWN TER",
-                    City = "FAYETTEVILLE",
-                    JurisdictionCode = "NC",
-                    PostalCode = "283041234",
-                    Country = Country.Usa
-                },
+        Assert.Equal(expected.First, idCard.Name.First);
+        Assert.Equal(expected.Middle, idCard.Name.Middle);
+        Assert.Equal(expected.Last, idCard.Name.Last);
+        Assert.Equal(expected.Suffix, idCard.Name.Suffix);
+    }
 
-                DateOfBirth = new DateTime(1986, 06, 12),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(69),
-                EyeColor = EyeColor.Brown,
-                HairColor = HairColor.Black,
-
-                IdNumber = "00004985690",
-                AamvaVersionNumber = Version.Aamva2013,
-
-                IssueDate = new DateTime(2017, 11, 16),
-                ExpirationDate = new DateTime(2025, 06, 12),
-                RevisionDate = new DateTime(2014, 10, 24),
-
-                ComplianceType = ComplianceType.NonCompliant,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C"
-                }
-            };
-
-            var file = License("NC");
-            var idCard = Barcode.Parse(file, Validation.None);
-
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("28304-1234", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("North Carolina", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestSCLicense()
+    [Fact]
+    public void TestPA2016License()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MARY",
-                    Middle = "ROBINS",
-                    Last = "SMITH"
-                },
+                First = "CAPTAIN",
+                Middle = "JACK",
+                Last = "MORGAN",
 
-                Address = new Address
-                {
-                    StreetLine1 = "209 CEDAR HILL DR UNIT 12",
-                    City = "SURFSIDE BEACH",
-                    JurisdictionCode = "SC",
-                    PostalCode = "295754321",
-                    Country = Country.Usa
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                DateOfBirth = new DateTime(1972, 02, 12),
-                Sex = Sex.Female,
-                Height = Height.FromImperial(5, 10),
-                Weight = Weight.FromImperial(128),
+            Address = new Address
+            {
+                StreetLine1 = "1725 SLOUGH AVE",
+                StreetLine2 = "APT 4",
+                City = "SCRANTON",
+                JurisdictionCode = "PA",
+                PostalCode = "18503",
+                Country = Country.Usa
+            },
 
-                IdNumber = "102639206",
-                AamvaVersionNumber = Version.Aamva2000,
+            DateOfBirth = new DateTime(1960, 05, 22),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(71),
+            EyeColor = EyeColor.Brown,
 
-                IssueDate = new DateTime(2009, 06, 19),
-                ExpirationDate = new DateTime(2019, 02, 12),
+            IdNumber = "25881776",
+            AamvaVersionNumber = Version.Aamva2016,
 
-                IsOrganDonor = false,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "J"
-                }
-            };
+            IssueDate = new DateTime(2017, 11, 28),
+            ExpirationDate = new DateTime(2021, 05, 23),
+            RevisionDate = new DateTime(2016, 06, 07),
 
-            var file = License("SC");
-            var idCard = Barcode.Parse(file, Validation.None);
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "C",
+                RestrictionCodes = "1"
+            }
+        };
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        var file = License("PA 2016");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            Assert.Equal("29575-4321", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("South Carolina", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-        [Fact]
-        public void TestMELicense()
+        Assert.Equal("18503", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Pennsylvania", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestRILicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "HARRY",
-                    Last = "DRIVER",
+                First = "LOIS",
+                Middle = "PATRICE",
+                Last = "GRIFFIN",
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "48 MAIN ST",
-                    City = "BANGOR",
-                    JurisdictionCode = "ME",
-                    PostalCode = "04401",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "31 SPOONER ST",
+                StreetLine2 = "APT T2",
+                City = "QUAHOG",
+                JurisdictionCode = "RI",
+                PostalCode = "000931760",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1947, 10, 02),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Brown,
-                Height = Height.FromImperial(69),
-                Weight = Weight.FromImperial(175),
+            DateOfBirth = new DateTime(1988, 04, 21),
+            Sex = Sex.Female,
+            Height = Height.FromImperial(66),
+            Weight = Weight.FromImperial(170),
+            EyeColor = EyeColor.Brown,
+            HairColor = HairColor.Black,
 
-                IdNumber = "2407225",
-                AamvaVersionNumber = Version.Aamva2009,
+            IdNumber = "30005037",
+            AamvaVersionNumber = Version.Aamva2013,
 
-                IssueDate = new DateTime(2017, 09, 17),
-                ExpirationDate = new DateTime(2021, 10, 02),
+            IssueDate = new DateTime(2017, 10, 17),
+            ExpirationDate = new DateTime(2019, 04, 21),
+            RevisionDate = new DateTime(2016, 01, 26),
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C",
-                    RestrictionCodes = "B"
-                }
-            };
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "10",
+                RestrictionCodes = "A"
+            }
+        };
 
-            var file = License("ME");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("RI");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("04401", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Maine", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("00093-1760", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Rhode Island", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-        [Fact]
-        public void TestOHLicense()
+    [Fact]
+    public void TestNJLicense()
+    {
+        var expected = new DriversLicense
         {
-            var weight = Weight.FromImperial(140);
-            weight.WeightRange = WeightRange.Lbs131To160;
-
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "DEBBIE",
-                    Middle = "T",
-                    Last = "MOTORIST",
+                First = "MELISSA",
+                Middle = "R",
+                Last = "FOX",
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "102 PARK AVE",
-                    City = "NORTHWOOD",
-                    JurisdictionCode = "OH",
-                    PostalCode = "436191234",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "1435 AUBURN AVE",
+                City = "VERNON",
+                JurisdictionCode = "NJ",
+                PostalCode = "074182554",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1956, 02, 23),
-                PlaceOfBirth = "US,OHIO",
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Brown,
-                HairColor = HairColor.Brown,
-                Height = Height.FromImperial(60),
-                Weight = weight,
+            DateOfBirth = new DateTime(1983, 02, 04),
+            Sex = Sex.Female,
+            Height = Height.FromImperial(62),
+            EyeColor = EyeColor.Green,
 
-                IdNumber = "PJ842270",
-                AamvaVersionNumber = Version.Aamva2013,
+            IdNumber = "P62472647457903",
+            AamvaVersionNumber = Version.Aamva2009,
 
-                IssueDate = new DateTime(2016, 12, 02),
-                ExpirationDate = new DateTime(2020, 02, 23),
-                RevisionDate = new DateTime(2013, 12, 04),
+            IssueDate = new DateTime(2015, 02, 28),
+            ExpirationDate = new DateTime(2019, 02, 28),
+            RevisionDate = new DateTime(2010, 07, 23),
 
-                ComplianceType = ComplianceType.MateriallyCompliant,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "B"
-                }
-            };
+            HasTemporaryLawfulStatus = false,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D"
+            }
+        };
 
-            var file = License("OH");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("NJ");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("43619-1234", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Ohio", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("07418-2554", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("New Jersey", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-        [Fact]
-        public void TestMILicense()
+    [Fact]
+    public void TestNCLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "ROBERT",
-                    Last = "SMITH"
-                },
+                First = "RICK",
+                Middle = "SANTIAGO",
+                Last = "MORALES MARTIZ",
 
-                Address = new Address
-                {
-                    StreetLine1 = "1348 E MAPLE CT",
-                    City = "ROCHESTER HILLS",
-                    JurisdictionCode = "MI",
-                    PostalCode = "483064321",
-                    Country = Country.Usa
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                DateOfBirth = new DateTime(1968, 03, 23),
-                Sex = Sex.Male,
+            Address = new Address
+            {
+                StreetLine1 = "1440 BROWN TER",
+                City = "FAYETTEVILLE",
+                JurisdictionCode = "NC",
+                PostalCode = "283041234",
+                Country = Country.Usa
+            },
 
-                IdNumber = "L 341 567 071 342",
-                AamvaVersionNumber = Version.Aamva2005,
+            DateOfBirth = new DateTime(1986, 06, 12),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(69),
+            EyeColor = EyeColor.Brown,
+            HairColor = HairColor.Black,
 
-                IssueDate = new DateTime(2016, 03, 25),
-                ExpirationDate = new DateTime(2020, 03, 25)
-            };
+            IdNumber = "00004985690",
+            AamvaVersionNumber = Version.Aamva2013,
 
-            var file = License("MI");
-            var idCard = Barcode.Parse(file, Validation.None);
+            IssueDate = new DateTime(2017, 11, 16),
+            ExpirationDate = new DateTime(2025, 06, 12),
+            RevisionDate = new DateTime(2014, 10, 24),
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+            ComplianceType = ComplianceType.NonCompliant,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "C"
+            }
+        };
 
-            Assert.Equal("48306-4321", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Michigan", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        var file = License("NC");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-        [Fact]
-        public void TestONLicense()
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("28304-1234", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("North Carolina", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestSCLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MARY",
-                    Middle = "ANN",
-                    Last = "TESTER"
-                },
+                First = "MARY",
+                Middle = "ROBINS",
+                Last = "SMITH"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "123 ST GEORGE ST E",
-                    City = "FERGUS",
-                    JurisdictionCode = "ON",
-                    PostalCode = "N1M3J6",
-                    Country = Country.Canada
-                },
+            Address = new Address
+            {
+                StreetLine1 = "209 CEDAR HILL DR UNIT 12",
+                City = "SURFSIDE BEACH",
+                JurisdictionCode = "SC",
+                PostalCode = "295754321",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1996, 06, 03),
-                Sex = Sex.Female,
-                Height = Height.FromMetric(170),
+            DateOfBirth = new DateTime(1972, 02, 12),
+            Sex = Sex.Female,
+            Height = Height.FromImperial(5, 10),
+            Weight = Weight.FromImperial(128),
 
-                IdNumber = "S9244-43879-65702",
-                AamvaVersionNumber = Version.Aamva2005,
+            IdNumber = "102639206",
+            AamvaVersionNumber = Version.Aamva2000,
 
-                IssueDate = new DateTime(2017, 06, 07),
-                ExpirationDate = new DateTime(2020, 06, 03),
+            IssueDate = new DateTime(2009, 06, 19),
+            ExpirationDate = new DateTime(2019, 02, 12),
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "G"
-                }
-            };
+            IsOrganDonor = false,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "J"
+            }
+        };
 
-            var file = License("ON");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("SC");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("N1M 3J6", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Ontario", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("29575-4321", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("South Carolina", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-        [Fact]
-        public void TestVTLicense()
+    [Fact]
+    public void TestMELicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "BOBBY",
-                    Middle = "L",
-                    Last = "TABLES",
+                First = "HARRY",
+                Last = "DRIVER",
 
-                    WasFirstTruncated = false,
-                    WasLastTruncated = false
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "304 PARK ST APT 5",
-                    City = "BENNINGTON",
-                    JurisdictionCode = "VT",
-                    PostalCode = "05201",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "48 MAIN ST",
+                City = "BANGOR",
+                JurisdictionCode = "ME",
+                PostalCode = "04401",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1978, 08, 09),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Brown,
-                Height = Height.FromImperial(67),
-                Weight = Weight.FromImperial(195),
+            DateOfBirth = new DateTime(1947, 10, 02),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Brown,
+            Height = Height.FromImperial(69),
+            Weight = Weight.FromImperial(175),
 
-                IdNumber = "92265728",
-                AamvaVersionNumber = Version.Aamva2012,
+            IdNumber = "2407225",
+            AamvaVersionNumber = Version.Aamva2009,
 
-                IssueDate = new DateTime(2016, 08, 14),
-                ExpirationDate = new DateTime(2018, 08, 09),
-                RevisionDate = new DateTime(2013, 02, 20),
+            IssueDate = new DateTime(2017, 09, 17),
+            ExpirationDate = new DateTime(2021, 10, 02),
 
-                IsOrganDonor = true,
-                ComplianceType = ComplianceType.FullyCompliant,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "C",
+                RestrictionCodes = "B"
+            }
+        };
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "B"
-                }
-            };
+        var file = License("ME");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            var file = License("VT");
-            var idCard = Barcode.Parse(file, Validation.None);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        Assert.Equal("04401", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Maine", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            Assert.Equal("05201", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Vermont", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+    [Fact]
+    public void TestOHLicense()
+    {
+        var weight = Weight.FromImperial(140);
+        weight.WeightRange = WeightRange.Lbs131To160;
 
-        [Fact]
-        public void TestPRLicense()
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "LAURENCIA",
-                    Last = "ORTIZ ORTIZ",
+                First = "DEBBIE",
+                Middle = "T",
+                Last = "MOTORIST",
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "CAM CUBA LIBRE 800 KM",
-                    City = "COROZAL",
-                    JurisdictionCode = "PR",
-                    PostalCode = "00783",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "102 PARK AVE",
+                City = "NORTHWOOD",
+                JurisdictionCode = "OH",
+                PostalCode = "436191234",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1972, 03, 06),
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Brown,
-                Height = Height.FromImperial(62),
+            DateOfBirth = new DateTime(1956, 02, 23),
+            PlaceOfBirth = "US,OHIO",
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Brown,
+            HairColor = HairColor.Brown,
+            Height = Height.FromImperial(60),
+            Weight = weight,
 
-                IdNumber = "4696735",
-                AamvaVersionNumber = Version.Aamva2010,
+            IdNumber = "PJ842270",
+            AamvaVersionNumber = Version.Aamva2013,
 
-                IssueDate = new DateTime(2017, 03, 03),
-                ExpirationDate = new DateTime(2023, 03, 06),
+            IssueDate = new DateTime(2016, 12, 02),
+            ExpirationDate = new DateTime(2020, 02, 23),
+            RevisionDate = new DateTime(2013, 12, 04),
 
-                ComplianceType = ComplianceType.NonCompliant,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "3",
-                    RestrictionCodes = "7"
-                }
-            };
+            ComplianceType = ComplianceType.MateriallyCompliant,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "B"
+            }
+        };
 
-            var file = License("PR");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("OH");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("00783", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Puerto Rico", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("43619-1234", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Ohio", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-        [Fact]
-        public void TestMDLicense()
+    [Fact]
+    public void TestMILicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "DIANA",
-                    Middle = "ROSE",
-                    Last = "SMITH",
+                First = "ROBERT",
+                Last = "SMITH"
+            },
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+            Address = new Address
+            {
+                StreetLine1 = "1348 E MAPLE CT",
+                City = "ROCHESTER HILLS",
+                JurisdictionCode = "MI",
+                PostalCode = "483064321",
+                Country = Country.Usa
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "12 DOGWOOD CT APT B",
-                    City = "BALTIMORE",
-                    JurisdictionCode = "MD",
-                    PostalCode = "21201",
-                    Country = Country.Usa
-                },
+            DateOfBirth = new DateTime(1968, 03, 23),
+            Sex = Sex.Male,
 
-                DateOfBirth = new DateTime(1992, 10, 10),
-                Sex = Sex.Female,
-                Height = Height.FromImperial(66),
-                Weight = Weight.FromImperial(170),
+            IdNumber = "L 341 567 071 342",
+            AamvaVersionNumber = Version.Aamva2005,
 
-                IdNumber = "S-512-887-236-780",
-                AamvaVersionNumber = Version.Aamva2013,
+            IssueDate = new DateTime(2016, 03, 25),
+            ExpirationDate = new DateTime(2020, 03, 25)
+        };
 
-                IssueDate = new DateTime(2017, 06, 10),
-                ExpirationDate = new DateTime(2025, 10, 10),
-                RevisionDate = new DateTime(2016, 06, 20),
+        var file = License("MI");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-                ComplianceType = ComplianceType.FullyCompliant,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C",
-                    RestrictionCodes = "B"
-                }
-            };
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            var file = License("MD");
-            var idCard = Barcode.Parse(file, Validation.None);
+        Assert.Equal("48306-4321", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Michigan", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("21201", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Maryland", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestCALicense()
+    [Fact]
+    public void TestONLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "ELIJAH",
-                    Middle = "MASON",
-                    Last = "HARPER"
-                },
+                First = "MARY",
+                Middle = "ANN",
+                Last = "TESTER"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "671 BLUEBERRY HILL DR",
-                    City = "MILPITAS",
-                    JurisdictionCode = "CA",
-                    PostalCode = "95035",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "123 ST GEORGE ST E",
+                City = "FERGUS",
+                JurisdictionCode = "ON",
+                PostalCode = "N1M3J6",
+                Country = Country.Canada
+            },
 
-                DateOfBirth = new DateTime(1973, 07, 05),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Blue,
-                HairColor = HairColor.Brown,
-                Height = Height.FromImperial(68),
-                Weight = Weight.FromImperial(165),
+            DateOfBirth = new DateTime(1996, 06, 03),
+            Sex = Sex.Female,
+            Height = Height.FromMetric(170),
 
-                IdNumber = "F1485768",
-                AamvaVersionNumber = Version.Aamva2009,
+            IdNumber = "S9244-43879-65702",
+            AamvaVersionNumber = Version.Aamva2005,
 
-                IssueDate = new DateTime(2016, 02, 02),
-                ExpirationDate = new DateTime(2019, 07, 05),
-                RevisionDate = new DateTime(2010, 04, 16),
+            IssueDate = new DateTime(2017, 06, 07),
+            ExpirationDate = new DateTime(2020, 06, 03),
 
-                HasTemporaryLawfulStatus = false,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "G"
+            }
+        };
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C"
-                }
-            };
+        var file = License("ON");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            var file = License("CA");
-            var idCard = Barcode.Parse(file, Validation.None);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        Assert.Equal("N1M 3J6", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Ontario", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            Assert.Equal("95035", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("California", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestNMLicense()
+    [Fact]
+    public void TestVTLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "LUIS",
-                    Last = "SINCLAIR-ESCUEVA"
-                },
+                First = "BOBBY",
+                Middle = "L",
+                Last = "TABLES",
 
-                Address = new Address
-                {
-                    StreetLine1 = "1675 W 54TH ST",
-                    City = "LOS ALAMOS",
-                    JurisdictionCode = "NM",
-                    PostalCode = "87544",
-                    Country = Country.Usa
-                },
+                WasFirstTruncated = false,
+                WasLastTruncated = false
+            },
 
-                DateOfBirth = new DateTime(1981, 10, 27),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Brown,
-                Height = Height.FromImperial(72),
+            Address = new Address
+            {
+                StreetLine1 = "304 PARK ST APT 5",
+                City = "BENNINGTON",
+                JurisdictionCode = "VT",
+                PostalCode = "05201",
+                Country = Country.Usa
+            },
 
-                IdNumber = "513577879",
-                AamvaVersionNumber = Version.Aamva2005,
+            DateOfBirth = new DateTime(1978, 08, 09),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Brown,
+            Height = Height.FromImperial(67),
+            Weight = Weight.FromImperial(195),
 
-                IssueDate = new DateTime(2013, 08, 22),
-                ExpirationDate = new DateTime(2021, 11, 27),
+            IdNumber = "92265728",
+            AamvaVersionNumber = Version.Aamva2012,
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "B"
-                }
-            };
+            IssueDate = new DateTime(2016, 08, 14),
+            ExpirationDate = new DateTime(2018, 08, 09),
+            RevisionDate = new DateTime(2013, 02, 20),
 
-            var file = License("NM");
-            var idCard = Barcode.Parse(file, Validation.None);
+            IsOrganDonor = true,
+            ComplianceType = ComplianceType.FullyCompliant,
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "B"
+            }
+        };
 
-            Assert.Equal("87544", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("New Mexico", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        var file = License("VT");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-        [Fact]
-        public void TestUTLicense()
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("05201", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Vermont", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestPRLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MARIE",
-                    Middle = "RAYE",
-                    Last = "CALENDAR"
-                },
+                First = "LAURENCIA",
+                Last = "ORTIZ ORTIZ",
 
-                Address = new Address
-                {
-                    StreetLine1 = "200 E 1900 N",
-                    City = "LEHI",
-                    JurisdictionCode = "UT",
-                    PostalCode = "84043",
-                    Country = Country.Usa
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                DateOfBirth = new DateTime(1981, 08, 14),
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Green,
-                HairColor = HairColor.Brown,
-                Height = Height.FromImperial(64),
-                Weight = Weight.FromImperial(205),
+            Address = new Address
+            {
+                StreetLine1 = "CAM CUBA LIBRE 800 KM",
+                City = "COROZAL",
+                JurisdictionCode = "PR",
+                PostalCode = "00783",
+                Country = Country.Usa
+            },
 
-                IdNumber = "0163375279",
-                AamvaVersionNumber = Version.Aamva2012,
+            DateOfBirth = new DateTime(1972, 03, 06),
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Brown,
+            Height = Height.FromImperial(62),
 
-                IssueDate = new DateTime(2013, 08, 14),
-                ExpirationDate = new DateTime(2018, 08, 14),
-                RevisionDate = new DateTime(2013, 01, 01),
+            IdNumber = "4696735",
+            AamvaVersionNumber = Version.Aamva2010,
 
-                Under18Until = new DateTime(1999, 08, 14),
-                Under19Until = new DateTime(2000, 08, 14),
-                Under21Until = new DateTime(2002, 08, 14),
+            IssueDate = new DateTime(2017, 03, 03),
+            ExpirationDate = new DateTime(2023, 03, 06),
 
-                IsOrganDonor = true,
-                ComplianceType = ComplianceType.FullyCompliant,
+            ComplianceType = ComplianceType.NonCompliant,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "3",
+                RestrictionCodes = "7"
+            }
+        };
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "A"
-                }
-            };
+        var file = License("PR");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            var file = License("UT");
-            var idCard = Barcode.Parse(file, Validation.None);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        Assert.Equal("00783", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Puerto Rico", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            Assert.Equal("84043", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Utah", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestIALicense()
+    [Fact]
+    public void TestMDLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MARK",
-                    Middle = "MOTORIST",
-                    Last = "SMITH",
+                First = "DIANA",
+                Middle = "ROSE",
+                Last = "SMITH",
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "123 ANY MAIN ST",
-                    City = "RED OAK",
-                    JurisdictionCode = "IA",
-                    PostalCode = "51566",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "12 DOGWOOD CT APT B",
+                City = "BALTIMORE",
+                JurisdictionCode = "MD",
+                PostalCode = "21201",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1991, 07, 11),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Green,
-                Height = Height.FromImperial(72),
+            DateOfBirth = new DateTime(1992, 10, 10),
+            Sex = Sex.Female,
+            Height = Height.FromImperial(66),
+            Weight = Weight.FromImperial(170),
 
-                IdNumber = "109BB2608",
-                AamvaVersionNumber = Version.Aamva2009,
+            IdNumber = "S-512-887-236-780",
+            AamvaVersionNumber = Version.Aamva2013,
 
-                IssueDate = new DateTime(2013, 10, 16),
-                ExpirationDate = new DateTime(2020, 07, 11),
-                RevisionDate = new DateTime(2011, 07, 25),
+            IssueDate = new DateTime(2017, 06, 10),
+            ExpirationDate = new DateTime(2025, 10, 10),
+            RevisionDate = new DateTime(2016, 06, 20),
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C",
-                    EndorsementCodes = "L"
-                }
-            };
+            ComplianceType = ComplianceType.FullyCompliant,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "C",
+                RestrictionCodes = "B"
+            }
+        };
 
-            var file = License("IA");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("MD");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("51566", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Iowa", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("21201", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Maryland", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-        [Fact]
-        public void TestORLicense()
+    [Fact]
+    public void TestCALicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MARY",
-                    Middle = "JONES",
-                    Last = "SMITH"
-                },
+                First = "ELIJAH",
+                Middle = "MASON",
+                Last = "HARPER"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "4455 SE 25TH ST",
-                    City = "CORVALLIS",
-                    JurisdictionCode = "OR",
-                    PostalCode = "97330",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "671 BLUEBERRY HILL DR",
+                City = "MILPITAS",
+                JurisdictionCode = "CA",
+                PostalCode = "95035",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1950, 06, 26),
-                Sex = Sex.Female,
-                Height = Height.FromImperial(5, 2),
-                Weight = Weight.FromImperial(185),
+            DateOfBirth = new DateTime(1973, 07, 05),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Blue,
+            HairColor = HairColor.Brown,
+            Height = Height.FromImperial(68),
+            Weight = Weight.FromImperial(165),
 
-                IdNumber = "4066452",
-                AamvaVersionNumber = Version.Aamva2000,
+            IdNumber = "F1485768",
+            AamvaVersionNumber = Version.Aamva2009,
 
-                IssueDate = new DateTime(2016, 06, 24),
-                ExpirationDate = new DateTime(2024, 06, 26),
+            IssueDate = new DateTime(2016, 02, 02),
+            ExpirationDate = new DateTime(2019, 07, 05),
+            RevisionDate = new DateTime(2010, 04, 16),
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C",
-                    RestrictionCodes = "BD"
-                }
-            };
+            HasTemporaryLawfulStatus = false,
 
-            var file = License("OR");
-            var idCard = Barcode.Parse(file, Validation.None);
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "C"
+            }
+        };
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        var file = License("CA");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            Assert.Equal("97330", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Oregon", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-        [Fact]
-        public void TestLALicense()
+        Assert.Equal("95035", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("California", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestNMLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MARCIA",
-                    Middle = "MOTORIST",
-                    Last = "JONES"
-                },
+                First = "LUIS",
+                Last = "SINCLAIR-ESCUEVA"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "1234 HWY 57",
-                    City = "EROS",
-                    JurisdictionCode = "LA",
-                    PostalCode = "71238",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "1675 W 54TH ST",
+                City = "LOS ALAMOS",
+                JurisdictionCode = "NM",
+                PostalCode = "87544",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1974, 07, 07),
-                Sex = Sex.Female,
-                Height = Height.FromImperial(5, 2),
-                Weight = Weight.FromImperial(220),
+            DateOfBirth = new DateTime(1981, 10, 27),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Brown,
+            Height = Height.FromImperial(72),
 
-                IdNumber = "005799564",
-                AamvaVersionNumber = Version.Aamva2000,
+            IdNumber = "513577879",
+            AamvaVersionNumber = Version.Aamva2005,
 
-                IssueDate = new DateTime(2014, 05, 20),
-                ExpirationDate = new DateTime(2018, 07, 07),
+            IssueDate = new DateTime(2013, 08, 22),
+            ExpirationDate = new DateTime(2021, 11, 27),
 
-                IsOrganDonor = true,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "E"
-                }
-            };
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "B"
+            }
+        };
 
-            var file = License("LA");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("NM");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("71238", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Louisiana", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("87544", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("New Mexico", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-        [Fact]
-        public void TestKYLicense()
+    [Fact]
+    public void TestUTLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MARY",
-                    Middle = "ANN",
-                    Last = "SMITH",
+                First = "MARIE",
+                Middle = "RAYE",
+                Last = "CALENDAR"
+            },
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+            Address = new Address
+            {
+                StreetLine1 = "200 E 1900 N",
+                City = "LEHI",
+                JurisdictionCode = "UT",
+                PostalCode = "84043",
+                Country = Country.Usa
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "123 WISTERIA LN 23",
-                    City = "LOUISVILLE",
-                    JurisdictionCode = "KY",
-                    PostalCode = "40218",
-                    Country = Country.Usa
-                },
+            DateOfBirth = new DateTime(1981, 08, 14),
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Green,
+            HairColor = HairColor.Brown,
+            Height = Height.FromImperial(64),
+            Weight = Weight.FromImperial(205),
 
-                DateOfBirth = new DateTime(1954, 11, 12),
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Hazel,
-                Height = Height.FromImperial(65),
+            IdNumber = "0163375279",
+            AamvaVersionNumber = Version.Aamva2012,
 
-                IdNumber = "K12340057",
-                AamvaVersionNumber = Version.Aamva2010,
+            IssueDate = new DateTime(2013, 08, 14),
+            ExpirationDate = new DateTime(2018, 08, 14),
+            RevisionDate = new DateTime(2013, 01, 01),
 
-                IssueDate = new DateTime(2017, 11, 22),
-                ExpirationDate = new DateTime(2021, 12, 13),
-                RevisionDate = new DateTime(2012, 03, 16),
+            Under18Until = new DateTime(1999, 08, 14),
+            Under19Until = new DateTime(2000, 08, 14),
+            Under21Until = new DateTime(2002, 08, 14),
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "1"
-                }
-            };
+            IsOrganDonor = true,
+            ComplianceType = ComplianceType.FullyCompliant,
 
-            var file = License("KY");
-            var idCard = Barcode.Parse(file, Validation.None);
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "A"
+            }
+        };
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        var file = License("UT");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            Assert.Equal("40218", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Kentucky", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-        [Fact]
-        public void TestWILicense()
+        Assert.Equal("84043", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Utah", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestIALicense()
+    {
+        var expected = new DriversLicense
         {
-            // Wisconsin defines a subfile in the header but we don't follow it
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "JOEY",
-                    Middle = "M",
-                    Last = "TESTER",
+                First = "MARK",
+                Middle = "MOTORIST",
+                Last = "SMITH",
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "N1234 PINEWOOD RD",
-                    City = "CHEESY",
-                    JurisdictionCode = "WI",
-                    PostalCode = "54767",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "123 ANY MAIN ST",
+                City = "RED OAK",
+                JurisdictionCode = "IA",
+                PostalCode = "51566",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1983, 08, 15),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Brown,
-                Height = Height.FromImperial(72),
+            DateOfBirth = new DateTime(1991, 07, 11),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Green,
+            Height = Height.FromImperial(72),
 
-                IdNumber = "M2861738629325",
-                AamvaVersionNumber = Version.Aamva2010,
+            IdNumber = "109BB2608",
+            AamvaVersionNumber = Version.Aamva2009,
 
-                IssueDate = new DateTime(2013, 04, 11),
-                ExpirationDate = new DateTime(2018, 08, 15),
-                RevisionDate = new DateTime(2012, 03, 16),
+            IssueDate = new DateTime(2013, 10, 16),
+            ExpirationDate = new DateTime(2020, 07, 11),
+            RevisionDate = new DateTime(2011, 07, 25),
 
-                ComplianceType = ComplianceType.NonCompliant,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "ABCD",
-                    RestrictionCodes = "B",
-                    EndorsementCodes = "N"
-                }
-            };
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "C",
+                EndorsementCodes = "L"
+            }
+        };
 
-            var file = License("WI");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("IA");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("54767", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Wisconsin", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("51566", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Iowa", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-        [Fact]
-        public void TestDELicense()
+    [Fact]
+    public void TestORLicense()
+    {
+        var expected = new DriversLicense
         {
-            // Wisconsin defines a subfile in the header but we don't follow it
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MOTORIST",
-                    Last = "TESTER",
+                First = "MARY",
+                Middle = "JONES",
+                Last = "SMITH"
+            },
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+            Address = new Address
+            {
+                StreetLine1 = "4455 SE 25TH ST",
+                City = "CORVALLIS",
+                JurisdictionCode = "OR",
+                PostalCode = "97330",
+                Country = Country.Usa
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "7895 CHERRYBLOSSOM HL",
-                    StreetLine2 = "APT @ CRAWFORD INN",
-                    City = "NEWARK",
-                    JurisdictionCode = "DE",
-                    PostalCode = "197521234",
-                    Country = Country.Usa
-                },
+            DateOfBirth = new DateTime(1950, 06, 26),
+            Sex = Sex.Female,
+            Height = Height.FromImperial(5, 2),
+            Weight = Weight.FromImperial(185),
 
-                DateOfBirth = new DateTime(1989, 09, 09),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Brown,
-                Height = Height.FromImperial(71),
-                Weight = Weight.FromImperial(130),
+            IdNumber = "4066452",
+            AamvaVersionNumber = Version.Aamva2000,
 
-                IdNumber = "1824873",
-                AamvaVersionNumber = Version.Aamva2009,
+            IssueDate = new DateTime(2016, 06, 24),
+            ExpirationDate = new DateTime(2024, 06, 26),
 
-                IssueDate = new DateTime(2017, 10, 27),
-                ExpirationDate = new DateTime(2019, 01, 09),
-                RevisionDate = new DateTime(2010, 02, 13),
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "C",
+                RestrictionCodes = "BD"
+            }
+        };
 
-                ComplianceType = ComplianceType.MateriallyCompliant,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "B"
-                }
-            };
+        var file = License("OR");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            var file = License("DE");
-            var idCard = Barcode.Parse(file, Validation.None);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        Assert.Equal("97330", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Oregon", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            Assert.Equal("19752-1234", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Delaware", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestCOLicense()
+    [Fact]
+    public void TestLALicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MICHAEL",
-                    Middle = "CODY",
-                    Last = "MOTORIST"
-                },
+                First = "MARCIA",
+                Middle = "MOTORIST",
+                Last = "JONES"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "909 COUNTRY ROAD 206",
-                    City = "BOULDER",
-                    JurisdictionCode = "CO",
-                    PostalCode = "81635",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "1234 HWY 57",
+                City = "EROS",
+                JurisdictionCode = "LA",
+                PostalCode = "71238",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1992, 07, 13),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Green,
-                Height = Height.FromImperial(73),
+            DateOfBirth = new DateTime(1974, 07, 07),
+            Sex = Sex.Female,
+            Height = Height.FromImperial(5, 2),
+            Weight = Weight.FromImperial(220),
 
-                IdNumber = "102367033",
-                AamvaVersionNumber = Version.Aamva2012,
+            IdNumber = "005799564",
+            AamvaVersionNumber = Version.Aamva2000,
 
-                IssueDate = new DateTime(2013, 08, 08),
-                ExpirationDate = new DateTime(2018, 07, 13),
-                RevisionDate = new DateTime(2013, 06, 01),
+            IssueDate = new DateTime(2014, 05, 20),
+            ExpirationDate = new DateTime(2018, 07, 07),
 
-                ComplianceType = ComplianceType.MateriallyCompliant,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "R"
-                }
-            };
+            IsOrganDonor = true,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "E"
+            }
+        };
 
-            var file = License("CO");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("LA");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("81635", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Colorado", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("71238", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Louisiana", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-        [Fact]
-        public void TestCO2013License()
+    [Fact]
+    public void TestKYLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "JANE",
-                    Middle = "LYNN",
-                    Last = "MOTORIST",
-                    Suffix = "SR"
-                },
+                First = "MARY",
+                Middle = "ANN",
+                Last = "SMITH",
 
-                Address = new Address
-                {
-                    StreetLine1 = "98765 W 23RD AVE",
-                    City = "LAKEWOOD",
-                    JurisdictionCode = "CO",
-                    PostalCode = "80401",
-                    Country = Country.Usa
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                DateOfBirth = new DateTime(1972, 02, 04),
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Green,
-                Height = Height.FromImperial(63),
+            Address = new Address
+            {
+                StreetLine1 = "123 WISTERIA LN 23",
+                City = "LOUISVILLE",
+                JurisdictionCode = "KY",
+                PostalCode = "40218",
+                Country = Country.Usa
+            },
 
-                IdNumber = "124336019",
-                AamvaVersionNumber = Version.Aamva2013,
+            DateOfBirth = new DateTime(1954, 11, 12),
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Hazel,
+            Height = Height.FromImperial(65),
 
-                IssueDate = new DateTime(2016, 12, 27),
-                ExpirationDate = new DateTime(2022, 01, 04),
-                RevisionDate = new DateTime(2015, 10, 30),
+            IdNumber = "K12340057",
+            AamvaVersionNumber = Version.Aamva2010,
 
-                HasTemporaryLawfulStatus = false,
-                DocumentDiscriminator = "16455534969",
-                AuditInformation = "20170104_000227_9_3776",
+            IssueDate = new DateTime(2017, 11, 22),
+            ExpirationDate = new DateTime(2021, 12, 13),
+            RevisionDate = new DateTime(2012, 03, 16),
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "R"
-                },
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "1"
+            }
+        };
 
-                AdditionalJurisdictionElements =
-                {
-                    { "ZCZ", "CANONE" }
-                }
-            };
+        var file = License("KY");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            var file = License("CO 2013");
-            var idCard = Barcode.Parse(file, Validation.None);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        Assert.Equal("40218", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Kentucky", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            Assert.Equal("80401", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Colorado", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestALLicense()
+    [Fact]
+    public void TestWILicense()
+    {
+        // Wisconsin defines a subfile in the header but we don't follow it
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MICHAEL",
-                    Middle = "MOTORIST",
-                    Last = "SMITH"
-                },
+                First = "JOEY",
+                Middle = "M",
+                Last = "TESTER",
 
-                Address = new Address
-                {
-                    StreetLine1 = "123 COUNTY DR",
-                    City = "BLUE RIDGE",
-                    JurisdictionCode = "AL",
-                    PostalCode = "360931234",
-                    Country = Country.Usa
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                DateOfBirth = new DateTime(1967, 03, 27),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Blue,
-                HairColor = HairColor.Brown,
-                Height = Height.FromImperial(70),
-                Weight = Weight.FromRange(WeightRange.Lbs191To220),
+            Address = new Address
+            {
+                StreetLine1 = "N1234 PINEWOOD RD",
+                City = "CHEESY",
+                JurisdictionCode = "WI",
+                PostalCode = "54767",
+                Country = Country.Usa
+            },
 
-                IdNumber = "5677922",
-                AamvaVersionNumber = Version.Aamva2009,
+            DateOfBirth = new DateTime(1983, 08, 15),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Brown,
+            Height = Height.FromImperial(72),
 
-                IssueDate = new DateTime(2014, 11, 26),
-                ExpirationDate = new DateTime(2018, 11, 18),
-                RevisionDate = new DateTime(2009, 11, 06),
+            IdNumber = "M2861738629325",
+            AamvaVersionNumber = Version.Aamva2010,
 
-                ComplianceType = ComplianceType.NonCompliant,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "DMV"
-                }
-            };
+            IssueDate = new DateTime(2013, 04, 11),
+            ExpirationDate = new DateTime(2018, 08, 15),
+            RevisionDate = new DateTime(2012, 03, 16),
 
-            var file = License("AL");
-            var idCard = Barcode.Parse(file, Validation.None);
+            ComplianceType = ComplianceType.NonCompliant,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "ABCD",
+                RestrictionCodes = "B",
+                EndorsementCodes = "N"
+            }
+        };
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        var file = License("WI");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            Assert.Equal("36093-1234", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Alabama", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-        [Fact]
-        public void TestAZLicense()
+        Assert.Equal("54767", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Wisconsin", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestDELicense()
+    {
+        // Wisconsin defines a subfile in the header but we don't follow it
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "SUSAN",
-                    Middle = "T",
-                    Last = "WILLIAMS"
-                },
+                First = "MOTORIST",
+                Last = "TESTER",
 
-                Address = new Address
-                {
-                    StreetLine1 = "5123 WACO DR",
-                    City = "TUSCON",
-                    JurisdictionCode = "AZ",
-                    PostalCode = "856414321",
-                    Country = Country.Usa
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                DateOfBirth = new DateTime(1989, 01, 24),
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Blue,
-                HairColor = HairColor.Brown,
-                Height = Height.FromImperial(5, 5),
-                Weight = Weight.FromImperial(160),
+            Address = new Address
+            {
+                StreetLine1 = "7895 CHERRYBLOSSOM HL",
+                StreetLine2 = "APT @ CRAWFORD INN",
+                City = "NEWARK",
+                JurisdictionCode = "DE",
+                PostalCode = "197521234",
+                Country = Country.Usa
+            },
 
-                IdNumber = "D04852767",
-                AamvaVersionNumber = Version.Aamva2000,
+            DateOfBirth = new DateTime(1989, 09, 09),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Brown,
+            Height = Height.FromImperial(71),
+            Weight = Weight.FromImperial(130),
 
-                IssueDate = new DateTime(2013, 06, 04),
-                ExpirationDate = new DateTime(2054, 01, 24),
+            IdNumber = "1824873",
+            AamvaVersionNumber = Version.Aamva2009,
 
-                IsOrganDonor = false,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "B"
-                }
-            };
+            IssueDate = new DateTime(2017, 10, 27),
+            ExpirationDate = new DateTime(2019, 01, 09),
+            RevisionDate = new DateTime(2010, 02, 13),
 
-            var file = License("AZ");
-            var idCard = Barcode.Parse(file, Validation.None);
+            ComplianceType = ComplianceType.MateriallyCompliant,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "B"
+            }
+        };
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        var file = License("DE");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            Assert.Equal("85641-4321", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Arizona", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-        [Fact]
-        public void TestARLicense()
+        Assert.Equal("19752-1234", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Delaware", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestCOLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MICHAEL",
-                    Middle = "RALPH",
-                    Last = "MOTORIST"
-                },
+                First = "MICHAEL",
+                Middle = "CODY",
+                Last = "MOTORIST"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "321 MAIN ST",
-                    City = "HOT SPRINGS",
-                    JurisdictionCode = "AR",
-                    PostalCode = "719014455",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "909 COUNTRY ROAD 206",
+                City = "BOULDER",
+                JurisdictionCode = "CO",
+                PostalCode = "81635",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1946, 11, 22),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Brown,
-                Ethnicity = Ethnicity.White,
-                Height = Height.FromImperial(70),
+            DateOfBirth = new DateTime(1992, 07, 13),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Green,
+            Height = Height.FromImperial(73),
 
-                IdNumber = "9298847972",
-                AamvaVersionNumber = Version.Aamva2010,
+            IdNumber = "102367033",
+            AamvaVersionNumber = Version.Aamva2012,
 
-                IssueDate = new DateTime(2016, 09, 13),
-                ExpirationDate = new DateTime(2024, 11, 22),
-                RevisionDate = new DateTime(2012, 09, 15),
+            IssueDate = new DateTime(2013, 08, 08),
+            ExpirationDate = new DateTime(2018, 07, 13),
+            RevisionDate = new DateTime(2013, 06, 01),
 
-                ComplianceType = ComplianceType.NonCompliant,
-                HasTemporaryLawfulStatus = false,
+            ComplianceType = ComplianceType.MateriallyCompliant,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "R"
+            }
+        };
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D"
-                }
-            };
+        var file = License("CO");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            var file = License("AR");
-            var idCard = Barcode.Parse(file, Validation.None);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        Assert.Equal("81635", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Colorado", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            Assert.Equal("71901-4455", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Arkansas", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestWALicense()
+    [Fact]
+    public void TestCO2013License()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MARY",
-                    Middle = "S",
-                    Last = "TESTER"
-                },
+                First = "JANE",
+                Middle = "LYNN",
+                Last = "MOTORIST",
+                Suffix = "SR"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "16255 PEWDER CT SE",
-                    City = "REDMOND",
-                    JurisdictionCode = "WA",
-                    PostalCode = "980081234",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "98765 W 23RD AVE",
+                City = "LAKEWOOD",
+                JurisdictionCode = "CO",
+                PostalCode = "80401",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1950, 05, 23),
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Brown,
-                Height = Height.FromImperial(61),
-                Weight = Weight.FromRange(WeightRange.Lbs131To160),
+            DateOfBirth = new DateTime(1972, 02, 04),
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Green,
+            Height = Height.FromImperial(63),
 
-                IdNumber = "TESTEDM504K9",
-                AamvaVersionNumber = Version.Aamva2005,
+            IdNumber = "124336019",
+            AamvaVersionNumber = Version.Aamva2013,
 
-                IssueDate = new DateTime(2015, 04, 16),
-                ExpirationDate = new DateTime(2021, 05, 23)
-            };
+            IssueDate = new DateTime(2016, 12, 27),
+            ExpirationDate = new DateTime(2022, 01, 04),
+            RevisionDate = new DateTime(2015, 10, 30),
 
-            var file = License("WA");
-            var idCard = Barcode.Parse(file, Validation.None);
+            HasTemporaryLawfulStatus = false,
+            DocumentDiscriminator = "16455534969",
+            AuditInformation = "20170104_000227_9_3776",
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "R"
+            },
 
-            Assert.Equal("98008-1234", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Washington", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+            AdditionalJurisdictionElements =
+            {
+                { "ZCZ", "CANONE" }
+            }
+        };
 
-        [Fact]
-        public void TestMTLicense()
+        var file = License("CO 2013");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("80401", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Colorado", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestALLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MARY",
-                    Middle = "ROSE",
-                    Last = "TESTER"
-                },
+                First = "MICHAEL",
+                Middle = "MOTORIST",
+                Last = "SMITH"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "1254 MAGNOLIA AVE",
-                    City = "HELENA",
-                    JurisdictionCode = "MT",
-                    PostalCode = "59601",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "123 COUNTY DR",
+                City = "BLUE RIDGE",
+                JurisdictionCode = "AL",
+                PostalCode = "360931234",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1994, 05, 14),
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Hazel,
-                Height = Height.FromImperial(67),
-                Weight = Weight.FromRange(WeightRange.Lbs131To160),
+            DateOfBirth = new DateTime(1967, 03, 27),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Blue,
+            HairColor = HairColor.Brown,
+            Height = Height.FromImperial(70),
+            Weight = Weight.FromRange(WeightRange.Lbs191To220),
 
-                IdNumber = "0504928899117",
-                AamvaVersionNumber = Version.Aamva2005,
+            IdNumber = "5677922",
+            AamvaVersionNumber = Version.Aamva2009,
 
-                IssueDate = new DateTime(2015, 07, 02),
-                ExpirationDate = new DateTime(2023, 05, 14),
+            IssueDate = new DateTime(2014, 11, 26),
+            ExpirationDate = new DateTime(2018, 11, 18),
+            RevisionDate = new DateTime(2009, 11, 06),
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D"
-                }
-            };
+            ComplianceType = ComplianceType.NonCompliant,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "DMV"
+            }
+        };
 
-            var file = License("MT");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("AL");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("59601", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Montana", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("36093-1234", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Alabama", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-        [Fact]
-        public void TestKSLicense()
+    [Fact]
+    public void TestAZLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "JOEY",
-                    Middle = "SMITH",
-                    Last = "MOTORIST",
+                First = "SUSAN",
+                Middle = "T",
+                Last = "WILLIAMS"
+            },
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+            Address = new Address
+            {
+                StreetLine1 = "5123 WACO DR",
+                City = "TUSCON",
+                JurisdictionCode = "AZ",
+                PostalCode = "856414321",
+                Country = Country.Usa
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "12345 S 110TH TER",
-                    City = "OVERLAND PARK",
-                    JurisdictionCode = "KS",
-                    PostalCode = "66210",
-                    Country = Country.Usa
-                },
+            DateOfBirth = new DateTime(1989, 01, 24),
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Blue,
+            HairColor = HairColor.Brown,
+            Height = Height.FromImperial(5, 5),
+            Weight = Weight.FromImperial(160),
 
-                DateOfBirth = new DateTime(1980, 01, 26),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Green,
-                Height = Height.FromImperial(71),
+            IdNumber = "D04852767",
+            AamvaVersionNumber = Version.Aamva2000,
 
-                IdNumber = "K04-76-5990",
-                AamvaVersionNumber = Version.Aamva2016,
+            IssueDate = new DateTime(2013, 06, 04),
+            ExpirationDate = new DateTime(2054, 01, 24),
 
-                IssueDate = new DateTime(2017, 11, 29),
-                ExpirationDate = new DateTime(2023, 01, 26),
-                RevisionDate = new DateTime(2017, 02, 26),
+            IsOrganDonor = false,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "B"
+            }
+        };
 
-                ComplianceType = ComplianceType.FullyCompliant,
-                IsOrganDonor = true,
+        var file = License("AZ");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C"
-                }
-            };
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            var file = License("KS");
-            var idCard = Barcode.Parse(file, Validation.None);
+        Assert.Equal("85641-4321", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Arizona", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("66210", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Kansas", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestINLicense()
+    [Fact]
+    public void TestARLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "RYAN",
-                    Middle = "MICHAEL",
-                    Last = "MOTORIST"
-                },
+                First = "MICHAEL",
+                Middle = "RALPH",
+                Last = "MOTORIST"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "12345 W HENCHMEN CIR",
-                    City = "ANYCITY",
-                    JurisdictionCode = "IN",
-                    PostalCode = "47458",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "321 MAIN ST",
+                City = "HOT SPRINGS",
+                JurisdictionCode = "AR",
+                PostalCode = "719014455",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1993, 02, 25),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Hazel,
-                HairColor = HairColor.Blond,
-                Height = Height.FromImperial(69),
-                Weight = Weight.FromImperial(245),
+            DateOfBirth = new DateTime(1946, 11, 22),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Brown,
+            Ethnicity = Ethnicity.White,
+            Height = Height.FromImperial(70),
 
-                IdNumber = "3249-09-7547",
-                AamvaVersionNumber = Version.Aamva2009,
+            IdNumber = "9298847972",
+            AamvaVersionNumber = Version.Aamva2010,
 
-                IssueDate = new DateTime(2016, 08, 03),
-                ExpirationDate = new DateTime(2023, 02, 25),
-                RevisionDate = new DateTime(2009, 09, 21),
+            IssueDate = new DateTime(2016, 09, 13),
+            ExpirationDate = new DateTime(2024, 11, 22),
+            RevisionDate = new DateTime(2012, 09, 15),
 
-                ComplianceType = ComplianceType.FullyCompliant
-            };
+            ComplianceType = ComplianceType.NonCompliant,
+            HasTemporaryLawfulStatus = false,
 
-            var file = License("IN");
-            var idCard = Barcode.Parse(file, Validation.None);
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D"
+            }
+        };
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        var file = License("AR");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            Assert.Equal("47458", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Indiana", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-        [Fact]
-        public void TestILLicense()
+        Assert.Equal("71901-4455", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Arkansas", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestWALicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "SUSAN",
-                    Middle = "T",
-                    Last = "MOTORIST",
+                First = "MARY",
+                Middle = "S",
+                Last = "TESTER"
+            },
 
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+            Address = new Address
+            {
+                StreetLine1 = "16255 PEWDER CT SE",
+                City = "REDMOND",
+                JurisdictionCode = "WA",
+                PostalCode = "980081234",
+                Country = Country.Usa
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "123 LAKE SHORE DR APT",
-                    StreetLine2 = "6431",
-                    City = "CHICAGO",
-                    JurisdictionCode = "IL",
-                    PostalCode = "60611",
-                    Country = Country.Usa
-                },
+            DateOfBirth = new DateTime(1950, 05, 23),
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Brown,
+            Height = Height.FromImperial(61),
+            Weight = Weight.FromRange(WeightRange.Lbs131To160),
 
-                DateOfBirth = new DateTime(1969, 06, 27),
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Green,
-                Height = Height.FromImperial(68),
-                Weight = Weight.FromImperial(200),
+            IdNumber = "TESTEDM504K9",
+            AamvaVersionNumber = Version.Aamva2005,
 
-                IdNumber = "W63177069784",
-                AamvaVersionNumber = Version.Aamva2013,
+            IssueDate = new DateTime(2015, 04, 16),
+            ExpirationDate = new DateTime(2021, 05, 23)
+        };
 
-                IssueDate = new DateTime(2017, 04, 13),
-                ExpirationDate = new DateTime(2021, 06, 27),
-                RevisionDate = new DateTime(2015, 09, 17),
+        var file = License("WA");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-                IsOrganDonor = true,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D"
-                }
-            };
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            var file = License("IL");
-            var idCard = Barcode.Parse(file, Validation.None);
+        Assert.Equal("98008-1234", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Washington", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("60611", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Illinois", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestHILicense()
+    [Fact]
+    public void TestMTLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MICHAEL",
-                    Middle = "JAY",
-                    Last = "MOTORIST"
-                },
+                First = "MARY",
+                Middle = "ROSE",
+                Last = "TESTER"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "456 MOANA ST 2",
-                    StreetLine2 = "O",
-                    City = "HONOLULU",
-                    JurisdictionCode = "HI",
-                    PostalCode = "96826",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "1254 MAGNOLIA AVE",
+                City = "HELENA",
+                JurisdictionCode = "MT",
+                PostalCode = "59601",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1988, 03, 12),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Blue,
-                HairColor = HairColor.Blond,
-                Height = Height.FromImperial(72),
+            DateOfBirth = new DateTime(1994, 05, 14),
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Hazel,
+            Height = Height.FromImperial(67),
+            Weight = Weight.FromRange(WeightRange.Lbs131To160),
 
-                IdNumber = "H01387330",
-                AamvaVersionNumber = Version.Aamva2009,
+            IdNumber = "0504928899117",
+            AamvaVersionNumber = Version.Aamva2005,
 
-                IssueDate = new DateTime(2016, 05, 13),
-                ExpirationDate = new DateTime(2024, 03, 12),
+            IssueDate = new DateTime(2015, 07, 02),
+            ExpirationDate = new DateTime(2023, 05, 14),
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "3",
-                    RestrictionCodes = "B"
-                }
-            };
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D"
+            }
+        };
 
-            var file = License("HI");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("MT");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("96826", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Hawaii", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("59601", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Montana", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-        [Fact]
-        public void TestWVLicense()
+    [Fact]
+    public void TestKSLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "JOE",
-                    Middle = "BOB",
-                    Last = "SMITH"
-                },
+                First = "JOEY",
+                Middle = "SMITH",
+                Last = "MOTORIST",
 
-                Address = new Address
-                {
-                    StreetLine1 = "518   S RANDOM STREET",
-                    City = "ANYTOWN",
-                    JurisdictionCode = "WV",
-                    PostalCode = "12345",
-                    Country = Country.Usa
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                DateOfBirth = new DateTime(1972, 11, 03),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Brown,
-                Height = Height.FromImperial(71),
-                Weight = Weight.FromImperial(190),
+            Address = new Address
+            {
+                StreetLine1 = "12345 S 110TH TER",
+                City = "OVERLAND PARK",
+                JurisdictionCode = "KS",
+                PostalCode = "66210",
+                Country = Country.Usa
+            },
 
-                IdNumber = "F123456",
-                AamvaVersionNumber = Version.Aamva2009,
+            DateOfBirth = new DateTime(1980, 01, 26),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Green,
+            Height = Height.FromImperial(71),
 
-                IssueDate = new DateTime(2017, 10, 01),
-                ExpirationDate = new DateTime(2022, 11, 03),
-                ComplianceType = ComplianceType.NonCompliant,
+            IdNumber = "K04-76-5990",
+            AamvaVersionNumber = Version.Aamva2016,
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "E"
-                }
-            };
+            IssueDate = new DateTime(2017, 11, 29),
+            ExpirationDate = new DateTime(2023, 01, 26),
+            RevisionDate = new DateTime(2017, 02, 26),
 
-            var file = License("WV");
-            var idCard = Barcode.Parse(file, Validation.None);
+            ComplianceType = ComplianceType.FullyCompliant,
+            IsOrganDonor = true,
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "C"
+            }
+        };
 
-            Assert.Equal("12345", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("West Virginia", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        var file = License("KS");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-        [Fact]
-        public void TestAKLicense()
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("66210", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Kansas", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestINLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MARY",
-                    Middle = "JOE",
-                    Last = "SMITH"
-                },
+                First = "RYAN",
+                Middle = "MICHAEL",
+                Last = "MOTORIST"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "12345 E MAIN HY",
-                    City = "ANCHORAGE",
-                    JurisdictionCode = "AK",
-                    PostalCode = "99645",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "12345 W HENCHMEN CIR",
+                City = "ANYCITY",
+                JurisdictionCode = "IN",
+                PostalCode = "47458",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1955, 04, 02),
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Blue,
-                HairColor = HairColor.Gray,
-                Height = Height.FromImperial(64),
-                Weight = Weight.FromImperial(160),
+            DateOfBirth = new DateTime(1993, 02, 25),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Hazel,
+            HairColor = HairColor.Blond,
+            Height = Height.FromImperial(69),
+            Weight = Weight.FromImperial(245),
 
-                IdNumber = "7559886",
-                AamvaVersionNumber = Version.Aamva2013,
+            IdNumber = "3249-09-7547",
+            AamvaVersionNumber = Version.Aamva2009,
 
-                IssueDate = new DateTime(2016, 03, 22),
-                ExpirationDate = new DateTime(2021, 04, 02),
-                Under21Until = new DateTime(1976, 04, 02),
+            IssueDate = new DateTime(2016, 08, 03),
+            ExpirationDate = new DateTime(2023, 02, 25),
+            RevisionDate = new DateTime(2009, 09, 21),
 
-                IsOrganDonor = true,
-                IsVeteran = false,
-                DocumentDiscriminator = "2881111",
+            ComplianceType = ComplianceType.FullyCompliant
+        };
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "1"
-                }
-            };
+        var file = License("IN");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            var file = License("AK");
-            var idCard = Barcode.Parse(file, Validation.None);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        Assert.Equal("47458", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Indiana", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            Assert.Equal("99645", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Alaska", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestDCLicense()
+    [Fact]
+    public void TestILLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "DIANA",
-                    Middle = "ROBIN",
-                    Last = "AL-MAAR"
-                },
+                First = "SUSAN",
+                Middle = "T",
+                Last = "MOTORIST",
 
-                Address = new Address
-                {
-                    StreetLine1 = "1234 14TH ST SW 1A",
-                    City = "WASHINGTON",
-                    JurisdictionCode = "DC",
-                    PostalCode = "200091234",
-                    Country = Country.Usa
-                },
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                DateOfBirth = new DateTime(1985, 07, 29),
-                Sex = Sex.Female,
-                Height = Height.FromImperial(5, 6),
-                Weight = Weight.FromImperial(140),
+            Address = new Address
+            {
+                StreetLine1 = "123 LAKE SHORE DR APT",
+                StreetLine2 = "6431",
+                City = "CHICAGO",
+                JurisdictionCode = "IL",
+                PostalCode = "60611",
+                Country = Country.Usa
+            },
 
-                IdNumber = "3234567",
-                AamvaVersionNumber = Version.Aamva2000,
+            DateOfBirth = new DateTime(1969, 06, 27),
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Green,
+            Height = Height.FromImperial(68),
+            Weight = Weight.FromImperial(200),
 
-                IssueDate = new DateTime(2013, 07, 30),
-                ExpirationDate = new DateTime(2021, 07, 29),
+            IdNumber = "W63177069784",
+            AamvaVersionNumber = Version.Aamva2013,
 
-                IsOrganDonor = true,
-                DocumentDiscriminator = "2881111",
+            IssueDate = new DateTime(2017, 04, 13),
+            ExpirationDate = new DateTime(2021, 06, 27),
+            RevisionDate = new DateTime(2015, 09, 17),
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D"
-                }
-            };
+            IsOrganDonor = true,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D"
+            }
+        };
 
-            var file = License("DC");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("IL");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("20009-1234", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("District of Columbia", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("60611", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Illinois", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-        [Fact]
-        public void TestPELicense()
+    [Fact]
+    public void TestHILicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "PATTY",
-                    Last = "FLOWERS",
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+                First = "MICHAEL",
+                Middle = "JAY",
+                Last = "MOTORIST"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "123 NORTH LAKE SHORE DR",
-                    City = "ANYTOWN",
-                    JurisdictionCode = "PE",
-                    PostalCode = "C0A2B4",
-                    Country = Country.Canada
-                },
+            Address = new Address
+            {
+                StreetLine1 = "456 MOANA ST 2",
+                StreetLine2 = "O",
+                City = "HONOLULU",
+                JurisdictionCode = "HI",
+                PostalCode = "96826",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1955, 09, 04),
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Blue,
-                Height = Height.FromMetric(157),
+            DateOfBirth = new DateTime(1988, 03, 12),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Blue,
+            HairColor = HairColor.Blond,
+            Height = Height.FromImperial(72),
 
-                IdNumber = "247725",
-                AamvaVersionNumber = Version.Aamva2016,
+            IdNumber = "H01387330",
+            AamvaVersionNumber = Version.Aamva2009,
 
-                IssueDate = new DateTime(2017, 12, 22),
-                ExpirationDate = new DateTime(2020, 09, 04),
+            IssueDate = new DateTime(2016, 05, 13),
+            ExpirationDate = new DateTime(2024, 03, 12),
 
-                DocumentDiscriminator = "PE2017122200000019550904",
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "3",
+                RestrictionCodes = "B"
+            }
+        };
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "5"
-                }
-            };
+        var file = License("HI");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            var file = License("PE");
-            var idCard = Barcode.Parse(file, Validation.None);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        Assert.Equal("96826", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Hawaii", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            Assert.Equal("C0A 2B4", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Price Edward Island", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestNVLicense()
+    [Fact]
+    public void TestWVLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MICHAEL",
-                    Middle = "M",
-                    Last = "MOTORIST"
-                },
+                First = "JOE",
+                Middle = "BOB",
+                Last = "SMITH"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "6543 ADORAMA DR",
-                    City = "NORTH LAS VEGAS",
-                    JurisdictionCode = "NV",
-                    PostalCode = "890311234",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "518   S RANDOM STREET",
+                City = "ANYTOWN",
+                JurisdictionCode = "WV",
+                PostalCode = "12345",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1976, 01, 15),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Blue,
-                HairColor = HairColor.Brown,
-                Height = Height.FromImperial(68),
-                Weight = Weight.FromRange(WeightRange.Lbs191To220),
+            DateOfBirth = new DateTime(1972, 11, 03),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Brown,
+            Height = Height.FromImperial(71),
+            Weight = Weight.FromImperial(190),
 
-                IdNumber = "0003456789",
-                AamvaVersionNumber = Version.Aamva2005,
+            IdNumber = "F123456",
+            AamvaVersionNumber = Version.Aamva2009,
 
-                IssueDate = new DateTime(2017, 03, 01),
-                ExpirationDate = new DateTime(2025, 01, 15),
+            IssueDate = new DateTime(2017, 10, 01),
+            ExpirationDate = new DateTime(2022, 11, 03),
+            ComplianceType = ComplianceType.NonCompliant,
 
-                DocumentDiscriminator = "000123456789098765432",
-                InventoryControlNumber = "0012345678900",
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "E"
+            }
+        };
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C"
-                },
+        var file = License("WV");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-                AdditionalJurisdictionElements =
-                {
-                    { "ZNZ", "NAY" },
-                    { "ZNB", "10102008" },
-                    { "ZNC", "5?08??" },
-                    { "ZND", "210" },
-                    { "ZNE", "NCDL" },
-                    { "ZNF", "NCDL" },
-                    { "ZNG", "S" },
-                    { "ZNH", "00123456780" },
-                    { "ZNI", "00000001234" }
-                }
-            };
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            var file = License("NV");
-            var idCard = Barcode.Parse(file, Validation.None);
+        Assert.Equal("12345", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("West Virginia", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
-
-            Assert.Equal("89031-1234", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Nevada", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestNDLicense()
+    [Fact]
+    public void TestAKLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MICHAEL",
-                    Middle = "DOE",
-                    Last = "MOTORIST",
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+                First = "MARY",
+                Middle = "JOE",
+                Last = "SMITH"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "123 W HIGHWAY AVE",
-                    City = "ANYCITY",
-                    JurisdictionCode = "ND",
-                    PostalCode = "58503",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "12345 E MAIN HY",
+                City = "ANCHORAGE",
+                JurisdictionCode = "AK",
+                PostalCode = "99645",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1985, 07, 04),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Blue,
-                Height = Height.FromImperial(74),
+            DateOfBirth = new DateTime(1955, 04, 02),
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Blue,
+            HairColor = HairColor.Gray,
+            Height = Height.FromImperial(64),
+            Weight = Weight.FromImperial(160),
 
-                IdNumber = "RUN812345",
-                AamvaVersionNumber = Version.Aamva2013,
+            IdNumber = "7559886",
+            AamvaVersionNumber = Version.Aamva2013,
 
-                IssueDate = new DateTime(2014, 10, 26),
-                ExpirationDate = new DateTime(2019, 07, 04),
-                RevisionDate = new DateTime(2014, 01, 08),
+            IssueDate = new DateTime(2016, 03, 22),
+            ExpirationDate = new DateTime(2021, 04, 02),
+            Under21Until = new DateTime(1976, 04, 02),
 
-                DocumentDiscriminator = "8RUN812345RC22110GA75NDZ",
-                InventoryControlNumber = "0123456789098765",
+            IsOrganDonor = true,
+            IsVeteran = false,
+            DocumentDiscriminator = "2881111",
 
-                IsOrganDonor = true,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "DM"
-                },
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "1"
+            }
+        };
 
-                AdditionalJurisdictionElements =
-                {
-                    { "ZNZ", "NA704" },
-                    { "ZNB", "1" }
-                }
-            };
+        var file = License("AK");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            var file = License("ND");
-            var idCard = Barcode.Parse(file, Validation.None);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        Assert.Equal("99645", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Alaska", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            Assert.Equal("58503", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("North Dakota", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestCTLicenseUndefinedCharacters()
+    [Fact]
+    public void TestDCLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "WENDY",
-                    Middle = "SMITH",
-                    Last = "MOTORIST",
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+                First = "DIANA",
+                Middle = "ROBIN",
+                Last = "AL-MAAR"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "12 SACAGAWEA DR",
-                    City = "WEST HARTFORD",
-                    JurisdictionCode = "CT",
-                    PostalCode = "061171234",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "1234 14TH ST SW 1A",
+                City = "WASHINGTON",
+                JurisdictionCode = "DC",
+                PostalCode = "200091234",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1966, 01, 26),
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Brown,
-                Height = Height.FromImperial(67),
+            DateOfBirth = new DateTime(1985, 07, 29),
+            Sex = Sex.Female,
+            Height = Height.FromImperial(5, 6),
+            Weight = Weight.FromImperial(140),
 
-                IdNumber = "123456780",
-                AamvaVersionNumber = Version.Aamva2016,
+            IdNumber = "3234567",
+            AamvaVersionNumber = Version.Aamva2000,
 
-                IssueDate = new DateTime(2019, 01, 08),
-                ExpirationDate = new DateTime(2026, 01, 26),
-                RevisionDate = new DateTime(2017, 02, 10),
+            IssueDate = new DateTime(2013, 07, 30),
+            ExpirationDate = new DateTime(2021, 07, 29),
 
-                DocumentDiscriminator = "12345678909870MVK3",
-                InventoryControlNumber = "123456780CTRBTL02",
+            IsOrganDonor = true,
+            DocumentDiscriminator = "2881111",
 
-                ComplianceType = ComplianceType.FullyCompliant,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "B"
-                },
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D"
+            }
+        };
 
-                AdditionalJurisdictionElements =
-                {
-                    { "ZCZ", "CA" },
-                    { "ZCB", "0005276677" }
-                }
-            };
+        var file = License("DC");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            var file = License("CT Undefined Characters");
-            var idCard = Barcode.Parse(file, Validation.None);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        Assert.Equal("20009-1234", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("District of Columbia", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            Assert.Equal("06117-1234", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
-        }
-
-        [Fact]
-        public void TestABLicense()
+    [Fact]
+    public void TestPELicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MARY",
-                    Middle = "SMITH",
-                    Last = "MOTORIST"
-                },
+                First = "PATTY",
+                Last = "FLOWERS",
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "123 MAPLE LEAF TERR SW",
-                    City = "CALGARY",
-                    JurisdictionCode = "AB",
-                    PostalCode = "T4G7A7",
-                    Country = Country.Canada
-                },
+            Address = new Address
+            {
+                StreetLine1 = "123 NORTH LAKE SHORE DR",
+                City = "ANYTOWN",
+                JurisdictionCode = "PE",
+                PostalCode = "C0A2B4",
+                Country = Country.Canada
+            },
 
-                DateOfBirth = new DateTime(1993, 02, 04),
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Brown,
-                HairColor = HairColor.Brown,
-                Height = Height.FromMetric(155),
-                Weight = Weight.FromMetric(50),
+            DateOfBirth = new DateTime(1955, 09, 04),
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Blue,
+            Height = Height.FromMetric(157),
 
-                IdNumber = "123400-056",
-                AamvaVersionNumber = Version.Aamva2005,
+            IdNumber = "247725",
+            AamvaVersionNumber = Version.Aamva2016,
 
-                ExpirationDate = new DateTime(2019, 01, 08),
+            IssueDate = new DateTime(2017, 12, 22),
+            ExpirationDate = new DateTime(2020, 09, 04),
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "5",
-                    EndorsementCodes = "A"
-                }
-            };
+            DocumentDiscriminator = "PE2017122200000019550904",
 
-            // Alberta specifies the weight range following the weight in kilograms
-            expected.Weight.WeightRange = WeightRange.Lbs101To130;
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "5"
+            }
+        };
 
-            var file = License("AB");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("PE");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("T4G 7A7", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Alberta", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("C0A 2B4", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Price Edward Island", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-        [Fact]
-        public void TestMNLicense()
+    [Fact]
+    public void TestNVLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "DALE",
-                    Middle = "THOR",
-                    Last = "SPARKS",
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+                First = "MICHAEL",
+                Middle = "M",
+                Last = "MOTORIST"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "12345 MAIN ST",
-                    StreetLine2 = "UNIT 91",
-                    City = "AITKIN",
-                    JurisdictionCode = "MN",
-                    PostalCode = "564311234",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "6543 ADORAMA DR",
+                City = "NORTH LAS VEGAS",
+                JurisdictionCode = "NV",
+                PostalCode = "890311234",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1995, 01, 04),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Green,
-                Height = Height.FromImperial(70),
-                Weight = Weight.FromImperial(138),
+            DateOfBirth = new DateTime(1976, 01, 15),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Blue,
+            HairColor = HairColor.Brown,
+            Height = Height.FromImperial(68),
+            Weight = Weight.FromRange(WeightRange.Lbs191To220),
 
-                IdNumber = "H868087743210",
-                AamvaVersionNumber = Version.Aamva2016,
+            IdNumber = "0003456789",
+            AamvaVersionNumber = Version.Aamva2005,
 
-                IssueDate = new DateTime(2018, 12, 22),
-                ExpirationDate = new DateTime(2020, 01, 04),
-                RevisionDate = new DateTime(2017, 10, 23),
+            IssueDate = new DateTime(2017, 03, 01),
+            ExpirationDate = new DateTime(2025, 01, 15),
 
-                IsOrganDonor = true,
-                ComplianceType = ComplianceType.NonCompliant,
+            DocumentDiscriminator = "000123456789098765432",
+            InventoryControlNumber = "0012345678900",
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "2"
-                },
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "C"
+            },
 
-                AdditionalJurisdictionElements =
-                {
-                    { "ZMZ", "MAN" },
-                    { "ZMB", "N" }
-                }
-            };
+            AdditionalJurisdictionElements =
+            {
+                { "ZNZ", "NAY" },
+                { "ZNB", "10102008" },
+                { "ZNC", "5?08??" },
+                { "ZND", "210" },
+                { "ZNE", "NCDL" },
+                { "ZNF", "NCDL" },
+                { "ZNG", "S" },
+                { "ZNH", "00123456780" },
+                { "ZNI", "00000001234" }
+            }
+        };
 
-            var file = License("MN");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("NV");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("56431-1234", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Minnesota", idCard.IssuerIdentificationNumber.GetDescription());
+        Assert.Equal("89031-1234", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Nevada", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            Assert.Equal(expected.AdditionalJurisdictionElements.Count, idCard.AdditionalJurisdictionElements.Count);
-        }
-
-        [Fact]
-        public void TestMSLicense()
+    [Fact]
+    public void TestNDLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MICHAEL",
-                    Middle = "PATRICK",
-                    Last = "MOTORIST",
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+                First = "MICHAEL",
+                Middle = "DOE",
+                Last = "MOTORIST",
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "123 BUCK RUN",
-                    City = "HATTIESBURG",
-                    JurisdictionCode = "MS",
-                    PostalCode = "39402",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "123 W HIGHWAY AVE",
+                City = "ANYCITY",
+                JurisdictionCode = "ND",
+                PostalCode = "58503",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1963, 05, 07),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Blue,
-                Height = Height.FromImperial(70),
+            DateOfBirth = new DateTime(1985, 07, 04),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Blue,
+            Height = Height.FromImperial(74),
 
-                IdNumber = "800448123",
-                AamvaVersionNumber = Version.Aamva2013,
+            IdNumber = "RUN812345",
+            AamvaVersionNumber = Version.Aamva2013,
 
-                IssueDate = new DateTime(2018, 05, 10),
-                ExpirationDate = new DateTime(2022, 05, 07),
-                RevisionDate = new DateTime(2016, 02, 22),
+            IssueDate = new DateTime(2014, 10, 26),
+            ExpirationDate = new DateTime(2019, 07, 04),
+            RevisionDate = new DateTime(2014, 01, 08),
 
-                IsOrganDonor = true,
+            DocumentDiscriminator = "8RUN812345RC22110GA75NDZ",
+            InventoryControlNumber = "0123456789098765",
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "R",
-                    RestrictionCodes = "BF"
-                },
+            IsOrganDonor = true,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "DM"
+            },
 
-                AdditionalJurisdictionElements =
-                {
-                    { "ZMZ", "MAN" },
-                    { "ZMB", "N" },
-                    { "ZMC", "N" },
-                    { "ZMD", "123 BUCK RUN" },
-                    { "ZME", "HATTIESBURG" },
-                    { "ZMF", "MS" },
-                    { "ZMG", "394020000" }
-                }
-            };
+            AdditionalJurisdictionElements =
+            {
+                { "ZNZ", "NA704" },
+                { "ZNB", "1" }
+            }
+        };
 
-            var file = License("MS");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = License("ND");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("39402", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Mississippi", idCard.IssuerIdentificationNumber.GetDescription());
+        Assert.Equal("58503", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("North Dakota", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-            Assert.Equal(expected.AdditionalJurisdictionElements.Count, idCard.AdditionalJurisdictionElements.Count);
-        }
-
-        [Fact]
-        public void TestIDLicense()
+    [Fact]
+    public void TestCTLicenseUndefinedCharacters()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "CLAY",
-                    Middle = "MOTORIST",
-                    Last = "JENSEN"
-                },
+                First = "WENDY",
+                Middle = "SMITH",
+                Last = "MOTORIST",
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "1234 MAIN STREET",
-                    City = "GRANGEVILL",
-                    JurisdictionCode = "ID",
-                    PostalCode = "83530",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "12 SACAGAWEA DR",
+                City = "WEST HARTFORD",
+                JurisdictionCode = "CT",
+                PostalCode = "061171234",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1967, 12, 08),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Green,
-                HairColor = HairColor.Blond,
-                Height = Height.FromImperial(73),
-                Weight = Weight.FromImperial(240),
+            DateOfBirth = new DateTime(1966, 01, 26),
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Brown,
+            Height = Height.FromImperial(67),
 
-                IdNumber = "WA104577G",
-                AamvaVersionNumber = Version.Aamva2010,
+            IdNumber = "123456780",
+            AamvaVersionNumber = Version.Aamva2016,
 
-                IssueDate = new DateTime(2011, 11, 20),
-                ExpirationDate = new DateTime(2019, 12, 08),
-                RevisionDate = new DateTime(2011, 05, 09),
+            IssueDate = new DateTime(2019, 01, 08),
+            ExpirationDate = new DateTime(2026, 01, 26),
+            RevisionDate = new DateTime(2017, 02, 10),
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D",
-                    RestrictionCodes = "B"
-                },
+            DocumentDiscriminator = "12345678909870MVK3",
+            InventoryControlNumber = "123456780CTRBTL02",
 
-                AdditionalJurisdictionElements =
-                {
-                    { "ZIZ", "IADONOR" },
-                    { "ZIB", "" },
-                    { "ZIC", "" }
-                }
-            };
+            ComplianceType = ComplianceType.FullyCompliant,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "B"
+            },
 
-            var file = License("ID");
-            var idCard = Barcode.Parse(file, Validation.None);
+            AdditionalJurisdictionElements =
+            {
+                { "ZCZ", "CA" },
+                { "ZCB", "0005276677" }
+            }
+        };
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        var file = License("CT Undefined Characters");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            Assert.Equal("83530", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Idaho", idCard.IssuerIdentificationNumber.GetDescription());
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal(expected.AdditionalJurisdictionElements.Count, idCard.AdditionalJurisdictionElements.Count);
-        }
+        Assert.Equal("06117-1234", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
+    }
 
-        [Fact]
-        public void TestLeadingWhitespaceLicense()
+    [Fact]
+    public void TestABLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MOTORIST",
-                    Middle = "R",
-                    Last = "SHEEHAN",
-                    WasFirstTruncated = false,
-                    WasMiddleTruncated = false,
-                    WasLastTruncated = false
-                },
+                First = "MARY",
+                Middle = "SMITH",
+                Last = "MOTORIST"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "2 ROBERTS DRIVE",
-                    City = "PLYMOUTH",
-                    JurisdictionCode = "MA",
-                    PostalCode = "023601234",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "123 MAPLE LEAF TERR SW",
+                City = "CALGARY",
+                JurisdictionCode = "AB",
+                PostalCode = "T4G7A7",
+                Country = Country.Canada
+            },
 
-                DateOfBirth = new DateTime(1939, 12, 07),
-                Sex = Sex.Male,
-                Height = Height.FromImperial(71),
+            DateOfBirth = new DateTime(1993, 02, 04),
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Brown,
+            HairColor = HairColor.Brown,
+            Height = Height.FromMetric(155),
+            Weight = Weight.FromMetric(50),
 
-                IdNumber = "S58239477",
-                AamvaVersionNumber = Version.Aamva2009,
+            IdNumber = "123400-056",
+            AamvaVersionNumber = Version.Aamva2005,
 
-                IssueDate = new DateTime(2014, 11, 14),
-                ExpirationDate = new DateTime(2018, 12, 07),
-                RevisionDate = new DateTime(2009, 07, 15),
+            ExpirationDate = new DateTime(2019, 01, 08),
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "DM",
-                    RestrictionCodes = "B"
-                }
-            };
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "5",
+                EndorsementCodes = "A"
+            }
+        };
 
-            var file = File.ReadAllText("Leading Whitespace.txt");
-            var idCard = Barcode.Parse(file, Validation.None);
+        // Alberta specifies the weight range following the weight in kilograms
+        expected.Weight.WeightRange = WeightRange.Lbs101To130;
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        var file = License("AB");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            Assert.Equal("02360-1234", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Massachusetts", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-        [Fact]
-        public void TestInvalidHeader()
+        Assert.Equal("T4G 7A7", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Alberta", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestMNLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MICHAEL",
-                    Middle = "G",
-                    Last = "MOTORIST"
-                },
+                First = "DALE",
+                Middle = "THOR",
+                Last = "SPARKS",
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "12 MAIN AVE",
-                    City = "WEST HAVEN",
-                    JurisdictionCode = "CT",
-                    PostalCode = "06516",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "12345 MAIN ST",
+                StreetLine2 = "UNIT 91",
+                City = "AITKIN",
+                JurisdictionCode = "MN",
+                PostalCode = "564311234",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1961, 02, 04),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Brown,
-                Height = Height.FromImperial(5, 4),
+            DateOfBirth = new DateTime(1995, 01, 04),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Green,
+            Height = Height.FromImperial(70),
+            Weight = Weight.FromImperial(138),
 
-                IdNumber = "025995434",
-                AamvaVersionNumber = Version.Aamva2000,
+            IdNumber = "H868087743210",
+            AamvaVersionNumber = Version.Aamva2016,
 
-                IssueDate = new DateTime(2016, 11, 14),
-                ExpirationDate = new DateTime(2023, 02, 04),
+            IssueDate = new DateTime(2018, 12, 22),
+            ExpirationDate = new DateTime(2020, 01, 04),
+            RevisionDate = new DateTime(2017, 10, 23),
 
-                IsOrganDonor = true,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D"
-                }
-            };
+            IsOrganDonor = true,
+            ComplianceType = ComplianceType.NonCompliant,
 
-            var file = File.ReadAllText("Invalid Header.txt");
-            var idCard = Barcode.Parse(file, Validation.None);
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "2"
+            },
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+            AdditionalJurisdictionElements =
+            {
+                { "ZMZ", "MAN" },
+                { "ZMB", "N" }
+            }
+        };
 
-            Assert.Equal("06516", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        var file = License("MN");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-        [Fact]
-        public void TestCTLicenseSuffix()
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("56431-1234", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Minnesota", idCard.IssuerIdentificationNumber.GetDescription());
+
+        Assert.Equal(expected.AdditionalJurisdictionElements.Count, idCard.AdditionalJurisdictionElements.Count);
+    }
+
+    [Fact]
+    public void TestMSLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "PABLO",
-                    Last = "CORTEZ",
-                    Suffix = "JR"
-                },
+                First = "MICHAEL",
+                Middle = "PATRICK",
+                Last = "MOTORIST",
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "715 MAIN LN",
-                    City = "STRATFORD",
-                    JurisdictionCode = "CT",
-                    PostalCode = "066140123",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "123 BUCK RUN",
+                City = "HATTIESBURG",
+                JurisdictionCode = "MS",
+                PostalCode = "39402",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1976, 10, 07),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Green,
-                Height = Height.FromImperial(6, 0),
+            DateOfBirth = new DateTime(1963, 05, 07),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Blue,
+            Height = Height.FromImperial(70),
 
-                IdNumber = "227881513",
-                AamvaVersionNumber = Version.Aamva2000,
+            IdNumber = "800448123",
+            AamvaVersionNumber = Version.Aamva2013,
 
-                IssueDate = new DateTime(2016, 08, 23),
-                ExpirationDate = new DateTime(2022, 10, 07),
+            IssueDate = new DateTime(2018, 05, 10),
+            ExpirationDate = new DateTime(2022, 05, 07),
+            RevisionDate = new DateTime(2016, 02, 22),
 
-                IsOrganDonor = true,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D"
-                }
-            };
+            IsOrganDonor = true,
 
-            var file = License("CT Suffix");
-            var idCard = Barcode.Parse(file, Validation.None);
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "R",
+                RestrictionCodes = "BF"
+            },
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+            AdditionalJurisdictionElements =
+            {
+                { "ZMZ", "MAN" },
+                { "ZMB", "N" },
+                { "ZMC", "N" },
+                { "ZMD", "123 BUCK RUN" },
+                { "ZME", "HATTIESBURG" },
+                { "ZMF", "MS" },
+                { "ZMG", "394020000" }
+            }
+        };
 
-            Assert.Equal("06614-0123", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        var file = License("MS");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-        [Fact]
-        public void TestCTLicenseMultipleMiddleNames()
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("39402", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Mississippi", idCard.IssuerIdentificationNumber.GetDescription());
+
+        Assert.Equal(expected.AdditionalJurisdictionElements.Count, idCard.AdditionalJurisdictionElements.Count);
+    }
+
+    [Fact]
+    public void TestIDLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "PABLO",
-                    Middle = "LUIS RODRIGUEZ",
-                    Last = "CORTEZ",
-                    Suffix = "JR"
-                },
+                First = "CLAY",
+                Middle = "MOTORIST",
+                Last = "JENSEN"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "715 MAIN LN",
-                    City = "STRATFORD",
-                    JurisdictionCode = "CT",
-                    PostalCode = "066140123",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "1234 MAIN STREET",
+                City = "GRANGEVILL",
+                JurisdictionCode = "ID",
+                PostalCode = "83530",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1976, 10, 07),
-                Sex = Sex.Male,
-                EyeColor = EyeColor.Green,
-                Height = Height.FromImperial(6, 0),
+            DateOfBirth = new DateTime(1967, 12, 08),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Green,
+            HairColor = HairColor.Blond,
+            Height = Height.FromImperial(73),
+            Weight = Weight.FromImperial(240),
 
-                IdNumber = "227881513",
-                AamvaVersionNumber = Version.Aamva2000,
+            IdNumber = "WA104577G",
+            AamvaVersionNumber = Version.Aamva2010,
 
-                IssueDate = new DateTime(2016, 08, 23),
-                ExpirationDate = new DateTime(2022, 10, 07),
+            IssueDate = new DateTime(2011, 11, 20),
+            ExpirationDate = new DateTime(2019, 12, 08),
+            RevisionDate = new DateTime(2011, 05, 09),
 
-                IsOrganDonor = true,
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "D"
-                }
-            };
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D",
+                RestrictionCodes = "B"
+            },
 
-            var file = License("CT Multiple Middle Names");
-            var idCard = Barcode.Parse(file, Validation.None);
+            AdditionalJurisdictionElements =
+            {
+                { "ZIZ", "IADONOR" },
+                { "ZIB", "" },
+                { "ZIC", "" }
+            }
+        };
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        var file = License("ID");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            Assert.Equal("06614-0123", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-        [Fact]
-        public void TestNBLicense()
+        Assert.Equal("83530", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Idaho", idCard.IssuerIdentificationNumber.GetDescription());
+
+        Assert.Equal(expected.AdditionalJurisdictionElements.Count, idCard.AdditionalJurisdictionElements.Count);
+    }
+
+    [Fact]
+    public void TestLeadingWhitespaceLicense()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MARY",
-                    Middle = "M",
-                    Last = "MOTORIST"
-                },
+                First = "MOTORIST",
+                Middle = "R",
+                Last = "SHEEHAN",
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "123 EAGLEHEAD DR",
-                    City = "GRND-BAY-WFLD",
-                    JurisdictionCode = "NB",
-                    PostalCode = "E5K1Y3",
-                    Country = Country.Canada
-                },
+            Address = new Address
+            {
+                StreetLine1 = "2 ROBERTS DRIVE",
+                City = "PLYMOUTH",
+                JurisdictionCode = "MA",
+                PostalCode = "023601234",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1962, 08, 08),
-                Sex = Sex.Female,
-                Height = Height.FromMetric(168),
+            DateOfBirth = new DateTime(1939, 12, 07),
+            Sex = Sex.Male,
+            Height = Height.FromImperial(71),
 
-                IdNumber = "1234567",
-                AamvaVersionNumber = Version.Aamva2003,
+            IdNumber = "S58239477",
+            AamvaVersionNumber = Version.Aamva2009,
 
-                IssueDate = new DateTime(2017, 08, 12),
-                ExpirationDate = new DateTime(2021, 08, 08)
-            };
+            IssueDate = new DateTime(2014, 11, 14),
+            ExpirationDate = new DateTime(2018, 12, 07),
+            RevisionDate = new DateTime(2009, 07, 15),
 
-            var file = License("NB");
-            var idCard = Barcode.Parse(file, Validation.None);
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "DM",
+                RestrictionCodes = "B"
+            }
+        };
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        var file = File.ReadAllText("Leading Whitespace.txt");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            Assert.Equal("E5K 1Y3", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("New Brunswick", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-        [Fact]
-        public void TestWYLicense()
+        Assert.Equal("02360-1234", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Massachusetts", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestInvalidHeader()
+    {
+        var expected = new DriversLicense
         {
-            var expected = new DriversLicense
+            Name = new Name
             {
-                Name = new Name
-                {
-                    First = "MOTORIST",
-                    Middle = "E",
-                    Last = "O NEIL"
-                },
+                First = "MICHAEL",
+                Middle = "G",
+                Last = "MOTORIST"
+            },
 
-                Address = new Address
-                {
-                    StreetLine1 = "1234 MAIN WAY",
-                    //StreetLine2 = "BLUE STREAM, WY  82930", TODO: Check if this is the same as city, state, zip and remove if so
-                    City = "BLUE STREAM",
-                    JurisdictionCode = "WY",
-                    PostalCode = "82930",
-                    Country = Country.Usa
-                },
+            Address = new Address
+            {
+                StreetLine1 = "12 MAIN AVE",
+                City = "WEST HAVEN",
+                JurisdictionCode = "CT",
+                PostalCode = "06516",
+                Country = Country.Usa
+            },
 
-                DateOfBirth = new DateTime(1958, 10, 31),
-                Sex = Sex.Female,
-                EyeColor = EyeColor.Blue,
-                HairColor = HairColor.Blond,
-                Height = Height.FromImperial(69),
+            DateOfBirth = new DateTime(1961, 02, 04),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Brown,
+            Height = Height.FromImperial(5, 4),
 
-                IdNumber = "123456-789",
-                AamvaVersionNumber = Version.Aamva2009,
+            IdNumber = "025995434",
+            AamvaVersionNumber = Version.Aamva2000,
 
-                IssueDate = new DateTime(2017, 10, 11),
-                ExpirationDate = new DateTime(2021, 10, 31),
+            IssueDate = new DateTime(2016, 11, 14),
+            ExpirationDate = new DateTime(2023, 02, 04),
 
-                Jurisdiction = new DriversLicenseJurisdiction
-                {
-                    VehicleClass = "C"
-                }
-            };
+            IsOrganDonor = true,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D"
+            }
+        };
 
-            var file = License("WY");
-            var idCard = Barcode.Parse(file, Validation.None);
+        var file = File.ReadAllText("Invalid Header.txt");
+        var idCard = Barcode.Parse(file, Validation.None);
 
-            AssertIdCard(expected, idCard);
-            AssertLicense(expected, idCard);
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
 
-            Assert.Equal("82930", idCard.Address.PostalCodeDisplay);
-            Assert.Equal("Wyoming", idCard.IssuerIdentificationNumber.GetDescription());
-        }
+        Assert.Equal("06516", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestCTLicenseSuffix()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
+            {
+                First = "PABLO",
+                Last = "CORTEZ",
+                Suffix = "JR"
+            },
+
+            Address = new Address
+            {
+                StreetLine1 = "715 MAIN LN",
+                City = "STRATFORD",
+                JurisdictionCode = "CT",
+                PostalCode = "066140123",
+                Country = Country.Usa
+            },
+
+            DateOfBirth = new DateTime(1976, 10, 07),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Green,
+            Height = Height.FromImperial(6, 0),
+
+            IdNumber = "227881513",
+            AamvaVersionNumber = Version.Aamva2000,
+
+            IssueDate = new DateTime(2016, 08, 23),
+            ExpirationDate = new DateTime(2022, 10, 07),
+
+            IsOrganDonor = true,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D"
+            }
+        };
+
+        var file = License("CT Suffix");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("06614-0123", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestCTLicenseMultipleMiddleNames()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
+            {
+                First = "PABLO",
+                Middle = "LUIS RODRIGUEZ",
+                Last = "CORTEZ",
+                Suffix = "JR"
+            },
+
+            Address = new Address
+            {
+                StreetLine1 = "715 MAIN LN",
+                City = "STRATFORD",
+                JurisdictionCode = "CT",
+                PostalCode = "066140123",
+                Country = Country.Usa
+            },
+
+            DateOfBirth = new DateTime(1976, 10, 07),
+            Sex = Sex.Male,
+            EyeColor = EyeColor.Green,
+            Height = Height.FromImperial(6, 0),
+
+            IdNumber = "227881513",
+            AamvaVersionNumber = Version.Aamva2000,
+
+            IssueDate = new DateTime(2016, 08, 23),
+            ExpirationDate = new DateTime(2022, 10, 07),
+
+            IsOrganDonor = true,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D"
+            }
+        };
+
+        var file = License("CT Multiple Middle Names");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("06614-0123", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestNBLicense()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
+            {
+                First = "MARY",
+                Middle = "M",
+                Last = "MOTORIST"
+            },
+
+            Address = new Address
+            {
+                StreetLine1 = "123 EAGLEHEAD DR",
+                City = "GRND-BAY-WFLD",
+                JurisdictionCode = "NB",
+                PostalCode = "E5K1Y3",
+                Country = Country.Canada
+            },
+
+            DateOfBirth = new DateTime(1962, 08, 08),
+            Sex = Sex.Female,
+            Height = Height.FromMetric(168),
+
+            IdNumber = "1234567",
+            AamvaVersionNumber = Version.Aamva2003,
+
+            IssueDate = new DateTime(2017, 08, 12),
+            ExpirationDate = new DateTime(2021, 08, 08)
+        };
+
+        var file = License("NB");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("E5K 1Y3", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("New Brunswick", idCard.IssuerIdentificationNumber.GetDescription());
+    }
+
+    [Fact]
+    public void TestWYLicense()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
+            {
+                First = "MOTORIST",
+                Middle = "E",
+                Last = "O NEIL"
+            },
+
+            Address = new Address
+            {
+                StreetLine1 = "1234 MAIN WAY",
+                //StreetLine2 = "BLUE STREAM, WY  82930", TODO: Check if this is the same as city, state, zip and remove if so
+                City = "BLUE STREAM",
+                JurisdictionCode = "WY",
+                PostalCode = "82930",
+                Country = Country.Usa
+            },
+
+            DateOfBirth = new DateTime(1958, 10, 31),
+            Sex = Sex.Female,
+            EyeColor = EyeColor.Blue,
+            HairColor = HairColor.Blond,
+            Height = Height.FromImperial(69),
+
+            IdNumber = "123456-789",
+            AamvaVersionNumber = Version.Aamva2009,
+
+            IssueDate = new DateTime(2017, 10, 11),
+            ExpirationDate = new DateTime(2021, 10, 31),
+
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "C"
+            }
+        };
+
+        var file = License("WY");
+        var idCard = Barcode.Parse(file, Validation.None);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("82930", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("Wyoming", idCard.IssuerIdentificationNumber.GetDescription());
     }
 }

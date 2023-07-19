@@ -1,40 +1,39 @@
 ﻿using IdParser.Attributes;
 
-namespace IdParser.Parsers.License
+namespace IdParser.Parsers.License;
+
+[Parser("DCA")]
+public class VehicleClassParser : AbstractParser
 {
-    [Parser("DCA")]
-    public class VehicleClassParser : AbstractParser
+    public VehicleClassParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
     {
-        public VehicleClassParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
-        {
-        }
-
-        public override void ParseAndSet(string input)
-        {
-            if (StringHasNoValue(input))
-            {
-                return;
-            }
-
-            License.Jurisdiction.VehicleClass = input;
-        }
     }
 
-    [Parser("DAR")]
-    public class VehicleClassLegacyParser : AbstractParser
+    public override void ParseAndSet(string input)
     {
-        public VehicleClassLegacyParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+        if (StringHasNoValue(input))
         {
+            return;
         }
 
-        public override void ParseAndSet(string input)
-        {
-            if (StringHasNoValue(input))
-            {
-                return;
-            }
+        License.Jurisdiction.VehicleClass = input;
+    }
+}
 
-            License.Jurisdiction.VehicleClass = input;
+[Parser("DAR")]
+public class VehicleClassLegacyParser : AbstractParser
+{
+    public VehicleClassLegacyParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    {
+    }
+
+    public override void ParseAndSet(string input)
+    {
+        if (StringHasNoValue(input))
+        {
+            return;
         }
+
+        License.Jurisdiction.VehicleClass = input;
     }
 }

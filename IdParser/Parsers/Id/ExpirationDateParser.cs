@@ -1,22 +1,21 @@
 ﻿using IdParser.Attributes;
 
-namespace IdParser.Parsers.Id
+namespace IdParser.Parsers.Id;
+
+[Parser("DBA")]
+public class ExpirationDateParser : AbstractParser
 {
-    [Parser("DBA")]
-    public class ExpirationDateParser : AbstractParser
+    public ExpirationDateParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
     {
-        public ExpirationDateParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    }
+
+    public override void ParseAndSet(string input)
+    {
+        if (DateHasNoValue(input))
         {
+            return;
         }
 
-        public override void ParseAndSet(string input)
-        {
-            if (DateHasNoValue(input))
-            {
-                return;
-            }
-
-            IdCard.ExpirationDate = ParseDate(input);
-        }
+        IdCard.ExpirationDate = ParseDate(input);
     }
 }

@@ -1,22 +1,21 @@
 ﻿using IdParser.Attributes;
 
-namespace IdParser.Parsers.License
+namespace IdParser.Parsers.License;
+
+[Parser("DCN")]
+public class StandardEndorsementCodeParser : AbstractParser
 {
-    [Parser("DCN")]
-    public class StandardEndorsementCodeParser : AbstractParser
+    public StandardEndorsementCodeParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
     {
-        public StandardEndorsementCodeParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    }
+
+    public override void ParseAndSet(string input)
+    {
+        if (StringHasNoValue(input))
         {
+            return;
         }
 
-        public override void ParseAndSet(string input)
-        {
-            if (StringHasNoValue(input))
-            {
-                return;
-            }
-
-            License.StandardEndorsementCode = input;
-        }
+        License.StandardEndorsementCode = input;
     }
 }
