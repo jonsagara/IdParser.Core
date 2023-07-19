@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace IdParser.Attributes;
+﻿namespace IdParser.Attributes;
 
 /// <summary>
 /// Indicates the element this parser is capable of handling.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class)]
-public class ParserAttribute : Attribute
+public sealed class ParserAttribute : Attribute
 {
     public string ElementId { get; }
 

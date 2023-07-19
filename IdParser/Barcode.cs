@@ -270,6 +270,7 @@ public static class Barcode
                 }
                 catch (Exception)
                 {
+#warning TODO: we shouldn't swallow this exception.
                 }
 
                 continue;

@@ -1,15 +1,13 @@
-﻿using System;
-
-namespace IdParser.Attributes;
+﻿namespace IdParser.Attributes;
 
 /// <summary>
 /// Specifies a description for the target.
 /// </summary>
 [AttributeUsage(AttributeTargets.All)]
-public class DescriptionAttribute : Attribute
+public sealed class DescriptionAttribute : Attribute
 {
-    public string Description { get; set; }
-    
+    public string Description { get; }
+
     public DescriptionAttribute(string description)
     {
         Description = description;

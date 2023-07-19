@@ -1,14 +1,12 @@
-﻿using System;
-
-namespace IdParser.Attributes;
+﻿namespace IdParser.Attributes;
 
 /// <summary>
 /// Specifies a country display value for the target.
 /// </summary>
 [AttributeUsage(AttributeTargets.All)]
-public class CountryAttribute : Attribute
+public sealed class CountryAttribute : Attribute
 {
-    public Country Country { get; set; }
+    public Country Country { get; }
 
     public CountryAttribute(Country country)
     {
