@@ -64,7 +64,7 @@ public class Height : IComparable<Height>, IEquatable<Height>
 
     #region IEquatable
 
-    public bool Equals(Height other)
+    public bool Equals(Height? other)
     {
         if (other is null)
         {
@@ -79,7 +79,7 @@ public class Height : IComparable<Height>, IEquatable<Height>
         return Centimeters.Equals(other.Centimeters) && IsMetric == other.IsMetric;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is null)
         {
@@ -109,12 +109,12 @@ public class Height : IComparable<Height>, IEquatable<Height>
         }
     }
 
-    public static bool operator ==(Height left, Height right)
+    public static bool operator ==(Height? left, Height? right)
     {
         return Equals(left, right);
     }
 
-    public static bool operator !=(Height left, Height right)
+    public static bool operator !=(Height? left, Height? right)
     {
         return !Equals(left, right);
     }

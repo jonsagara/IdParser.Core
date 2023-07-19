@@ -144,12 +144,12 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
         }
     }
 
-    public static bool operator ==(Weight left, Weight right)
+    public static bool operator ==(Weight? left, Weight? right)
     {
         return Equals(left, right);
     }
 
-    public static bool operator !=(Weight left, Weight right)
+    public static bool operator !=(Weight? left, Weight? right)
     {
         return !Equals(left, right);
     }
