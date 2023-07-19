@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using IdParser.Attributes;
 
 namespace IdParser.Parsers.Id;
@@ -20,9 +19,9 @@ public class WeightInPoundsParser : AbstractParser
 
         var weight = Convert.ToInt16(input);
 
-        if (IdCard.Weight == null)
+        if (IdCard.Weight is null)
         {
-            IdCard.Weight = Weight.FromImperial(weight);
+            IdCard.Weight = Weight.FromImperial(pounds: weight);
             return;
         }
 
@@ -41,14 +40,13 @@ public class WeightInPoundsParser : AbstractParser
         {
             var weight = Convert.ToInt16(match.Groups["Weight"].Value);
 
-            if (IdCard.Weight == null)
+            if (IdCard.Weight is null)
             {
-                IdCard.Weight = Weight.FromMetric(weight);
+                IdCard.Weight = Weight.FromMetric(kilograms: weight);
                 return true;
             }
 
             IdCard.Weight.SetMetric(weight);
-
             return true;
         }
 

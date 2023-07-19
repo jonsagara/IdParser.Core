@@ -5,7 +5,8 @@ namespace IdParser.Parsers.Id;
 [Parser("DAX")]
 public class WeightInKilogramsParser : AbstractParser
 {
-    public WeightInKilogramsParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public WeightInKilogramsParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 
@@ -13,9 +14,9 @@ public class WeightInKilogramsParser : AbstractParser
     {
         var weight = Convert.ToInt16(input);
 
-        if (IdCard.Weight == null)
+        if (IdCard.Weight is null)
         {
-            IdCard.Weight = Weight.FromMetric(weight);
+            IdCard.Weight = Weight.FromMetric(kilograms: weight);
             return;
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using IdParser.Attributes;
+﻿using IdParser.Attributes;
 
 namespace IdParser.Parsers.Id;
 
@@ -14,9 +13,9 @@ public class WeightRangeParser : AbstractParser
     {
         var weightRange = (WeightRange)Convert.ToByte(input);
 
-        if (IdCard.Weight == null)
+        if (IdCard.Weight is null)
         {
-            IdCard.Weight = Weight.FromRange(weightRange);
+            IdCard.Weight = Weight.FromRange(weightRange: weightRange);
             return;
         }
 

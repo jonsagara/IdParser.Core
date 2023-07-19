@@ -9,6 +9,12 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
 {
     private const double PoundsPerKilogram = 2.20462262;
 
+    private static double PoundsToKilograms(int pounds)
+         => pounds / PoundsPerKilogram;
+
+    private static int KilogramsToPounds(double kilograms)
+        => (int)(kilograms * PoundsPerKilogram);
+
     // In order for JSON serialization and deserialization to work in both Json.NET
     // and ServiceStack.Text, an immutable type has to:
     // - Be a class and not a struct (immutable structs do not deserialize in ServiceStack)
@@ -27,22 +33,22 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
 
     public static Weight FromMetric(double kilograms)
     {
-        return new Weight(null, kilograms, true);
+        return new Weight(weightRange: null, kilograms: kilograms, isMetric: true);
     }
 
     public static Weight FromImperial(int pounds)
     {
-        return new Weight(null, pounds * PoundsPerKilogram, false);
+        return new Weight(weightRange: null, kilograms: PoundsToKilograms(pounds: pounds), isMetric: false);
     }
 
     public static Weight FromRange(WeightRange weightRange)
     {
-        return new Weight(weightRange, null, false);
+        return new Weight(weightRange: weightRange, kilograms: null, isMetric: false);
     }
 
     internal void SetImperial(int pounds)
     {
-        Kilograms = pounds * PoundsPerKilogram;
+        Kilograms = PoundsToKilograms(pounds: pounds);
         IsMetric = false;
     }
 
@@ -54,9 +60,9 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
 
     public override string ToString()
     {
-        if (!Kilograms.HasValue)
+        if (Kilograms is null)
         {
-            if (WeightRange.HasValue)
+            if (WeightRange is not null)
             {
                 return WeightRange.Value.GetDescription();
             }
@@ -69,7 +75,7 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
             return $"{Kilograms} kg";
         }
 
-        return $"{(int)(Kilograms.Value / PoundsPerKilogram)} lbs";
+        return $"{KilogramsToPounds(kilograms: Kilograms.Value)} lbs";
     }
 
     #region IComparable
