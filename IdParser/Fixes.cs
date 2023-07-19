@@ -1,27 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace IdParser;
 
 internal static class Fixes
 {
-    private static readonly string[] UndefinedCharacters;
-
-    /// <remarks>
-    /// http://lwp.interglacial.com/appf_01.htm
-    /// </remarks>
-    static Fixes()
-    {
-        var undefinedCharacters = new List<string>();
-
-        for (int i = 0x80; i <= 0x9F; i++)
-        {
-            undefinedCharacters.Add(((char)i).ToString());
-        }
-
-        UndefinedCharacters = undefinedCharacters.ToArray();
-    }
-
     internal static string Apply(string input)
     {
         return input.RemoveUndefinedCharacters()
@@ -68,7 +50,7 @@ internal static class Fixes
 
         if (ansiPosition >= 0)
         {
-            return Barcode.ExpectedHeader + input.Substring(ansiPosition + Barcode.ExpectedFileType.Length);
+            return string.Concat(Barcode.ExpectedHeader, input.AsSpan(ansiPosition + Barcode.ExpectedFileType.Length));
         }
 
         // AAMVA 2000 and earlier
@@ -76,7 +58,7 @@ internal static class Fixes
 
         if (aamvaPosition >= 0)
         {
-            return Barcode.ExpectedHeader + input.Substring(aamvaPosition + Barcode.ExpectedFileType.Length);
+            return string.Concat(Barcode.ExpectedHeader, input.AsSpan(aamvaPosition + Barcode.ExpectedFileType.Length));
         }
 
         return input;
@@ -89,7 +71,7 @@ internal static class Fixes
     private static string RemoveIncorrectCarriageReturns(this string input)
     {
         var crLf = Barcode.ExpectedSegmentTerminator.ToString() + Barcode.ExpectedDataElementSeparator;
-        var doesInputContainCrLf = input.IndexOf(crLf, StringComparison.Ordinal) >= 0;
+        var doesInputContainCrLf = input.Contains(crLf, StringComparison.Ordinal);
 
         if (doesInputContainCrLf)
         {
@@ -101,6 +83,23 @@ internal static class Fixes
         return input;
     }
 
+
+    /// <remarks>
+    /// Characters in the hex range [0x80, 0x9F].
+    /// </remarks>
+    private static readonly string[] UndefinedCharacters = GetUndefinedCharacters();
+
+    private static string[] GetUndefinedCharacters()
+    {
+        var undefinedCharacters = new List<string>();
+
+        for (int i = 0x80; i <= 0x9F; i++)
+        {
+            undefinedCharacters.Add(((char)i).ToString());
+        }
+
+        return undefinedCharacters.ToArray();
+    }
 
     /// <summary>
     /// The DS4308 scanner using HID keyboard emulation tends to insert undefined characters (0xC2,0x80 through 0xC2,0x9F)

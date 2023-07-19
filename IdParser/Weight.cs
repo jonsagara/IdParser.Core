@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace IdParser;
+﻿namespace IdParser;
 
 /// <summary>
 /// Represents the weight of the person identified in the ID card.
@@ -127,7 +125,7 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
             return false;
         }
 
-        return Equals((Weight) obj);
+        return Equals((Weight)obj);
     }
 
     public override int GetHashCode()

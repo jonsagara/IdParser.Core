@@ -27,7 +27,7 @@ public class HeightParser : AbstractParser
 
         var height = Convert.ToInt32(input.Substring(0, input.Length - 2));
 
-        if (input.IndexOf("cm", StringComparison.OrdinalIgnoreCase) >= 0)
+        if (input.Contains("cm", StringComparison.OrdinalIgnoreCase))
         {
             IdCard.Height = Height.FromMetric(height);
             return;

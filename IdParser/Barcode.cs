@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 using IdParser.Attributes;
 using IdParser.Parsers;
 
@@ -203,7 +204,7 @@ public static class Barcode
 
         if (version == Version.Aamva2000)
         {
-            offset = Convert.ToInt32(input.Substring(21, 4));
+            offset = Convert.ToInt32(input.Substring(21, 4), CultureInfo.InvariantCulture);
 
             // South Carolina's offset is off by one byte which causes the parsing of the IdNumber to fail
             if (idCard.IssuerIdentificationNumber == IssuerIdentificationNumber.SouthCarolina && offset == 30)
@@ -219,7 +220,7 @@ public static class Barcode
             // which causes the parsing of the subfile records to fail
             if (offsetAsString.All(char.IsDigit))
             {
-                offset = Convert.ToInt32(offsetAsString);
+                offset = Convert.ToInt32(offsetAsString, CultureInfo.InvariantCulture);
             }
         }
 

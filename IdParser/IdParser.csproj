@@ -21,8 +21,8 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<!--<AnalysisMode>AllEnabledByDefault</AnalysisMode>
-		<WarningsAsErrors>$(WarningsAsErrors);CA1307;CA1309;CA1310</WarningsAsErrors>-->
+		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
+		<WarningsAsErrors>$(WarningsAsErrors);CA1307;CA1309;CA1310</WarningsAsErrors>
 	</PropertyGroup>
 
 	<ItemGroup>

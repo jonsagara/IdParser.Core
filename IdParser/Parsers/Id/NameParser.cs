@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using IdParser.Attributes;
+﻿using IdParser.Attributes;
 
 namespace IdParser.Parsers.Id;
 
@@ -32,9 +30,9 @@ public class NameParser : AbstractParser
             ParseWithStandardSeparators(input);
             return;
         }
-        
+
         // Jurisdictions like Pennsylvania that use non-standard separators
-        if (input.IndexOf(SpaceSeparator, StringComparison.Ordinal) >= 0)
+        if (input.Contains(SpaceSeparator, StringComparison.Ordinal))
         {
             ParseWithSpaceSeparator(input);
         }
@@ -51,7 +49,7 @@ public class NameParser : AbstractParser
                          .ToList();
 
         ParseSuffix(names);
-        
+
         IdCard.Name.Last = names.Count > 0 ? names[0].Trim().ReplaceEmptyWithNull() : null;
         IdCard.Name.First = names.Count > 1 ? names[1].Trim().ReplaceEmptyWithNull() : null;
         IdCard.Name.Middle = names.Count > 2 ? string.Join(" ", names.Skip(2).Select(n => n.ReplaceEmptyWithNull()).Where(n => n != null)).ReplaceEmptyWithNull() : null;
