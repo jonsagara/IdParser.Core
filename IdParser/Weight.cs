@@ -95,7 +95,7 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
 
     #region IEquatable
 
-    public bool Equals(Weight other)
+    public bool Equals(Weight? other)
     {
         if (other is null)
         {
@@ -110,7 +110,7 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
         return WeightRange == other.WeightRange && Kilograms.Equals(other.Kilograms) && IsMetric == other.IsMetric;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is null)
         {

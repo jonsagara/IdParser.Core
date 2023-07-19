@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using IdParser.Attributes;
 using IdParser.Parsers;
 
@@ -55,7 +52,7 @@ public static class Barcode
         var subfileRecords = GetSubfileRecords(idCard, version, rawPdf417Input);
         var country = ParseCountry(idCard.IssuerIdentificationNumber, version, subfileRecords);
         idCard.Address.Country = country;
-        
+
         PopulateIdCard(idCard, version, country, subfileRecords, validationLevel);
 
         return idCard;
@@ -72,7 +69,7 @@ public static class Barcode
         idCard.JurisdictionVersionNumber = version == Version.Aamva2000
             ? (byte)0
             : Convert.ToByte(rawPdf417Input.Substring(17, 2));
-        
+
         return idCard;
     }
 
@@ -196,7 +193,7 @@ public static class Barcode
         {
             records[0] = records[0].Substring(2);
         }
-        
+
         return records;
     }
 
@@ -262,7 +259,7 @@ public static class Barcode
                 idCard.AdditionalJurisdictionElements.Add(elementId, data);
                 continue;
             }
-            
+
             var parser = CreateParserInstance(elementId, version, country, idCard);
 
             if (validationLevel == Validation.None)

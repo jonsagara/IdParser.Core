@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace IdParser;
+﻿namespace IdParser;
 
 /// <summary>
 /// Represents the address of the person identified in the ID card.
