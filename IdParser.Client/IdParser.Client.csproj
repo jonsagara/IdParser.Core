@@ -1,42 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net7.0-windows</TargetFramework>
-    <OutputType>WinExe</OutputType>
-    <AssemblyName>ID Parser</AssemblyName>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>ID Parser Icon.ico</ApplicationIcon>
-    <AssemblyTitle>ID Parser</AssemblyTitle>
-    <Product>ID Parser</Product>
-    <Copyright>Copyright © 2019 Connor O%27Shea</Copyright>
-    <AssemblyVersion>4.1.2</AssemblyVersion>
-    <FileVersion>4.1.2</FileVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.PointOfService, Version=1.14.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.PointOfService.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ID Parser Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IdParser\IdParser.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<OutputType>WinExe</OutputType>
+		<AssemblyName>ID Parser</AssemblyName>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+	</PropertyGroup>
+	<PropertyGroup>
+		<ApplicationIcon>ID Parser Icon.ico</ApplicationIcon>
+		<AssemblyTitle>ID Parser</AssemblyTitle>
+		<Product>ID Parser</Product>
+		<Copyright>Copyright © 2019 Connor O%27Shea</Copyright>
+		<AssemblyVersion>4.1.2</AssemblyVersion>
+		<FileVersion>4.1.2</FileVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+		<OutputPath>bin\x86\Debug\</OutputPath>
+		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+		<OutputPath>bin\x86\Release\</OutputPath>
+		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<ItemGroup>
+		<Reference Include="Microsoft.PointOfService, Version=1.14.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\lib\Microsoft.PointOfService.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="ID Parser Icon.ico" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\IdParser\IdParser.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
 </Project>

@@ -1,10 +1,13 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.33913.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F2E20BF1-CDBC-4A70-A551-F017A0FC6D3F}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+		global.json = global.json
+		nuget.config = nuget.config
 		README.md = README.md
 	EndProjectSection
 EndProject
