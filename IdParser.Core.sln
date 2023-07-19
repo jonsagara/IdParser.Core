@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
@@ -10,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser", "IdParser\IdParser.csproj", "{A5DED2D2-93C9-4F32-BA2B-F5FB749669BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdParser.Client", "IdParser.Client\IdParser.Client.csproj", "{FA949E77-9931-476C-BF93-DE61F5290CE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Client", "IdParser.Client\IdParser.Client.csproj", "{FA949E77-9931-476C-BF93-DE61F5290CE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdParser.Test", "IdParser.Test\IdParser.Test.csproj", "{C4170346-C631-4317-B304-D0B88466CF9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Test", "IdParser.Test\IdParser.Test.csproj", "{C4170346-C631-4317-B304-D0B88466CF9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
