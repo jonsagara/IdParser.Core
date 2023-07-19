@@ -282,7 +282,7 @@ namespace IdParser
             }
         }
 
-        private static AbstractParser CreateParserInstance(string elementId, Version version, Country? country, IdentificationCard idCard)
+        private static AbstractParser? CreateParserInstance(string elementId, Version version, Country? country, IdentificationCard idCard)
         {
             if (!Parsers.Value.TryGetValue(elementId, out var type))
             {

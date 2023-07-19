@@ -7,6 +7,8 @@
 		<Copyright>Copyright © 2019 Connor O%27Shea</Copyright>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<FileVersion>1.0.0.0</FileVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<ItemGroup>
 		<Content Include="Ids\*.txt">

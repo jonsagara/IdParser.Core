@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using IdParser.Attributes;
 
 namespace IdParser.Parsers.Id
@@ -29,7 +28,7 @@ namespace IdParser.Parsers.Id
             }
 
             IdCard.Address.PostalCode = new Regex(NonAlphaNumericPattern).Replace(input, "")
-                                                                         .Replace("0000", "");
+                                                                         .Replace("0000", "", StringComparison.Ordinal);
         }
     }
 }

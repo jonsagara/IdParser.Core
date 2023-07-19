@@ -34,7 +34,7 @@ namespace IdParser.Parsers.Id
             }
             
             // Jurisdictions like Pennsylvania that use non-standard separators
-            if (input.IndexOf(SpaceSeparator) >= 0)
+            if (input.IndexOf(SpaceSeparator, StringComparison.Ordinal) >= 0)
             {
                 ParseWithSpaceSeparator(input);
             }

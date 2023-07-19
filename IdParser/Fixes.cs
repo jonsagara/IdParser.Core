@@ -93,7 +93,7 @@ namespace IdParser
 
             if (doesInputContainCrLf)
             {
-                var replacedString = input.Replace(Barcode.ExpectedSegmentTerminator.ToString(), string.Empty);
+                var replacedString = input.Replace(Barcode.ExpectedSegmentTerminator.ToString(), string.Empty, StringComparison.Ordinal);
 
                 return replacedString.Substring(0, 3) + Barcode.ExpectedSegmentTerminator + replacedString.Substring(4);
             }
@@ -114,7 +114,7 @@ namespace IdParser
         {
             foreach (var undefinedCharacter in UndefinedCharacters)
             {
-                input = input.Replace(undefinedCharacter, "");
+                input = input.Replace(undefinedCharacter, "", StringComparison.Ordinal);
             }
 
             return input;

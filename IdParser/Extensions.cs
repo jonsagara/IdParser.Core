@@ -44,7 +44,7 @@ namespace IdParser
             return property(attribute);
         }
 
-        internal static string ReplaceEmptyWithNull(this string data)
+        internal static string? ReplaceEmptyWithNull(this string data)
         {
             return string.IsNullOrEmpty(data) ? null : data;
         }
@@ -53,7 +53,7 @@ namespace IdParser
         {
             var hex = BitConverter.ToString(Encoding.UTF8.GetBytes(value));
 
-            hex = "0x" + hex.Replace("-", "");
+            hex = "0x" + hex.Replace("-", "", StringComparison.Ordinal);
 
             return hex;
         }
