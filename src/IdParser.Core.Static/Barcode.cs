@@ -63,13 +63,13 @@ public static class Barcode
             rawPdf417Input = Fixes.TryToCorrectHeader(rawPdf417Input);
         }
 
-        var version = ParseAamvaVersion(rawPdf417Input);
-        var idCard = GetIdCardInstance(version, rawPdf417Input);
-        var subfileRecords = GetSubfileRecords(idCard, version, rawPdf417Input);
-        var country = ParseCountry(idCard.IssuerIdentificationNumber, version, subfileRecords);
+        var aamvaVersion = ParseAAMVAVersion(rawPdf417Input);
+        var idCard = GetIdCardInstance(aamvaVersion, rawPdf417Input);
+        var subfileRecords = GetSubfileRecords(idCard, aamvaVersion, rawPdf417Input);
+        var country = ParseCountry(idCard.IssuerIdentificationNumber, aamvaVersion, subfileRecords);
         idCard.Address.Country = country;
 
-        PopulateIdCard(idCard, version, country, subfileRecords, validationLevel);
+        PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, validationLevel);
 
         return idCard;
     }
@@ -110,12 +110,6 @@ public static class Barcode
         => input.Substring(startIndex: 4, length: 5);
 
     /// <summary>
-    /// Get the AAMVA version number from the scanned text, and convert it to a byte.
-    /// </summary>
-    private static byte ParseAamvaVersionNumber(string input)
-        => Convert.ToByte(input.Substring(startIndex: 15, length: 2), CultureInfo.InvariantCulture);
-
-    /// <summary>
     /// Ensure the header has the required and expected fields.
     /// </summary>
     private static void ValidateHeaderFormat(string input)
@@ -149,5 +143,38 @@ public static class Barcode
         {
             throw new ArgumentException($"The file type is invalid. Expected '{ExpectedFileType}'. Received '{fileType.ToHexString()}'.", nameof(input));
         }
+    }
+
+    /// <summary>
+    /// Get the AAMVA version number from the scanned text, and convert it to a byte.
+    /// </summary>
+    private static byte ParseAAMVAVersionNumber(string input)
+        => Convert.ToByte(input.Substring(startIndex: 15, length: 2), CultureInfo.InvariantCulture);
+
+    /// <summary>
+    /// Gets the AAMVA version of the input.
+    /// </summary>
+    /// <param name="input">The raw PDF417 barcode data</param>
+    private static AAMVAVersion ParseAAMVAVersion(string input)
+    {
+        ArgumentNullException.ThrowIfNull(nameof(input));
+
+        if (input.Length < 17)
+        {
+            throw new ArgumentException("Input must not be less than 17 characters in order to parse the AAMVA version.", nameof(input));
+        }
+
+        var parsedAAMVAVersionText = input.Substring(startIndex: 15, length: 2);
+
+        if (Enum.TryParse<AAMVAVersion>(parsedAAMVAVersionText, out var version) && Enum.IsDefined(version))
+        {
+            // We parsed the version number from the text, -AND- the number is actually a defined 
+            //   enum value. Return it.
+            return version;
+        }
+
+        // Unable to parse the version number from the text, -OR- the parsed number is not a defined
+        //   enum value. Return "Future".
+        return AAMVAVersion.Future;
     }
 }
