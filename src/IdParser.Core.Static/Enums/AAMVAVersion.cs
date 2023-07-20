@@ -1,6 +1,6 @@
 ﻿namespace IdParser.Core;
 
-internal enum AAMVAVersion
+public enum AAMVAVersion
 {
     PreStandard = 0,
     AAMVA2000 = 1,

@@ -3,7 +3,7 @@
 public class IdentificationCard
 {
     public IssuerIdentificationNumber IssuerIdentificationNumber { get; set; }
-    public Version AamvaVersionNumber { get; set; }
+    public AAMVAVersion AAMVAVersionNumber { get; set; }
     public byte JurisdictionVersionNumber { get; set; }
     public string IdNumber { get; set; } = null!;
 
@@ -38,5 +38,5 @@ public class IdentificationCard
     public bool? IsOrganDonor { get; set; }
     public bool? IsVeteran { get; set; }
 
-    public Dictionary<string, string> AdditionalJurisdictionElements { get; } = new Dictionary<string, string>();
+    public Dictionary<string, string> AdditionalJurisdictionElements { get; } = new();
 }

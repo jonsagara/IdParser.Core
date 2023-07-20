@@ -64,12 +64,12 @@ public static class Barcode
         }
 
         var aamvaVersion = ParseAAMVAVersion(rawPdf417Input);
-        var idCard = GetIdCardInstance(aamvaVersion, rawPdf417Input);
-        var subfileRecords = GetSubfileRecords(idCard, aamvaVersion, rawPdf417Input);
-        var country = ParseCountry(idCard.IssuerIdentificationNumber, aamvaVersion, subfileRecords);
-        idCard.Address.Country = country;
+        var idCard = GetIdCardInstance(rawPdf417Input, aamvaVersion);
+        //var subfileRecords = GetSubfileRecords(idCard, aamvaVersion, rawPdf417Input);
+        //var country = ParseCountry(idCard.IssuerIdentificationNumber, aamvaVersion, subfileRecords);
+        //idCard.Address.Country = country;
 
-        PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, validationLevel);
+        //PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, validationLevel);
 
         return idCard;
     }
@@ -176,5 +176,35 @@ public static class Barcode
         // Unable to parse the version number from the text, -OR- the parsed number is not a defined
         //   enum value. Return "Future".
         return AAMVAVersion.Future;
+    }
+
+    /// <summary>
+    /// Determines whether the barcode is an <see cref="IdentificationCard"/> or a <see cref="DriversLicense"/>.
+    /// </summary>
+    /// <remarks>
+    /// NOTE: The 2000 spec had the subfile type in a different location.
+    /// </remarks>
+    private static string ParseSubfileType(string input, AAMVAVersion version)
+        => version == AAMVAVersion.AAMVA2000
+            ? input.Substring(startIndex: 19, length: 2)
+            : input.Substring(startIndex: 21, length: 2);
+
+    /// <summary>
+    /// If it's a driver's license, return a <see cref="DriversLicense"/> instance. Otherwise, return an
+    /// <see cref="IdentificationCard"/> instance.
+    /// </summary>
+    private static IdentificationCard GetIdCardInstance(string rawPdf417Input, AAMVAVersion version)
+    {
+        var idCard = ParseSubfileType(rawPdf417Input, version) == "DL"
+            ? new DriversLicense()
+            : new IdentificationCard();
+
+        idCard.IssuerIdentificationNumber = (IssuerIdentificationNumber)Convert.ToInt32(rawPdf417Input.Substring(9, 6), CultureInfo.InvariantCulture);
+        idCard.AAMVAVersionNumber = version;
+        idCard.JurisdictionVersionNumber = version == AAMVAVersion.AAMVA2000
+            ? (byte)0
+            : Convert.ToByte(rawPdf417Input.Substring(17, 2), CultureInfo.InvariantCulture);
+
+        return idCard;
     }
 }
