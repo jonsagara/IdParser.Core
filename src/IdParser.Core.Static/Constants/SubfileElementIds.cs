@@ -60,4 +60,22 @@ internal static class SubfileElementIds
     /// <para>V20ANS</para>
     /// </remarks>
     internal const string City = "DAI";
+
+    /// <summary>
+    /// Compliance Type
+    /// </summary>
+    /// <remarks>
+    /// <para>DHS required field that indicates compliance: &quot;F&quot; = compliant; and, &quot;N&quot; = non-compliant.</para>
+    /// <para>F1A</para>
+    /// </remarks>
+    internal const string ComplianceType = "DDA";
+
+    /// <summary>
+    /// Date of Birth
+    /// </summary>
+    /// <remarks>
+    /// <para>Date on which the cardholder was born. (MMDDCCYY for U.S., CCYYMMDD for Canada)</para>
+    /// <para>F8N</para>
+    /// </remarks>
+    internal const string DateOfBirth = "DBB";
 }

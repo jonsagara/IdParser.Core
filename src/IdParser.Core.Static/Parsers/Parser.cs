@@ -33,6 +33,14 @@ internal static class Parser
                 idCard.Address.City = CityParser.Parse(input: data);
                 break;
 
+            case SubfileElementIds.ComplianceType:
+                idCard.ComplianceType = ComplianceTypeParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.DateOfBirth:
+                idCard.DateOfBirth = DateOfBirthParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException(nameof(elementId), elementId, $"Unsupported elementId '{elementId}'.");
         }

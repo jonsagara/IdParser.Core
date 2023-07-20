@@ -3,7 +3,5 @@
 internal static class AuditInformationParser
 {
     internal static string Parse(string input)
-    {
-        return input;
-    }
+        => input;
 }

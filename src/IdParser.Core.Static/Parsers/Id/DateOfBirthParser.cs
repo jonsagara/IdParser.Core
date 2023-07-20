@@ -1,15 +1,14 @@
 ﻿namespace IdParser.Core.Static.Parsers.Id;
 
-//[Parser("DBB")]
 internal static class DateOfBirthParser
 {
-    internal static string? Parse(string input)
+    internal static DateTime Parse(string input, Country country, AAMVAVersion version)
     {
-        if (DateHasNoValue(input))
+        if (ParserHelper.DateHasNoValue(input))
         {
-            return;
+            return DateTime.MinValue;
         }
 
-        IdCard.DateOfBirth = ParseDate(input);
+        return ParserHelper.ParseDate(input, country, version);
     }
 }
