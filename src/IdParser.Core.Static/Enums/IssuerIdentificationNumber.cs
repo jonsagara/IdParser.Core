@@ -1,7 +1,7 @@
 ﻿namespace IdParser.Core.Static;
 
 /// <remarks>
-/// https://www.aamva.org/IIN-and-RID/
+/// https://www.aamva.org/identity/issuer-identification-numbers-(iin)
 /// </remarks>
 public enum IssuerIdentificationNumber
 {

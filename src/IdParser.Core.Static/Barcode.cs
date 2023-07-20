@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.Metrics;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using IdParser.Core.Static.Metadata;
 
 namespace IdParser.Core.Static;
 
@@ -68,8 +69,10 @@ public static class Barcode
         var aamvaVersion = ParseAAMVAVersion(rawPdf417Input);
         var idCard = GetIdCardInstance(rawPdf417Input, aamvaVersion);
         var subfileRecords = GetSubfileRecords(rawPdf417Input, aamvaVersion, idCard);
-        //var country = ParseCountry(idCard.IssuerIdentificationNumber, aamvaVersion, subfileRecords);
-        //idCard.Address.Country = country;
+
+        // We have to parse and retrieve Country from the subfile first because other fields depends on its value.
+        var country = ParseCountry(idCard.IssuerIdentificationNumber, aamvaVersion, subfileRecords);
+        idCard.Address.Country = country;
 
         //PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, validationLevel);
 
@@ -285,36 +288,43 @@ public static class Barcode
         return records;
     }
 
-    ///// <summary>
-    ///// Parses the country based on the DCG subfile record.
-    ///// Gets the country from the IIN if no matching subfile record was found.
-    ///// </summary>
-    //private static Country ParseCountry(IssuerIdentificationNumber iin, Version version, List<string> subfileRecords)
-    //{
-    //    // Country is not a subfile record in the AAMVA 2000 standard
-    //    if (version == Version.Aamva2000)
-    //    {
-    //        return Country.Usa;
-    //    }
+    /// <summary>
+    /// Parses the country based on the DCG subfile record.
+    /// Gets the country from the IIN if no matching subfile record was found.
+    /// </summary>
+    private static Country ParseCountry(IssuerIdentificationNumber iin, AAMVAVersion version, List<string> subfileRecords)
+    {
+        // Country is not a subfile record in the AAMVA 2000 standard.
+        if (version == AAMVAVersion.AAMVA2000)
+        {
+            return Country.Usa;
+        }
 
-    //    foreach (var subfileRecord in subfileRecords)
-    //    {
-    //        var elementId = subfileRecord.Substring(0, 3);
-    //        var data = subfileRecord.Substring(3).Trim();
+        foreach (var subfileRecord in subfileRecords)
+        {
+#warning We should pre-parse and store as a Dictionary<string, string> that gets passed around instead of looping through every time.
+            var elementId = subfileRecord.Substring(0, 3);
+            var data = subfileRecord.Substring(3).Trim();
 
-    //        if (elementId == "DCG")
-    //        {
-    //            if (data == "USA")
-    //            {
-    //                return Country.Usa;
-    //            }
-    //            if (data == "CAN" || data == "CDN")
-    //            {
-    //                return Country.Canada;
-    //            }
-    //        }
-    //    }
+            if (elementId == "DCG")
+            {
+                if (data == "USA")
+                {
+                    return Country.Usa;
+                }
 
-    //    return iin.GetCountry();
-    //}
+                if (data == "CAN" || data == "CDN")
+                {
+                    return Country.Canada;
+                }
+            }
+        }
+
+        if (IssuerMetadataHelper.TryGetIssuerCountry(iin, out Country? country))
+        {
+            return country!.Value;
+        }
+
+        throw new ArgumentException($"Unable to look up Country for {nameof(IssuerIdentificationNumber)} enum value {iin} because it is missing a record in {nameof(IssuerMetadataHelper)}.", nameof(iin));
+    }
 }
