@@ -13,7 +13,7 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
          => pounds / PoundsPerKilogram;
 
     private static int KilogramsToPounds(double kilograms)
-        => (int)(kilograms * PoundsPerKilogram);
+        => (int)Math.Round(kilograms * PoundsPerKilogram, digits: 0);
 
     // In order for JSON serialization and deserialization to work in both Json.NET
     // and ServiceStack.Text, an immutable type has to:

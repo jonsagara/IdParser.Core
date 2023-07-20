@@ -60,4 +60,34 @@ public class WeightTests
 
         Assert.Equal("33 kg", actual);
     }
+
+    [Fact]
+    public void PoundsToKilogramsTest()
+    {
+        var weight = Weight.FromImperial(175);
+        var expectedKg = 79.4;
+
+        Assert.True(weight.Kilograms!.Value.Equals1DigitPrecision(expectedKg));
+    }
+
+    [Fact]
+    public void PoundsTest()
+    {
+        // This is internally converted to kg. Ensure it is round-tripped back to the expected value.
+        var weight = Weight.FromImperial(175);
+        var expected = "175 lbs";
+
+        Assert.Equal(expected, weight.ToString()); ;
+    }
+}
+
+internal static class DoubleExtensions
+{
+    private const double _1Digit = 0.1;
+
+    internal static bool Equals1DigitPrecision(this double value, double comparison)
+    {
+        var difference = Math.Abs(value - comparison);
+        return difference < _1Digit;
+    }
 }
