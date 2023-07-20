@@ -74,7 +74,7 @@ public static class Barcode
         var country = ParseCountry(idCard.IssuerIdentificationNumber, aamvaVersion, subfileRecords);
         idCard.Address.Country = country;
 
-        //PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, validationLevel);
+        PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, validationLevel);
 
         return idCard;
     }
@@ -286,6 +286,10 @@ public static class Barcode
         }
 
         return records;
+        //// First three characters are the element id.
+        //// The remaining characters are the value.
+        //return records
+        //    .ToDictionary(r => r.Substring(startIndex: 0, length: 3), r => r.Substring(startIndex: 3).Trim());
     }
 
     /// <summary>
@@ -326,5 +330,56 @@ public static class Barcode
         }
 
         throw new ArgumentException($"Unable to look up Country for {nameof(IssuerIdentificationNumber)} enum value {iin} because it is missing a record in {nameof(IssuerMetadataHelper)}.", nameof(iin));
+    }
+
+    private static void PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country? country, List<string> subfileRecords, Validation validationLevel)
+    {
+        foreach (var subfileRecord in subfileRecords)
+        {
+            if (subfileRecord.Length < 3)
+            {
+                continue;
+            }
+
+#warning We should pre-parse and store as a Dictionary<string, string> that gets passed around instead of looping through every time.
+            var elementId = subfileRecord.Substring(0, 3);
+            var data = subfileRecord.Substring(3).Trim();
+
+            if (elementId.StartsWith("Z", StringComparison.Ordinal) && !idCard.AdditionalJurisdictionElements.ContainsKey(elementId))
+            {
+                idCard.AdditionalJurisdictionElements.Add(elementId, data);
+                continue;
+            }
+
+            var parser = CreateParserInstance(elementId, version, country, idCard);
+
+            if (validationLevel == Validation.None)
+            {
+                try
+                {
+                    parser?.ParseAndSet(data);
+                }
+                catch (Exception)
+                {
+#warning TODO: we shouldn't swallow this exception.
+                }
+
+                continue;
+            }
+
+            parser?.ParseAndSet(data);
+        }
+    }
+
+    private static AbstractParser? CreateParserInstance(string elementId, AAMVAVersion version, Country? country, IdentificationCard idCard)
+    {
+        if (!Parsers.Value.TryGetValue(elementId, out var type))
+        {
+            return null;
+        }
+
+        var instance = Activator.CreateInstance(type, idCard, version, country) as AbstractParser;
+
+        return instance;
     }
 }
