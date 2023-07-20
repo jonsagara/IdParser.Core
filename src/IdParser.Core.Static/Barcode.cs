@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.Metrics;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace IdParser.Core.Static;
 
@@ -65,7 +67,7 @@ public static class Barcode
 
         var aamvaVersion = ParseAAMVAVersion(rawPdf417Input);
         var idCard = GetIdCardInstance(rawPdf417Input, aamvaVersion);
-        //var subfileRecords = GetSubfileRecords(idCard, aamvaVersion, rawPdf417Input);
+        var subfileRecords = GetSubfileRecords(rawPdf417Input, aamvaVersion, idCard);
         //var country = ParseCountry(idCard.IssuerIdentificationNumber, aamvaVersion, subfileRecords);
         //idCard.Address.Country = country;
 
@@ -207,4 +209,112 @@ public static class Barcode
 
         return idCard;
     }
+
+    /// <summary>
+    /// Get the index of the subfile starting position.
+    /// </summary>
+    private static int ParseSubfileOffset(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
+    {
+        var offset = 0;
+
+        if (version == AAMVAVersion.AAMVA2000)
+        {
+            offset = Convert.ToInt32(rawPdf417Input.Substring(startIndex: 21, length: 4), CultureInfo.InvariantCulture);
+
+            // South Carolina's offset is off by one byte which causes the parsing of the IdNumber to fail
+            if (idCard.IssuerIdentificationNumber == IssuerIdentificationNumber.SouthCarolina && offset == 30)
+            {
+                offset--;
+            }
+        }
+        else if (version >= AAMVAVersion.AAMVA2003)
+        {
+            var offsetAsString = rawPdf417Input.Substring(startIndex: 23, length: 4);
+
+            // Alberta specifies characters, like "abac", in the place of the expected offset
+            // which causes the parsing of the subfile records to fail
+            if (offsetAsString.All(char.IsDigit))
+            {
+                offset = Convert.ToInt32(offsetAsString, CultureInfo.InvariantCulture);
+            }
+        }
+
+        if (offset == 0)
+        {
+            // Some jurisdictions, like Ontario, have a zero offset, which is incorrect.
+            // Set the offset to the start of the subfile type indicator.
+            var subfileRegex = new Regex("(DL|ID)([\\d\\w]{3,8})(DL|ID|Z\\w)([DZ][A-Z]{2})");
+            var match = subfileRegex.Match(rawPdf417Input);
+
+            if (match.Success)
+            {
+                const int subfileTypeLength = 2;
+                const int firstElementIdLength = 3;
+
+                offset = match.Index + match.Length - subfileTypeLength - firstElementIdLength;
+            }
+        }
+
+        return offset;
+    }
+
+    /// <summary>
+    /// Get a list of all the data records (name and value as a single string) that we need to parse.
+    /// </summary>
+    private static List<string> GetSubfileRecords(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
+    {
+        var ixSubfile = ParseSubfileOffset(rawPdf417Input, version, idCard);
+
+        var records = rawPdf417Input
+            .Substring(startIndex: ixSubfile)
+            .Split(new[] { ParseDataElementSeparator(rawPdf417Input), ParseSegmentTerminator(rawPdf417Input) }, StringSplitOptions.RemoveEmptyEntries)
+            .ToList();
+
+        if (records[0] == "DL" || records[0] == "ID")
+        {
+            // We don't care about a record that just says "DL" or "ID", so remove it.
+            //   We already know whether it's a DL or ID.
+            records.RemoveAt(0);
+        }
+        else if (records[0].StartsWith("DL", StringComparison.Ordinal) || records[0].StartsWith("ID", StringComparison.Ordinal))
+        {
+            // The initial record starts with DL or ID. Discard the first two characters, and keep everything after it.
+            records[0] = records[0].Substring(startIndex: 2);
+        }
+
+        return records;
+    }
+
+    ///// <summary>
+    ///// Parses the country based on the DCG subfile record.
+    ///// Gets the country from the IIN if no matching subfile record was found.
+    ///// </summary>
+    //private static Country ParseCountry(IssuerIdentificationNumber iin, Version version, List<string> subfileRecords)
+    //{
+    //    // Country is not a subfile record in the AAMVA 2000 standard
+    //    if (version == Version.Aamva2000)
+    //    {
+    //        return Country.Usa;
+    //    }
+
+    //    foreach (var subfileRecord in subfileRecords)
+    //    {
+    //        var elementId = subfileRecord.Substring(0, 3);
+    //        var data = subfileRecord.Substring(3).Trim();
+
+    //        if (elementId == "DCG")
+    //        {
+    //            if (data == "USA")
+    //            {
+    //                return Country.Usa;
+    //            }
+    //            if (data == "CAN" || data == "CDN")
+    //            {
+    //                return Country.Canada;
+    //            }
+    //        }
+    //    }
+
+    //    return iin.GetCountry();
+    //}
 }
