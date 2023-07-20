@@ -65,11 +65,11 @@ public static class Barcode
             ? new DriversLicense()
             : new IdentificationCard();
 
-        idCard.IssuerIdentificationNumber = (IssuerIdentificationNumber)Convert.ToInt32(rawPdf417Input.Substring(9, 6));
+        idCard.IssuerIdentificationNumber = (IssuerIdentificationNumber)Convert.ToInt32(rawPdf417Input.Substring(9, 6), CultureInfo.InvariantCulture);
         idCard.AamvaVersionNumber = version;
         idCard.JurisdictionVersionNumber = version == Version.Aamva2000
             ? (byte)0
-            : Convert.ToByte(rawPdf417Input.Substring(17, 2));
+            : Convert.ToByte(rawPdf417Input.Substring(17, 2), CultureInfo.InvariantCulture);
 
         return idCard;
     }

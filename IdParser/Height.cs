@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace IdParser;
+﻿namespace IdParser;
 
 /// <summary>
 /// Represents the height of the person identified in the ID card.
@@ -27,17 +25,17 @@ public class Height : IComparable<Height>, IEquatable<Height>
 
     public static Height FromMetric(double centimeters)
     {
-        return new Height(centimeters, true);
+        return new Height(centimeters: centimeters, isMetric: true);
     }
 
     public static Height FromImperial(int feet, int inches)
     {
-        return FromImperial(feet * InchesPerFoot + inches);
+        return FromImperial(inches: feet * InchesPerFoot + inches);
     }
 
     public static Height FromImperial(int inches)
     {
-        return new Height(inches * CentimetersPerInch, false);
+        return new Height(centimeters: inches * CentimetersPerInch, isMetric: false);
     }
 
     public override string ToString()
@@ -48,7 +46,7 @@ public class Height : IComparable<Height>, IEquatable<Height>
         }
 
         var totalInches = Centimeters / CentimetersPerInch;
-        var feet = (int) (totalInches / InchesPerFoot);
+        var feet = (int)(totalInches / InchesPerFoot);
 
         return $"{feet}'{Math.Round(totalInches - feet * InchesPerFoot, 0)}\"";
     }
@@ -96,7 +94,7 @@ public class Height : IComparable<Height>, IEquatable<Height>
             return false;
         }
 
-        return Equals((Height) obj);
+        return Equals((Height)obj);
     }
 
     public override int GetHashCode()
