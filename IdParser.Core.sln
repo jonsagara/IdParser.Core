@@ -11,11 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser", "IdParser\IdParser.csproj", "{A5DED2D2-93C9-4F32-BA2B-F5FB749669BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core", "IdParser.Core\IdParser.Core.csproj", "{A5DED2D2-93C9-4F32-BA2B-F5FB749669BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Client", "IdParser.Client\IdParser.Client.csproj", "{FA949E77-9931-476C-BF93-DE61F5290CE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Client", "IdParser.Core.Client\IdParser.Core.Client.csproj", "{FA949E77-9931-476C-BF93-DE61F5290CE7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Test", "IdParser.Test\IdParser.Test.csproj", "{C4170346-C631-4317-B304-D0B88466CF9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Test", "IdParser.Core.Test\IdParser.Core.Test.csproj", "{C4170346-C631-4317-B304-D0B88466CF9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdParser.Core.Benchmarks", "IdParser.Core.Benchmarks\IdParser.Core.Benchmarks.csproj", "{BB53ED55-E366-4674-BDBC-4616B162C1DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,14 @@ Global
 		{C4170346-C631-4317-B304-D0B88466CF9C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C4170346-C631-4317-B304-D0B88466CF9C}.Release|x86.ActiveCfg = Release|Any CPU
 		{C4170346-C631-4317-B304-D0B88466CF9C}.Release|x86.Build.0 = Release|Any CPU
+		{BB53ED55-E366-4674-BDBC-4616B162C1DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB53ED55-E366-4674-BDBC-4616B162C1DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB53ED55-E366-4674-BDBC-4616B162C1DE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BB53ED55-E366-4674-BDBC-4616B162C1DE}.Debug|x86.Build.0 = Debug|Any CPU
+		{BB53ED55-E366-4674-BDBC-4616B162C1DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB53ED55-E366-4674-BDBC-4616B162C1DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB53ED55-E366-4674-BDBC-4616B162C1DE}.Release|x86.ActiveCfg = Release|Any CPU
+		{BB53ED55-E366-4674-BDBC-4616B162C1DE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
