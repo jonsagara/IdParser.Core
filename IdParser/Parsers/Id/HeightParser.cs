@@ -1,4 +1,5 @@
-﻿using IdParser.Attributes;
+﻿using System.Globalization;
+using IdParser.Attributes;
 
 namespace IdParser.Parsers.Id;
 
@@ -18,14 +19,14 @@ public class HeightParser : AbstractParser
 
         if (Version == Version.Aamva2000)
         {
-            var feet = Convert.ToInt32(input.Substring(0, 1));
-            var inches = Convert.ToInt32(input.Substring(1, 2));
+            var feet = Convert.ToInt32(input.Substring(0, 1), CultureInfo.InvariantCulture);
+            var inches = Convert.ToInt32(input.Substring(1, 2), CultureInfo.InvariantCulture);
 
             IdCard.Height = Height.FromImperial(feet, inches);
             return;
         }
 
-        var height = Convert.ToInt32(input.Substring(0, input.Length - 2));
+        var height = Convert.ToInt32(input.Substring(0, input.Length - 2), CultureInfo.InvariantCulture);
 
         if (input.Contains("cm", StringComparison.OrdinalIgnoreCase))
         {

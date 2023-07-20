@@ -1,4 +1,5 @@
-﻿using IdParser.Attributes;
+﻿using System.Globalization;
+using IdParser.Attributes;
 
 namespace IdParser.Parsers.Id;
 
@@ -12,7 +13,7 @@ public class WeightInKilogramsParser : AbstractParser
 
     public override void ParseAndSet(string input)
     {
-        var weight = Convert.ToInt16(input);
+        var weight = Convert.ToInt16(input, CultureInfo.InvariantCulture);
 
         if (IdCard.Weight is null)
         {

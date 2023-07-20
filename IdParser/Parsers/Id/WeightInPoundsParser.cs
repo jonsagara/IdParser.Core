@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 using IdParser.Attributes;
 
 namespace IdParser.Parsers.Id;
@@ -17,7 +18,7 @@ public class WeightInPoundsParser : AbstractParser
             return;
         }
 
-        var weight = Convert.ToInt16(input);
+        var weight = Convert.ToInt16(input, CultureInfo.InvariantCulture);
 
         if (IdCard.Weight is null)
         {
@@ -38,7 +39,7 @@ public class WeightInPoundsParser : AbstractParser
 
         if (match.Success)
         {
-            var weight = Convert.ToInt16(match.Groups["Weight"].Value);
+            var weight = Convert.ToInt16(match.Groups["Weight"].Value, CultureInfo.InvariantCulture);
 
             if (IdCard.Weight is null)
             {

@@ -16,6 +16,8 @@ public class NameParser : AbstractParser
 
     public override void ParseAndSet(string input)
     {
+        ArgumentNullException.ThrowIfNull(input);
+
         // According to A.2.1 (AAMVA Person Name Rule) in the D20 Data Dictionary,
         // last names can only contain alphabetic characters and up to one embedded hyphen.
         // First names can only contain alphabetic characters. All other characters, such as spaces,

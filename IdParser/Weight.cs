@@ -26,6 +26,11 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
 
     public Weight(WeightRange? weightRange, double? kilograms, bool isMetric)
     {
+        if (weightRange is null && kilograms is null)
+        {
+            throw new ArgumentException($"{nameof(weightRange)} and {nameof(kilograms)} cannot both be null.");
+        }
+
         WeightRange = weightRange;
         Kilograms = kilograms;
         IsMetric = isMetric;
@@ -66,8 +71,6 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
             {
                 return WeightRange.Value.GetDescription();
             }
-
-            throw new ArgumentNullException($"{nameof(Kilograms)} cannot be null.");
         }
 
         if (IsMetric)
@@ -75,19 +78,21 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
             return $"{Kilograms} kg";
         }
 
-        return $"{KilogramsToPounds(kilograms: Kilograms.Value)} lbs";
+        return $"{KilogramsToPounds(kilograms: Kilograms!.Value)} lbs";
     }
 
     #region IComparable
 
-    public int CompareTo(Weight other)
+    public int CompareTo(Weight? other)
     {
-        if (Kilograms.HasValue)
+        ArgumentNullException.ThrowIfNull(other);
+
+        if (Kilograms is not null)
         {
             return Kilograms.Value.CompareTo(other.Kilograms);
         }
 
-        if (WeightRange.HasValue)
+        if (WeightRange is not null)
         {
             return WeightRange.Value.CompareTo(other.WeightRange);
         }
@@ -111,7 +116,9 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
             return true;
         }
 
-        return WeightRange == other.WeightRange && Kilograms.Equals(other.Kilograms) && IsMetric == other.IsMetric;
+        return WeightRange == other.WeightRange 
+            && Kilograms.Equals(other.Kilograms) 
+            && IsMetric == other.IsMetric;
     }
 
     public override bool Equals(object? obj)

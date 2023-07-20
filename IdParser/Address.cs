@@ -12,10 +12,15 @@ public class Address
     public string? PostalCode { get; set; }
     public Country Country { get; set; }
 
-    public string PostalCodeDisplay
+    public string? PostalCodeDisplay
     {
         get
         {
+            if (PostalCode is null)
+            {
+                return null;
+            }
+
             if (Country == Country.Usa && PostalCode.Length > 5)
             {
                 return $"{PostalCode.Substring(0, 5)}-{PostalCode.Substring(5)}";

@@ -61,7 +61,9 @@ public abstract class AbstractParser
 
     protected static bool? ParseBool(string input)
     {
-        switch (input.ToUpper())
+        ArgumentNullException.ThrowIfNull(input);
+
+        switch (input.ToUpperInvariant())
         {
             case "T":
                 return true;

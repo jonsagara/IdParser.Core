@@ -1,4 +1,5 @@
-﻿using IdParser.Attributes;
+﻿using System.Globalization;
+using IdParser.Attributes;
 
 namespace IdParser.Parsers.Id;
 
@@ -11,7 +12,7 @@ public class WeightRangeParser : AbstractParser
 
     public override void ParseAndSet(string input)
     {
-        var weightRange = (WeightRange)Convert.ToByte(input);
+        var weightRange = (WeightRange)Convert.ToByte(input, CultureInfo.InvariantCulture);
 
         if (IdCard.Weight is null)
         {

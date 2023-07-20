@@ -53,8 +53,10 @@ public class Height : IComparable<Height>, IEquatable<Height>
 
     #region IComparable
 
-    public int CompareTo(Height other)
+    public int CompareTo(Height? other)
     {
+        ArgumentNullException.ThrowIfNull(other);
+
         return Centimeters.CompareTo(other.Centimeters);
     }
 

@@ -34,6 +34,8 @@ public static class Barcode
     /// </param>
     public static IdentificationCard Parse(string rawPdf417Input, Validation validationLevel = Validation.Strict)
     {
+        ArgumentNullException.ThrowIfNull(rawPdf417Input);
+
         if (rawPdf417Input.Length < 31)
         {
             throw new ArgumentException($"The input is missing required header elements and is not a valid AAMVA format. Expected at least 31 characters. Received {rawPdf417Input.Length}.", nameof(rawPdf417Input));
@@ -130,7 +132,7 @@ public static class Barcode
 
     private static char ParseComplianceIndicator(string input) => input.Substring(0, 1)[0];
     private static string ParseFileType(string input) => input.Substring(4, 5);
-    private static byte ParseAamvaVersionNumber(string input) => Convert.ToByte(input.Substring(15, 2));
+    private static byte ParseAamvaVersionNumber(string input) => Convert.ToByte(input.Substring(15, 2), CultureInfo.InvariantCulture);
     private static char ParseDataElementSeparator(string input) => input.Substring(1, 1)[0];
     private static char ParseRecordSeparator(string input) => input.Substring(2, 1)[0];
     private static char ParseSegmentTerminator(string input) => input.Substring(3, 1)[0];
