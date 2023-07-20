@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core", "IdParser.Core\IdParser.Core.csproj", "{A5DED2D2-93C9-4F32-BA2B-F5FB749669BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core", "src\IdParser.Core\IdParser.Core.csproj", "{A5DED2D2-93C9-4F32-BA2B-F5FB749669BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Client", "IdParser.Core.Client\IdParser.Core.Client.csproj", "{FA949E77-9931-476C-BF93-DE61F5290CE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Client", "src\IdParser.Core.Client\IdParser.Core.Client.csproj", "{FA949E77-9931-476C-BF93-DE61F5290CE7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Test", "IdParser.Core.Test\IdParser.Core.Test.csproj", "{C4170346-C631-4317-B304-D0B88466CF9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Test", "src\IdParser.Core.Test\IdParser.Core.Test.csproj", "{C4170346-C631-4317-B304-D0B88466CF9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdParser.Core.Benchmarks", "IdParser.Core.Benchmarks\IdParser.Core.Benchmarks.csproj", "{BB53ED55-E366-4674-BDBC-4616B162C1DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdParser.Core.Benchmarks", "src\IdParser.Core.Benchmarks\IdParser.Core.Benchmarks.csproj", "{BB53ED55-E366-4674-BDBC-4616B162C1DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
