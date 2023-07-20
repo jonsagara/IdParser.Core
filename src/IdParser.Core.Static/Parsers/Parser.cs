@@ -13,12 +13,24 @@ internal static class Parser
 
         switch (elementId)
         {
-            case SubfileElementIds.DBG:
+            case SubfileElementIds.AliasFirstName:
                 idCard.Name.AliasFirst = AliasFirstNameParser.Parse(input: data, idCard.AAMVAVersionNumber);
                 break;
 
-            case SubfileElementIds.DBN:
+            case SubfileElementIds.AliasLastName:
                 idCard.Name.AliasLast = AliasLastNameParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.AliasSuffix:
+                idCard.Name.AliasSuffix = AliasSuffixParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.AuditInformation:
+                idCard.AuditInformation = AuditInformationParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.City:
+                idCard.Address.City = CityParser.Parse(input: data);
                 break;
 
             default:

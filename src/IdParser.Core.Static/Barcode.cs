@@ -307,7 +307,7 @@ public static class Barcode
             return Country.Usa;
         }
 
-        if (subfileRecords.TryGetValue(SubfileElementIds.DCG, out string? data))
+        if (subfileRecords.TryGetValue(SubfileElementIds.Country, out string? data))
         {
             if (data == "USA")
             {
