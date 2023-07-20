@@ -1,7 +1,8 @@
-﻿using System.Diagnostics.Metrics;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
+using IdParser.Core.Static.Constants;
 using IdParser.Core.Static.Metadata;
+using IdParser.Core.Static.Parsers;
 
 namespace IdParser.Core.Static;
 
@@ -87,25 +88,25 @@ public static class Barcode
     /// <summary>
     /// Get the <see cref="ExpectedComplianceIndicator"/> from the scanned text.
     /// </summary>
-    private static char ParseComplianceIndicator(string input) 
+    private static char ParseComplianceIndicator(string input)
         => input.Substring(startIndex: 0, length: 1)[0];
 
     /// <summary>
     /// Get the <see cref="ExpectedDataElementSeparator"/> from the scanned text.
     /// </summary>
-    private static char ParseDataElementSeparator(string input) 
+    private static char ParseDataElementSeparator(string input)
         => input.Substring(startIndex: 1, length: 1)[0];
 
     /// <summary>
     /// Get the <see cref="ExpectedRecordSeparator"/> from the scanned text.
     /// </summary>
-    private static char ParseRecordSeparator(string input) 
+    private static char ParseRecordSeparator(string input)
         => input.Substring(startIndex: 2, length: 1)[0];
 
     /// <summary>
     /// Get the <see cref="ExpectedSegmentTerminator"/> from the scanned text.
     /// </summary>
-    private static char ParseSegmentTerminator(string input) 
+    private static char ParseSegmentTerminator(string input)
         => input.Substring(startIndex: 3, length: 1)[0];
 
     /// <summary>
@@ -264,7 +265,7 @@ public static class Barcode
     /// <summary>
     /// Get a list of all the data records (name and value as a single string) that we need to parse.
     /// </summary>
-    private static List<string> GetSubfileRecords(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
+    private static Dictionary<string, string> GetSubfileRecords(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
     {
         var ixSubfile = ParseSubfileOffset(rawPdf417Input, version, idCard);
 
@@ -285,18 +286,20 @@ public static class Barcode
             records[0] = records[0].Substring(startIndex: 2);
         }
 
-        return records;
-        //// First three characters are the element id.
-        //// The remaining characters are the value.
-        //return records
-        //    .ToDictionary(r => r.Substring(startIndex: 0, length: 3), r => r.Substring(startIndex: 3).Trim());
+        // Discard any records with length < 3 because we can't parse them into element Ids.
+        // First three characters are the element id.
+        // The remaining characters are the value.
+#warning Do we need to make this case-sensitive? I'm not sure we do.
+        return records
+            .Where(r => r.Length < 3)
+            .ToDictionary(r => r.Substring(startIndex: 0, length: 3), r => r.Substring(startIndex: 3).Trim());//, StringComparer.OrdinalIgnoreCase);
     }
 
     /// <summary>
     /// Parses the country based on the DCG subfile record.
     /// Gets the country from the IIN if no matching subfile record was found.
     /// </summary>
-    private static Country ParseCountry(IssuerIdentificationNumber iin, AAMVAVersion version, List<string> subfileRecords)
+    private static Country ParseCountry(IssuerIdentificationNumber iin, AAMVAVersion version, Dictionary<string, string> subfileRecords)
     {
         // Country is not a subfile record in the AAMVA 2000 standard.
         if (version == AAMVAVersion.AAMVA2000)
@@ -304,23 +307,16 @@ public static class Barcode
             return Country.Usa;
         }
 
-        foreach (var subfileRecord in subfileRecords)
+        if (subfileRecords.TryGetValue(SubfileElementIds.DCG, out string? data))
         {
-#warning We should pre-parse and store as a Dictionary<string, string> that gets passed around instead of looping through every time.
-            var elementId = subfileRecord.Substring(0, 3);
-            var data = subfileRecord.Substring(3).Trim();
-
-            if (elementId == "DCG")
+            if (data == "USA")
             {
-                if (data == "USA")
-                {
-                    return Country.Usa;
-                }
+                return Country.Usa;
+            }
 
-                if (data == "CAN" || data == "CDN")
-                {
-                    return Country.Canada;
-                }
+            if (data == "CAN" || data == "CDN")
+            {
+                return Country.Canada;
             }
         }
 
@@ -332,18 +328,11 @@ public static class Barcode
         throw new ArgumentException($"Unable to look up Country for {nameof(IssuerIdentificationNumber)} enum value {iin} because it is missing a record in {nameof(IssuerMetadataHelper)}.", nameof(iin));
     }
 
-    private static void PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country? country, List<string> subfileRecords, Validation validationLevel)
+    private static void PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string> subfileRecords, Validation validationLevel)
     {
-        foreach (var subfileRecord in subfileRecords)
+        foreach (var elementId in subfileRecords.Keys)
         {
-            if (subfileRecord.Length < 3)
-            {
-                continue;
-            }
-
-#warning We should pre-parse and store as a Dictionary<string, string> that gets passed around instead of looping through every time.
-            var elementId = subfileRecord.Substring(0, 3);
-            var data = subfileRecord.Substring(3).Trim();
+            var data = subfileRecords[elementId];
 
             if (elementId.StartsWith("Z", StringComparison.Ordinal) && !idCard.AdditionalJurisdictionElements.ContainsKey(elementId))
             {
@@ -351,35 +340,20 @@ public static class Barcode
                 continue;
             }
 
-            var parser = CreateParserInstance(elementId, version, country, idCard);
-
-            if (validationLevel == Validation.None)
+            try
             {
-                try
-                {
-                    parser?.ParseAndSet(data);
-                }
-                catch (Exception)
-                {
-#warning TODO: we shouldn't swallow this exception.
-                }
-
-                continue;
+                Parser.ParseAndSet(elementId: elementId, data: data, country, idCard);
             }
+            catch (Exception ex)
+            {
+#warning TODO: how to log exceptions without taking a dependency on Microsoft.Extensions.Logging?
+                Console.WriteLine($"Unhandled exception while trying to parse element Id {elementId}: {ex}");
 
-            parser?.ParseAndSet(data);
+                if (validationLevel == Validation.Strict)
+                {
+                    throw;
+                }
+            }
         }
-    }
-
-    private static AbstractParser? CreateParserInstance(string elementId, AAMVAVersion version, Country? country, IdentificationCard idCard)
-    {
-        if (!Parsers.Value.TryGetValue(elementId, out var type))
-        {
-            return null;
-        }
-
-        var instance = Activator.CreateInstance(type, idCard, version, country) as AbstractParser;
-
-        return instance;
     }
 }
