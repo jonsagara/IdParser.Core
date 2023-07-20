@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace IdParser.Parsers;
 
@@ -21,12 +20,16 @@ public abstract class AbstractParser
 
     protected static bool DateHasNoValue(string input)
     {
-        return string.IsNullOrEmpty(input) || input == "00000000";
+        return string.IsNullOrEmpty(input)
+            || input == "00000000";
     }
 
     protected static bool StringHasNoValue(string input)
     {
-        return string.IsNullOrEmpty(input) || input == "NONE" || input == "unavl" || input == "unavail";
+        return string.IsNullOrEmpty(input)
+            || input == "NONE"
+            || input == "unavl"
+            || input == "unavail";
     }
 
     protected DateTime ParseDate(string input)
@@ -38,7 +41,7 @@ public abstract class AbstractParser
         // Some jurisdictions, like New Hampshire (version 2013), don't follow the standard and have trailing
         // characters (like 'M') after the date in the same record. In an attempt to parse the date successfully,
         // only try parsing the positions we know should contain a date.
-        if (input != null && input.Length > usaFormat.Length)
+        if (input is not null && input.Length > usaFormat.Length)
         {
             input = input.Substring(0, usaFormat.Length);
         }

@@ -6,7 +6,8 @@ namespace IdParser.Parsers.Id;
 [Parser("DAH")]
 public class StreetLine2Parser : AbstractParser
 {
-    public StreetLine2Parser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public StreetLine2Parser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

@@ -5,7 +5,8 @@ namespace IdParser.Parsers.License;
 [Parser("DDC")]
 public class HazmatEndorsementExpirationDateParser : AbstractParser
 {
-    public HazmatEndorsementExpirationDateParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public HazmatEndorsementExpirationDateParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

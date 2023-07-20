@@ -1,12 +1,12 @@
-﻿using System;
-using IdParser.Attributes;
+﻿using IdParser.Attributes;
 
 namespace IdParser.Parsers.Id;
 
 [Parser("DDK")]
 public class IsOrganDonorParser : AbstractParser
 {
-    public IsOrganDonorParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public IsOrganDonorParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

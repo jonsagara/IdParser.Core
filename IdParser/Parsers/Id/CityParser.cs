@@ -5,7 +5,8 @@ namespace IdParser.Parsers.Id;
 [Parser("DAI")]
 public class CityParser : AbstractParser
 {
-    public CityParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public CityParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

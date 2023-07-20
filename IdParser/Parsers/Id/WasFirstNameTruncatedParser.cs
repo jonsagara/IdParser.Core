@@ -5,7 +5,8 @@ namespace IdParser.Parsers.Id;
 [Parser("DDF")]
 public class WasFirstNameTruncatedParser : AbstractParser
 {
-    public WasFirstNameTruncatedParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public WasFirstNameTruncatedParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

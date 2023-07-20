@@ -10,7 +10,8 @@ public class NameParser : AbstractParser
     private const char SpaceSeparator = ' ';
 
     // AAMVA 2000
-    public NameParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public NameParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

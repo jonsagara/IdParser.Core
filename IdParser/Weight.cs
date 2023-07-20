@@ -116,8 +116,8 @@ public class Weight : IComparable<Weight>, IEquatable<Weight>
             return true;
         }
 
-        return WeightRange == other.WeightRange 
-            && Kilograms.Equals(other.Kilograms) 
+        return WeightRange == other.WeightRange
+            && Kilograms.Equals(other.Kilograms)
             && IsMetric == other.IsMetric;
     }
 

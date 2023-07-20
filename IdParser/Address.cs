@@ -35,7 +35,7 @@ public class Address
         }
     }
 
-    public override string ToString() 
+    public override string ToString()
         => StreetLine2 is null
         ? $"{StreetLine1}{Environment.NewLine}{City}, {JurisdictionCode} {PostalCodeDisplay}"
         : $"{StreetLine1}{Environment.NewLine}{StreetLine2}{Environment.NewLine}{City}, {JurisdictionCode} {PostalCodeDisplay}";

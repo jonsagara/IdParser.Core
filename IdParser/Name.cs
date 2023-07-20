@@ -23,12 +23,12 @@ public class Name
     {
         var fullName = "";
 
-        if (First != null)
+        if (First is not null)
         {
             fullName += First;
         }
 
-        if (Middle != null)
+        if (Middle is not null)
         {
             if (fullName.Length > 0)
             {
@@ -38,7 +38,7 @@ public class Name
             fullName += Middle;
         }
 
-        if (Last != null)
+        if (Last is not null)
         {
             if (fullName.Length > 0)
             {
@@ -48,7 +48,7 @@ public class Name
             fullName += Last;
         }
 
-        if (Suffix != null)
+        if (Suffix is not null)
         {
             if (fullName.Length > 0)
             {

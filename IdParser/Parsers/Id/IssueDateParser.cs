@@ -5,7 +5,8 @@ namespace IdParser.Parsers.Id;
 [Parser("DBD")]
 public class IssueDateParser : AbstractParser
 {
-    public IssueDateParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public IssueDateParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

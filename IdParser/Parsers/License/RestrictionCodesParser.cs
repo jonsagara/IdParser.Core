@@ -5,7 +5,8 @@ namespace IdParser.Parsers.License;
 [Parser("DCB")]
 public class RestrictionCodesParser : AbstractParser
 {
-    public RestrictionCodesParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public RestrictionCodesParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 
@@ -23,7 +24,8 @@ public class RestrictionCodesParser : AbstractParser
 [Parser("DAS")]
 public class RestrictionCodesLegacyParser : AbstractParser
 {
-    public RestrictionCodesLegacyParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public RestrictionCodesLegacyParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

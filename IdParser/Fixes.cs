@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace IdParser;
+﻿namespace IdParser;
 
 internal static class Fixes
 {

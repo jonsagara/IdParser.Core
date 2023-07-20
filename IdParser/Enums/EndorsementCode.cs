@@ -1,5 +1,4 @@
-﻿using System;
-using IdParser.Attributes;
+﻿using IdParser.Attributes;
 
 // ReSharper disable once CheckNamespace
 namespace IdParser;

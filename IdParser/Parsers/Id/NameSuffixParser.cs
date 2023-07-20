@@ -5,7 +5,8 @@ namespace IdParser.Parsers.Id;
 [Parser("DCU")]
 public class NameSuffixParser : AbstractParser
 {
-    public NameSuffixParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public NameSuffixParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

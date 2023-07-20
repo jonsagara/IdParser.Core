@@ -5,7 +5,8 @@ namespace IdParser.Parsers.License;
 [Parser("DCP")]
 public class VehicleClassificationDescriptionParser : AbstractParser
 {
-    public VehicleClassificationDescriptionParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public VehicleClassificationDescriptionParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

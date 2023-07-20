@@ -5,7 +5,8 @@ namespace IdParser.Parsers.Id;
 [Parser("DCF")]
 public class DocumentDiscriminatorParser : AbstractParser
 {
-    public DocumentDiscriminatorParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public DocumentDiscriminatorParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

@@ -5,7 +5,8 @@ namespace IdParser.Parsers.Id;
 [Parser("DBB")]
 public class DateOfBirthParser : AbstractParser
 {
-    public DateOfBirthParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public DateOfBirthParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

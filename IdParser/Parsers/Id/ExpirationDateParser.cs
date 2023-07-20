@@ -5,7 +5,8 @@ namespace IdParser.Parsers.Id;
 [Parser("DBA")]
 public class ExpirationDateParser : AbstractParser
 {
-    public ExpirationDateParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public ExpirationDateParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

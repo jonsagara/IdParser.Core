@@ -1,12 +1,12 @@
-﻿using System;
-using IdParser.Attributes;
+﻿using IdParser.Attributes;
 
 namespace IdParser.Parsers.Id;
 
 [Parser("DBC")]
 public class SexParser : AbstractParser
 {
-    public SexParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public SexParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

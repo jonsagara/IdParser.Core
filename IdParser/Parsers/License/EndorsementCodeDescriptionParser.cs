@@ -5,7 +5,8 @@ namespace IdParser.Parsers.License;
 [Parser("DCQ")]
 public class EndorsementCodeDescriptionParser : AbstractParser
 {
-    public EndorsementCodeDescriptionParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public EndorsementCodeDescriptionParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

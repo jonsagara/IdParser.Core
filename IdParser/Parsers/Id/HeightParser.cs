@@ -6,7 +6,8 @@ namespace IdParser.Parsers.Id;
 [Parser("DAU")]
 public class HeightParser : AbstractParser
 {
-    public HeightParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public HeightParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 

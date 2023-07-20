@@ -47,8 +47,8 @@ public static class Extensions
 
         if (typeof(TValue) == typeof(string))
         {
-            return enumValueAttribute is null 
-                ? (TValue)(object)enumValue.ToString() 
+            return enumValueAttribute is null
+                ? (TValue)(object)enumValue.ToString()
                 : valueGetter(enumValueAttribute);
         }
 
@@ -66,8 +66,8 @@ public static class Extensions
     }
 
     internal static string? ReplaceEmptyWithNull(this string data)
-        => string.IsNullOrEmpty(data) 
-        ? null 
+        => string.IsNullOrEmpty(data)
+        ? null
         : data;
 
     internal static string ConvertToHex(this string value)

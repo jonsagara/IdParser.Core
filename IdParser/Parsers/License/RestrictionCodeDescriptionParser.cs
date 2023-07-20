@@ -5,7 +5,8 @@ namespace IdParser.Parsers.License;
 [Parser("DCR")]
 public class RestrictionCodeDescriptionParser : AbstractParser
 {
-    public RestrictionCodeDescriptionParser(IdentificationCard idCard, Version version, Country country) : base(idCard, version, country)
+    public RestrictionCodeDescriptionParser(IdentificationCard idCard, Version version, Country country)
+        : base(idCard, version, country)
     {
     }
 
