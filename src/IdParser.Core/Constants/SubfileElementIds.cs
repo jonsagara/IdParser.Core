@@ -401,7 +401,7 @@ internal static class SubfileElementIds
     /// Physical Description – Weight Range
     /// </summary>
     /// <remarks>
-    /// <para>Indicates the approximate weight range of the cardholder. See <see cref="Static.WeightRange"/> for descriptions.</para>
+    /// <para>Indicates the approximate weight range of the cardholder. See <see cref="Core.WeightRange"/> for descriptions.</para>
     /// <para>F1N</para>
     /// </remarks>
     internal const string WeightRange = "DCE";
