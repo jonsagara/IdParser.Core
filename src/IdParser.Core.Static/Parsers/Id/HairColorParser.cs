@@ -1,93 +1,97 @@
-﻿namespace IdParser.Core.Static.Parsers.Id;
+﻿using IdParser.Core.Static.Metadata;
+
+namespace IdParser.Core.Static.Parsers.Id;
 
 //[Parser("DAZ")]
 internal static class HairColorParser
 {
-    internal static string? Parse(string input)
+    internal static HairColor? Parse(string input)
     {
         if (string.IsNullOrEmpty(input) || input.EqualsIgnoreCase("UNK"))
         {
-            return;
+            return null;
         }
 
-        if (input.EqualsIgnoreCase(HairColor.Bald.GetAbbreviation()))
+        if (input.EqualsIgnoreCase(HairColor.Bald.GetAbbreviationOrDefault()))
         {
-            IdCard.HairColor = HairColor.Bald;
+            return HairColor.Bald;
         }
-        else if (input.EqualsIgnoreCase(HairColor.Black.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(HairColor.Black.GetAbbreviationOrDefault()))
         {
-            IdCard.HairColor = HairColor.Black;
+            return HairColor.Black;
         }
-        else if (input.EqualsIgnoreCase(HairColor.Blond.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(HairColor.Blond.GetAbbreviationOrDefault()))
         {
-            IdCard.HairColor = HairColor.Blond;
+            return HairColor.Blond;
         }
-        else if (input.EqualsIgnoreCase(HairColor.Brown.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(HairColor.Brown.GetAbbreviationOrDefault()))
         {
-            IdCard.HairColor = HairColor.Brown;
+            return HairColor.Brown;
         }
         // California doesn't follow the abbreviation scheme for brown
         else if (input.EqualsIgnoreCase("BRN"))
         {
-            IdCard.HairColor = HairColor.Brown;
+            return HairColor.Brown;
         }
         // Arizona doesn't follow the abbreviation scheme for brown
         else if (input.EqualsIgnoreCase("BR"))
         {
-            IdCard.HairColor = HairColor.Brown;
+            return HairColor.Brown;
         }
         // West Virginia doesn't follow the abbreviation scheme for brown
         else if (input.EqualsIgnoreCase("BN"))
         {
-            IdCard.EyeColor = EyeColor.Brown;
+            return HairColor.Brown;
         }
-        else if (input.EqualsIgnoreCase(HairColor.Gray.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(HairColor.Gray.GetAbbreviationOrDefault()))
         {
-            IdCard.HairColor = HairColor.Gray;
+            return HairColor.Gray;
         }
-        else if (input.EqualsIgnoreCase(HairColor.RedAuburn.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(HairColor.RedAuburn.GetAbbreviationOrDefault()))
         {
-            IdCard.HairColor = HairColor.RedAuburn;
+            return HairColor.RedAuburn;
         }
-        else if (input.EqualsIgnoreCase(HairColor.Sandy.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(HairColor.Sandy.GetAbbreviationOrDefault()))
         {
-            IdCard.HairColor = HairColor.Sandy;
+            return HairColor.Sandy;
         }
-        else if (input.EqualsIgnoreCase(HairColor.White.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(HairColor.White.GetAbbreviationOrDefault()))
         {
-            IdCard.HairColor = HairColor.White;
+            return HairColor.White;
         }
         else if (input.EqualsIgnoreCase(HairColor.Bald.ToString()))
         {
-            IdCard.HairColor = HairColor.Bald;
+            return HairColor.Bald;
         }
         else if (input.EqualsIgnoreCase(HairColor.Black.ToString()))
         {
-            IdCard.HairColor = HairColor.Black;
+            return HairColor.Black;
         }
         else if (input.EqualsIgnoreCase(HairColor.Blond.ToString()))
         {
-            IdCard.HairColor = HairColor.Blond;
+            return HairColor.Blond;
         }
         else if (input.EqualsIgnoreCase(HairColor.Brown.ToString()))
         {
-            IdCard.HairColor = HairColor.Brown;
+            return HairColor.Brown;
         }
         else if (input.EqualsIgnoreCase(HairColor.Gray.ToString()))
         {
-            IdCard.HairColor = HairColor.Gray;
+            return HairColor.Gray;
         }
         else if (input.EqualsIgnoreCase(HairColor.RedAuburn.ToString()))
         {
-            IdCard.HairColor = HairColor.RedAuburn;
+            return HairColor.RedAuburn;
         }
         else if (input.EqualsIgnoreCase(HairColor.Sandy.ToString()))
         {
-            IdCard.HairColor = HairColor.Sandy;
+            return HairColor.Sandy;
         }
         else if (input.EqualsIgnoreCase(HairColor.White.ToString()))
         {
-            IdCard.HairColor = HairColor.White;
+            return HairColor.White;
         }
+
+        throw new ArgumentOutOfRangeException(nameof(input), $"Hair color '{input}' not supported by enum {nameof(HairColor)}.");
     }
 }

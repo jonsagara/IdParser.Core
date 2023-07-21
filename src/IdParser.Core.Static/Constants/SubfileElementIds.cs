@@ -126,4 +126,60 @@ internal static class SubfileElementIds
     /// <para>V40ANS</para>
     /// </remarks>
     internal const string FirstName = "DAC";
+
+    /// <summary>
+    /// Not in the 2020 spec. Comment said AAMVA 2003-2005.
+    /// </summary>
+    internal const string GivenName = "DCT";
+
+    /// <summary>
+    /// Hair color
+    /// </summary>
+    /// <remarks>
+    /// <para>Bald, black, blonde, brown, gray, red/auburn, sandy, white, unknown. If the issuing jurisdiction wishes to 
+    /// abbreviate colors, the three-character codes provided in AAMVA D20 must be used.</para>
+    /// <para>V12A</para>
+    /// </remarks>
+    internal const string HairColor = "DAZ";
+
+    /// <summary>
+    /// Limited Duration Document Indicator
+    /// </summary>
+    /// <remarks>
+    /// <para>DHS required field that indicates that the cardholder has temporary lawful status = &quot;1&quot;.</para>
+    /// <para>F1N</para>
+    /// </remarks>
+    internal const string HasTemporaryLawfulStatus = "DDD";
+
+    /// <summary>
+    /// Physical Description – Height
+    /// </summary>
+    /// <remarks>
+    /// <para>Height of cardholder.</para>
+    /// <para>Inches(in) : number of inches followed by &quot; in&quot;</para>
+    /// <para>ex. 6'1&quot; = &quot;073 in&quot;</para>
+    /// <para>Centimeters(cm) : number of centimeters followed by &quot; cm&quot;</para>
+    /// <para>ex. 181 centimeters=&quot;181 cm&quot;</para>
+    /// <para>F6ANS</para>
+    /// </remarks>
+    internal const string Height = "DAU";
+
+    /// <summary>
+    /// Customer ID Number
+    /// </summary>
+    /// <remarks>
+    /// <para>The number assigned or calculated by the issuing authority.</para>
+    /// <para>V25ANS</para>
+    /// </remarks>
+    internal const string IdNumber = "DAQ";
+
+    /// <summary>
+    /// Inventory control number
+    /// </summary>
+    /// <remarks>
+    /// <para>A string of letters and/or numbers that is affixed to the raw materials (card stock, laminate, etc.) used in 
+    /// producing driver licenses and ID cards. (DHS recommended field)</para>
+    /// <para>V25ANS</para>
+    /// </remarks>
+    internal const string InventoryControlNumber = "DCK";
 }

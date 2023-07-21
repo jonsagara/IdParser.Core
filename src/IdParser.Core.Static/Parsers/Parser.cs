@@ -63,6 +63,32 @@ internal static class Parser
                 idCard.Name.Middle = firstNameParts?.Middle;
                 break;
 
+            case SubfileElementIds.GivenName:
+                var givenNameParts = GivenNameParser.Parse(input: data);
+                idCard.Name.First = givenNameParts.First;
+                idCard.Name.Middle = givenNameParts.Middle;
+                break;
+
+            case SubfileElementIds.HairColor:
+                idCard.HairColor = HairColorParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.HasTemporaryLawfulStatus:
+                idCard.HasTemporaryLawfulStatus = HasTemporaryLawfulStatusParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.Height:
+                idCard.Height = HeightParser.Parse(input: data, idCard.AAMVAVersionNumber);
+                break;
+
+            case SubfileElementIds.IdNumber:
+                idCard.IdNumber = IdNumberParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.InventoryControlNumber:
+                idCard.InventoryControlNumber = InventoryControlNumberParser.Parse(input: data);
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException(nameof(elementId), elementId, $"Unsupported elementId '{elementId}'.");
         }

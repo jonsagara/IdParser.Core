@@ -99,6 +99,6 @@ internal static class EyeColorParser
             return EyeColor.Pink;
         }
 
-        return null;
+        throw new ArgumentOutOfRangeException(nameof(input), $"Eye color '{input}' not supported by enum {nameof(EyeColor)}.");
     }
 }

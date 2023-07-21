@@ -1,6 +1,6 @@
 ﻿namespace IdParser.Core.Static.Parsers.Id;
 
-public record FirstNameParts(string? First, string? Middle);
+internal record FirstNameParts(string? First, string? Middle);
 
 internal static class FirstNameParser
 {
