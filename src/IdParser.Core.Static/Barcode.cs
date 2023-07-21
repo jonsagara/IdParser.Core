@@ -290,7 +290,7 @@ public static class Barcode
         // First three characters are the element id.
         // The remaining characters are the value.
         return records
-            .Where(r => r.Length < 3)
+            .Where(r => r.Length >= 3)
             .ToDictionary(r => r.Substring(startIndex: 0, length: 3), r => r.Substring(startIndex: 3).Trim());
     }
 
