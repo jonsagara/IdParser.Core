@@ -198,17 +198,7 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.WeightRange:
-                // Alberta is special: they put the weight in KG in the Pounds field, -AND- they
-                //   specify a weight range after the weight field. We need to handle that here.
-                var weightRange = WeightRangeParser.Parse(input: data);
-                if (idCard.Weight is not null)
-                {
-                    idCard.Weight.WeightRange = weightRange.WeightRange;
-                }
-                else
-                {
-                    idCard.Weight = weightRange;
-                }
+                idCard.WeightRange = WeightRangeParser.Parse(input: data);
                 break;
 
             default:

@@ -1,19 +1,10 @@
-﻿using Xunit;
+﻿using IdParser.Core.Static.Metadata;
+using Xunit;
 
 namespace IdParser.Core.Static.Test;
 
 public class WeightTests
 {
-    [Fact]
-    public void EqualityFromRangeTest()
-    {
-        var left = new Weight(WeightRange.Lbs131To160);
-        var right = new Weight(WeightRange.Lbs131To160);
-
-        Assert.Equal(left, right);
-        Assert.NotSame(left, right);
-    }
-
     [Fact]
     public void EqualityFromPoundsTest()
     {
@@ -47,8 +38,8 @@ public class WeightTests
     [Fact]
     public void RangeDisplayTest()
     {
-        var weight = new Weight(WeightRange.Lbs161To190);
-        var actual = weight.ToString();
+        var weightRange = WeightRange.Lbs161To190;
+        var actual = weightRange.GetDescriptionOrDefault();
 
         Assert.Equal("161-190 lbs (71-86 kg)", actual);
     }

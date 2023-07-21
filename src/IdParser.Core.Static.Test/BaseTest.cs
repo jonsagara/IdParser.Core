@@ -36,6 +36,7 @@ public class BaseTest
         Assert.Equal(expected.Sex, actual.Sex);
         Assert.Equal(expected.Height, actual.Height);
         Assert.Equal(expected.Weight, actual.Weight);
+        Assert.Equal(expected.WeightRange, actual.WeightRange);
 
         Assert.Equal(expected.EyeColor, actual.EyeColor);
         Assert.Equal(expected.HairColor, actual.HairColor);

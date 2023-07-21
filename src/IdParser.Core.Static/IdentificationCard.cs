@@ -25,6 +25,7 @@ public class IdentificationCard
     public Ethnicity? Ethnicity { get; set; }
     public Height? Height { get; set; }
     public Weight Weight { get; set; } = null!;
+    public WeightRange? WeightRange { get; set; }
 
     public string? DocumentDiscriminator { get; set; }
 

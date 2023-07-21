@@ -9,15 +9,8 @@ public record Weight
 {
     private const double PoundsPerKilogram = 2.20462262;
 
-    public WeightRange? WeightRange { get; internal set; }
     public double? Kilograms { get; private set; }
     public bool IsMetric { get; private set; }
-
-    public Weight(WeightRange weightRange)
-    {
-        WeightRange = weightRange;
-        IsMetric = false;
-    }
 
     public Weight(double kilograms)
     {
@@ -31,6 +24,10 @@ public record Weight
         IsMetric = false;
     }
 
+
+    //
+    // Private methods
+    //
 
     private static double PoundsToKilograms(int pounds)
          => pounds / PoundsPerKilogram;

@@ -293,7 +293,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1957, 07, 01),
             Sex = Sex.Female,
             Height = new Height(inches: 64),
-            Weight = new Weight(WeightRange.Lbs101To130),
+            WeightRange = WeightRange.Lbs101To130,
             EyeColor = EyeColor.Blue,
 
             IdNumber = "100000001",
@@ -1137,9 +1137,6 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestOHLicense()
     {
-        var weight = new Weight(pounds: 140);
-        weight.WeightRange = WeightRange.Lbs131To160;
-
         var expected = new DriversLicense
         {
             Name = new Name
@@ -1168,7 +1165,8 @@ public class DriversLicenseTests : BaseTest
             EyeColor = EyeColor.Brown,
             HairColor = HairColor.Brown,
             Height = new Height(inches: 60),
-            Weight = weight,
+            Weight = new Weight(pounds: 140),
+            WeightRange = WeightRange.Lbs131To160,
 
             IdNumber = "PJ842270",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2013,
@@ -2062,7 +2060,7 @@ public class DriversLicenseTests : BaseTest
             EyeColor = EyeColor.Blue,
             HairColor = HairColor.Brown,
             Height = new Height(inches: 70),
-            Weight = new Weight(WeightRange.Lbs191To220),
+            WeightRange = WeightRange.Lbs191To220,
 
             IdNumber = "5677922",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2009,
@@ -2218,7 +2216,7 @@ public class DriversLicenseTests : BaseTest
             Sex = Sex.Female,
             EyeColor = EyeColor.Brown,
             Height = new Height(inches: 61),
-            Weight = new Weight(WeightRange.Lbs131To160),
+            WeightRange = WeightRange.Lbs131To160,
 
             IdNumber = "TESTEDM504K9",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2005,
@@ -2262,7 +2260,7 @@ public class DriversLicenseTests : BaseTest
             Sex = Sex.Female,
             EyeColor = EyeColor.Hazel,
             Height = new Height(inches: 67),
-            Weight = new Weight(WeightRange.Lbs131To160),
+            WeightRange = WeightRange.Lbs131To160,
 
             IdNumber = "0504928899117",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2005,
@@ -2732,7 +2730,7 @@ public class DriversLicenseTests : BaseTest
             EyeColor = EyeColor.Blue,
             HairColor = HairColor.Brown,
             Height = new Height(inches: 68),
-            Weight = new Weight(WeightRange.Lbs191To220),
+            WeightRange = WeightRange.Lbs191To220,
 
             IdNumber = "0003456789",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2005,
@@ -2924,6 +2922,8 @@ public class DriversLicenseTests : BaseTest
             HairColor = HairColor.Brown,
             Height = new Height(centimeters: 155),
             Weight = new Weight(kilograms: 50),
+            // Alberta specifies the weight range following the weight in kilograms
+            WeightRange = WeightRange.Lbs101To130,
 
             IdNumber = "123400-056",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2005,
@@ -2936,9 +2936,6 @@ public class DriversLicenseTests : BaseTest
                 EndorsementCodes = "A"
             }
         };
-
-        // Alberta specifies the weight range following the weight in kilograms
-        expected.Weight.WeightRange = WeightRange.Lbs101To130;
 
         var file = License("AB");
         var idCard = Barcode.Parse(file, Validation.None);
