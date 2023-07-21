@@ -235,6 +235,30 @@ internal static class Parser
                 driversLicense.Jurisdiction.RestrictionCodes = RestrictionCodesLegacyParser.Parse(input: data);
                 break;
 
+            case SubfileElementIds.StandardEndorsementCode:
+                driversLicense.StandardEndorsementCode = StandardEndorsementCodeParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.StandardRestrictionCode:
+                driversLicense.StandardRestrictionCode = StandardRestrictionCodeParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.StandardVehicleClassification:
+                driversLicense.StandardVehicleClassification = StandardVehicleClassificationParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.VehicleClassificationDescription:
+                driversLicense.Jurisdiction.VehicleClassificationDescription = VehicleClassificationDescriptionParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.VehicleClass:
+                driversLicense.Jurisdiction.VehicleClass = VehicleClassParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.VehicleClassLegacy:
+                driversLicense.Jurisdiction.VehicleClass = VehicleClassLegacyParser.Parse(input: data);
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException(nameof(elementId), elementId, $"Unsupported elementId '{elementId}'.");
         }

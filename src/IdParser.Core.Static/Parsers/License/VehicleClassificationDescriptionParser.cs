@@ -1,15 +1,14 @@
 ﻿namespace IdParser.Core.Static.Parsers.License;
 
-//[Parser("DCP")]
 internal static class VehicleClassificationDescriptionParser
 {
     internal static string? Parse(string input)
     {
-        if (StringHasNoValue(input))
+        if (ParserHelper.StringHasNoValue(input))
         {
-            return;
+            return null;
         }
 
-        License.Jurisdiction.VehicleClassificationDescription = input;
+        return input;
     }
 }

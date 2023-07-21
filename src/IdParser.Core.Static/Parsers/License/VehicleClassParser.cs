@@ -1,29 +1,27 @@
 ﻿namespace IdParser.Core.Static.Parsers.License;
 
-//[Parser("DCA")]
 internal static class VehicleClassParser
 {
     internal static string? Parse(string input)
     {
-        if (StringHasNoValue(input))
+        if (ParserHelper.StringHasNoValue(input))
         {
-            return;
+            return null;
         }
 
-        License.Jurisdiction.VehicleClass = input;
+        return input;
     }
 }
 
-//[Parser("DAR")]
 internal static class VehicleClassLegacyParser
 {
     internal static string? Parse(string input)
     {
-        if (StringHasNoValue(input))
+        if (ParserHelper.StringHasNoValue(input))
         {
-            return;
+            return null;
         }
 
-        License.Jurisdiction.VehicleClass = input;
+        return input;
     }
 }

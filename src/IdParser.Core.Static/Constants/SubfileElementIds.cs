@@ -1,4 +1,7 @@
-﻿namespace IdParser.Core.Static.Constants;
+﻿using System.Reflection.Emit;
+using System.Runtime.Intrinsics.X86;
+
+namespace IdParser.Core.Static.Constants;
 
 internal static class SubfileElementIds
 {
@@ -470,4 +473,59 @@ internal static class SubfileElementIds
     /// Jurisdiction-specific restriction codes from pre-2020 spec.
     /// </summary>
     internal const string RestrictionCodesLegacy = "DAS";
+
+    /// <summary>
+    /// Standard endorsement code
+    /// </summary>
+    /// <remarks>
+    /// <para>Standard endorsement code(s) for cardholder. See codes in D20.This data element is a placeholder 
+    /// for future efforts to standardize endorsement codes.</para>
+    /// <para>F5AN</para>
+    /// </remarks>
+    internal const string StandardEndorsementCode = "DCN";
+
+    /// <summary>
+    /// Standard restriction code
+    /// </summary>
+    /// <remarks>
+    /// <para>Standard restriction code(s) for cardholder. See codes in D20.This data element is a placeholder 
+    /// for future efforts to standardize restriction codes.</para>
+    /// <para>F12AN</para>
+    /// </remarks>
+    internal const string StandardRestrictionCode = "DCO";
+
+    /// <summary>
+    /// Standard vehicle classification
+    /// </summary>
+    /// <remarks>
+    /// <para>Standard vehicle classification code(s) for cardholder.This data element is a placeholder for 
+    /// future efforts to standardize vehicle classifications.</para>
+    /// <para>F4AN</para>
+    /// </remarks>
+    internal const string StandardVehicleClassification = "DCM";
+
+    /// <summary>
+    /// Jurisdiction-specific vehicle classification description
+    /// </summary>
+    /// <remarks>
+    /// <para>Text that explains the jurisdiction-specific code(s) for classifications of vehicles cardholder 
+    /// is authorized to drive.</para>
+    /// <para>V50ANS</para>
+    /// </remarks>
+    internal const string VehicleClassificationDescription = "DCP";
+
+    /// <summary>
+    /// Jurisdiction-specific vehicle class
+    /// </summary>
+    /// <remarks>
+    /// <para>Jurisdiction-specific vehicle class / group code, designating the type of vehicle the cardholder 
+    /// has privilege to drive.</para>
+    /// <para>V6ANS</para>
+    /// </remarks>
+    internal const string VehicleClass = "DCA";
+
+    /// <summary>
+    /// Jurisdiction-specific vehicle class from pre-2020 spec.
+    /// </summary>
+    internal const string VehicleClassLegacy = "DAR";
 }
