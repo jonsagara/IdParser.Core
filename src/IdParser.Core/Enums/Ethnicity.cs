@@ -1,26 +1,28 @@
-﻿namespace IdParser.Core;
+﻿using IdParser.Core.Attributes;
+
+namespace IdParser.Core;
 
 public enum Ethnicity
 {
-    //[Abbreviation("AI")]
-    //[Description("Alaskan or American Indian")]
+    [Abbreviation("AI")]
+    [Description("Alaskan or American Indian")]
     AlaskanAmericanIndian,
 
-    //[Abbreviation("AP")]
-    //[Description("Asian or Pacific Islander")]
+    [Abbreviation("AP")]
+    [Description("Asian or Pacific Islander")]
     AsianPacificIslander,
 
-    //[Abbreviation("BK")]
+    [Abbreviation("BK")]
     Black,
 
-    //[Abbreviation("H")]
-    //[Description("Hispanic Origin")]
+    [Abbreviation("H")]
+    [Description("Hispanic Origin")]
     HispanicOrigin,
 
-    //[Abbreviation("O")]
-    //[Description("Non-Hispanic")]
+    [Abbreviation("O")]
+    [Description("Non-Hispanic")]
     NonHispanic,
 
-    //[Abbreviation("W")]
+    [Abbreviation("W")]
     White,
 }

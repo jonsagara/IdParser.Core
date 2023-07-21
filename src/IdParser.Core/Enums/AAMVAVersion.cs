@@ -13,5 +13,5 @@ public enum AAMVAVersion
     AAMVA2013 = 8,
     AAMVA2016 = 9,
     AAMVA2020 = 10,
-    Future = 99
+    Future = 99,
 }

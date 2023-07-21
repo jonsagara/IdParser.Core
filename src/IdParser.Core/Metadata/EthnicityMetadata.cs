@@ -1,24 +1,17 @@
-﻿namespace IdParser.Core.Metadata;
+﻿using IdParser.Core.Attributes;
 
-internal record EthnicityMetadata(string Abbreviation, string? Description);
+namespace IdParser.Core.Metadata;
 
 internal static class EthnicityMetadataHelper
 {
-    private static readonly Dictionary<Ethnicity, EthnicityMetadata> _ethnicityMetadata = new()
-    {
-        { Ethnicity.AlaskanAmericanIndian, new EthnicityMetadata(Abbreviation: "AI", Description: "Alaskan or American Indian") },
-        { Ethnicity.AsianPacificIslander, new EthnicityMetadata(Abbreviation: "AP", Description: "Asian or Pacific Islander") },
-        { Ethnicity.Black, new EthnicityMetadata(Abbreviation: "BK", Description: null) },
-        { Ethnicity.HispanicOrigin, new EthnicityMetadata(Abbreviation: "H", Description: "Hispanic Origin") },
-        { Ethnicity.NonHispanic, new EthnicityMetadata(Abbreviation: "O", Description: "Non-Hispanic") },
-        { Ethnicity.White, new EthnicityMetadata(Abbreviation: "W", Description: null) },
-    };
+    private static readonly Dictionary<Ethnicity, string> _ethnicityAbbreviations = Enum
+        .GetValues<Ethnicity>()
+        .ToDictionary(e => e, e => e.GetAbbreviationFromAbbreviationAttribute());
 
-
+    /// <summary>
+    /// Look up the Ethnicity abbreviation from the enum's Abbreviation attribute. If none found,
+    /// use the enum value as a string.
+    /// </summary>
     internal static string GetAbbreviationOrDefault(this Ethnicity ethnicity)
-    {
-        return _ethnicityMetadata.TryGetValue(ethnicity, out EthnicityMetadata? ethnicityMetadata)
-            ? ethnicityMetadata.Abbreviation
-            : ethnicity.ToString();
-    }
+        => _ethnicityAbbreviations.GetValueOrDefault(ethnicity, ethnicity.ToString());
 }

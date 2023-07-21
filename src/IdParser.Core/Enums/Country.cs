@@ -1,14 +1,16 @@
-﻿namespace IdParser.Core;
+﻿using IdParser.Core.Attributes;
+
+namespace IdParser.Core;
 
 public enum Country
 {
-    //[Description("United States of America")]
-    //[Abbreviation("US")]
+    [Description("United States of America")]
+    [Abbreviation("US")]
     Usa,
 
-    //[Abbreviation("CA")]
+    [Abbreviation("CA")]
     Canada,
 
-    //[Abbreviation("MX")]
-    Mexico
+    [Abbreviation("MX")]
+    Mexico,
 }

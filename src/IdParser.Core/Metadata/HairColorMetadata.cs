@@ -6,7 +6,7 @@ internal static class HairColorMetadata
 {
     private static readonly Dictionary<HairColor, string> _hairColorAbbreviations = Enum
         .GetValues<HairColor>()
-        .ToDictionary(ec => ec, ec => ec.GetAbbreviationFromAbbreviationAttribute());
+        .ToDictionary(hc => hc, hc => hc.GetAbbreviationFromAbbreviationAttribute());
 
     /// <summary>
     /// Look up the HairColor abbreviation from the enum's Abbreviation attribute. If none found,

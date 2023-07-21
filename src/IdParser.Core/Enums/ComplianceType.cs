@@ -1,13 +1,15 @@
-﻿namespace IdParser.Core;
+﻿using IdParser.Core.Attributes;
+
+namespace IdParser.Core;
 
 public enum ComplianceType
 {
-    //[Description("Materially Compliant")]
+    [Description("Materially Compliant")]
     MateriallyCompliant,
 
-    //[Description("Fully Compliant")]
+    [Description("Fully Compliant")]
     FullyCompliant,
 
-    //[Description("Non-Compliant")]
+    [Description("Non-Compliant")]
     NonCompliant,
 }

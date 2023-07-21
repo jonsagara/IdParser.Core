@@ -8,15 +8,15 @@ internal static class IssuerMetadataHelper
 {
     private static readonly Dictionary<IssuerIdentificationNumber, string> _issuerIdentificationNumberAbbreviations = Enum
         .GetValues<IssuerIdentificationNumber>()
-        .ToDictionary(ec => ec, ec => ec.GetAbbreviationFromAbbreviationAttribute());
+        .ToDictionary(iin => iin, ec => ec.GetAbbreviationFromAbbreviationAttribute());
 
     private static readonly Dictionary<IssuerIdentificationNumber, Country> _issuerIdentificationNumberCountries = Enum
         .GetValues<IssuerIdentificationNumber>()
-        .ToDictionary(ec => ec, ec => ec.GetCountryFromCountryAttribute());
+        .ToDictionary(iin => iin, ec => ec.GetCountryFromCountryAttribute());
 
     private static readonly Dictionary<IssuerIdentificationNumber, string> _issuerIdentificationNumberDescriptions = Enum
         .GetValues<IssuerIdentificationNumber>()
-        .ToDictionary(ec => ec, ec => ec.GetDescriptionFromDescriptionAttribute());
+        .ToDictionary(iin => iin, ec => ec.GetDescriptionFromDescriptionAttribute());
 
     /// <summary>
     /// Look up the IssuerIdentificationNumber abbreviation from the enum's Abbreviation attribute. If none found,

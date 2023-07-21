@@ -20,7 +20,7 @@ public enum HairColor
     Gray,
 
     [Abbreviation("RED")]
-    //[Description("Red/Auburn")]
+    [Description("Red/Auburn")]
     RedAuburn,
 
     [Abbreviation("SDY")]
