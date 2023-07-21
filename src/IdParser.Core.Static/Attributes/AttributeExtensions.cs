@@ -25,6 +25,33 @@ internal static class AttributeExtensions
     }
 
     /// <summary>
+    /// If an enum value is decorated with an <see cref="CountryAttribute"/>, get its Country. Otherwise, return
+    /// the enum value as a string.
+    /// </summary>
+    internal static Country GetCountryFromCountryAttribute<TEnum>(this TEnum value)
+        where TEnum : Enum
+    {
+        // Multiple CountryAttributes are not allowed on the same member.
+        var countryAttribute = value
+            .GetType()
+            .GetMember(value.ToString())
+            .First()
+            .GetCustomAttribute<CountryAttribute>();
+
+        if (countryAttribute is null)
+        {
+            // The enum value used to invoke this extension method is missing the specific attribute declaration,
+            //   where the attribute has a property of type Country.
+            // Practically speaking, this means that a IssuerIdentificationNumber enum value is missing a CountryAttribute,
+            //   Country attribute has a single property of type Country, another enum type.
+            throw new InvalidOperationException($"Enum value {value.GetType().FullName}.{value} is missing a {typeof(CountryAttribute).FullName}.");
+        }
+
+        // If we found the attribute, return the country. Otherwise, return the enum value as a string.
+        return countryAttribute.Country;
+    }
+
+    /// <summary>
     /// If an enum value is decorated with a <see cref="DescriptionAttribute"/>, get its Abbreviation. Otherwise, return
     /// the enum value as a string.
     /// </summary>

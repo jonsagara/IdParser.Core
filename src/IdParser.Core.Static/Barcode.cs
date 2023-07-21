@@ -289,10 +289,9 @@ public static class Barcode
         // Discard any records with length < 3 because we can't parse them into element Ids.
         // First three characters are the element id.
         // The remaining characters are the value.
-#warning Do we need to make this case-sensitive? I'm not sure we do.
         return records
             .Where(r => r.Length < 3)
-            .ToDictionary(r => r.Substring(startIndex: 0, length: 3), r => r.Substring(startIndex: 3).Trim());//, StringComparer.OrdinalIgnoreCase);
+            .ToDictionary(r => r.Substring(startIndex: 0, length: 3), r => r.Substring(startIndex: 3).Trim());
     }
 
     /// <summary>
@@ -320,12 +319,7 @@ public static class Barcode
             }
         }
 
-        if (IssuerMetadataHelper.TryGetIssuerCountry(iin, out Country? country))
-        {
-            return country.Value;
-        }
-
-        throw new ArgumentException($"Unable to look up Country for {nameof(IssuerIdentificationNumber)} enum value {iin} because it is missing a record in {nameof(IssuerMetadataHelper)}.", nameof(iin));
+        return IssuerMetadataHelper.GetCountry(iin);
     }
 
     private static void PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string> subfileRecords, Validation validationLevel)

@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Test", "src\I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Benchmarks", "src\IdParser.Core.Benchmarks\IdParser.Core.Benchmarks.csproj", "{BB53ED55-E366-4674-BDBC-4616B162C1DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdParser.Core.Static", "src\IdParser.Core.Static\IdParser.Core.Static.csproj", "{3625E6DF-4815-46DF-A83B-5CF0A6F0BA61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Static", "src\IdParser.Core.Static\IdParser.Core.Static.csproj", "{3625E6DF-4815-46DF-A83B-5CF0A6F0BA61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdParser.Core.Static.Test", "src\IdParser.Core.Static.Test\IdParser.Core.Static.Test.csproj", "{6278F1D3-FDB2-49CF-95A8-40FE786C68FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,14 @@ Global
 		{3625E6DF-4815-46DF-A83B-5CF0A6F0BA61}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3625E6DF-4815-46DF-A83B-5CF0A6F0BA61}.Release|x86.ActiveCfg = Release|Any CPU
 		{3625E6DF-4815-46DF-A83B-5CF0A6F0BA61}.Release|x86.Build.0 = Release|Any CPU
+		{6278F1D3-FDB2-49CF-95A8-40FE786C68FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6278F1D3-FDB2-49CF-95A8-40FE786C68FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6278F1D3-FDB2-49CF-95A8-40FE786C68FE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6278F1D3-FDB2-49CF-95A8-40FE786C68FE}.Debug|x86.Build.0 = Debug|Any CPU
+		{6278F1D3-FDB2-49CF-95A8-40FE786C68FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6278F1D3-FDB2-49CF-95A8-40FE786C68FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6278F1D3-FDB2-49CF-95A8-40FE786C68FE}.Release|x86.ActiveCfg = Release|Any CPU
+		{6278F1D3-FDB2-49CF-95A8-40FE786C68FE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
