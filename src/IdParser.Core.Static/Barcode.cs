@@ -324,6 +324,8 @@ public static class Barcode
 
     private static void PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string> subfileRecords, Validation validationLevel)
     {
+        List<string> unhandledElementIds = new();
+
         foreach (var elementId in subfileRecords.Keys)
         {
             var data = subfileRecords[elementId];
@@ -336,11 +338,16 @@ public static class Barcode
 
             try
             {
-                Parser.ParseAndSetIdElements(elementId: elementId, data: data, country, idCard);
+                var handled = Parser.ParseAndSetIdElements(elementId: elementId, data: data, country, version, idCard);
 
-                if (idCard is DriversLicense driversLicense)
+                if (!handled && idCard is DriversLicense driversLicense)
                 {
-                    Parser.ParseAndSetDriversLicenseElements(elementId: elementId, data: data, country, driversLicense);
+                    handled = Parser.ParseAndSetDriversLicenseElements(elementId: elementId, data: data, country, version, driversLicense);
+                }
+
+                if (!handled)
+                {
+                    unhandledElementIds.Add(elementId);
                 }
             }
             catch (Exception ex)
@@ -353,6 +360,12 @@ public static class Barcode
                     throw;
                 }
             }
+        }
+
+        if (unhandledElementIds.Count > 0)
+        {
+#warning TODO: how to log this and/or raise it to the caller?
+            Console.WriteLine($"One or more ElementIds were not handled by the ID or Driver's License parsers: {string.Join(", ", unhandledElementIds)}");
         }
     }
 }

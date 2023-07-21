@@ -1,4 +1,5 @@
-﻿using IdParser.Core.Static.Constants;
+﻿using System;
+using IdParser.Core.Static.Constants;
 using IdParser.Core.Static.Parsers.Id;
 using IdParser.Core.Static.Parsers.License;
 
@@ -6,16 +7,18 @@ namespace IdParser.Core.Static.Parsers;
 
 internal static class Parser
 {
-    internal static void ParseAndSetIdElements(string elementId, string data, Country country, IdentificationCard idCard)
+    internal static bool ParseAndSetIdElements(string elementId, string data, Country country, AAMVAVersion version, IdentificationCard idCard)
     {
         ArgumentNullException.ThrowIfNull(elementId);
         ArgumentNullException.ThrowIfNull(data);
         ArgumentNullException.ThrowIfNull(idCard);
 
+        var handled = true;
+
         switch (elementId)
         {
             case SubfileElementIds.AliasFirstName:
-                idCard.Name.AliasFirst = AliasFirstNameParser.Parse(input: data, idCard.AAMVAVersionNumber);
+                idCard.Name.AliasFirst = AliasFirstNameParser.Parse(input: data, version);
                 break;
 
             case SubfileElementIds.AliasLastName:
@@ -39,7 +42,7 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.DateOfBirth:
-                idCard.DateOfBirth = DateOfBirthParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                idCard.DateOfBirth = DateOfBirthParser.Parse(input: data, country, version);
                 break;
 
             case SubfileElementIds.DocumentDiscriminator:
@@ -51,7 +54,7 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.ExpirationDate:
-                idCard.ExpirationDate = ExpirationDateParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                idCard.ExpirationDate = ExpirationDateParser.Parse(input: data, country, version);
                 break;
 
             case SubfileElementIds.EyeColor:
@@ -61,13 +64,15 @@ internal static class Parser
             case SubfileElementIds.FirstName:
                 var firstNameParts = FirstNameParser.Parse(input: data);
                 idCard.Name.First = firstNameParts?.First;
-                idCard.Name.Middle = firstNameParts?.Middle;
+                // If we didn't parse a middle name out of the input, keep the existing middle name.
+                idCard.Name.Middle = firstNameParts?.Middle ?? idCard.Name.Middle;
                 break;
 
             case SubfileElementIds.GivenName:
                 var givenNameParts = GivenNameParser.Parse(input: data);
                 idCard.Name.First = givenNameParts.First;
-                idCard.Name.Middle = givenNameParts.Middle;
+                // If we didn't parse a middle name out of the input, keep the existing middle name.
+                idCard.Name.Middle = givenNameParts.Middle ?? idCard.Name.Middle;
                 break;
 
             case SubfileElementIds.HairColor:
@@ -79,7 +84,7 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.Height:
-                idCard.Height = HeightParser.Parse(input: data, idCard.AAMVAVersionNumber);
+                idCard.Height = HeightParser.Parse(input: data, version);
                 break;
 
             case SubfileElementIds.IdNumber:
@@ -95,11 +100,11 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.IsOrganDonorLegacy:
-                idCard.IsOrganDonor = IsOrganDonorLegacyParser.Parse(data, idCard.AAMVAVersionNumber);
+                idCard.IsOrganDonor = IsOrganDonorLegacyParser.Parse(data, version);
                 break;
 
             case SubfileElementIds.IssueDate:
-                idCard.IssueDate = IssueDateParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                idCard.IssueDate = IssueDateParser.Parse(input: data, country, version);
                 break;
 
             case SubfileElementIds.IsVeteran:
@@ -139,7 +144,7 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.RevisionDate:
-                idCard.RevisionDate = RevisionDateParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                idCard.RevisionDate = RevisionDateParser.Parse(input: data, country, version);
                 break;
 
             case SubfileElementIds.Sex:
@@ -159,15 +164,15 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.Under18Until:
-                idCard.Under18Until = Under18UntilParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                idCard.Under18Until = Under18UntilParser.Parse(input: data, country, version);
                 break;
 
             case SubfileElementIds.Under19Until:
-                idCard.Under19Until = Under19UntilParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                idCard.Under19Until = Under19UntilParser.Parse(input: data, country, version);
                 break;
 
             case SubfileElementIds.Under21Until:
-                idCard.Under21Until = Under21UntilParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                idCard.Under21Until = Under21UntilParser.Parse(input: data, country, version);
                 break;
 
             case SubfileElementIds.WasFirstNameTruncated:
@@ -191,19 +196,34 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.WeightRange:
-                idCard.Weight = WeightRangeParser.Parse(input: data);
+                // Alberta is special: they put the weight in KG in the Pounds field, -AND- they
+                //   specify a weight range after the weight field. We need to handle that here.
+                var weightRange = WeightRangeParser.Parse(input: data);
+                if (idCard.Weight is not null)
+                {
+                    idCard.Weight.WeightRange = weightRange.WeightRange;
+                }
+                else
+                {
+                    idCard.Weight = weightRange;
+                }
                 break;
 
             default:
-                throw new ArgumentOutOfRangeException(nameof(elementId), elementId, $"Unsupported elementId '{elementId}'.");
+                handled = false;
+                break;
         }
+
+        return handled;
     }
 
-    internal static void ParseAndSetDriversLicenseElements(string elementId, string data, Country country, DriversLicense driversLicense)
+    internal static bool ParseAndSetDriversLicenseElements(string elementId, string data, Country country, AAMVAVersion version, DriversLicense driversLicense)
     {
         ArgumentNullException.ThrowIfNull(elementId);
         ArgumentNullException.ThrowIfNull(data);
         ArgumentNullException.ThrowIfNull(driversLicense);
+
+        var handled = true;
 
         switch (elementId)
         {
@@ -220,7 +240,7 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.HazmatEndorsementExpirationDate:
-                driversLicense.HazmatEndorsementExpirationDate = HazmatEndorsementExpirationDateParser.Parse(input: data, country, driversLicense.AAMVAVersionNumber);
+                driversLicense.HazmatEndorsementExpirationDate = HazmatEndorsementExpirationDateParser.Parse(input: data, country, version);
                 break;
 
             case SubfileElementIds.RestrictionCodeDescription:
@@ -260,7 +280,10 @@ internal static class Parser
                 break;
 
             default:
-                throw new ArgumentOutOfRangeException(nameof(elementId), elementId, $"Unsupported elementId '{elementId}'.");
+                handled = false;
+                break;
         }
+
+        return handled;
     }
 }
