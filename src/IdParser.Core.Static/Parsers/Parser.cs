@@ -89,6 +89,34 @@ internal static class Parser
                 idCard.InventoryControlNumber = InventoryControlNumberParser.Parse(input: data);
                 break;
 
+            case SubfileElementIds.IsOrganDonor:
+                idCard.IsOrganDonor = IsOrganDonorParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.IsOrganDonorLegacy:
+                idCard.IsOrganDonor = IsOrganDonorLegacyParser.Parse(data, idCard.AAMVAVersionNumber);
+                break;
+
+            case SubfileElementIds.IssueDate:
+                idCard.IssueDate = IssueDateParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                break;
+
+            case SubfileElementIds.IsVeteran:
+                idCard.IsVeteran = IsVeteranParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.JurisdictionCode:
+                idCard.Address.JurisdictionCode = JurisdictionCodeParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.LastName:
+                idCard.Name.Last = LastNameParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.MiddleName:
+                idCard.Name.Middle = MiddleNameParser.Parse(input: data);
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException(nameof(elementId), elementId, $"Unsupported elementId '{elementId}'.");
         }

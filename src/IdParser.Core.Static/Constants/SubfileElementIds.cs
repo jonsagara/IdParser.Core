@@ -182,4 +182,66 @@ internal static class SubfileElementIds
     /// <para>V25ANS</para>
     /// </remarks>
     internal const string InventoryControlNumber = "DCK";
+
+    /// <summary>
+    /// Organ Donor Indicator
+    /// </summary>
+    /// <remarks>
+    /// <para>Field that indicates that the cardholder is an organ donor = &quot;1&quot;.</para>
+    /// <para>F1N</para>
+    /// </remarks>
+    internal const string IsOrganDonor = "DDK";
+
+    /// <summary>
+    /// Organ Donor Indicator from a pre-2020 spec.
+    /// </summary>
+    internal const string IsOrganDonorLegacy = "DBH";
+
+    /// <summary>
+    /// Document Issue Date
+    /// </summary>
+    /// <remarks>
+    /// <para>Date on which the document was issued. (MMDDCCYY for U.S., CCYYMMDD for Canada)</para>
+    /// <para>F8N</para>
+    /// </remarks>
+    internal const string IssueDate = "DBD";
+
+    /// <summary>
+    /// Veteran Indicator
+    /// </summary>
+    /// <remarks>
+    /// <para>Field that indicates that the cardholder is a veteran = &quot;1&quot;.</para>
+    /// <para>F1N</para>
+    /// </remarks>
+    internal const string IsVeteran = "DDL";
+
+    /// <summary>
+    /// Address – Jurisdiction Code
+    /// </summary>
+    /// <remarks>
+    /// <para>State portion of the cardholder address.</para>
+    /// <para>F2A</para>
+    /// </remarks>
+    internal const string JurisdictionCode = "DAJ";
+
+    /// <summary>
+    /// Customer Family Name
+    /// </summary>
+    /// <remarks>
+    /// <para>Family name of the cardholder. (Family name is sometimes also called &quot;last name&quot; 
+    /// or &quot;surname.&quot;) Collect full name for record, print as many characters as possible on 
+    /// portrait side of DL/ID.</para>
+    /// <para>V40ANS</para>
+    /// </remarks>
+    internal const string LastName = "DCS";
+
+    /// <summary>
+    /// Customer Middle Name(s)
+    /// </summary>
+    /// <remarks>
+    /// <para>Middle name(s) of the cardholder. In the case of multiple middle names they shall be separated 
+    /// by a comma &quot;,&quot;.</para>
+    /// <para>V40ANS</para>
+    /// </remarks>
+    internal const string MiddleName = "DAD";
 }

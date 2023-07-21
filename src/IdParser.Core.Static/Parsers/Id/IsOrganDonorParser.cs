@@ -1,27 +1,27 @@
 ﻿namespace IdParser.Core.Static.Parsers.Id;
 
-//[Parser("DDK")]
 internal static class IsOrganDonorParser
 {
-    internal static bool ParseAndSet(string input)
-    {
-        IdCard.IsOrganDonor = ParseBool(input) ?? false;
-    }
+    internal static bool Parse(string input)
+        => ParserHelper.ParseBool(input) ?? false;
 }
 
-//[Parser("DBH")]
 internal static class IsOrganDonorLegacyParser
 {
-    internal static bool ParseAndSet(string input, AAMVAVersion version)
+    internal static bool Parse(string input, AAMVAVersion version)
     {
+        var isOrganDonor = false;
+
         if (version == AAMVAVersion.AAMVA2000)
         {
-            IdCard.IsOrganDonor = ParseBool(input) ?? false;
+            isOrganDonor = ParserHelper.ParseBool(input) ?? false;
 
             if (input.Equals("DONOR", StringComparison.OrdinalIgnoreCase))
             {
-                IdCard.IsOrganDonor = true;
+                isOrganDonor = true;
             }
         }
+
+        return isOrganDonor;
     }
 }
