@@ -243,3 +243,5 @@ ModelManifest.xml
 
 # Ignore VS Code stuff
 .vscode
+
+.nuget_output

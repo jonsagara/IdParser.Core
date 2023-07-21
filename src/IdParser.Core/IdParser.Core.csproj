@@ -2,25 +2,32 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net6.0</TargetFrameworks>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>5.0.0</Version>
-		<Authors>Connor O'Shea, Jon Sagara</Authors>
-		<Company />
-		<Product>ID Parser Core Static</Product>
-		<Description>Parses AAMVA-compliant driver's licenses and ID cards</Description>
-		<Copyright>Copyright 2019</Copyright>
-		<PackageLicenseUrl></PackageLicenseUrl>
-		<PackageProjectUrl>https://github.com/c0shea/IdParser</PackageProjectUrl>
-		<PackageIcon>NuGet Package Icon.png</PackageIcon>
-		<PackageTags>Drivers License Identification Card Parser PDF417 AAMVA Standard</PackageTags>
-		<AssemblyVersion>5.0.0</AssemblyVersion>
-		<FileVersion>5.0.0</FileVersion>
-		<PackageReleaseNotes></PackageReleaseNotes>
-		<SignAssembly>False</SignAssembly>
-		<RootNamespace>IdParser.Core</RootNamespace>
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		
+		<!-- NuGet -->
+		<Version>5.0.0-alpha1</Version>
+		<AssemblyVersion>5.0.0</AssemblyVersion>
+		<FileVersion>5.0.0</FileVersion>
+		<Authors>Connor O'Shea, Jon Sagara</Authors>
+		<Company />
+		<PackageId>IdParser.Core</PackageId>
+		<Description>.NET-only version of IdParser. Parses AAMVA-compliant driver's licenses and ID cards.</Description>
+		<Copyright>Copyright 2019-2023</Copyright>
+		<RepositoryUrl>https://github.com/jonsagara/IdParser.Core</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/jonsagara/IdParser.Core</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIcon>NuGet Package Icon.png</PackageIcon>
+		<PackageTags>Drivers License Identification Card Parser PDF417 AAMVA Standard</PackageTags>
+		<PackageReleaseNotes></PackageReleaseNotes>
+		
+		<!-- SourceLink -->
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		
+		<!-- Code Analysis -->
 		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
 		<WarningsAsErrors>$(WarningsAsErrors);CA1307;CA1309;CA1310</WarningsAsErrors>
 	</PropertyGroup>
@@ -29,14 +36,24 @@
 		<None Include="..\..\NuGet Package Icon.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
-	<PropertyGroup
-		Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	</ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
 		<NoWarn>1591;1701;1702</NoWarn>
 	</PropertyGroup>
 
-	<PropertyGroup
-		Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
 		<NoWarn>1591;1701;1702</NoWarn>
+	</PropertyGroup>
+
+	<!-- When running in GitHub Actions, enable deterministic builds for the NuGet package. -->
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
 
 </Project>

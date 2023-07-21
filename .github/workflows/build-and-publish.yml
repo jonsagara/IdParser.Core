@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: publish
+on: 
+  workflow_dispatch:  # Allow running the workflow manually from the GitHub UI
+  push:
+    branches: 
+      - 'main'        # Run the workflow when pushing to the main branch
+  pull_request:
+    branches:
+      - '*'         # Run the workflow for all pull requests
+  release:
+    types:
+      - published   # Run the workflow when a new GitHub release is published
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  NuGetDirectory: ${{ github.workspace }}/nuget
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  pack_nuget:
+    runs-on: ubuntu-latest
+
+    # Checkout the source code
+    steps:
+    - name: "Checkout source"
+      uses: actions/checkout@v3
+
+    # Install the .NET SDK indicated in the global.json file
+    - name: Setup .NET SDK with global.json
+      uses: actions/setup-dotnet@v3
+      with:
+        global-json-file: Search/global.json
+
+    # Create the NuGet package in the folder from the environment variable NuGetDirectory
+    - name: dotnet pack
+      run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }}
+
+    # Publish the NuGet package as an artifact, so they can be used in the following jobs
+    - name: Upload .nupkg
+      uses: actions/upload-artifact@v3
+      with:
+        name: nuget
+        if-no-files-found: error
+        retention-days: 7
+        path: ${{ env.NuGetDirectory }}/*.nupkg
+    
