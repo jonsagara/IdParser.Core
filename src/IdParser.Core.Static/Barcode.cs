@@ -75,7 +75,13 @@ public static class Barcode
         var country = ParseCountry(idCard.IssuerIdentificationNumber, aamvaVersion, subfileRecords);
         idCard.Address.Country = country;
 
-        PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, validationLevel);
+        var unhandledElementIds = PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, validationLevel);
+
+#warning TODO: how to log this and/or raise it to the caller?
+        //        if (unhandledElementIds.Count > 0)
+        //        {
+        //            Console.WriteLine($"One or more ElementIds were not handled by the ID or Driver's License parsers: {string.Join(", ", unhandledElementIds)}");
+        //        }
 
         return idCard;
     }
@@ -322,7 +328,7 @@ public static class Barcode
         return IssuerMetadataHelper.GetCountry(iin);
     }
 
-    private static void PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string> subfileRecords, Validation validationLevel)
+    private static IReadOnlyCollection<string> PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string> subfileRecords, Validation validationLevel)
     {
         List<string> unhandledElementIds = new();
 
@@ -347,7 +353,11 @@ public static class Barcode
 
                 if (!handled)
                 {
-                    unhandledElementIds.Add(elementId);
+                    // We parse Country separately because various other fields rely on it for parsing.
+                    if (elementId != SubfileElementIds.Country)
+                    {
+                        unhandledElementIds.Add(elementId);
+                    }
                 }
             }
             catch (Exception ex)
@@ -362,10 +372,6 @@ public static class Barcode
             }
         }
 
-        if (unhandledElementIds.Count > 0)
-        {
-#warning TODO: how to log this and/or raise it to the caller?
-            Console.WriteLine($"One or more ElementIds were not handled by the ID or Driver's License parsers: {string.Join(", ", unhandledElementIds)}");
-        }
+        return unhandledElementIds;
     }
 }

@@ -12,6 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\IdParser.Core.Static\IdParser.Core.Static.csproj" />
 		<ProjectReference Include="..\IdParser.Core\IdParser.Core.csproj" />
 	</ItemGroup>
 
