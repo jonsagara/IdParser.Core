@@ -1,6 +1,7 @@
 ﻿namespace IdParser.Core.Static.Parsers.Id;
 
-//[Parser("DAA")]
+internal record NameParts(string? First, string? Middle, string? Last, string? Suffix);
+
 internal static class NameParser
 {
     private static readonly char[] StandardSeparators = { ',', '$', '@' };
@@ -8,7 +9,7 @@ internal static class NameParser
     private const char SpaceSeparator = ' ';
 
     // AAMVA 2000
-    internal static string ParseAndSet(string input)
+    internal static NameParts? Parse(string input)
     {
         ArgumentNullException.ThrowIfNull(input);
 
@@ -19,74 +20,85 @@ internal static class NameParser
         // Therefore, the first and last name should only ever be one name part while the middle name
         // can consume the remaining name parts. If a jurisdiction doesn't follow the standard, there
         // is nothing more we can do. This isn't a natural language parser, so we can only go with our best attempt.
+        // As such, don't throw if we can't parse.
 
         // Jurisdictions that (mostly) follow the AAMVA 2000 standard
         if (input.IndexOfAny(StandardSeparators) >= 0)
         {
-            ParseWithStandardSeparators(input);
-            return;
+            return ParseWithStandardSeparators(input);
         }
 
         // Jurisdictions like Pennsylvania that use non-standard separators
         if (input.Contains(SpaceSeparator, StringComparison.Ordinal))
         {
-            ParseWithSpaceSeparator(input);
+            return ParseWithSpaceSeparator(input);
         }
+
+        return null;
     }
 
     /// <summary>
     /// Parses names separated by standard separators (e.g. PUBLIC,JOHN,Q)
     /// </summary>
-    private void ParseWithStandardSeparators(string input)
+    private static NameParts ParseWithStandardSeparators(string input)
     {
         // Some jurisdictions separate the first and middle names with a space
         var names = input.Split(StandardSeparators)
                          .SelectMany(n => n.Trim().Split(SpaceSeparator))
                          .ToList();
 
-        ParseSuffix(names);
+        var suffix = ParseSuffix(names);
 
-        IdCard.Name.Last = names.Count > 0 ? names[0].Trim().ReplaceEmptyWithNull() : null;
-        IdCard.Name.First = names.Count > 1 ? names[1].Trim().ReplaceEmptyWithNull() : null;
-        IdCard.Name.Middle = names.Count > 2 ? string.Join(" ", names.Skip(2).Select(n => n.ReplaceEmptyWithNull()).Where(n => n != null)).ReplaceEmptyWithNull() : null;
+        var last = names.Count > 0 ? names[0].Trim().ReplaceEmptyWithNull() : null;
+        var first = names.Count > 1 ? names[1].Trim().ReplaceEmptyWithNull() : null;
+        var middle = names.Count > 2 ? string.Join(" ", names.Skip(2).Select(n => n.ReplaceEmptyWithNull()).Where(n => n != null)).ReplaceEmptyWithNull() : null;
+
+        return new NameParts(First: first, Middle: middle, Last: last, Suffix: suffix);
     }
 
     /// <summary>
     /// Parses names separated by non-standard space separators (e.g. JOHN Q PUBLIC)
     /// </summary>
-    private void ParseWithSpaceSeparator(string input)
+    private static NameParts ParseWithSpaceSeparator(string input)
     {
         var names = input.Split(SpaceSeparator).ToList();
 
-        ParseSuffix(names);
-
-        IdCard.Name.First = names.Count > 0 ? names[0].Trim().ReplaceEmptyWithNull() : null;
+        var suffix = ParseSuffix(names);
+        
+        var first = names.Count > 0 ? names[0].Trim().ReplaceEmptyWithNull() : null;
+        string? middle = null;
+        string? last = null;
 
         if (names.Count == 2)
         {
-            IdCard.Name.Last = names[1].Trim().ReplaceEmptyWithNull();
+            last = names[1].Trim().ReplaceEmptyWithNull();
         }
         else if (names.Count > 2)
         {
-            IdCard.Name.Middle = string.Join(" ", names.Skip(1).Take(names.Count - 2).Select(n => n.ReplaceEmptyWithNull()).Where(n => n != null)).ReplaceEmptyWithNull();
-            IdCard.Name.Last = names.Last().Trim().ReplaceEmptyWithNull();
+            middle = string.Join(" ", names.Skip(1).Take(names.Count - 2).Select(n => n.ReplaceEmptyWithNull()).Where(n => n != null)).ReplaceEmptyWithNull();
+            last = names.Last().Trim().ReplaceEmptyWithNull();
         }
+
+        return new NameParts(First: first, Middle: middle, Last: last, Suffix: suffix);
     }
 
     /// <summary>
     /// Parse the few suffixes allowed by AAMVA. Any other non-standard suffix (e.g. ESQ)
     /// will not be parsed and set in the <see cref="Name.Suffix"/> property.
     /// </summary>
-    private void ParseSuffix(List<string> names)
+    private static string? ParseSuffix(List<string> names)
     {
         var suffixCandidate = names.Last();
 
         if (Suffixes.Contains(RemovePunctuation(suffixCandidate)))
         {
-            IdCard.Name.Suffix = suffixCandidate;
             names.RemoveAt(names.Count - 1);
+            return suffixCandidate;
         }
+
+        return null;
     }
 
-    private static string RemovePunctuation(string input) => new string(input.Where(c => !char.IsPunctuation(c)).ToArray());
+    private static string RemovePunctuation(string input) 
+        => new string(input.Where(c => !char.IsPunctuation(c)).ToArray());
 }

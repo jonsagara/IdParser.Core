@@ -244,4 +244,52 @@ internal static class SubfileElementIds
     /// <para>V40ANS</para>
     /// </remarks>
     internal const string MiddleName = "DAD";
+
+    /// <summary>
+    /// Name for 2000 spec. Legacy.
+    /// </summary>
+    internal const string Name = "DAA";
+
+    /// <summary>
+    /// Name Suffix
+    /// </summary>
+    /// <remarks>
+    /// <para>Name Suffix (If jurisdiction participates in systems requiring name suffix(PDPS, CDLIS, etc.), 
+    /// the suffix must be collected and displayed on the DL/ID and in the MRT). Collect full name for record, 
+    /// print as many characters as possible on portrait side of DL/ID.</para>
+    /// <para>JR (Junior); SR (Senior); 1ST or I (First); 2ND or II (Second); 3RD or III (Third); 4TH or IV (Fourth);
+    /// 5TH or V (Fifth); 6TH or VI (Sixth); 7TH or VII (Seventh); 8TH or VIII (Eighth); 9TH or IX (Ninth).</para>
+    /// <para></para>
+    /// </remarks>
+    internal const string NameSuffix = "DCU";
+
+    /// <summary>
+    /// Place of birth
+    /// </summary>
+    /// <remarks>
+    /// <para>Country and municipality and/or state/province.</para>
+    /// <para>V33A</para>
+    /// </remarks>
+    internal const string PlaceOfBirth = "DCI";
+
+    /// <summary>
+    /// Address – Postal Code
+    /// </summary>
+    /// <remarks>
+    /// <para>Postal code portion of the cardholder address in the U.S.and Canada.If the trailing portion of the 
+    /// postal code in the U.S. is not known, zeros will be used to fill the trailing set of numbers up to nine 
+    /// (9) digits.</para>
+    /// <para>F11ANS</para>
+    /// </remarks>
+    internal const string PostalCode = "DAK";
+
+    /// <summary>
+    /// Card Revision Date
+    /// </summary>
+    /// <remarks>
+    /// <para>DHS required field that indicates date of the most recent version change or modification to the 
+    /// visible format of the DL/ID. (MMDDCCYY for U.S., CCYYMMDD for Canada).</para>
+    /// <para>F8N</para>
+    /// </remarks>
+    internal const string RevisionDate = "DDB";
 }

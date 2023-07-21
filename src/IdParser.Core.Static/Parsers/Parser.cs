@@ -117,6 +117,30 @@ internal static class Parser
                 idCard.Name.Middle = MiddleNameParser.Parse(input: data);
                 break;
 
+            case SubfileElementIds.Name:
+                var nameParts = NameParser.Parse(input: data);
+                idCard.Name.First = nameParts?.First;
+                idCard.Name.Middle = nameParts?.Middle;
+                idCard.Name.Last = nameParts?.Last;
+                idCard.Name.Suffix = nameParts?.Suffix;
+                break;
+
+            case SubfileElementIds.NameSuffix:
+                idCard.Name.Suffix = NameSuffixParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.PlaceOfBirth:
+                idCard.PlaceOfBirth = PlaceOfBirthParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.PostalCode:
+                idCard.Address.PostalCode = PostalCodeParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.RevisionDate:
+                idCard.RevisionDate = RevisionDateParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException(nameof(elementId), elementId, $"Unsupported elementId '{elementId}'.");
         }

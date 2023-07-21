@@ -1,15 +1,14 @@
 ﻿namespace IdParser.Core.Static.Parsers.Id;
 
-//[Parser("DCU")]
 internal static class NameSuffixParser
 {
     internal static string? Parse(string input)
     {
-        if (StringHasNoValue(input))
+        if (ParserHelper.StringHasNoValue(input))
         {
-            return;
+            return null;
         }
 
-        IdCard.Name.Suffix = input;
+        return input;
     }
 }
