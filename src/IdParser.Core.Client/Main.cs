@@ -2,9 +2,11 @@
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows.Forms;
+using IdParser.Core.Static;
 using Microsoft.PointOfService;
-using Newtonsoft.Json;
 
 namespace IdParser.Core.Client
 {
@@ -168,6 +170,13 @@ namespace IdParser.Core.Client
             SetStatus(Level.Success, "Ready");
         }
 
+
+        private static readonly JsonSerializerOptions _jsonSerializerOptions = new()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            WriteIndented = true,
+        };
+
         private void ParseBarcodeData(string input)
         {
             try
@@ -184,10 +193,7 @@ namespace IdParser.Core.Client
                     lblIdType.Text = "Identification Card";
                 }
 
-                txtParsedId.Text = JsonConvert.SerializeObject(id, Formatting.Indented, new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore
-                });
+                txtParsedId.Text = JsonSerializer.Serialize(id, _jsonSerializerOptions);
 
                 SetStatus(Level.Info, "");
             }
@@ -258,7 +264,7 @@ namespace IdParser.Core.Client
                 txtFilePath.Text = dialog.FileName;
             }
         }
-        
+
         private void btnParseFile_Click(object sender, EventArgs e)
         {
             if (!File.Exists(txtFilePath.Text))
