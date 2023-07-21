@@ -3,8 +3,8 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<AssemblyTitle>IdParser.Core.Static.Test</AssemblyTitle>
-		<Product>IdParser.Core.Static.Test</Product>
+		<AssemblyTitle>IdParser.Core.Test</AssemblyTitle>
+		<Product>IdParser.Core.Test</Product>
 		<Copyright>Copyright © 2019 Connor O%27Shea</Copyright>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<FileVersion>1.0.0.0</FileVersion>
@@ -34,7 +34,7 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\IdParser.Core.Static\IdParser.Core.Static.csproj" />
+		<ProjectReference Include="..\IdParser.Core\IdParser.Core.csproj" />
 	</ItemGroup>
 
 </Project>

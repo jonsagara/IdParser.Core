@@ -17,7 +17,7 @@
 		<FileVersion>5.0.0</FileVersion>
 		<PackageReleaseNotes></PackageReleaseNotes>
 		<SignAssembly>False</SignAssembly>
-		<RootNamespace>IdParser.Core.Static</RootNamespace>
+		<RootNamespace>IdParser.Core</RootNamespace>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -29,11 +29,13 @@
 		<None Include="..\..\NuGet Package Icon.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+	<PropertyGroup
+		Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
 		<NoWarn>1591;1701;1702</NoWarn>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+	<PropertyGroup
+		Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
 		<NoWarn>1591;1701;1702</NoWarn>
 	</PropertyGroup>
 

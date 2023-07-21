@@ -27,7 +27,8 @@
 		<Content Include="ID Parser Icon.ico" />
 	</ItemGroup>
 	<ItemGroup>
-		<Reference Include="Microsoft.PointOfService, Version=1.14.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+		<Reference
+			Include="Microsoft.PointOfService, Version=1.14.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
 			<SpecificVersion>False</SpecificVersion>
 			<HintPath>..\..\lib\Microsoft.PointOfService.dll</HintPath>
 		</Reference>
@@ -37,6 +38,6 @@
 		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\IdParser.Core.Static\IdParser.Core.Static.csproj" />
+		<ProjectReference Include="..\IdParser.Core\IdParser.Core.csproj" />
 	</ItemGroup>
 </Project>

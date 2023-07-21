@@ -15,9 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Client", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Benchmarks", "src\IdParser.Core.Benchmarks\IdParser.Core.Benchmarks.csproj", "{BB53ED55-E366-4674-BDBC-4616B162C1DE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Static", "src\IdParser.Core.Static\IdParser.Core.Static.csproj", "{3625E6DF-4815-46DF-A83B-5CF0A6F0BA61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core", "src\IdParser.Core\IdParser.Core.csproj", "{3625E6DF-4815-46DF-A83B-5CF0A6F0BA61}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Static.Test", "src\IdParser.Core.Static.Test\IdParser.Core.Static.Test.csproj", "{6278F1D3-FDB2-49CF-95A8-40FE786C68FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdParser.Core.Test", "src\IdParser.Core.Test\IdParser.Core.Test.csproj", "{6278F1D3-FDB2-49CF-95A8-40FE786C68FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
