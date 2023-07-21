@@ -2,11 +2,10 @@
 using System.Drawing;
 using System.IO;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Windows.Forms;
 using IdParser.Core.Static;
 using Microsoft.PointOfService;
+using Newtonsoft.Json;
 
 namespace IdParser.Core.Client
 {
@@ -171,11 +170,18 @@ namespace IdParser.Core.Client
         }
 
 
-        private static readonly JsonSerializerOptions _jsonSerializerOptions = new()
+        //private static readonly JsonSerializerOptions _jsonSerializerOptions = new()
+        //{
+        //    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        //    WriteIndented = true,
+        //};
+
+        private static readonly JsonSerializerSettings _jsonSerializerSettings = new()
         {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            WriteIndented = true,
+            Formatting = Formatting.Indented,
+            NullValueHandling = NullValueHandling.Ignore,
         };
+
 
         private void ParseBarcodeData(string input)
         {
@@ -193,7 +199,10 @@ namespace IdParser.Core.Client
                     lblIdType.Text = "Identification Card";
                 }
 
-                txtParsedId.Text = JsonSerializer.Serialize(id, _jsonSerializerOptions);
+                // System.Text.Json in .NET 6 doesn't support serializing properties from derived types, so we're
+                //   stuck with Json.NET for the time being.
+                //txtParsedId.Text = JsonSerializer.Serialize(id, _jsonSerializerOptions);
+                txtParsedId.Text = JsonConvert.SerializeObject(id, _jsonSerializerSettings);
 
                 SetStatus(Level.Info, "");
             }
