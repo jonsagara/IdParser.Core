@@ -83,7 +83,7 @@ internal static class IssuerMetadataHelper
     };
 
 
-    internal static bool TryGetIssuerCountry(IssuerIdentificationNumber issuerIdentificationNumber, [MaybeNullWhen(false)] out Country? country)
+    internal static bool TryGetIssuerCountry(IssuerIdentificationNumber issuerIdentificationNumber, [NotNullWhen(true)] out Country? country)
     {
         country = null;
 

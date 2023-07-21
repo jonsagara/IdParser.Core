@@ -3,7 +3,7 @@
 /// <summary>
 /// Specifies a description for the target.
 /// </summary>
-[AttributeUsage(AttributeTargets.All)]
+[AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = false)]
 public sealed class DescriptionAttribute : Attribute
 {
     public string Description { get; }

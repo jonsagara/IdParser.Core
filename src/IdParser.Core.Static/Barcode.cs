@@ -322,7 +322,7 @@ public static class Barcode
 
         if (IssuerMetadataHelper.TryGetIssuerCountry(iin, out Country? country))
         {
-            return country!.Value;
+            return country.Value;
         }
 
         throw new ArgumentException($"Unable to look up Country for {nameof(IssuerIdentificationNumber)} enum value {iin} because it is missing a record in {nameof(IssuerMetadataHelper)}.", nameof(iin));

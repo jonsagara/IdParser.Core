@@ -181,6 +181,18 @@ internal static class Parser
                 idCard.Name.WasMiddleTruncated = WasMiddleNameTruncatedParser.Parse(input: data);
                 break;
 
+            case SubfileElementIds.WeightInKilograms:
+                idCard.Weight = WeightInKilogramsParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.WeightInPounds:
+                idCard.Weight = WeightInPoundsParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.WeightRange:
+                idCard.Weight = WeightRangeParser.Parse(input: data);
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException(nameof(elementId), elementId, $"Unsupported elementId '{elementId}'.");
         }

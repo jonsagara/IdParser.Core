@@ -378,4 +378,31 @@ internal static class SubfileElementIds
     /// <para>F1A</para>
     /// </remarks>
     internal const string WasMiddleNameTruncated = "DDG";
+
+    /// <summary>
+    /// Weight (kilograms)
+    /// </summary>
+    /// <remarks>
+    /// <para>Cardholder weight in kilograms. Ex. 84 kg = &quot;084&quot;.</para>
+    /// <para>F3N</para>
+    /// </remarks>
+    internal const string WeightInKilograms = "DAX";
+
+    /// <summary>
+    /// Weight (pounds)
+    /// </summary>
+    /// <remarks>
+    /// <para>Cardholder weight in pounds. Ex. 185 lb = &quot;185&quot;.</para>
+    /// <para>F3N</para>
+    /// </remarks>
+    internal const string WeightInPounds = "DAW";
+
+    /// <summary>
+    /// Physical Description – Weight Range
+    /// </summary>
+    /// <remarks>
+    /// <para>Indicates the approximate weight range of the cardholder. See <see cref="Static.WeightRange"/> for descriptions.</para>
+    /// <para></para>
+    /// </remarks>
+    internal const string WeightRange = "DCE";
 }

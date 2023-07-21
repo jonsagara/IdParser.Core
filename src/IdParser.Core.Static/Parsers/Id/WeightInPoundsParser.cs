@@ -1,48 +1,38 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace IdParser.Core.Static.Parsers.Id;
 
-//[Parser("DAW")]
 internal static class WeightInPoundsParser
 {
     internal static Weight Parse(string input)
     {
-        if (TryParseMetric(input))
+        if (TryParseMetric(input, out Weight? weight))
         {
-            return;
+            return weight;
         }
 
-        var weight = Convert.ToInt16(input, CultureInfo.InvariantCulture);
+        var weightLbs = Convert.ToInt16(input, CultureInfo.InvariantCulture);
 
-        if (IdCard.Weight is null)
-        {
-            IdCard.Weight = Weight.FromImperial(pounds: weight);
-            return;
-        }
-
-        IdCard.Weight.SetImperial(weight);
+        return new Weight(pounds: weightLbs);
     }
 
     /// <summary>
     /// Alberta put the weight in kilograms in the weight in pounds parser ¯\_(ツ)_/¯
     /// </summary>
-    private static bool TryParseMetric(string input)
+    private static bool TryParseMetric(string input, [NotNullWhen(true)] out Weight? weight)
     {
+        weight = null;
+
         var metricRegex = new Regex("(?<Weight>\\d+)+\\s*KG");
         var match = metricRegex.Match(input);
 
         if (match.Success)
         {
-            var weight = Convert.ToInt16(match.Groups["Weight"].Value, CultureInfo.InvariantCulture);
+            var weightKg = Convert.ToInt16(match.Groups["Weight"].Value, CultureInfo.InvariantCulture);
 
-            if (IdCard.Weight is null)
-            {
-                IdCard.Weight = Weight.FromMetric(kilograms: weight);
-                return true;
-            }
-
-            IdCard.Weight.SetMetric(weight);
+            weight = new Weight(kilograms: weightKg);
             return true;
         }
 
