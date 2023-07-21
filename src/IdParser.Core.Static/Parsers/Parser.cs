@@ -120,7 +120,9 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.MiddleName:
-                idCard.Name.Middle = MiddleNameParser.Parse(input: data);
+                // Some jurisdictions like Wyoming put the middle initial in the FirstName field. If we have
+                //   already written that, and if middle name is null, keep the one parsed from first name.
+                idCard.Name.Middle = MiddleNameParser.Parse(input: data) ?? idCard.Name.Middle;
                 break;
 
             case SubfileElementIds.Name:
