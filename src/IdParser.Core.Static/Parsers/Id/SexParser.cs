@@ -1,21 +1,24 @@
 ﻿namespace IdParser.Core.Static.Parsers.Id;
 
-//[Parser("DBC")]
 internal static class SexParser
 {
-    internal static Sex? ParseAndSet(string input)
+    internal static Sex Parse(string input)
     {
-        if (byte.TryParse(input, out var numericSex))
+        if (Enum.TryParse(input.AsSpan(), ignoreCase: true, out Sex sex) && Enum.IsDefined(sex))
         {
-            IdCard.Sex = (Sex)numericSex;
+            return sex;
         }
-        else if (input.Equals("M", StringComparison.OrdinalIgnoreCase))
+
+        if (input.Equals("M", StringComparison.OrdinalIgnoreCase))
         {
-            IdCard.Sex = Sex.Male;
+            return Sex.Male;
         }
-        else if (input.Equals("F", StringComparison.OrdinalIgnoreCase))
+
+        if (input.Equals("F", StringComparison.OrdinalIgnoreCase))
         {
-            IdCard.Sex = Sex.Female;
+            return Sex.Female;
         }
+
+        return Sex.NotSpecified;
     }
 }

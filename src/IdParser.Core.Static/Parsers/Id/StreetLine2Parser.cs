@@ -2,25 +2,26 @@
 
 namespace IdParser.Core.Static.Parsers.Id;
 
-//[Parser("DAH")]
 internal static class StreetLine2Parser
 {
-    internal static string? ParseAndSet(string input)
+    internal static string? Parse(string input, Address address)
     {
-        if (StringHasNoValue(input))
+        ArgumentNullException.ThrowIfNull(address);
+
+        if (ParserHelper.StringHasNoValue(input))
         {
-            return;
+            return null;
         }
 
         // Jurisdictions like Wyoming set the StreetLine2 to the City, State, and Postal Code when it
-        if (IdCard.Address.City is not null &&
-            IdCard.Address.JurisdictionCode is not null &&
-            IdCard.Address.PostalCode is not null &&
-            Regex.IsMatch(input, $@"\s*{IdCard.Address.City}(\s|,)*{IdCard.Address.JurisdictionCode}(\s|,)*{IdCard.Address.PostalCode}"))
+        if (address.City is not null &&
+            address.JurisdictionCode is not null &&
+            address.PostalCode is not null &&
+            Regex.IsMatch(input, $@"\s*{address.City}(\s|,)*{address.JurisdictionCode}(\s|,)*{address.PostalCode}"))
         {
-            return;
+            return null;
         }
 
-        IdCard.Address.StreetLine2 = input.TrimEnd(',');
+        return input.TrimEnd(',');
     }
 }

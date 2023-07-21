@@ -292,4 +292,36 @@ internal static class SubfileElementIds
     /// <para>F8N</para>
     /// </remarks>
     internal const string RevisionDate = "DDB";
+
+    /// <summary>
+    /// Physical Description – Sex
+    /// </summary>
+    /// <remarks>
+    /// <para>Gender of the cardholder. 1 = male, 2 = female, 9 = not specified.</para>
+    /// <para>F1N</para>
+    /// </remarks>
+    internal const string Sex = "DBC";
+
+    /// <summary>
+    /// Address – Street 1
+    /// </summary>
+    /// <remarks>
+    /// <para>Street portion of the cardholder address.</para>
+    /// <para>V35ANS</para>
+    /// </remarks>
+    internal const string StreetLine1 = "DAG";
+
+    /// <summary>
+    /// Address – Street 1 from pre-2020 spec.
+    /// </summary>
+    internal const string StreetLine1Legacy = "DAL";
+
+    /// <summary>
+    /// Address – Street 2
+    /// </summary>
+    /// <remarks>
+    /// <para>Second line of street portion of the cardholder address.</para>
+    /// <para>V35ANS</para>
+    /// </remarks>
+    internal const string StreetLine2 = "DAH";
 }

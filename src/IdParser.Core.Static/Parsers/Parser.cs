@@ -141,6 +141,22 @@ internal static class Parser
                 idCard.RevisionDate = RevisionDateParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
                 break;
 
+            case SubfileElementIds.Sex:
+                idCard.Sex = SexParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.StreetLine1:
+                idCard.Address.StreetLine1 = StreetLine1Parser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.StreetLine1Legacy:
+                idCard.Address.StreetLine1 = StreetLine1LegacyParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.StreetLine2:
+                idCard.Address.StreetLine2 = StreetLine2Parser.Parse(input: data, idCard.Address);
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException(nameof(elementId), elementId, $"Unsupported elementId '{elementId}'.");
         }
