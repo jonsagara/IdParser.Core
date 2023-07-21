@@ -342,7 +342,12 @@ public static class Barcode
 
             try
             {
-                Parser.ParseAndSet(elementId: elementId, data: data, country, idCard);
+                Parser.ParseAndSetIdElements(elementId: elementId, data: data, country, idCard);
+
+                if (idCard is DriversLicense driversLicense)
+                {
+                    Parser.ParseAndSetDriversLicenseElements(elementId: elementId, data: data, country, driversLicense);
+                }
             }
             catch (Exception ex)
             {

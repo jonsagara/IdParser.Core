@@ -1,15 +1,14 @@
 ﻿namespace IdParser.Core.Static.Parsers.License;
 
-//[Parser("DDC")]
 internal static class HazmatEndorsementExpirationDateParser
 {
-    internal static DateTime? Parse(string input)
+    internal static DateTime? Parse(string input, Country country, AAMVAVersion version)
     {
-        if (DateHasNoValue(input) || Version < Version.Aamva2000)
+        if (ParserHelper.DateHasNoValue(input) || version < AAMVAVersion.AAMVA2000)
         {
-            return;
+            return null;
         }
 
-        License.HazmatEndorsementExpirationDate = ParseDate(input);
+        return ParserHelper.ParseDate(input, country, version);
     }
 }

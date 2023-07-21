@@ -402,7 +402,72 @@ internal static class SubfileElementIds
     /// </summary>
     /// <remarks>
     /// <para>Indicates the approximate weight range of the cardholder. See <see cref="Static.WeightRange"/> for descriptions.</para>
-    /// <para></para>
+    /// <para>F1N</para>
     /// </remarks>
     internal const string WeightRange = "DCE";
+
+
+    //
+    // Drivers License
+    //
+
+    /// <summary>
+    /// Jurisdiction-specific endorsement code description
+    /// </summary>
+    /// <remarks>
+    /// <para>Text that explains the jurisdiction-specific code(s) that indicates additional driving privileges 
+    /// granted to the cardholder beyond the vehicle class.</para>
+    /// <para>V50ANS</para>
+    /// </remarks>
+    internal const string EndorsementCodeDescription = "DCQ";
+
+    /// <summary>
+    /// Jurisdiction-specific endorsement codes
+    /// </summary>
+    /// <remarks>
+    /// <para>Jurisdiction-specific codes that represent additional privileges granted to the cardholder beyond 
+    /// the vehicle class (such as transportation of passengers, hazardous materials, operation of motorcycles, 
+    /// etc.).</para>
+    /// <para>V5ANS</para>
+    /// </remarks>
+    internal const string EndorsementCodes = "DCD";
+
+    /// <summary>
+    /// Jurisdiction-specific endorsement codes from pre-2020 spec.
+    /// </summary>
+    internal const string EndorsementCodesLegacy = "DAT";
+
+    /// <summary>
+    /// HAZMAT Endorsement Expiration Date
+    /// </summary>
+    /// <remarks>
+    /// <para>Date on which the hazardous material endorsement granted by the document is no longer valid. 
+    /// (MMDDCCYY for U.S., CCYYMMDD for Canada).</para>
+    /// <para>F8N</para>
+    /// </remarks>
+    internal const string HazmatEndorsementExpirationDate = "DDC";
+
+    /// <summary>
+    /// Jurisdiction-specific restriction code description
+    /// </summary>
+    /// <remarks>
+    /// <para>Text describing the jurisdiction-specific restriction code(s) that curtail driving privileges.</para>
+    /// <para>V50ANS</para>
+    /// </remarks>
+    internal const string RestrictionCodeDescription = "DCR";
+
+    /// <summary>
+    /// Jurisdiction-specific restriction codes
+    /// </summary>
+    /// <remarks>
+    /// <para>Jurisdiction-specific codes that represent restrictions to driving privileges (such as airbrakes, 
+    /// automatic transmission, daylight only, etc.).</para>
+    /// <para>V12ANS</para>
+    /// </remarks>
+    internal const string RestrictionCodes = "DCB";
+
+    /// <summary>
+    /// Jurisdiction-specific restriction codes from pre-2020 spec.
+    /// </summary>
+    internal const string RestrictionCodesLegacy = "DAS";
 }

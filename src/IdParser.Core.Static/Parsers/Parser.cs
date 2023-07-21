@@ -1,11 +1,12 @@
 ﻿using IdParser.Core.Static.Constants;
 using IdParser.Core.Static.Parsers.Id;
+using IdParser.Core.Static.Parsers.License;
 
 namespace IdParser.Core.Static.Parsers;
 
 internal static class Parser
 {
-    internal static void ParseAndSet(string elementId, string data, Country country, IdentificationCard idCard)
+    internal static void ParseAndSetIdElements(string elementId, string data, Country country, IdentificationCard idCard)
     {
         ArgumentNullException.ThrowIfNull(elementId);
         ArgumentNullException.ThrowIfNull(data);
@@ -191,6 +192,47 @@ internal static class Parser
 
             case SubfileElementIds.WeightRange:
                 idCard.Weight = WeightRangeParser.Parse(input: data);
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException(nameof(elementId), elementId, $"Unsupported elementId '{elementId}'.");
+        }
+    }
+
+    internal static void ParseAndSetDriversLicenseElements(string elementId, string data, Country country, DriversLicense driversLicense)
+    {
+        ArgumentNullException.ThrowIfNull(elementId);
+        ArgumentNullException.ThrowIfNull(data);
+        ArgumentNullException.ThrowIfNull(driversLicense);
+
+        switch (elementId)
+        {
+            case SubfileElementIds.EndorsementCodeDescription:
+                driversLicense.Jurisdiction.EndorsementCodeDescription = EndorsementCodeDescriptionParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.EndorsementCodes:
+                driversLicense.Jurisdiction.EndorsementCodes = EndorsementCodesParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.EndorsementCodesLegacy:
+                driversLicense.Jurisdiction.EndorsementCodes = EndorsementCodesLegacyParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.HazmatEndorsementExpirationDate:
+                driversLicense.HazmatEndorsementExpirationDate = HazmatEndorsementExpirationDateParser.Parse(input: data, country, driversLicense.AAMVAVersionNumber);
+                break;
+
+            case SubfileElementIds.RestrictionCodeDescription:
+                driversLicense.Jurisdiction.RestrictionCodeDescription = RestrictionCodeDescriptionParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.RestrictionCodes:
+                driversLicense.Jurisdiction.RestrictionCodes = RestrictionCodesParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.RestrictionCodesLegacy:
+                driversLicense.Jurisdiction.RestrictionCodes = RestrictionCodesLegacyParser.Parse(input: data);
                 break;
 
             default:

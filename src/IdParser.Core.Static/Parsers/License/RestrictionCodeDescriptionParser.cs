@@ -1,15 +1,14 @@
 ﻿namespace IdParser.Core.Static.Parsers.License;
 
-//[Parser("DCR")]
 internal static class RestrictionCodeDescriptionParser
 {
-    internal static string? ParseAndSet(string input)
+    internal static string? Parse(string input)
     {
-        if (StringHasNoValue(input))
+        if (ParserHelper.StringHasNoValue(input))
         {
-            return;
+            return null;
         }
 
-        License.Jurisdiction.RestrictionCodeDescription = input;
+        return input;
     }
 }

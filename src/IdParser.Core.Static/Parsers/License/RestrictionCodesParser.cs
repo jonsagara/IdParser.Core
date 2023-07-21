@@ -1,29 +1,27 @@
 ﻿namespace IdParser.Core.Static.Parsers.License;
 
-//[Parser("DCB")]
 internal static class RestrictionCodesParser
 {
-    internal static string? ParseAndSet(string input)
+    internal static string? Parse(string input)
     {
-        if (StringHasNoValue(input))
+        if (ParserHelper.StringHasNoValue(input))
         {
-            return;
+            return null;
         }
 
-        License.Jurisdiction.RestrictionCodes = input;
+        return input;
     }
 }
 
-//[Parser("DAS")]
 internal static class RestrictionCodesLegacyParser
 {
-    internal static string? ParseAndSet(string input)
+    internal static string? Parse(string input)
     {
-        if (StringHasNoValue(input))
+        if (ParserHelper.StringHasNoValue(input))
         {
-            return;
+            return null;
         }
 
-        License.Jurisdiction.RestrictionCodes = input;
+        return input;
     }
 }
