@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace IdParser.Core.Static.Attributes;
+namespace IdParser.Core.Attributes;
 
 internal static class AttributeExtensions
 {

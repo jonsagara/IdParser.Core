@@ -3,7 +3,6 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using IdParser.Core.Static;
 using Microsoft.PointOfService;
 using Newtonsoft.Json;
 

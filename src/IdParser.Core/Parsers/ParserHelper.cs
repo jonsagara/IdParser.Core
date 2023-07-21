@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace IdParser.Core.Static.Parsers;
+namespace IdParser.Core.Parsers;
 internal static class ParserHelper
 {
     internal static bool StringHasNoValue(string input)

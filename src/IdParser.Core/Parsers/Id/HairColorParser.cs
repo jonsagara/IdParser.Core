@@ -1,6 +1,6 @@
-﻿using IdParser.Core.Static.Metadata;
+﻿using IdParser.Core.Metadata;
 
-namespace IdParser.Core.Static.Parsers.Id;
+namespace IdParser.Core.Parsers.Id;
 
 //[Parser("DAZ")]
 internal static class HairColorParser

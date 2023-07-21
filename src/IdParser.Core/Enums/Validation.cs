@@ -1,5 +1,5 @@
 ﻿// Don't make callers add an extra using if they want to specify a validation level.
-namespace IdParser.Core.Static;
+namespace IdParser.Core;
 
 public enum Validation
 {

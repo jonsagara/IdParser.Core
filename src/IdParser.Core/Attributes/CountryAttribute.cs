@@ -1,4 +1,4 @@
-﻿namespace IdParser.Core.Static.Attributes;
+﻿namespace IdParser.Core.Attributes;
 
 /// <summary>
 /// Specifies a country display value for the target.

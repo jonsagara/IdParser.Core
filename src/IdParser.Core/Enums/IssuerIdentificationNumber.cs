@@ -1,6 +1,6 @@
-﻿using IdParser.Core.Static.Attributes;
+﻿using IdParser.Core.Attributes;
 
-namespace IdParser.Core.Static;
+namespace IdParser.Core;
 
 /// <remarks>
 /// https://www.aamva.org/identity/issuer-identification-numbers-(iin)

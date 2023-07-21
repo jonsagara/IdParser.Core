@@ -1,9 +1,8 @@
-﻿using System;
-using IdParser.Core.Static.Constants;
-using IdParser.Core.Static.Parsers.Id;
-using IdParser.Core.Static.Parsers.License;
+﻿using IdParser.Core.Constants;
+using IdParser.Core.Parsers.Id;
+using IdParser.Core.Parsers.License;
 
-namespace IdParser.Core.Static.Parsers;
+namespace IdParser.Core.Parsers;
 
 internal static class Parser
 {

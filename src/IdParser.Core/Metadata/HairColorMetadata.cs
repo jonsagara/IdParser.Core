@@ -1,6 +1,6 @@
-﻿using IdParser.Core.Static.Attributes;
+﻿using IdParser.Core.Attributes;
 
-namespace IdParser.Core.Static.Metadata;
+namespace IdParser.Core.Metadata;
 
 internal static class HairColorMetadata
 {

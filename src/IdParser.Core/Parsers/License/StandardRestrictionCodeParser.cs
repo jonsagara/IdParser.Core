@@ -1,4 +1,4 @@
-﻿namespace IdParser.Core.Static.Parsers.License;
+﻿namespace IdParser.Core.Parsers.License;
 
 internal static class StandardRestrictionCodeParser
 {

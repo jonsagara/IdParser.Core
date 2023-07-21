@@ -1,7 +1,4 @@
-﻿using System.Reflection.Emit;
-using System.Runtime.Intrinsics.X86;
-
-namespace IdParser.Core.Static.Constants;
+﻿namespace IdParser.Core.Constants;
 
 internal static class SubfileElementIds
 {

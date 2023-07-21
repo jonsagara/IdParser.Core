@@ -1,4 +1,4 @@
-﻿namespace IdParser.Core.Static.Metadata;
+﻿namespace IdParser.Core.Metadata;
 
 internal record EthnicityMetadata(string Abbreviation, string? Description);
 

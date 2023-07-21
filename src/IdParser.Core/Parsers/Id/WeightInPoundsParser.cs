@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace IdParser.Core.Static.Parsers.Id;
+namespace IdParser.Core.Parsers.Id;
 
 internal static class WeightInPoundsParser
 {

@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace IdParser.Core.Static.Test;
+namespace IdParser.Core.Test;
 
 public class ValidationTests
 {

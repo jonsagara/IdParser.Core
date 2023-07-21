@@ -1,4 +1,4 @@
-﻿namespace IdParser.Core.Static.Parsers.Id;
+﻿namespace IdParser.Core.Parsers.Id;
 
 internal record FirstNameParts(string? First, string? Middle);
 

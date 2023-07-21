@@ -1,10 +1,10 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
-using IdParser.Core.Static.Constants;
-using IdParser.Core.Static.Metadata;
-using IdParser.Core.Static.Parsers;
+using IdParser.Core.Constants;
+using IdParser.Core.Metadata;
+using IdParser.Core.Parsers;
 
-namespace IdParser.Core.Static;
+namespace IdParser.Core;
 
 public static class Barcode
 {

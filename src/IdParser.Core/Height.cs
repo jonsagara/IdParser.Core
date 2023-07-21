@@ -1,4 +1,4 @@
-﻿namespace IdParser.Core.Static;
+﻿namespace IdParser.Core;
 
 /// <summary>
 /// Represents the height of the person identified in the ID card.

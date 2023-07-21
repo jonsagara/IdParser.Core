@@ -1,4 +1,4 @@
-﻿namespace IdParser.Core.Static;
+﻿namespace IdParser.Core;
 
 public class IdentificationCard
 {

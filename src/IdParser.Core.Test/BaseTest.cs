@@ -1,7 +1,7 @@
-﻿using IdParser.Core.Static.Metadata;
+﻿using IdParser.Core.Metadata;
 using Xunit;
 
-namespace IdParser.Core.Static.Test;
+namespace IdParser.Core.Test;
 
 public class BaseTest
 {

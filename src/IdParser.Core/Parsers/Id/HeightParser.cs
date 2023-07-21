@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace IdParser.Core.Static.Parsers.Id;
+namespace IdParser.Core.Parsers.Id;
 
 internal static class HeightParser
 {

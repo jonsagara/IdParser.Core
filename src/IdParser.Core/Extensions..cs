@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace IdParser.Core.Static;
+namespace IdParser.Core;
 
 public static class Extensions
 {
