@@ -4,6 +4,11 @@ namespace IdParser.Core.Static;
 
 public static class Extensions
 {
+    internal static string? ReplaceEmptyWithNull(this string data)
+        => string.IsNullOrEmpty(data)
+        ? null
+        : data;
+
     /// <summary>
     /// UTF8-encode the string and convert the bytes to hex. Prefix the return string with 0x.
     /// </summary>
@@ -17,4 +22,7 @@ public static class Extensions
     /// <returns></returns>
     internal static string ToHexString(this char value)
         => $"0x{Convert.ToHexString(Encoding.UTF8.GetBytes(new[] { value }))}";
+
+    internal static bool EqualsIgnoreCase(this string source, string value)
+        => source.Equals(value, StringComparison.OrdinalIgnoreCase);
 }

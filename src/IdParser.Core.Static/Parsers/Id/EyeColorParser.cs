@@ -1,102 +1,104 @@
-﻿namespace IdParser.Core.Static.Parsers.Id;
+﻿using IdParser.Core.Static.Metadata;
 
-//[Parser("DAY")]
+namespace IdParser.Core.Static.Parsers.Id;
+
 internal static class EyeColorParser
 {
-    internal static string? ParseAndSet(string input)
+    internal static EyeColor? Parse(string input)
     {
-        if (string.IsNullOrEmpty(input) || input.EqualsIgnoreCase("UNK"))
+        if (string.IsNullOrWhiteSpace(input) || input.EqualsIgnoreCase("UNK"))
         {
-            return;
+            return null;
         }
 
-        if (input.EqualsIgnoreCase(EyeColor.Black.GetAbbreviation()))
+        if (input.EqualsIgnoreCase(EyeColor.Black.GetAbbreviationOrDefault()))
         {
-            IdCard.EyeColor = EyeColor.Black;
+            return EyeColor.Black;
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Blue.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(EyeColor.Blue.GetAbbreviationOrDefault()))
         {
-            IdCard.EyeColor = EyeColor.Blue;
+            return EyeColor.Blue;
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Brown.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(EyeColor.Brown.GetAbbreviationOrDefault()))
         {
-            IdCard.EyeColor = EyeColor.Brown;
+            return EyeColor.Brown;
         }
         // California doesn't follow the abbreviation scheme for brown
         else if (input.EqualsIgnoreCase("BRN"))
         {
-            IdCard.EyeColor = EyeColor.Brown;
+            return EyeColor.Brown;
         }
         // Arizona doesn't follow the abbreviation scheme for brown
         else if (input.EqualsIgnoreCase("BR"))
         {
-            IdCard.EyeColor = EyeColor.Brown;
+            return EyeColor.Brown;
         }
         // West Virginia doesn't follow the abbreviation scheme for brown
         else if (input.EqualsIgnoreCase("BN"))
         {
-            IdCard.EyeColor = EyeColor.Brown;
+            return EyeColor.Brown;
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Dichromatic.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(EyeColor.Dichromatic.GetAbbreviationOrDefault()))
         {
-            IdCard.EyeColor = EyeColor.Dichromatic;
+            return EyeColor.Dichromatic;
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Gray.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(EyeColor.Gray.GetAbbreviationOrDefault()))
         {
-            IdCard.EyeColor = EyeColor.Gray;
+            return EyeColor.Gray;
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Green.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(EyeColor.Green.GetAbbreviationOrDefault()))
         {
-            IdCard.EyeColor = EyeColor.Green;
+            return EyeColor.Green;
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Hazel.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(EyeColor.Hazel.GetAbbreviationOrDefault()))
         {
-            IdCard.EyeColor = EyeColor.Hazel;
+            return EyeColor.Hazel;
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Maroon.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(EyeColor.Maroon.GetAbbreviationOrDefault()))
         {
-            IdCard.EyeColor = EyeColor.Maroon;
+            return EyeColor.Maroon;
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Pink.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(EyeColor.Pink.GetAbbreviationOrDefault()))
         {
-            IdCard.EyeColor = EyeColor.Pink;
+            return EyeColor.Pink;
         }
-
         else if (input.EqualsIgnoreCase(EyeColor.Black.ToString()))
         {
-            IdCard.EyeColor = EyeColor.Black;
+            return EyeColor.Black;
         }
         else if (input.EqualsIgnoreCase(EyeColor.Blue.ToString()))
         {
-            IdCard.EyeColor = EyeColor.Blue;
+            return EyeColor.Blue;
         }
         else if (input.EqualsIgnoreCase(EyeColor.Brown.ToString()))
         {
-            IdCard.EyeColor = EyeColor.Brown;
+            return EyeColor.Brown;
         }
         else if (input.EqualsIgnoreCase(EyeColor.Dichromatic.ToString()))
         {
-            IdCard.EyeColor = EyeColor.Dichromatic;
+            return EyeColor.Dichromatic;
         }
         else if (input.EqualsIgnoreCase(EyeColor.Gray.ToString()))
         {
-            IdCard.EyeColor = EyeColor.Gray;
+            return EyeColor.Gray;
         }
         else if (input.EqualsIgnoreCase(EyeColor.Green.ToString()))
         {
-            IdCard.EyeColor = EyeColor.Green;
+            return EyeColor.Green;
         }
         else if (input.EqualsIgnoreCase(EyeColor.Hazel.ToString()))
         {
-            IdCard.EyeColor = EyeColor.Hazel;
+            return EyeColor.Hazel;
         }
         else if (input.EqualsIgnoreCase(EyeColor.Maroon.ToString()))
         {
-            IdCard.EyeColor = EyeColor.Maroon;
+            return EyeColor.Maroon;
         }
         else if (input.EqualsIgnoreCase(EyeColor.Pink.ToString()))
         {
-            IdCard.EyeColor = EyeColor.Pink;
+            return EyeColor.Pink;
         }
+
+        return null;
     }
 }

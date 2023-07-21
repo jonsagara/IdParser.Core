@@ -1,15 +1,14 @@
 ﻿namespace IdParser.Core.Static.Parsers.Id;
 
-//[Parser("DCF")]
 internal static class DocumentDiscriminatorParser
 {
     internal static string? Parse(string input)
     {
-        if (StringHasNoValue(input))
+        if (ParserHelper.StringHasNoValue(input))
         {
-            return;
+            return null;
         }
 
-        IdCard.DocumentDiscriminator = input;
+        return input;
     }
 }

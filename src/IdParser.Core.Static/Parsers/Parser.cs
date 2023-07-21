@@ -41,6 +41,28 @@ internal static class Parser
                 idCard.DateOfBirth = DateOfBirthParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
                 break;
 
+            case SubfileElementIds.DocumentDiscriminator:
+                idCard.DocumentDiscriminator = DocumentDiscriminatorParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.Ethnicity:
+                idCard.Ethnicity = EthnicityParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.ExpirationDate:
+                idCard.ExpirationDate = ExpirationDateParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                break;
+
+            case SubfileElementIds.EyeColor:
+                idCard.EyeColor = EyeColorParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.FirstName:
+                var firstNameParts = FirstNameParser.Parse(input: data);
+                idCard.Name.First = firstNameParts?.First;
+                idCard.Name.Middle = firstNameParts?.Middle;
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException(nameof(elementId), elementId, $"Unsupported elementId '{elementId}'.");
         }

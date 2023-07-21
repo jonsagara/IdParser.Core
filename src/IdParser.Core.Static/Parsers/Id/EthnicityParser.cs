@@ -1,38 +1,41 @@
-﻿namespace IdParser.Core.Static.Parsers.Id;
+﻿using IdParser.Core.Static.Metadata;
 
-//[Parser("DCL")]
+namespace IdParser.Core.Static.Parsers.Id;
+
 internal static class EthnicityParser
 {
-    internal static string? Parse(string input)
+    internal static Ethnicity? Parse(string input)
     {
-        if (string.IsNullOrEmpty(input) || input.EqualsIgnoreCase("U"))
+        if (string.IsNullOrWhiteSpace(input) || input.EqualsIgnoreCase("U"))
         {
-            return;
+            return null;
         }
 
-        if (input.EqualsIgnoreCase(Ethnicity.AlaskanAmericanIndian.GetAbbreviation()))
+        if (input.EqualsIgnoreCase(Ethnicity.AlaskanAmericanIndian.GetAbbreviationOrDefault()))
         {
-            IdCard.Ethnicity = Ethnicity.AlaskanAmericanIndian;
+            return Ethnicity.AlaskanAmericanIndian;
         }
-        else if (input.EqualsIgnoreCase(Ethnicity.AsianPacificIslander.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(Ethnicity.AsianPacificIslander.GetAbbreviationOrDefault()))
         {
-            IdCard.Ethnicity = Ethnicity.AsianPacificIslander;
+            return Ethnicity.AsianPacificIslander;
         }
-        else if (input.EqualsIgnoreCase(Ethnicity.Black.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(Ethnicity.Black.GetAbbreviationOrDefault()))
         {
-            IdCard.Ethnicity = Ethnicity.Black;
+            return Ethnicity.Black;
         }
-        else if (input.EqualsIgnoreCase(Ethnicity.HispanicOrigin.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(Ethnicity.HispanicOrigin.GetAbbreviationOrDefault()))
         {
-            IdCard.Ethnicity = Ethnicity.HispanicOrigin;
+            return Ethnicity.HispanicOrigin;
         }
-        else if (input.EqualsIgnoreCase(Ethnicity.NonHispanic.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(Ethnicity.NonHispanic.GetAbbreviationOrDefault()))
         {
-            IdCard.Ethnicity = Ethnicity.NonHispanic;
+            return Ethnicity.NonHispanic;
         }
-        else if (input.EqualsIgnoreCase(Ethnicity.White.GetAbbreviation()))
+        else if (input.EqualsIgnoreCase(Ethnicity.White.GetAbbreviationOrDefault()))
         {
-            IdCard.Ethnicity = Ethnicity.White;
+            return Ethnicity.White;
         }
+
+        return null;
     }
 }

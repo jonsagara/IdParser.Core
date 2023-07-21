@@ -78,4 +78,52 @@ internal static class SubfileElementIds
     /// <para>F8N</para>
     /// </remarks>
     internal const string DateOfBirth = "DBB";
+
+    /// <summary>
+    /// Document Discriminator
+    /// </summary>
+    /// <remarks>
+    /// <para>Number must uniquely identify a particular document issued to that customer from others that may have been issued in 
+    /// the past.This number may serve multiple purposes of document discrimination, audit information number, and/or inventory 
+    /// control.</para>
+    /// <para>V25ANS</para>
+    /// </remarks>
+    internal const string DocumentDiscriminator = "DCF";
+
+    /// <summary>
+    /// Race / ethnicity
+    /// </summary>
+    /// <remarks>
+    /// <para>Codes for race or ethnicity of the cardholder, as defined in AAMVA D20.</para>
+    /// <para>V3A</para>
+    /// </remarks>
+    internal const string Ethnicity = "DCL";
+
+    /// <summary>
+    /// Document Expiration Date
+    /// </summary>
+    /// <remarks>
+    /// <para>Date on which the driving and identification privileges granted by the document are no longer valid. 
+    /// (MMDDCCYY for U.S., CCYYMMDD for Canada)</para>
+    /// <para>F8N</para>
+    /// </remarks>
+    internal const string ExpirationDate = "DBA";
+
+    /// <summary>
+    /// Physical Description – Eye Color
+    /// </summary>
+    /// <remarks>
+    /// <para>Color of cardholder's eyes. (ANSI D-20 codes)</para>
+    /// <para>F3A</para>
+    /// </remarks>
+    internal const string EyeColor = "DAY";
+
+    /// <summary>
+    /// Customer First Name
+    /// </summary>
+    /// <remarks>
+    /// <para>First name of the cardholder.</para>
+    /// <para>V40ANS</para>
+    /// </remarks>
+    internal const string FirstName = "DAC";
 }
