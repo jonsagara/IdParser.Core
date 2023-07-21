@@ -6,7 +6,7 @@ internal static class WeightInKilogramsParser
 {
     internal static Weight Parse(string input)
     {
-        var weight = Convert.ToInt16(input, CultureInfo.InvariantCulture);
+        var weight = short.Parse(input.AsSpan(), provider: CultureInfo.InvariantCulture);
 
         return new Weight(kilograms: weight);
     }

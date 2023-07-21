@@ -158,12 +158,6 @@ public static class Barcode
     }
 
     /// <summary>
-    /// Get the AAMVA version number from the scanned text, and convert it to a byte.
-    /// </summary>
-    private static byte ParseAAMVAVersionNumber(string input)
-        => Convert.ToByte(input.Substring(startIndex: 15, length: 2), CultureInfo.InvariantCulture);
-
-    /// <summary>
     /// Gets the AAMVA version of the input.
     /// </summary>
     /// <param name="input">The raw PDF417 barcode data</param>
@@ -176,9 +170,7 @@ public static class Barcode
             throw new ArgumentException("Input must not be less than 17 characters in order to parse the AAMVA version.", nameof(input));
         }
 
-        var parsedAAMVAVersionText = input.Substring(startIndex: 15, length: 2);
-
-        if (Enum.TryParse<AAMVAVersion>(parsedAAMVAVersionText, out var version) && Enum.IsDefined(version))
+        if (Enum.TryParse<AAMVAVersion>(input.AsSpan(start: 15, length: 2), out var version) && Enum.IsDefined(version))
         {
             // We parsed the version number from the text, -AND- the number is actually a defined 
             //   enum value. Return it.
@@ -211,11 +203,11 @@ public static class Barcode
             ? new DriversLicense()
             : new IdentificationCard();
 
-        idCard.IssuerIdentificationNumber = (IssuerIdentificationNumber)Convert.ToInt32(rawPdf417Input.Substring(9, 6), CultureInfo.InvariantCulture);
+        idCard.IssuerIdentificationNumber = (IssuerIdentificationNumber)int.Parse(rawPdf417Input.AsSpan(9, 6), provider: CultureInfo.InvariantCulture);
         idCard.AAMVAVersionNumber = version;
         idCard.JurisdictionVersionNumber = version == AAMVAVersion.AAMVA2000
-            ? (byte)0
-            : Convert.ToByte(rawPdf417Input.Substring(17, 2), CultureInfo.InvariantCulture);
+            ? 0
+            : int.Parse(rawPdf417Input.AsSpan(17, 2), provider: CultureInfo.InvariantCulture);
 
         return idCard;
     }
@@ -229,7 +221,7 @@ public static class Barcode
 
         if (version == AAMVAVersion.AAMVA2000)
         {
-            offset = Convert.ToInt32(rawPdf417Input.Substring(startIndex: 21, length: 4), CultureInfo.InvariantCulture);
+            offset = int.Parse(rawPdf417Input.AsSpan(start: 21, length: 4), provider: CultureInfo.InvariantCulture);
 
             // South Carolina's offset is off by one byte which causes the parsing of the IdNumber to fail
             if (idCard.IssuerIdentificationNumber == IssuerIdentificationNumber.SouthCarolina && offset == 30)
@@ -245,7 +237,7 @@ public static class Barcode
             // which causes the parsing of the subfile records to fail
             if (offsetAsString.All(char.IsDigit))
             {
-                offset = Convert.ToInt32(offsetAsString, CultureInfo.InvariantCulture);
+                offset = int.Parse(offsetAsString.AsSpan(), provider: CultureInfo.InvariantCulture);
             }
         }
 

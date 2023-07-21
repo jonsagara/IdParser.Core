@@ -13,13 +13,13 @@ internal static class HeightParser
 
         if (version == AAMVAVersion.AAMVA2000)
         {
-            var feet = Convert.ToInt32(input.Substring(startIndex: 0, length: 1), CultureInfo.InvariantCulture);
-            var inches = Convert.ToInt32(input.Substring(startIndex: 1, length: 2), CultureInfo.InvariantCulture);
+            var feet = int.Parse(input.AsSpan(start: 0, length: 1), provider: CultureInfo.InvariantCulture);
+            var inches = int.Parse(input.AsSpan(start: 1, length: 2), provider: CultureInfo.InvariantCulture);
 
             return new Height(feet: feet, inches: inches);
         }
 
-        var height = Convert.ToInt32(input.Substring(startIndex: 0, length: input.Length - 2), CultureInfo.InvariantCulture);
+        var height = int.Parse(input.AsSpan(start: 0, length: input.Length - 2), provider: CultureInfo.InvariantCulture);
 
         if (input.Contains("cm", StringComparison.OrdinalIgnoreCase))
         {

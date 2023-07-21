@@ -13,7 +13,7 @@ internal static class WeightInPoundsParser
             return weight;
         }
 
-        var weightLbs = Convert.ToInt16(input, CultureInfo.InvariantCulture);
+        var weightLbs = short.Parse(input.AsSpan(), provider: CultureInfo.InvariantCulture);
 
         return new Weight(pounds: weightLbs);
     }
@@ -30,7 +30,7 @@ internal static class WeightInPoundsParser
 
         if (match.Success)
         {
-            var weightKg = Convert.ToInt16(match.Groups["Weight"].Value, CultureInfo.InvariantCulture);
+            var weightKg = short.Parse(match.Groups["Weight"].Value.AsSpan(), provider: CultureInfo.InvariantCulture);
 
             weight = new Weight(kilograms: weightKg);
             return true;

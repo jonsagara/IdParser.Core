@@ -4,7 +4,7 @@ public class IdentificationCard
 {
     public IssuerIdentificationNumber IssuerIdentificationNumber { get; set; }
     public AAMVAVersion AAMVAVersionNumber { get; set; }
-    public byte JurisdictionVersionNumber { get; set; }
+    public int JurisdictionVersionNumber { get; set; }
     public string IdNumber { get; set; } = null!;
 
     public Name Name { get; set; } = new Name();
