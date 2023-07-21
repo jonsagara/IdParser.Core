@@ -24,6 +24,11 @@ public record Weight
         IsMetric = false;
     }
 
+    public override string ToString()
+        => IsMetric
+        ? $"{Kilograms} kg"
+        : $"{KilogramsToPounds(kilograms: Kilograms!.Value)} lbs";
+
 
     //
     // Private methods
@@ -31,4 +36,7 @@ public record Weight
 
     private static double PoundsToKilograms(int pounds)
          => pounds / PoundsPerKilogram;
+
+    private static int KilogramsToPounds(double kilograms)
+        => (int)Math.Round(kilograms * PoundsPerKilogram, digits: 0);
 }
