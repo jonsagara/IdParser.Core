@@ -1,15 +1,14 @@
 ﻿namespace IdParser.Core.Static.Parsers.Id;
 
-//[Parser("DDI")]
 internal static class Under19UntilParser
 {
-    internal static DateTime? Parse(string input)
+    internal static DateTime? Parse(string input, Country country, AAMVAVersion version)
     {
-        if (DateHasNoValue(input) || Version < Version.Aamva2000)
+        if (ParserHelper.DateHasNoValue(input) || version < AAMVAVersion.AAMVA2000)
         {
-            return;
+            return null;
         }
 
-        IdCard.Under19Until = ParseDate(input);
+        return ParserHelper.ParseDate(input, country, version);
     }
 }

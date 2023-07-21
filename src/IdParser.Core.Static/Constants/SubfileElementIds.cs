@@ -324,4 +324,58 @@ internal static class SubfileElementIds
     /// <para>V35ANS</para>
     /// </remarks>
     internal const string StreetLine2 = "DAH";
+
+    /// <summary>
+    /// Under 18 Until
+    /// </summary>
+    /// <remarks>
+    /// <para>Date on which the cardholder turns 18 years old. (MMDDCCYY for U.S., CCYYMMDD for Canada).</para>
+    /// <para>F8N</para>
+    /// </remarks>
+    internal const string Under18Until = "DDH";
+
+    /// <summary>
+    /// Under 19 Until
+    /// </summary>
+    /// <remarks>
+    /// <para>Date on which the cardholder turns 19 years old. (MMDDCCYY for U.S., CCYYMMDD for Canada).</para>
+    /// <para>F8N</para>
+    /// </remarks>
+    internal const string Under19Until = "DDI";
+
+    /// <summary>
+    /// Under 21 Until
+    /// </summary>
+    /// <remarks>
+    /// <para>Date on which the cardholder turns 21 years old. (MMDDCCYY for U.S., CCYYMMDD for Canada).</para>
+    /// <para>F8N</para>
+    /// </remarks>
+    internal const string Under21Until = "DDJ";
+
+    /// <summary>
+    /// First name truncation
+    /// </summary>
+    /// <remarks>
+    /// <para>A code that indicates whether a field has been truncated(T), has not been truncated(N), or – unknown whether truncated(U).</para>
+    /// <para>F1A</para>
+    /// </remarks>
+    internal const string WasFirstNameTruncated = "DDF";
+
+    /// <summary>
+    /// Family name truncation
+    /// </summary>
+    /// <remarks>
+    /// <para>A code that indicates whether a field has been truncated(T), has not been truncated(N), or – unknown whether truncated(U).</para>
+    /// <para>F1A</para>
+    /// </remarks>
+    internal const string WasLastNameTruncated = "DDE";
+
+    /// <summary>
+    /// Middle name truncation
+    /// </summary>
+    /// <remarks>
+    /// <para>A code that indicates whether a field has been truncated(T), has not been truncated(N), or – unknown whether truncated(U).</para>
+    /// <para>F1A</para>
+    /// </remarks>
+    internal const string WasMiddleNameTruncated = "DDG";
 }

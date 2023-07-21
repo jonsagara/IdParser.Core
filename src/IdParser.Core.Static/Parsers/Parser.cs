@@ -157,6 +157,30 @@ internal static class Parser
                 idCard.Address.StreetLine2 = StreetLine2Parser.Parse(input: data, idCard.Address);
                 break;
 
+            case SubfileElementIds.Under18Until:
+                idCard.Under18Until = Under18UntilParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                break;
+
+            case SubfileElementIds.Under19Until:
+                idCard.Under19Until = Under19UntilParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                break;
+
+            case SubfileElementIds.Under21Until:
+                idCard.Under21Until = Under21UntilParser.Parse(input: data, country, idCard.AAMVAVersionNumber);
+                break;
+
+            case SubfileElementIds.WasFirstNameTruncated:
+                idCard.Name.WasFirstTruncated = WasFirstNameTruncatedParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.WasLastNameTruncated:
+                idCard.Name.WasLastTruncated = WasLastNameTruncatedParser.Parse(input: data);
+                break;
+
+            case SubfileElementIds.WasMiddleNameTruncated:
+                idCard.Name.WasMiddleTruncated = WasMiddleNameTruncatedParser.Parse(input: data);
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException(nameof(elementId), elementId, $"Unsupported elementId '{elementId}'.");
         }

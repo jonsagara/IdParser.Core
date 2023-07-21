@@ -1,10 +1,7 @@
 ﻿namespace IdParser.Core.Static.Parsers.Id;
 
-//[Parser("DDE")]
 internal static class WasLastNameTruncatedParser
 {
-    internal static bool? ParseAndSet(string input)
-    {
-        IdCard.Name.WasLastTruncated = ParseBool(input);
-    }
+    internal static bool? Parse(string input)
+        => ParserHelper.ParseBool(input);
 }
