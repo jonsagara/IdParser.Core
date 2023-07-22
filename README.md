@@ -1,6 +1,7 @@
 # IdParser.Core
 
-![Build Status](https://github.com/jonsagara/IdParser.Core/actions/workflows/build-and-publish.yml/badge.svg)
+[![publish](https://github.com/jonsagara/IdParser.Core/actions/workflows/build-and-publish.yml/badge.svg)](https://github.com/jonsagara/IdParser.Core/actions?query=workflow%3Apublish)
+[![NuGet](http://img.shields.io/nuget/vpre/IdParser.Core.svg?label=NuGet)](https://www.nuget.org/packages/IdParser.Core/)
 
 This is a fork of Connor O'Shea's [IdParser](https://github.com/c0shea/IdParser) library. Big thanks to him for all of his work. 
 
@@ -13,7 +14,7 @@ The main changes I made are:
 - The `Abbreviation`, `Country`, and `Description` attribute values are now cached so that we don't have to repeatedly use reflection to get their values.
 - Unhandled parsing exceptions are now rethrown, regardless of what the caller passes for the validation level (`None` or `Strict`).
 - Where possible, modernized the code base to use newer framework and language features, such as `Span<T>`.
-- The return value of `Parse` is now an object that return both the ID card and a collection of any unknown element Ids.
+- The return value of `Parse` is now an object that returns both the ID card and a collection of any unknown element Ids.
 - `Parse` now accepts an optional `TextWriter` parameter. When not null, the library will log to the `TextWriter`.
  
 The original README follows, slightly modified to match this updated version of the library.
