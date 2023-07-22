@@ -35,18 +35,71 @@ jobs:
     - name: Setup .NET SDK with global.json
       uses: actions/setup-dotnet@v3
       with:
-        global-json-file: Search/global.json
+        global-json-file: global.json
 
     # Create the NuGet package in the folder from the environment variable NuGetDirectory
     - name: dotnet pack
       run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }}
 
-    # Publish the NuGet package as an artifact, so they can be used in the following jobs
-    - name: Upload .nupkg
+    # Publish .nupkg files as an artifact, so they can be used in the following jobs
+    - name: Upload NuGet packages as artifacts
       uses: actions/upload-artifact@v3
       with:
         name: nuget
         if-no-files-found: error
         retention-days: 7
-        path: ${{ env.NuGetDirectory }}/*.nupkg
+        path: ${{ env.NuGetDirectory }}/*
+
+  run_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout source"
+        uses: actions/checkout@v3
+
+      # Install the .NET SDK indicated in the global.json file
+      - name: Setup .NET SDK with global.json
+        uses: actions/setup-dotnet@v3
+        with:
+          global-json-file: global.json
+          
+      - name: Run tests
+        run: dotnet test --configratuion Release
+
+  deploy_packages:
+    # Publish only when creating a GitHub Release
+    # https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
+    # You can update this logic if you want to manage releases differently
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    needs: [ pack_nuget, run_test ]
+    steps:
+      # Download the NuGet package created in the previous job
+      - name: Download NuGet package artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: nuget
+          path: ${{ env.NuGetDirectory }}
+
+      # Install the .NET SDK indicated in the global.json file
+      - name: Setup .NET SDK with global.json
+        uses: actions/setup-dotnet@v3
+        with:
+          global-json-file: global.json
+
+      # Install NuGet. Needed to push the .snupkg file. dotnet nuget apparently can't do this.
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1
+
+      # Publish all NuGet .nupkg files to NuGet.
+      # Use --skip-duplicate to prevent errors if a package with the same version already exists.
+      # If you retry a failed workflow, already published packages will be skipped without error.
+      - name: Publish package (.nupkg) files
+        run: |
+          foreach ($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
+            dotnet nuget push $file --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          }
+      
+      # Publish all NuGet .snupkg symbol files to NuGet.
+      - name: Publish symbol (.snupkg) files
+        run: nuget push *.snupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGET_API_KEY }}
     
