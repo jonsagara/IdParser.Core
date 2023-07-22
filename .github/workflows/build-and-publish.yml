@@ -118,5 +118,8 @@ jobs:
       
       # Publish all NuGet .snupkg symbol files to NuGet.
       - name: Publish symbol (.snupkg) files
-        run: nuget push *.snupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGET_API_KEY }}
+        run: |
+          foreach ($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.snupkg)) {
+            nuget push $file -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGET_API_KEY }}
+          }
     
