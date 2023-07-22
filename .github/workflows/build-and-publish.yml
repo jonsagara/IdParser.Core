@@ -94,7 +94,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: globaljson
-          path: ${{ github.workspace }}/global.json
+          path: ${{ github.workspace }}
 
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET SDK with global.json
