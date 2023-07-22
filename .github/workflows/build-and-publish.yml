@@ -103,8 +103,8 @@ jobs:
           global-json-file: global.json
 
       # Install NuGet. Needed to push the .snupkg file. dotnet nuget apparently can't do this.
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1
+      # - name: Setup NuGet
+      #   uses: NuGet/setup-nuget@v1
 
       # Publish all NuGet .nupkg files to NuGet.
       # Use --skip-duplicate to prevent errors if a package with the same version already exists.
@@ -117,9 +117,9 @@ jobs:
           }
       
       # Publish all NuGet .snupkg symbol files to NuGet.
-      - name: Publish symbol (.snupkg) files
-        run: |
-          foreach ($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.snupkg)) {
-            nuget push $file -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGET_API_KEY }}
-          }
+      # - name: Publish symbol (.snupkg) files
+      #   run: |
+      #     foreach ($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.snupkg)) {
+      #       nuget push $file -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGET_API_KEY }}
+      #     }
     
