@@ -39,7 +39,7 @@ jobs:
 
     # Create the NuGet package in the folder from the environment variable NuGetDirectory
     - name: dotnet pack
-      run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }}
+      run: dotnet pack ./src/IdParser.Core/IdParser.Core.csproj --configuration Release --output ${{ env.NuGetDirectory }}
 
     # Publish .nupkg files as an artifact, so they can be used in the following jobs
     - name: Upload NuGet packages as artifacts
