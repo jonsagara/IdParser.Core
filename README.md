@@ -35,7 +35,7 @@ Take a look at the unit test project for more examples and usage.
 The ```IdParser.Client``` project is a handy GUI application to help test and verify that an ID
 will be parsed correctly. The app works with both OPOS and HID keyboard emulation scanners.
 
-![](https://raw.githubusercontent.com/jonsagara/IdParser.Core/master/IdParser.Client.png)
+![](https://raw.githubusercontent.com/jonsagara/IdParser.Core/main/IdParser.Client.png)
 
 ## FAQ
 
