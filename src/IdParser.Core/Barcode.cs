@@ -6,6 +6,11 @@ using IdParser.Core.Parsers;
 
 namespace IdParser.Core;
 
+public record BarcodeParseResult(
+    IdentificationCard Card,
+    IReadOnlyCollection<string> UnhandledElementIds
+    );
+
 public static class Barcode
 {
     /// <summary>
@@ -50,7 +55,7 @@ public static class Barcode
     /// for elements that do not match or do not adversely affect parsing.
     /// </param>
     /// <param name="log">The <see cref="TextWriter"/> to log to.</param>
-    public static IdentificationCard Parse(string rawPdf417Input, Validation validationLevel = Validation.Strict, TextWriter? log = null)
+    public static BarcodeParseResult Parse(string rawPdf417Input, Validation validationLevel = Validation.Strict, TextWriter? log = null)
     {
         ArgumentNullException.ThrowIfNull(rawPdf417Input);
 
@@ -79,14 +84,12 @@ public static class Barcode
         idCard.Address.Country = country;
 
         var unhandledElementIds = PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, validationLevel);
+        if (unhandledElementIds.Count > 0)
+        {
+            logProxy?.WriteLine($"[{nameof(Barcode)}] One or more ElementIds were not handled by the ID or Driver's License parsers: {string.Join(", ", unhandledElementIds)}");
+        }
 
-#warning TODO: how to log this and/or raise it to the caller?
-        //        if (unhandledElementIds.Count > 0)
-        //        {
-        //            Console.WriteLine($"One or more ElementIds were not handled by the ID or Driver's License parsers: {string.Join(", ", unhandledElementIds)}");
-        //        }
-
-        return idCard;
+        return new BarcodeParseResult(idCard, unhandledElementIds);
     }
 
 

@@ -57,7 +57,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("MA 2009");
-        var idCard = Barcode.Parse(file, Validation.None, _output);
+        var (idCard, _) = Barcode.Parse(file, Validation.None, _output);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -108,7 +108,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("MA 2016");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -165,7 +165,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("MA No Middle Name");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -211,7 +211,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("NY");
-        var idCard = Barcode.Parse(file);
+        var (idCard, _) = Barcode.Parse(file);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -263,7 +263,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("VA");
-        var idCard = Barcode.Parse(file);
+        var (idCard, _) = Barcode.Parse(file);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -319,7 +319,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("GA");
-        var idCard = Barcode.Parse(file);
+        var (idCard, _) = Barcode.Parse(file);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -368,7 +368,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("CT");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -425,7 +425,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("CT Web Browser");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -472,7 +472,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("CT No Middle Name");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -519,7 +519,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("MO");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -576,7 +576,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("FL");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -641,7 +641,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("NH");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -689,7 +689,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("TX");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -740,7 +740,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("PA");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -791,7 +791,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("PA Two Middle Names");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -811,7 +811,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("PA Three Middle Names");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         Assert.Equal(expected.First, idCard.Name.First);
         Assert.Equal(expected.Middle, idCard.Name.Middle);
@@ -865,7 +865,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("PA 2016");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -922,7 +922,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("RI");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -976,7 +976,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("NJ");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1031,7 +1031,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("NC");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1081,7 +1081,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("SC");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1134,7 +1134,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("ME");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1193,7 +1193,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("OH");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1233,7 +1233,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("MI");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1280,7 +1280,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("ON");
-        var idCard = Barcode.Parse(file, Validation.None, _output);
+        var (idCard, _) = Barcode.Parse(file, Validation.None, _output);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1337,7 +1337,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("VT");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1390,7 +1390,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("PR");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1445,7 +1445,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("MD");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1498,7 +1498,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("CA");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1546,7 +1546,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("NM");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1605,7 +1605,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("UT");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1659,7 +1659,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("IA");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1708,7 +1708,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("OR");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1757,7 +1757,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("LA");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1811,7 +1811,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("KY");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1868,7 +1868,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("WI");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1925,7 +1925,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("DE");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1975,7 +1975,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("CO");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2034,7 +2034,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("CO 2013");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2086,7 +2086,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("AL");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2138,7 +2138,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("AZ");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2191,7 +2191,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("AR");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2235,7 +2235,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("WA");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2284,7 +2284,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("MT");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2340,7 +2340,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("KS");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2388,7 +2388,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("IN");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2444,7 +2444,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("IL");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2495,7 +2495,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("HI");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2545,7 +2545,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("WV");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2601,7 +2601,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("AK");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2652,7 +2652,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("DC");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2704,7 +2704,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("PE");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2770,7 +2770,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("NV");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2832,7 +2832,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("ND");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2895,7 +2895,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("CT Undefined Characters");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -2947,7 +2947,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("AB");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -3011,7 +3011,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("MN");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -3079,7 +3079,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("MS");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -3140,7 +3140,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("ID");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -3194,7 +3194,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = File.ReadAllText("Leading Whitespace.txt");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -3243,7 +3243,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = File.ReadAllText("Invalid Header.txt");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -3292,7 +3292,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("CT Suffix");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -3342,7 +3342,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("CT Multiple Middle Names");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -3384,7 +3384,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("NB");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -3434,7 +3434,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("WY");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var (idCard, _) = Barcode.Parse(file, Validation.None);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
