@@ -2,7 +2,7 @@
 
 namespace IdParser.Core.Metadata;
 
-internal static class HairColorMetadata
+public static class HairColorMetadata
 {
     private static readonly Dictionary<HairColor, string> _hairColorAbbreviations = Enum
         .GetValues<HairColor>()
@@ -12,6 +12,6 @@ internal static class HairColorMetadata
     /// Look up the HairColor abbreviation from the enum's Abbreviation attribute. If none found,
     /// use the enum value as a string.
     /// </summary>
-    internal static string GetAbbreviationOrDefault(this HairColor hairColor)
+    public static string GetAbbreviationOrDefault(this HairColor hairColor)
         => _hairColorAbbreviations.GetValueOrDefault(hairColor, hairColor.ToString());
 }
