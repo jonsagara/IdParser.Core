@@ -1,26 +1,44 @@
-# ID Parser
+# IdParser.Core
 
 ![Build Status](https://github.com/jonsagara/IdParser.Core/actions/workflows/build-and-publish.yml/badge.svg)
 
+This is a fork of Connor O'Shea's [IdParser](https://github.com/c0shea/IdParser) library. Big thanks to him for all of his work. 
+
+The main changes I made are:
+
+- Dropped support for `.NET Framework`. If you need that, please use the original `IdParser`.
+- Supports only `.NET 6` and above. If you need support for earlier versions of `.NET`/`.NET Core`, please use the original `IdParser`.
+- The parser classes are now static and no longer instantiated by `Activator.CreateInstance`. This reduced memory allocations per call considerably,
+  and also sped things up.
+- The `Abbreviation`, `Country`, and `Description` attribute values are now cached so that we don't have to repeatedly use reflection to get their values.
+- Unhandled parsing exceptions are now rethrown, regardless of what the caller passes for the validation level (`None` or `Strict`).
+- Where possible, modernized the code base to use newer framework and language features, such as `Span<T>`.
+- The return value of `Parse` is now an object that return both the ID card and a collection of any unknown element Ids.
+- `Parse` now accepts an optional `TextWriter` parameter. When not null, the library will log to the `TextWriter`.
+ 
+The original README follows, slightly modified to match this updated version of the library.
+
+# ID Parser
+
 ID Parser can be used to parse AAMVA-compliant driver's licenses and ID cards into objects that you can
 work with. More information on the versions of the AAMVA standard can be found [here](http://www.aamva.org/DL-ID-Card-Design-Standard/).
-More information on the D20 Data Dictionary can be found [here](https://www.aamva.org/D20/).
+More information on the D20 Data Dictionary can be found [here](https://www.aamva.org/getmedia/d4c16fd8-2193-490c-a5ea-21607a3bd51a/D20-Traffic-Records-Systems-Data-Dictionary-(AMIE).pdf).
 
 ## Usage
 
 1. Include the using
 ```cs
-using IdParser;
+using IdParser.Core;
 ```
 
 2. Then you're off to the races!
 
 ```cs
-var idCard = Barcode.Parse(barcode);
-Console.WriteLine(idCard.Address.StreetLine1); // "123 NORTH STATE ST."
-Console.WriteLine(idCard.IssuerIdentificationNumber.GetDescription()); // "New York"
+var parseResult = Barcode.Parse(barcode);
+Console.WriteLine(parseResult.Card.Address.StreetLine1); // "123 NORTH STATE ST."
+Console.WriteLine(parseResult.Card.IssuerIdentificationNumber.GetDescriptionOrDefault()); // "New York"
 
-if (idCard is DriversLicense license)
+if (parseResult.Card is DriversLicense license)
 {
     Console.WriteLine(license.Jurisdiction.VehicleClass); // "C"
 }
@@ -32,14 +50,14 @@ Take a look at the unit test project for more examples and usage.
 
 ## Client
 
-The ```IdParser.Client``` project is a handy GUI application to help test and verify that an ID
+The ```IdParser.Core.Client``` project is a handy GUI application to help test and verify that an ID
 will be parsed correctly. The app works with both OPOS and HID keyboard emulation scanners.
 
 ![](https://raw.githubusercontent.com/jonsagara/IdParser.Core/main/IdParser.Client.png)
 
 ## FAQ
 
-* **I can't build ```IdParser.Client```. It's missing a required dependency.**
+* **I can't build ```IdParser.Core.Client```. It's missing a required dependency.**
   You need to have [Microsoft POS for .NET](https://www.microsoft.com/en-us/download/details.aspx?id=55758&WT.mc_id=rss_alldownloads_all)
   installed. The ```Microsoft.PointOfService``` dll is GAC'd and will allow you to build and run
   the client app.

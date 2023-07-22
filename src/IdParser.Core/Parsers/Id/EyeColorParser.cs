@@ -1,6 +1,4 @@
-﻿using IdParser.Core.Metadata;
-
-namespace IdParser.Core.Parsers.Id;
+﻿namespace IdParser.Core.Parsers.Id;
 
 internal static class EyeColorParser
 {

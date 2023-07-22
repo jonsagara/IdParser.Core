@@ -1,6 +1,6 @@
 ﻿using IdParser.Core.Attributes;
 
-namespace IdParser.Core.Metadata;
+namespace IdParser.Core;
 
 public static class EyeColorMetadata
 {

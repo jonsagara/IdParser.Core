@@ -1,5 +1,4 @@
-﻿using IdParser.Core.Metadata;
-using Xunit;
+﻿using Xunit;
 using Xunit.Abstractions;
 
 namespace IdParser.Core.Test;

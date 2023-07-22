@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 using IdParser.Core.Constants;
-using IdParser.Core.Metadata;
 using IdParser.Core.Parsers;
 
 namespace IdParser.Core;

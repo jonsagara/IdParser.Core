@@ -1,6 +1,6 @@
 ﻿using IdParser.Core.Attributes;
 
-namespace IdParser.Core.Metadata;
+namespace IdParser.Core;
 
 internal record IssuerMetadata(Country Country, string Abbreviation, string Description);
 
