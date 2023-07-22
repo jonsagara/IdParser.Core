@@ -17,6 +17,7 @@
 		<RepositoryUrl>https://github.com/jonsagara/IdParser.Core</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/jonsagara/IdParser.Core</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>NuGet Package Icon.png</PackageIcon>
 		<PackageTags>Drivers License Identification Card Parser PDF417 AAMVA Standard</PackageTags>
 		<PackageReleaseNotes></PackageReleaseNotes>
@@ -34,6 +35,7 @@
 
 	<ItemGroup>
 		<None Include="..\..\NuGet Package Icon.png" Pack="true" PackagePath="\" />
+		<None Include="..\..\README.md" Pack="true" PackagePath="\"/>
 	</ItemGroup>
 
 	<ItemGroup>
