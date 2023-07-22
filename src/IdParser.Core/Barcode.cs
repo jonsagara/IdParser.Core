@@ -83,7 +83,7 @@ public static class Barcode
         var country = ParseCountry(idCard.IssuerIdentificationNumber, aamvaVersion, subfileRecords);
         idCard.Address.Country = country;
 
-        var unhandledElementIds = PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, validationLevel);
+        var unhandledElementIds = PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, logProxy);
         if (unhandledElementIds.Count > 0)
         {
             logProxy?.WriteLine($"[{nameof(Barcode)}] One or more ElementIds were not handled by the ID or Driver's License parsers: {string.Join(", ", unhandledElementIds)}");
@@ -326,7 +326,7 @@ public static class Barcode
         return IssuerMetadataHelper.GetCountry(iin);
     }
 
-    private static IReadOnlyCollection<string> PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string> subfileRecords, Validation validationLevel)
+    private static IReadOnlyCollection<string> PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string> subfileRecords, LogProxy? logProxy)
     {
         List<string> unhandledElementIds = new();
 
@@ -360,13 +360,8 @@ public static class Barcode
             }
             catch (Exception ex)
             {
-#warning TODO: how to log exceptions without taking a dependency on Microsoft.Extensions.Logging?
-                Console.WriteLine($"Unhandled exception while trying to parse element Id {elementId}: {ex}");
-
-                if (validationLevel == Validation.Strict)
-                {
-                    throw;
-                }
+                logProxy?.WriteLine($"[{nameof(Barcode)}] Unhandled exception in {nameof(PopulateIdCard)} while trying to parse element Id {elementId}: {ex}");
+                throw;
             }
         }
 
