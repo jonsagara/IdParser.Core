@@ -11,6 +11,7 @@ public class BaseTest
     public BaseTest(ITestOutputHelper output)
     {
         _output = new XUnitTextWriter(output);
+        Console.SetOut(_output);
     }
 
     protected string Id(string jurisdiction) => File.ReadAllText(Path.Combine("Ids", $"{jurisdiction}.txt"));
