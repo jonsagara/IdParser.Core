@@ -6,7 +6,13 @@ internal static class EyeColorParser
 {
     internal static EyeColor? Parse(string input)
     {
-        if (string.IsNullOrWhiteSpace(input) || input.EqualsIgnoreCase("UNK"))
+        // #3: This handles the unsupported "NONE" value that can come from ON.
+        if (ParserHelper.StringHasNoValue(input))
+        {
+            return null;
+        }
+
+        if (input.EqualsIgnoreCase("UNK"))
         {
             return null;
         }

@@ -11,7 +11,6 @@ internal static class WeightRangeParser
             return null;
         }
 
-#warning TODO: Enum.TryParse?
         var weightRange = (WeightRange)int.Parse(input.AsSpan(), provider: CultureInfo.InvariantCulture);
 
         return weightRange;
