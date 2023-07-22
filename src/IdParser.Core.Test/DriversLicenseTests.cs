@@ -1,10 +1,19 @@
 ﻿using IdParser.Core.Metadata;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace IdParser.Core.Test;
 
 public class DriversLicenseTests : BaseTest
 {
+    private readonly XUnitTextWriter _output;
+
+    public DriversLicenseTests(ITestOutputHelper output)
+    {
+        _output = new XUnitTextWriter(output);
+    }
+
+
     [Fact]
     public void TestMA2009License()
     {
@@ -48,7 +57,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("MA 2009");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var idCard = Barcode.Parse(file, Validation.None, _output);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);
@@ -1271,7 +1280,7 @@ public class DriversLicenseTests : BaseTest
         };
 
         var file = License("ON");
-        var idCard = Barcode.Parse(file, Validation.None);
+        var idCard = Barcode.Parse(file, Validation.None, _output);
 
         AssertIdCard(expected, idCard);
         AssertLicense(expected, idCard);

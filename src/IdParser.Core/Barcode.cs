@@ -49,7 +49,8 @@ public static class Barcode
     /// No validation will be performed if none is specified and exceptions will not be thrown
     /// for elements that do not match or do not adversely affect parsing.
     /// </param>
-    public static IdentificationCard Parse(string rawPdf417Input, Validation validationLevel = Validation.Strict)
+    /// <param name="log">The <see cref="TextWriter"/> to log to.</param>
+    public static IdentificationCard Parse(string rawPdf417Input, Validation validationLevel = Validation.Strict, TextWriter? log = null)
     {
         ArgumentNullException.ThrowIfNull(rawPdf417Input);
 
@@ -58,13 +59,15 @@ public static class Barcode
             throw new ArgumentException($"The input is missing required header elements and is not a valid AAMVA format. Expected at least 31 characters. Received {rawPdf417Input.Length}.", nameof(rawPdf417Input));
         }
 
+        using var logProxy = LogProxy.TryCreate(log);
+
         if (validationLevel == Validation.Strict)
         {
             ValidateHeaderFormat(rawPdf417Input);
         }
         else
         {
-            rawPdf417Input = Fixes.TryToCorrectHeader(rawPdf417Input);
+            rawPdf417Input = Fixes.TryToCorrectHeader(rawPdf417Input, logProxy);
         }
 
         var aamvaVersion = ParseAAMVAVersion(rawPdf417Input);
