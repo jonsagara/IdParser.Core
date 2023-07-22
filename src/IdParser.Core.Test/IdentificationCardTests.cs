@@ -1,10 +1,16 @@
 ﻿using IdParser.Core.Metadata;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace IdParser.Core.Test;
 
 public class IdentificationCardTests : BaseTest
 {
+    public IdentificationCardTests(ITestOutputHelper output)
+        : base(output)
+    {
+    }
+
     [Fact]
     public void TestTNIdCard()
     {
@@ -46,7 +52,8 @@ public class IdentificationCardTests : BaseTest
         };
 
         var file = Id("TN");
-        var (idCard, _) = Barcode.Parse(file, Validation.None);
+        var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+        LogUnhandledElementIds(idCard, unhandledElementIds);
 
         AssertIdCard(expected, idCard);
 

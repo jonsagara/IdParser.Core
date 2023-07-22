@@ -3,7 +3,7 @@ using Xunit.Abstractions;
 
 namespace IdParser.Core.Test;
 
-internal class XUnitTextWriter : TextWriter
+public class XUnitTextWriter : TextWriter
 {
     private readonly ITestOutputHelper _output;
 

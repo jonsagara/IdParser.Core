@@ -1,10 +1,18 @@
 ﻿using IdParser.Core.Metadata;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace IdParser.Core.Test;
 
 public class BaseTest
 {
+    protected readonly XUnitTextWriter _output;
+
+    public BaseTest(ITestOutputHelper output)
+    {
+        _output = new XUnitTextWriter(output);
+    }
+
     protected string Id(string jurisdiction) => File.ReadAllText(Path.Combine("Ids", $"{jurisdiction}.txt"));
 
     protected string License(string jurisdiction) => File.ReadAllText(Path.Combine("Licenses", $"{jurisdiction}.txt"));
@@ -79,5 +87,15 @@ public class BaseTest
         Assert.Equal(expected.StandardEndorsementCode, actual.StandardEndorsementCode);
         Assert.Equal(expected.StandardRestrictionCode, actual.StandardRestrictionCode);
         Assert.Equal(expected.HazmatEndorsementExpirationDate, actual.HazmatEndorsementExpirationDate);
+    }
+
+    protected void LogUnhandledElementIds(IdentificationCard idCard, IReadOnlyCollection<string> unhandledElementIds)
+    {
+        if (unhandledElementIds.Count == 0)
+        {
+            return;
+        }
+
+        _output.WriteLine($"State '{idCard.IssuerIdentificationNumber.GetAbbreviationOrDefault()}' has unhandled element Ids: {string.Join(", ", unhandledElementIds)}.");
     }
 }
