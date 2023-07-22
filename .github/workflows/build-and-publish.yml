@@ -57,7 +57,7 @@ jobs:
         name: globaljson
         if-no-files-found: error
         retention-days: 7
-        path: ${{ env.NuGetDirectory }}/global.json
+        path: ${{ github.workspace }}/global.json
 
   run_test:
     runs-on: ubuntu-latest
