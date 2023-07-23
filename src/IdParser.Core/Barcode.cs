@@ -236,13 +236,26 @@ public static class Barcode
         }
         else if (version >= AAMVAVersion.AAMVA2003)
         {
-            var offsetAsString = rawPdf417Input.Substring(startIndex: 23, length: 4);
+            // Change to use Span to reduce memory allocations.
+            var offsetAsSpan = rawPdf417Input.AsSpan(start: 23, length: 4);
+            var allOffsetCharsAreDigits = true;
+
+            foreach (var offsetChar in offsetAsSpan)
+            {
+                if (char.IsDigit(offsetChar))
+                {
+                    continue;
+                }
+
+                allOffsetCharsAreDigits = false;
+                break;
+            }
 
             // Alberta specifies characters, like "abac", in the place of the expected offset
-            // which causes the parsing of the subfile records to fail
-            if (offsetAsString.All(char.IsDigit))
+            // which causes the parsing of the subfile records to fail.
+            if (allOffsetCharsAreDigits)
             {
-                offset = int.Parse(offsetAsString.AsSpan(), provider: CultureInfo.InvariantCulture);
+                offset = int.Parse(offsetAsSpan, provider: CultureInfo.InvariantCulture);
             }
         }
 
