@@ -18,6 +18,9 @@ internal static class WeightInPoundsParser
         return new Weight(pounds: weightLbs);
     }
 
+
+    private static readonly Regex _rxMetricWeight = new Regex("(?<Weight>\\d+)+\\s*KG", RegexOptions.Compiled);
+
     /// <summary>
     /// Alberta put the weight in kilograms in the weight in pounds parser ¯\_(ツ)_/¯
     /// </summary>
@@ -25,8 +28,7 @@ internal static class WeightInPoundsParser
     {
         weight = null;
 
-        var metricRegex = new Regex("(?<Weight>\\d+)+\\s*KG");
-        var match = metricRegex.Match(input);
+        var match = _rxMetricWeight.Match(input);
 
         if (match.Success)
         {
