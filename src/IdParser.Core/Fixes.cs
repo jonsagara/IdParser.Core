@@ -135,7 +135,7 @@ internal static class Fixes
 
             // Add back the one CR (\r) that is required in the header.
             logProxy?.WriteLine($"[{nameof(Fixes)}] Add the single allowed \\r character back to the header.");
-            return $"{inputWithoutCRs.Substring(0, 3)}\r{inputWithoutCRs.Substring(4)}";
+            return $"{inputWithoutCRs.AsSpan(start: 0, length: 3)}\r{inputWithoutCRs.AsSpan(start: 4)}";
         }
 
         return input;
