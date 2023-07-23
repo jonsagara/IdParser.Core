@@ -217,6 +217,9 @@ public static class Barcode
         return idCard;
     }
 
+    
+    private static readonly Regex _rxSubfile = new Regex("(DL|ID)([\\d\\w]{3,8})(DL|ID|Z\\w)([DZ][A-Z]{2})", RegexOptions.Compiled);
+
     /// <summary>
     /// Get the index of the subfile starting position.
     /// </summary>
@@ -263,8 +266,7 @@ public static class Barcode
         {
             // Some jurisdictions, like Ontario, have a zero offset, which is incorrect.
             // Set the offset to the start of the subfile type indicator.
-            var subfileRegex = new Regex("(DL|ID)([\\d\\w]{3,8})(DL|ID|Z\\w)([DZ][A-Z]{2})");
-            var match = subfileRegex.Match(rawPdf417Input);
+            var match = _rxSubfile.Match(rawPdf417Input);
 
             if (match.Success)
             {
