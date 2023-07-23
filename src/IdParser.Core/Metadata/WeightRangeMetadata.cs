@@ -13,5 +13,7 @@ public static class WeightRangeMetadata
     /// use the enum value as a string.
     /// </summary>
     public static string GetDescriptionOrDefault(this WeightRange weightRange)
-        => _weightRangeDescriptions.GetValueOrDefault(weightRange, weightRange.ToString());
+        => _weightRangeDescriptions.TryGetValue(weightRange, out string? description) 
+        ? description 
+        : weightRange.ToString();
 }

@@ -13,5 +13,7 @@ public static class EthnicityMetadataHelper
     /// use the enum value as a string.
     /// </summary>
     public static string GetAbbreviationOrDefault(this Ethnicity ethnicity)
-        => _ethnicityAbbreviations.GetValueOrDefault(ethnicity, ethnicity.ToString());
+        => _ethnicityAbbreviations.TryGetValue(ethnicity, out string? abbreviation)
+        ? abbreviation
+        : ethnicity.ToString();
 }

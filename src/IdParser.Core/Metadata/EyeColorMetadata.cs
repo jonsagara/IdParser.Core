@@ -13,5 +13,7 @@ public static class EyeColorMetadata
     /// use the enum value as a string.
     /// </summary>
     public static string GetAbbreviationOrDefault(this EyeColor eyeColor)
-        => _eyeColorAbbreviations.GetValueOrDefault(eyeColor, eyeColor.ToString());
+        => _eyeColorAbbreviations.TryGetValue(eyeColor, out string? abbreviation)
+        ? abbreviation
+        : eyeColor.ToString();
 }

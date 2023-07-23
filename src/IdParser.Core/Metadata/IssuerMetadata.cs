@@ -23,7 +23,9 @@ public static class IssuerMetadataHelper
     /// use the enum value as a string.
     /// </summary>
     public static string GetAbbreviationOrDefault(this IssuerIdentificationNumber issuerIdentificationNumber)
-        => _issuerIdentificationNumberAbbreviations.GetValueOrDefault(issuerIdentificationNumber, issuerIdentificationNumber.ToString());
+        => _issuerIdentificationNumberAbbreviations.TryGetValue(issuerIdentificationNumber, out string? abbreviation)
+        ? abbreviation
+        : issuerIdentificationNumber.ToString();
 
     /// <summary>
     /// Look up the IssuerIdentificationNumber's Country from the enum's Country attribute. If none found,
@@ -44,5 +46,7 @@ public static class IssuerMetadataHelper
     /// use the enum value as a string.
     /// </summary>
     public static string GetDescriptionOrDefault(this IssuerIdentificationNumber issuerIdentificationNumber)
-        => _issuerIdentificationNumberDescriptions.GetValueOrDefault(issuerIdentificationNumber, issuerIdentificationNumber.ToString());
+        => _issuerIdentificationNumberDescriptions.TryGetValue(issuerIdentificationNumber, out string? description)
+        ? description 
+        : issuerIdentificationNumber.ToString();
 }

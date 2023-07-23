@@ -13,5 +13,7 @@ public static class HairColorMetadata
     /// use the enum value as a string.
     /// </summary>
     public static string GetAbbreviationOrDefault(this HairColor hairColor)
-        => _hairColorAbbreviations.GetValueOrDefault(hairColor, hairColor.ToString());
+        => _hairColorAbbreviations.TryGetValue(hairColor, out string? abbreviation)
+            ? abbreviation
+            : hairColor.ToString();
 }

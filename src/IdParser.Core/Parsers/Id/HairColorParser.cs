@@ -1,6 +1,5 @@
 ﻿namespace IdParser.Core.Parsers.Id;
 
-//[Parser("DAZ")]
 internal static class HairColorParser
 {
     internal static HairColor? Parse(string input)
