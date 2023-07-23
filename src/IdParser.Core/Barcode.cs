@@ -100,25 +100,25 @@ public static class Barcode
     /// Get the <see cref="ExpectedComplianceIndicator"/> from the scanned text.
     /// </summary>
     private static char ParseComplianceIndicator(string input)
-        => input.Substring(startIndex: 0, length: 1)[0];
+        => input.AsSpan(start: 0, length: 1)[0];
 
     /// <summary>
     /// Get the <see cref="ExpectedDataElementSeparator"/> from the scanned text.
     /// </summary>
     private static char ParseDataElementSeparator(string input)
-        => input.Substring(startIndex: 1, length: 1)[0];
+        => input.AsSpan(start: 1, length: 1)[0];
 
     /// <summary>
     /// Get the <see cref="ExpectedRecordSeparator"/> from the scanned text.
     /// </summary>
     private static char ParseRecordSeparator(string input)
-        => input.Substring(startIndex: 2, length: 1)[0];
+        => input.AsSpan(start: 2, length: 1)[0];
 
     /// <summary>
     /// Get the <see cref="ExpectedSegmentTerminator"/> from the scanned text.
     /// </summary>
     private static char ParseSegmentTerminator(string input)
-        => input.Substring(startIndex: 3, length: 1)[0];
+        => input.AsSpan(start: 3, length: 1)[0];
 
     /// <summary>
     /// Get the <see cref="ExpectedFileType"/> (e.g., ANSI ) from the scanned text.
