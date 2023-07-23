@@ -4,7 +4,7 @@ namespace IdParser.Core.Parsers.Id;
 
 internal static class PostalCodeParser
 {
-    private const string NonAlphaNumericPattern = @"[^\w\d]";
+    private static readonly Regex _rxNonAlphaNumeric = new Regex(@"[^\w\d]", RegexOptions.Compiled);
 
     internal static string? Parse(string input)
     {
@@ -21,7 +21,7 @@ internal static class PostalCodeParser
             input = input.Substring(0, indexOfSpaces);
         }
 
-        return new Regex(NonAlphaNumericPattern)
+        return _rxNonAlphaNumeric
             .Replace(input, "")
             .Replace("0000", "", StringComparison.Ordinal);
     }
