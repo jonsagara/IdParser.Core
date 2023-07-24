@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		
 		<!-- NuGet -->
-		<Version>1.0.0-beta2</Version>
+		<Version>1.0.0-beta3</Version>
 		<AssemblyVersion>1.0.0</AssemblyVersion>
 		<FileVersion>1.0.0</FileVersion>
 		<Authors>Connor O'Shea, Jon Sagara</Authors>
@@ -16,7 +16,7 @@
 		<Copyright>Copyright 2019-2023</Copyright>
 		<RepositoryUrl>https://github.com/jonsagara/IdParser.Core</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/jonsagara/IdParser.Core</PackageProjectUrl>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>NuGet Package Icon.png</PackageIcon>
 		<PackageTags>Drivers License Identification Card Parser PDF417 AAMVA Standard</PackageTags>
@@ -35,7 +35,8 @@
 
 	<ItemGroup>
 		<None Include="..\..\NuGet Package Icon.png" Pack="true" PackagePath="\" />
-		<None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\..\LICENSE.md" Pack="true" PackagePath="" />
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 	<ItemGroup>
