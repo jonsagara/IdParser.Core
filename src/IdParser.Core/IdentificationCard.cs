@@ -7,8 +7,8 @@ public class IdentificationCard
     public int JurisdictionVersionNumber { get; set; }
     public string IdNumber { get; set; } = null!;
 
-    public Name Name { get; set; } = new Name();
-    public Address Address { get; set; } = new Address();
+    public Name Name { get; init; } = new Name();
+    public Address Address { get; init; } = new Address();
 
     public DateTime DateOfBirth { get; set; }
     public DateTime? Under18Until { get; set; }
