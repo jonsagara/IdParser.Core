@@ -26,6 +26,6 @@ internal static class HeightParser
             return new Height(centimeters: height);
         }
 
-        return new Height(inches: height);
+        return new Height(totalInches: height);
     }
 }

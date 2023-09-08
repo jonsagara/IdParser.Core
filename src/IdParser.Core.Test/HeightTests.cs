@@ -7,8 +7,8 @@ public class HeightTests
     [Fact]
     public void EqualityTest()
     {
-        var left = new Height(inches: 65);
-        var right = new Height(inches: 65);
+        var left = new Height(totalInches: 65);
+        var right = new Height(totalInches: 65);
 
         Assert.Equal(left, right);
     }

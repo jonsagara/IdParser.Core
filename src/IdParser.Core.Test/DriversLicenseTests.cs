@@ -38,7 +38,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(1977, 07, 07),
             Sex = Sex.Male,
-            Height = new Height(inches: 72),
+            Height = new Height(totalInches: 72),
 
             IdNumber = "S65807412",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2009,
@@ -90,7 +90,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(1971, 12, 31),
             Sex = Sex.Male,
-            Height = new Height(inches: 62),
+            Height = new Height(totalInches: 62),
 
             IdNumber = "S12345678",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2013,
@@ -148,7 +148,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(1977, 07, 07),
             Sex = Sex.Male,
-            Height = new Height(inches: 72),
+            Height = new Height(totalInches: 72),
 
             IdNumber = "S65807412",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2009,
@@ -200,7 +200,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(2013, 08, 31),
             Sex = Sex.Male,
-            Height = new Height(inches: 64),
+            Height = new Height(totalInches: 64),
             EyeColor = EyeColor.Brown,
 
             IdNumber = "NONE",
@@ -243,7 +243,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(1958, 07, 15),
             Sex = Sex.Male,
-            Height = new Height(inches: 75),
+            Height = new Height(totalInches: 75),
             EyeColor = EyeColor.Brown,
 
             IdNumber = "T16700185",
@@ -303,7 +303,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(1957, 07, 01),
             Sex = Sex.Female,
-            Height = new Height(inches: 64),
+            Height = new Height(totalInches: 64),
             WeightRange = WeightRange.Lbs101To130,
             EyeColor = EyeColor.Blue,
 
@@ -629,7 +629,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(1977, 11, 06),
             Sex = Sex.Male,
-            Height = new Height(inches: 69),
+            Height = new Height(totalInches: 69),
             EyeColor = EyeColor.Green,
 
             IdNumber = "NHI17128755",
@@ -681,7 +681,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(1993, 10, 24),
             Sex = Sex.Male,
-            Height = new Height(inches: 65),
+            Height = new Height(totalInches: 65),
             EyeColor = EyeColor.Brown,
             HairColor = HairColor.Brown,
 
@@ -860,7 +860,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(1960, 05, 22),
             Sex = Sex.Male,
-            Height = new Height(inches: 71),
+            Height = new Height(totalInches: 71),
             EyeColor = EyeColor.Brown,
 
             IdNumber = "25881776",
@@ -916,7 +916,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(1988, 04, 21),
             Sex = Sex.Female,
-            Height = new Height(inches: 66),
+            Height = new Height(totalInches: 66),
             Weight = new Weight(pounds: 170),
             EyeColor = EyeColor.Brown,
             HairColor = HairColor.Black,
@@ -973,7 +973,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(1983, 02, 04),
             Sex = Sex.Female,
-            Height = new Height(inches: 62),
+            Height = new Height(totalInches: 62),
             EyeColor = EyeColor.Green,
 
             IdNumber = "P62472647457903",
@@ -1028,7 +1028,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(1986, 06, 12),
             Sex = Sex.Male,
-            Height = new Height(inches: 69),
+            Height = new Height(totalInches: 69),
             EyeColor = EyeColor.Brown,
             HairColor = HairColor.Black,
 
@@ -1135,7 +1135,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1947, 10, 02),
             Sex = Sex.Male,
             EyeColor = EyeColor.Brown,
-            Height = new Height(inches: 69),
+            Height = new Height(totalInches: 69),
             Weight = new Weight(pounds: 175),
 
             IdNumber = "2407225",
@@ -1192,7 +1192,7 @@ public class DriversLicenseTests : BaseTest
             Sex = Sex.Female,
             EyeColor = EyeColor.Brown,
             HairColor = HairColor.Brown,
-            Height = new Height(inches: 60),
+            Height = new Height(totalInches: 60),
             Weight = new Weight(pounds: 140),
             WeightRange = WeightRange.Lbs131To160,
 
@@ -1338,7 +1338,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1978, 08, 09),
             Sex = Sex.Male,
             EyeColor = EyeColor.Brown,
-            Height = new Height(inches: 67),
+            Height = new Height(totalInches: 67),
             Weight = new Weight(pounds: 195),
 
             IdNumber = "92265728",
@@ -1396,7 +1396,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1972, 03, 06),
             Sex = Sex.Female,
             EyeColor = EyeColor.Brown,
-            Height = new Height(inches: 62),
+            Height = new Height(totalInches: 62),
 
             IdNumber = "4696735",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2010,
@@ -1450,7 +1450,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(1992, 10, 10),
             Sex = Sex.Female,
-            Height = new Height(inches: 66),
+            Height = new Height(totalInches: 66),
             Weight = new Weight(pounds: 170),
 
             IdNumber = "S-512-887-236-780",
@@ -1504,7 +1504,7 @@ public class DriversLicenseTests : BaseTest
             Sex = Sex.Male,
             EyeColor = EyeColor.Blue,
             HairColor = HairColor.Brown,
-            Height = new Height(inches: 68),
+            Height = new Height(totalInches: 68),
             Weight = new Weight(pounds: 165),
 
             IdNumber = "F1485768",
@@ -1556,7 +1556,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1981, 10, 27),
             Sex = Sex.Male,
             EyeColor = EyeColor.Brown,
-            Height = new Height(inches: 72),
+            Height = new Height(totalInches: 72),
 
             IdNumber = "513577879",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2005,
@@ -1607,7 +1607,7 @@ public class DriversLicenseTests : BaseTest
             Sex = Sex.Female,
             EyeColor = EyeColor.Green,
             HairColor = HairColor.Brown,
-            Height = new Height(inches: 64),
+            Height = new Height(totalInches: 64),
             Weight = new Weight(pounds: 205),
 
             IdNumber = "0163375279",
@@ -1670,7 +1670,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1991, 07, 11),
             Sex = Sex.Male,
             EyeColor = EyeColor.Green,
-            Height = new Height(inches: 72),
+            Height = new Height(totalInches: 72),
 
             IdNumber = "109BB2608",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2009,
@@ -1825,7 +1825,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1954, 11, 12),
             Sex = Sex.Female,
             EyeColor = EyeColor.Hazel,
-            Height = new Height(inches: 65),
+            Height = new Height(totalInches: 65),
 
             IdNumber = "K12340057",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2010,
@@ -1881,7 +1881,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1983, 08, 15),
             Sex = Sex.Male,
             EyeColor = EyeColor.Brown,
-            Height = new Height(inches: 72),
+            Height = new Height(totalInches: 72),
 
             IdNumber = "M2861738629325",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2010,
@@ -1939,7 +1939,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1989, 09, 09),
             Sex = Sex.Male,
             EyeColor = EyeColor.Brown,
-            Height = new Height(inches: 71),
+            Height = new Height(totalInches: 71),
             Weight = new Weight(pounds: 130),
 
             IdNumber = "1824873",
@@ -1992,7 +1992,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1992, 07, 13),
             Sex = Sex.Male,
             EyeColor = EyeColor.Green,
-            Height = new Height(inches: 73),
+            Height = new Height(totalInches: 73),
 
             IdNumber = "102367033",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2012,
@@ -2044,7 +2044,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1972, 02, 04),
             Sex = Sex.Female,
             EyeColor = EyeColor.Green,
-            Height = new Height(inches: 63),
+            Height = new Height(totalInches: 63),
 
             IdNumber = "124336019",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2013,
@@ -2104,7 +2104,7 @@ public class DriversLicenseTests : BaseTest
             Sex = Sex.Male,
             EyeColor = EyeColor.Blue,
             HairColor = HairColor.Brown,
-            Height = new Height(inches: 70),
+            Height = new Height(totalInches: 70),
             WeightRange = WeightRange.Lbs191To220,
 
             IdNumber = "5677922",
@@ -2210,7 +2210,7 @@ public class DriversLicenseTests : BaseTest
             Sex = Sex.Male,
             EyeColor = EyeColor.Brown,
             Ethnicity = Ethnicity.White,
-            Height = new Height(inches: 70),
+            Height = new Height(totalInches: 70),
 
             IdNumber = "9298847972",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2010,
@@ -2263,7 +2263,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1950, 05, 23),
             Sex = Sex.Female,
             EyeColor = EyeColor.Brown,
-            Height = new Height(inches: 61),
+            Height = new Height(totalInches: 61),
             WeightRange = WeightRange.Lbs131To160,
 
             IdNumber = "TESTEDM504K9",
@@ -2308,7 +2308,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1994, 05, 14),
             Sex = Sex.Female,
             EyeColor = EyeColor.Hazel,
-            Height = new Height(inches: 67),
+            Height = new Height(totalInches: 67),
             WeightRange = WeightRange.Lbs131To160,
 
             IdNumber = "0504928899117",
@@ -2362,7 +2362,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1980, 01, 26),
             Sex = Sex.Male,
             EyeColor = EyeColor.Green,
-            Height = new Height(inches: 71),
+            Height = new Height(totalInches: 71),
 
             IdNumber = "K04-76-5990",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2016,
@@ -2416,7 +2416,7 @@ public class DriversLicenseTests : BaseTest
             Sex = Sex.Male,
             EyeColor = EyeColor.Hazel,
             HairColor = HairColor.Blond,
-            Height = new Height(inches: 69),
+            Height = new Height(totalInches: 69),
             Weight = new Weight(pounds: 245),
 
             IdNumber = "3249-09-7547",
@@ -2469,7 +2469,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1969, 06, 27),
             Sex = Sex.Female,
             EyeColor = EyeColor.Green,
-            Height = new Height(inches: 68),
+            Height = new Height(totalInches: 68),
             Weight = new Weight(pounds: 200),
 
             IdNumber = "W63177069784",
@@ -2523,7 +2523,7 @@ public class DriversLicenseTests : BaseTest
             Sex = Sex.Male,
             EyeColor = EyeColor.Blue,
             HairColor = HairColor.Blond,
-            Height = new Height(inches: 72),
+            Height = new Height(totalInches: 72),
 
             IdNumber = "H01387330",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2009,
@@ -2573,7 +2573,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1972, 11, 03),
             Sex = Sex.Male,
             EyeColor = EyeColor.Brown,
-            Height = new Height(inches: 71),
+            Height = new Height(totalInches: 71),
             Weight = new Weight(pounds: 190),
 
             IdNumber = "F123456",
@@ -2625,7 +2625,7 @@ public class DriversLicenseTests : BaseTest
             Sex = Sex.Female,
             EyeColor = EyeColor.Blue,
             HairColor = HairColor.Gray,
-            Height = new Height(inches: 64),
+            Height = new Height(totalInches: 64),
             Weight = new Weight(pounds: 160),
 
             IdNumber = "7559886",
@@ -2787,7 +2787,7 @@ public class DriversLicenseTests : BaseTest
             Sex = Sex.Male,
             EyeColor = EyeColor.Blue,
             HairColor = HairColor.Brown,
-            Height = new Height(inches: 68),
+            Height = new Height(totalInches: 68),
             WeightRange = WeightRange.Lbs191To220,
 
             IdNumber = "0003456789",
@@ -2856,7 +2856,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1985, 07, 04),
             Sex = Sex.Male,
             EyeColor = EyeColor.Blue,
-            Height = new Height(inches: 74),
+            Height = new Height(totalInches: 74),
 
             IdNumber = "RUN812345",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2013,
@@ -2919,7 +2919,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1966, 01, 26),
             Sex = Sex.Female,
             EyeColor = EyeColor.Brown,
-            Height = new Height(inches: 67),
+            Height = new Height(totalInches: 67),
 
             IdNumber = "123456780",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2016,
@@ -3037,7 +3037,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1995, 01, 04),
             Sex = Sex.Male,
             EyeColor = EyeColor.Green,
-            Height = new Height(inches: 70),
+            Height = new Height(totalInches: 70),
             Weight = new Weight(pounds: 138),
 
             IdNumber = "H868087743210",
@@ -3103,7 +3103,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = new DateTime(1963, 05, 07),
             Sex = Sex.Male,
             EyeColor = EyeColor.Blue,
-            Height = new Height(inches: 70),
+            Height = new Height(totalInches: 70),
 
             IdNumber = "800448123",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2013,
@@ -3170,7 +3170,7 @@ public class DriversLicenseTests : BaseTest
             Sex = Sex.Male,
             EyeColor = EyeColor.Green,
             HairColor = HairColor.Blond,
-            Height = new Height(inches: 73),
+            Height = new Height(totalInches: 73),
             Weight = new Weight(pounds: 240),
 
             IdNumber = "WA104577G",
@@ -3233,7 +3233,7 @@ public class DriversLicenseTests : BaseTest
 
             DateOfBirth = new DateTime(1939, 12, 07),
             Sex = Sex.Male,
-            Height = new Height(inches: 71),
+            Height = new Height(totalInches: 71),
 
             IdNumber = "S58239477",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2009,
@@ -3480,7 +3480,7 @@ public class DriversLicenseTests : BaseTest
             Sex = Sex.Female,
             EyeColor = EyeColor.Blue,
             HairColor = HairColor.Blond,
-            Height = new Height(inches: 69),
+            Height = new Height(totalInches: 69),
 
             IdNumber = "123456-789",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2009,

@@ -38,7 +38,7 @@ public class IdentificationCardTests : BaseTest
             DateOfBirth = new DateTime(1961, 12, 13),
             Sex = Sex.Female,
             EyeColor = EyeColor.Green,
-            Height = new Height(inches: 63),
+            Height = new Height(totalInches: 63),
 
             IdNumber = "115775955",
             AAMVAVersionNumber = AAMVAVersion.AAMVA2011,
