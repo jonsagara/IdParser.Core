@@ -28,8 +28,8 @@ public class HeightTests
     {
         var height = new Height(totalInches: 69);
 
-        Assert.Equal(5, height.FeetAndInches.Feet);
-        Assert.Equal(9, height.FeetAndInches.Inches);
+        Assert.Equal(5, height.Feet);
+        Assert.Equal(9, height.Inches);
     }
 
     [Fact]
@@ -47,7 +47,7 @@ public class HeightTests
     {
         var height = new Height(totalInches: 36);
 
-        Assert.Equal(3, height.FeetAndInches.Feet);
-        Assert.Equal(0, height.FeetAndInches.Inches);
+        Assert.Equal(3, height.Feet);
+        Assert.Equal(0, height.Inches);
     }
 }

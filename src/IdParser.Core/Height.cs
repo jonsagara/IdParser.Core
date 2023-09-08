@@ -10,29 +10,40 @@ public record Height
     private const double InchesPerCentimeter = 1.0 / 2.54;
     private const int InchesPerFoot = 12;
 
-    private bool _isMetric;
-    private double? _centimeters;
-    private int? _feet;
-    private int? _inches;
-    private FeetInches? _feetAndInches;
+    private double _centimeters;
+    private int _feet;
+    private int _inches;
+    private int _totalInches;
+
+    /// <summary>
+    /// True if the scanned value was given in centimeters; false otherwise (scanned 
+    /// value was in feet/inches, or just inches).
+    /// </summary>
+    public bool ParsedAsMetric { get; }
 
     /// <summary>
     /// Returns the height in centimeters.
     /// </summary>
     public double Centimeters
-        => ToCentimeters();
+        => _centimeters;
 
     /// <summary>
-    /// Returns the height in feet and inches.
+    /// Return the feet component of the height.
     /// </summary>
-    public FeetInches FeetAndInches
-        => _feetAndInches ??= ToFeetInches();
+    public int Feet
+        => _feet;
+
+    /// <summary>
+    /// Return the inches component of the height.
+    /// </summary>
+    public int Inches
+        => _inches;
 
     /// <summary>
     /// Returns the height in total inches.
     /// </summary>
     public int TotalInches
-        => FeetAndInches.Feet * InchesPerFoot + FeetAndInches.Inches;
+        => _totalInches;
 
 
     /// <summary>
@@ -40,9 +51,15 @@ public record Height
     /// </summary>
     public Height(double centimeters)
     {
+        ParsedAsMetric = true;
+
         _centimeters = centimeters;
 
-        _isMetric = true;
+        // These are approximations.
+        var feetInches = CalculateFeetAndInchesFromCentimeters(centimeters);
+        _feet = feetInches.Feet;
+        _inches = feetInches.Inches;
+        _totalInches = CalculateTotalInches(feet: feetInches.Feet, inches: feetInches.Inches);
     }
 
     /// <summary>
@@ -57,10 +74,14 @@ public record Height
     /// </summary>
     public Height(int feet, int inches)
     {
+        ParsedAsMetric = false;
+
         _feet = feet;
         _inches = inches;
+        _totalInches = CalculateTotalInches(feet: feet, inches: inches);
 
-        _isMetric = false;
+        // This is an approximation.
+        _centimeters = CalculateCentimetersFromTotalInches(totalInches: _totalInches);
     }
 
 
@@ -68,43 +89,31 @@ public record Height
     // Private methods
     //
 
-    private double ToCentimeters()
+    private static int CalculateTotalInches(int feet, int inches)
+        => feet * InchesPerFoot + inches;
+
+    private static double CalculateCentimetersFromTotalInches(int totalInches)
+        => totalInches * CentimetersPerInch;
+
+    private static FeetInches CalculateFeetAndInchesFromCentimeters(double centimeters)
     {
-        if (_isMetric)
+        var totalInches = centimeters * InchesPerCentimeter;
+        int feet = (int)Math.Floor(totalInches / InchesPerFoot);
+        int inches = (int)Math.Round(totalInches % InchesPerFoot);
+
+        if (inches == InchesPerFoot)
         {
-            return _centimeters!.Value;
+            feet += 1;
+            inches = 0;
         }
-        else
-        {
-            var totalInches = _feet!.Value * InchesPerFoot + _inches!.Value;
-            return totalInches * CentimetersPerInch;
-        }
+
+        return new FeetInches(Feet: feet, Inches: inches);
     }
 
-    private FeetInches ToFeetInches()
-    {
-        if (_isMetric)
-        {
-            var totalInches = _centimeters!.Value * InchesPerCentimeter;
-            int feet = (int)Math.Floor(totalInches / InchesPerFoot);
-            int inches = (int)Math.Round(totalInches % InchesPerFoot);
 
-            if (inches == InchesPerFoot)
-            {
-                feet += 1;
-                inches = 0;
-            }
+    //
+    // Classes
+    //
 
-            return new FeetInches(Feet: feet, Inches: inches);
-        }
-        else
-        {
-            return new FeetInches(Feet: _feet!.Value, Inches: _inches!.Value);
-        }
-    }
+    private record struct FeetInches(int Feet, int Inches);
 }
-
-/// <summary>
-/// A person's height in Feet and Inches.
-/// </summary>
-public record struct FeetInches(int Feet, int Inches);
