@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using IdParser.Core.Test.Extensions;
+using Xunit;
 
 namespace IdParser.Core.Test;
 
@@ -69,16 +70,5 @@ public class WeightTests
         var expected = "175 lbs";
 
         Assert.Equal(expected, weight.ToString()); ;
-    }
-}
-
-internal static class DoubleExtensions
-{
-    private const double _1Digit = 0.1;
-
-    internal static bool Equals1DigitPrecision(this double value, double comparison)
-    {
-        var difference = Math.Abs(value - comparison);
-        return difference < _1Digit;
     }
 }
