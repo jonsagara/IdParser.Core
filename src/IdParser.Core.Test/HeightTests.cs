@@ -50,4 +50,33 @@ public class HeightTests
         Assert.Equal(3, height.Feet);
         Assert.Equal(0, height.Inches);
     }
+
+    [Fact]
+    public void TestTotalInchesToFeetInches()
+    {
+        for (var totalInches = 36; totalInches <= 96; totalInches++)
+        {
+            var height = new Height(totalInches: totalInches);
+            var expectedFeet = totalInches / 12;
+            var expectedInches = totalInches % 12;
+
+            Assert.Equal(expectedFeet, height.Feet);
+            Assert.Equal(expectedInches, height.Inches);
+        }
+    }
+
+    [Fact]
+    public void TestInchesToTotalInches()
+    {
+        for (var feet = 3; feet < 9; feet++)
+        {
+            for (var inches = 0; inches < 12; inches++)
+            {
+                var height = new Height(feet: feet, inches: inches);
+                var expectedTotalInches = feet * 12 + inches;
+
+                Assert.Equal(expectedTotalInches, height.TotalInches);
+            }
+        }
+    }
 }

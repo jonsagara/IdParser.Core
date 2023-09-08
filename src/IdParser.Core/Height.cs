@@ -98,8 +98,8 @@ public record Height
     private static FeetInches CalculateFeetAndInchesFromCentimeters(double centimeters)
     {
         var totalInches = centimeters * InchesPerCentimeter;
-        int feet = (int)Math.Floor(totalInches / InchesPerFoot);
-        int inches = (int)Math.Round(totalInches % InchesPerFoot);
+        var feet = (int)Math.Floor(totalInches / InchesPerFoot);
+        var inches = (int)Math.Round(totalInches % InchesPerFoot);
 
         if (inches == InchesPerFoot)
         {
@@ -112,7 +112,7 @@ public record Height
 
 
     //
-    // Classes
+    // Types
     //
 
     private record struct FeetInches(int Feet, int Inches);
