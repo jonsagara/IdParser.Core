@@ -8,7 +8,7 @@ public static class IssuerMetadataHelper
 {
     private static readonly Dictionary<IssuerIdentificationNumber, string> _issuerIdentificationNumberAbbreviations = Enum
         .GetValues<IssuerIdentificationNumber>()
-        .ToDictionary(iin => iin, ec => ec.GetAbbreviationFromAbbreviationAttribute());
+        .ToDictionary(iin => iin, ec => ec.GetAbbreviationOrDefaultFromAbbreviationAttribute());
 
     private static readonly Dictionary<IssuerIdentificationNumber, Country> _issuerIdentificationNumberCountries = Enum
         .GetValues<IssuerIdentificationNumber>()

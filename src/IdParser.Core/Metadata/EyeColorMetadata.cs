@@ -6,7 +6,7 @@ public static class EyeColorMetadata
 {
     private static readonly Dictionary<EyeColor, string> _eyeColorAbbreviations = Enum
         .GetValues<EyeColor>()
-        .ToDictionary(ec => ec, ec => ec.GetAbbreviationFromAbbreviationAttribute());
+        .ToDictionary(ec => ec, ec => ec.GetAbbreviationOrDefaultFromAbbreviationAttribute());
 
     /// <summary>
     /// Look up the EyeColor abbreviation from the enum's Abbreviation attribute. If none found,
