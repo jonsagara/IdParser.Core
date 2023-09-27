@@ -21,7 +21,7 @@ public class Address
                 return null;
             }
 
-            if (Country == Country.Usa && PostalCode.Length > 5)
+            if (Country == Country.USA && PostalCode.Length > 5)
             {
                 return $"{PostalCode.Substring(0, 5)}-{PostalCode.Substring(5)}";
             }

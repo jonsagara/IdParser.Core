@@ -32,7 +32,7 @@ public class IdentificationCardTests : BaseTest
                 City = "NASHVILLE",
                 JurisdictionCode = "TN",
                 PostalCode = "370115509",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1961, 12, 13),

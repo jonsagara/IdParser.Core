@@ -6,7 +6,7 @@ public enum Country
 {
     [Description("United States of America")]
     [Abbreviation("US")]
-    Usa,
+    USA,
 
     [Abbreviation("CA")]
     Canada,
