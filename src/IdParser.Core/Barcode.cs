@@ -321,14 +321,14 @@ public static class Barcode
         // Country is not a subfile record in the AAMVA 2000 standard.
         if (version == AAMVAVersion.AAMVA2000)
         {
-            return Country.Usa;
+            return Country.USA;
         }
 
         if (subfileRecords.TryGetValue(SubfileElementIds.Country, out string? data))
         {
             if (data == "USA")
             {
-                return Country.Usa;
+                return Country.USA;
             }
 
             if (data == "CAN" || data == "CDN")

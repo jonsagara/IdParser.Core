@@ -33,7 +33,7 @@ public class DriversLicenseTests : BaseTest
                 City = "BOSTON",
                 JurisdictionCode = "MA",
                 PostalCode = "021080",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1977, 07, 07),
@@ -85,7 +85,7 @@ public class DriversLicenseTests : BaseTest
                 City = "BOSTON",
                 JurisdictionCode = "MA",
                 PostalCode = "02133",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1971, 12, 31),
@@ -143,7 +143,7 @@ public class DriversLicenseTests : BaseTest
                 City = "BOSTON",
                 JurisdictionCode = "MA",
                 PostalCode = "021080",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1977, 07, 07),
@@ -195,7 +195,7 @@ public class DriversLicenseTests : BaseTest
                 City = "YOUR CITY",
                 JurisdictionCode = "NY",
                 PostalCode = "12345",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(2013, 08, 31),
@@ -238,7 +238,7 @@ public class DriversLicenseTests : BaseTest
                 City = "STAUNTON",
                 JurisdictionCode = "VA",
                 PostalCode = "24401",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1958, 07, 15),
@@ -298,7 +298,7 @@ public class DriversLicenseTests : BaseTest
                 City = "ANYTOWN",
                 JurisdictionCode = "GA",
                 PostalCode = "30334",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1957, 07, 01),
@@ -348,7 +348,7 @@ public class DriversLicenseTests : BaseTest
                 City = "WETHERSFIELD",
                 JurisdictionCode = "CT",
                 PostalCode = "061091896",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1961, 01, 01),
@@ -406,7 +406,7 @@ public class DriversLicenseTests : BaseTest
                 City = "WETHERSFIELD",
                 JurisdictionCode = "CT",
                 PostalCode = "061091896",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1961, 01, 01),
@@ -455,7 +455,7 @@ public class DriversLicenseTests : BaseTest
                 City = "WATERBURY",
                 JurisdictionCode = "CT",
                 PostalCode = "067081897",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1949, 03, 03),
@@ -503,7 +503,7 @@ public class DriversLicenseTests : BaseTest
                 City = "ST LOUIS",
                 JurisdictionCode = "MO",
                 PostalCode = "633011",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(2017, 08, 09),
@@ -562,7 +562,7 @@ public class DriversLicenseTests : BaseTest
                 City = "KEY WEST",
                 JurisdictionCode = "FL",
                 PostalCode = "330400504",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1941, 05, 09),
@@ -624,7 +624,7 @@ public class DriversLicenseTests : BaseTest
                 StreetLine1 = "802 WILLIAMS ST",
                 JurisdictionCode = "NH",
                 PostalCode = "01234",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1977, 11, 06),
@@ -676,7 +676,7 @@ public class DriversLicenseTests : BaseTest
                 City = "EL PASO",
                 JurisdictionCode = "TX",
                 PostalCode = "79936",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1993, 10, 24),
@@ -726,7 +726,7 @@ public class DriversLicenseTests : BaseTest
                 City = "PHILADELPHIA",
                 JurisdictionCode = "PA",
                 PostalCode = "19130",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1986, 02, 02),
@@ -778,7 +778,7 @@ public class DriversLicenseTests : BaseTest
                 City = "PHILADELPHIA",
                 JurisdictionCode = "PA",
                 PostalCode = "19130",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1986, 02, 02),
@@ -855,7 +855,7 @@ public class DriversLicenseTests : BaseTest
                 City = "SCRANTON",
                 JurisdictionCode = "PA",
                 PostalCode = "18503",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1960, 05, 22),
@@ -911,7 +911,7 @@ public class DriversLicenseTests : BaseTest
                 City = "QUAHOG",
                 JurisdictionCode = "RI",
                 PostalCode = "000931760",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1988, 04, 21),
@@ -968,7 +968,7 @@ public class DriversLicenseTests : BaseTest
                 City = "VERNON",
                 JurisdictionCode = "NJ",
                 PostalCode = "074182554",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1983, 02, 04),
@@ -1023,7 +1023,7 @@ public class DriversLicenseTests : BaseTest
                 City = "FAYETTEVILLE",
                 JurisdictionCode = "NC",
                 PostalCode = "283041234",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1986, 06, 12),
@@ -1075,7 +1075,7 @@ public class DriversLicenseTests : BaseTest
                 City = "SURFSIDE BEACH",
                 JurisdictionCode = "SC",
                 PostalCode = "295754321",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1972, 02, 12),
@@ -1129,7 +1129,7 @@ public class DriversLicenseTests : BaseTest
                 City = "BANGOR",
                 JurisdictionCode = "ME",
                 PostalCode = "04401",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1947, 10, 02),
@@ -1184,7 +1184,7 @@ public class DriversLicenseTests : BaseTest
                 City = "NORTHWOOD",
                 JurisdictionCode = "OH",
                 PostalCode = "436191234",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1956, 02, 23),
@@ -1239,7 +1239,7 @@ public class DriversLicenseTests : BaseTest
                 City = "ROCHESTER HILLS",
                 JurisdictionCode = "MI",
                 PostalCode = "483064321",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1968, 03, 23),
@@ -1332,7 +1332,7 @@ public class DriversLicenseTests : BaseTest
                 City = "BENNINGTON",
                 JurisdictionCode = "VT",
                 PostalCode = "05201",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1978, 08, 09),
@@ -1390,7 +1390,7 @@ public class DriversLicenseTests : BaseTest
                 City = "COROZAL",
                 JurisdictionCode = "PR",
                 PostalCode = "00783",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1972, 03, 06),
@@ -1445,7 +1445,7 @@ public class DriversLicenseTests : BaseTest
                 City = "BALTIMORE",
                 JurisdictionCode = "MD",
                 PostalCode = "21201",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1992, 10, 10),
@@ -1497,7 +1497,7 @@ public class DriversLicenseTests : BaseTest
                 City = "MILPITAS",
                 JurisdictionCode = "CA",
                 PostalCode = "95035",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1973, 07, 05),
@@ -1550,7 +1550,7 @@ public class DriversLicenseTests : BaseTest
                 City = "LOS ALAMOS",
                 JurisdictionCode = "NM",
                 PostalCode = "87544",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1981, 10, 27),
@@ -1600,7 +1600,7 @@ public class DriversLicenseTests : BaseTest
                 City = "LEHI",
                 JurisdictionCode = "UT",
                 PostalCode = "84043",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1981, 08, 14),
@@ -1664,7 +1664,7 @@ public class DriversLicenseTests : BaseTest
                 City = "RED OAK",
                 JurisdictionCode = "IA",
                 PostalCode = "51566",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1991, 07, 11),
@@ -1715,7 +1715,7 @@ public class DriversLicenseTests : BaseTest
                 City = "CORVALLIS",
                 JurisdictionCode = "OR",
                 PostalCode = "97330",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1950, 06, 26),
@@ -1765,7 +1765,7 @@ public class DriversLicenseTests : BaseTest
                 City = "EROS",
                 JurisdictionCode = "LA",
                 PostalCode = "71238",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1974, 07, 07),
@@ -1819,7 +1819,7 @@ public class DriversLicenseTests : BaseTest
                 City = "LOUISVILLE",
                 JurisdictionCode = "KY",
                 PostalCode = "40218",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1954, 11, 12),
@@ -1875,7 +1875,7 @@ public class DriversLicenseTests : BaseTest
                 City = "CHEESY",
                 JurisdictionCode = "WI",
                 PostalCode = "54767",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1983, 08, 15),
@@ -1933,7 +1933,7 @@ public class DriversLicenseTests : BaseTest
                 City = "NEWARK",
                 JurisdictionCode = "DE",
                 PostalCode = "197521234",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1989, 09, 09),
@@ -1986,7 +1986,7 @@ public class DriversLicenseTests : BaseTest
                 City = "BOULDER",
                 JurisdictionCode = "CO",
                 PostalCode = "81635",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1992, 07, 13),
@@ -2038,7 +2038,7 @@ public class DriversLicenseTests : BaseTest
                 City = "LAKEWOOD",
                 JurisdictionCode = "CO",
                 PostalCode = "80401",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1972, 02, 04),
@@ -2097,7 +2097,7 @@ public class DriversLicenseTests : BaseTest
                 City = "BLUE RIDGE",
                 JurisdictionCode = "AL",
                 PostalCode = "360931234",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1967, 03, 27),
@@ -2150,7 +2150,7 @@ public class DriversLicenseTests : BaseTest
                 City = "TUSCON",
                 JurisdictionCode = "AZ",
                 PostalCode = "856414321",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1989, 01, 24),
@@ -2203,7 +2203,7 @@ public class DriversLicenseTests : BaseTest
                 City = "HOT SPRINGS",
                 JurisdictionCode = "AR",
                 PostalCode = "719014455",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1946, 11, 22),
@@ -2257,7 +2257,7 @@ public class DriversLicenseTests : BaseTest
                 City = "REDMOND",
                 JurisdictionCode = "WA",
                 PostalCode = "980081234",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1950, 05, 23),
@@ -2302,7 +2302,7 @@ public class DriversLicenseTests : BaseTest
                 City = "HELENA",
                 JurisdictionCode = "MT",
                 PostalCode = "59601",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1994, 05, 14),
@@ -2356,7 +2356,7 @@ public class DriversLicenseTests : BaseTest
                 City = "OVERLAND PARK",
                 JurisdictionCode = "KS",
                 PostalCode = "66210",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1980, 01, 26),
@@ -2409,7 +2409,7 @@ public class DriversLicenseTests : BaseTest
                 City = "ANYCITY",
                 JurisdictionCode = "IN",
                 PostalCode = "47458",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1993, 02, 25),
@@ -2463,7 +2463,7 @@ public class DriversLicenseTests : BaseTest
                 City = "CHICAGO",
                 JurisdictionCode = "IL",
                 PostalCode = "60611",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1969, 06, 27),
@@ -2516,7 +2516,7 @@ public class DriversLicenseTests : BaseTest
                 City = "HONOLULU",
                 JurisdictionCode = "HI",
                 PostalCode = "96826",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1988, 03, 12),
@@ -2567,7 +2567,7 @@ public class DriversLicenseTests : BaseTest
                 City = "ANYTOWN",
                 JurisdictionCode = "WV",
                 PostalCode = "12345",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1972, 11, 03),
@@ -2618,7 +2618,7 @@ public class DriversLicenseTests : BaseTest
                 City = "ANCHORAGE",
                 JurisdictionCode = "AK",
                 PostalCode = "99645",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1955, 04, 02),
@@ -2675,7 +2675,7 @@ public class DriversLicenseTests : BaseTest
                 City = "WASHINGTON",
                 JurisdictionCode = "DC",
                 PostalCode = "200091234",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1985, 07, 29),
@@ -2780,7 +2780,7 @@ public class DriversLicenseTests : BaseTest
                 City = "NORTH LAS VEGAS",
                 JurisdictionCode = "NV",
                 PostalCode = "890311234",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1976, 01, 15),
@@ -2850,7 +2850,7 @@ public class DriversLicenseTests : BaseTest
                 City = "ANYCITY",
                 JurisdictionCode = "ND",
                 PostalCode = "58503",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1985, 07, 04),
@@ -2913,7 +2913,7 @@ public class DriversLicenseTests : BaseTest
                 City = "WEST HARTFORD",
                 JurisdictionCode = "CT",
                 PostalCode = "061171234",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1966, 01, 26),
@@ -3031,7 +3031,7 @@ public class DriversLicenseTests : BaseTest
                 City = "AITKIN",
                 JurisdictionCode = "MN",
                 PostalCode = "564311234",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1995, 01, 04),
@@ -3097,7 +3097,7 @@ public class DriversLicenseTests : BaseTest
                 City = "HATTIESBURG",
                 JurisdictionCode = "MS",
                 PostalCode = "39402",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1963, 05, 07),
@@ -3163,7 +3163,7 @@ public class DriversLicenseTests : BaseTest
                 City = "GRANGEVILL",
                 JurisdictionCode = "ID",
                 PostalCode = "83530",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1967, 12, 08),
@@ -3228,7 +3228,7 @@ public class DriversLicenseTests : BaseTest
                 City = "PLYMOUTH",
                 JurisdictionCode = "MA",
                 PostalCode = "023601234",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1939, 12, 07),
@@ -3278,7 +3278,7 @@ public class DriversLicenseTests : BaseTest
                 City = "WEST HAVEN",
                 JurisdictionCode = "CT",
                 PostalCode = "06516",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1961, 02, 04),
@@ -3328,7 +3328,7 @@ public class DriversLicenseTests : BaseTest
                 City = "STRATFORD",
                 JurisdictionCode = "CT",
                 PostalCode = "066140123",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1976, 10, 07),
@@ -3379,7 +3379,7 @@ public class DriversLicenseTests : BaseTest
                 City = "STRATFORD",
                 JurisdictionCode = "CT",
                 PostalCode = "066140123",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1976, 10, 07),
@@ -3473,7 +3473,7 @@ public class DriversLicenseTests : BaseTest
                 City = "BLUE STREAM",
                 JurisdictionCode = "WY",
                 PostalCode = "82930",
-                Country = Country.Usa
+                Country = Country.USA
             },
 
             DateOfBirth = new DateTime(1958, 10, 31),
