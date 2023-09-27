@@ -8,20 +8,49 @@ internal static class AttributeExtensions
     /// If an enum value is decorated with an <see cref="AbbreviationAttribute"/>, get its Abbreviation. Otherwise, return
     /// the enum value as a string.
     /// </summary>
-    internal static string GetAbbreviationFromAbbreviationAttribute<TEnum>(this TEnum value)
-        where TEnum : Enum
+    internal static string GetAbbreviationOrDefaultFromAbbreviationAttribute<TEnum>(this TEnum value)
+        where TEnum : struct, Enum
     {
         // Multiple AbbreviationAttributes are not allowed on the same member.
-        var abbreviationAttribute = value
+        var abbreviationAttr = value
             .GetType()
             .GetMember(value.ToString())
             .First()
             .GetCustomAttribute<AbbreviationAttribute>();
 
         // If we found the attribute, return the abbreviation. Otherwise, return the enum value as a string.
-        return abbreviationAttribute is not null
-            ? abbreviationAttribute.Abbreviation
+        return abbreviationAttr is not null
+            ? abbreviationAttr.Abbreviation
             : value.ToString();
+    }
+
+    /// <summary>
+    /// If an enum value is decorated with an <see cref="AbbreviationAttribute"/>, get its Abbreviation. If the enum
+    /// value is not decorated with an <see cref="AbbreviationAttribute"/>, throw an exception.
+    /// </summary>
+    /// <remarks>
+    /// This is intended primarily for <see cref="Country"/>. There is a unit test that checks to ensure all of its
+    /// values have the attribute, but this runtime check also enforces this.
+    /// </remarks>
+    /// <exception cref="ArgumentException">Thrown if the enum value is not decorated with an <see cref="AbbreviationAttribute"/>.</exception>
+    internal static string GetAbbreviationFromAbbreviationAttribute<TEnum>(this TEnum value)
+        where TEnum : struct, Enum
+    {
+        // Multiple AbbreviationAttributes are not allowed on the same member.
+        var abbreviationAttr = value
+            .GetType()
+            .GetMember(value.ToString())
+            .First()
+            .GetCustomAttribute<AbbreviationAttribute>();
+
+        if (abbreviationAttr is not null)
+        {
+            // We found the attribute. Return the abbreviation.
+            return abbreviationAttr.Abbreviation;
+        }
+
+        // This should never happen, but perhaps someone checked in TEnum without running unit tests. Regardless, throw.
+        throw new ArgumentException($"{typeof(TEnum).FullName} enum value {value} is missing an {nameof(AbbreviationAttribute)}.", nameof(value));
     }
 
     /// <summary>
@@ -29,7 +58,7 @@ internal static class AttributeExtensions
     /// the enum value as a string.
     /// </summary>
     internal static Country GetCountryFromCountryAttribute<TEnum>(this TEnum value)
-        where TEnum : Enum
+        where TEnum : struct, Enum
     {
         // Multiple CountryAttributes are not allowed on the same member.
         var countryAttribute = value
@@ -56,7 +85,7 @@ internal static class AttributeExtensions
     /// the enum value as a string.
     /// </summary>
     internal static string GetDescriptionFromDescriptionAttribute<TEnum>(this TEnum value)
-        where TEnum : Enum
+        where TEnum : struct, Enum
     {
         // Multiple DescriptionAttributes are not allowed on the same member.
         var descriptionAttribute = value

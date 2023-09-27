@@ -6,7 +6,7 @@ public static class EthnicityMetadataHelper
 {
     private static readonly Dictionary<Ethnicity, string> _ethnicityAbbreviations = Enum
         .GetValues<Ethnicity>()
-        .ToDictionary(e => e, e => e.GetAbbreviationFromAbbreviationAttribute());
+        .ToDictionary(e => e, e => e.GetAbbreviationOrDefaultFromAbbreviationAttribute());
 
     /// <summary>
     /// Look up the Ethnicity abbreviation from the enum's Abbreviation attribute. If none found,
