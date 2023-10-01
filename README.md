@@ -1,7 +1,7 @@
 # IdParser.Core
 
 [![publish](https://github.com/jonsagara/IdParser.Core/actions/workflows/build-and-publish.yml/badge.svg)](https://github.com/jonsagara/IdParser.Core/actions?query=workflow%3Apublish)
-[![NuGet](https://img.shields.io/nuget/dt/IdParser.Core?label=NuGet)](https://www.nuget.org/packages/IdParser.Core/)
+[![NuGet](https://img.shields.io/nuget/v/IdParser.Core?label=NuGet)](https://www.nuget.org/packages/IdParser.Core/)
 
 This is a fork of Connor O'Shea's [IdParser](https://github.com/c0shea/IdParser) library. Big thanks to him for all of his work. 
 
