@@ -59,16 +59,24 @@ public class WeightTests
         var weight = new Weight(pounds: 175);
         var expectedKg = 79.4;
 
-        Assert.True(weight.Kilograms!.Value.Equals1DigitPrecision(expectedKg));
+        Assert.True(weight.Kilograms.Equals1DigitPrecision(expectedKg));
     }
 
     [Fact]
     public void PoundsTest()
     {
-        // This is internally converted to kg. Ensure it is round-tripped back to the expected value.
         var weight = new Weight(pounds: 175);
-        var expected = "175 lbs";
+        var expected = 175;
 
-        Assert.Equal(expected, weight.ToString()); ;
+        Assert.Equal(expected, weight.Pounds);
+    }
+
+    [Fact]
+    public void PoundsConvertedTest()
+    {
+        var weight = new Weight(kilograms: 79.4);
+        var expected = 175;
+
+        Assert.Equal(expected, weight.Pounds);
     }
 }

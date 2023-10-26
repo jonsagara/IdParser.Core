@@ -9,25 +9,28 @@ public record Weight
 {
     private const double PoundsPerKilogram = 2.20462262;
 
-    public double? Kilograms { get; private set; }
+    public int Pounds { get; private set; }
+    public double Kilograms { get; private set; }
     public bool IsMetric { get; private set; }
 
     public Weight(double kilograms)
     {
-        Kilograms = kilograms;
         IsMetric = true;
+        Kilograms = kilograms;
+        Pounds = KilogramsToPounds(kilograms: kilograms);
     }
 
     public Weight(int pounds)
     {
-        Kilograms = PoundsToKilograms(pounds);
         IsMetric = false;
+        Kilograms = PoundsToKilograms(pounds);
+        Pounds = pounds;
     }
 
     public override string ToString()
         => IsMetric
         ? $"{Kilograms} kg"
-        : $"{KilogramsToPounds(kilograms: Kilograms!.Value)} lbs";
+        : $"{Pounds} lbs";
 
 
     //
