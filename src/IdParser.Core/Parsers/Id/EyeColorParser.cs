@@ -58,6 +58,11 @@ internal static class EyeColorParser
         {
             return EyeColor.Hazel;
         }
+        // New Jersey doesn't follow the abbreviation scheme for hazel
+        else if (input.EqualsIgnoreCase("HZL"))
+        {
+            return EyeColor.Hazel;
+        }
         else if (input.EqualsIgnoreCase(EyeColor.Maroon.GetAbbreviationOrDefault()))
         {
             return EyeColor.Maroon;

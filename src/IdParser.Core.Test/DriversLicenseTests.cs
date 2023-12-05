@@ -1002,6 +1002,61 @@ public class DriversLicenseTests : BaseTest
     }
 
     [Fact]
+    public void TestNJHZLEyesLicense()
+    {
+        var expected = new DriversLicense
+        {
+            Name = new Name
+            {
+                First = "MELISSA",
+                Middle = "R",
+                Last = "FOX",
+
+                WasFirstTruncated = false,
+                WasMiddleTruncated = false,
+                WasLastTruncated = false
+            },
+
+            Address = new Address
+            {
+                StreetLine1 = "1435 AUBURN AVE",
+                City = "VERNON",
+                JurisdictionCode = "NJ",
+                PostalCode = "074182554",
+                Country = Country.USA
+            },
+
+            DateOfBirth = new DateTime(1983, 02, 04),
+            Sex = Sex.Female,
+            Height = new Height(totalInches: 62),
+            EyeColor = EyeColor.Hazel,
+
+            IdNumber = "P62472647457903",
+            AAMVAVersionNumber = AAMVAVersion.AAMVA2009,
+
+            IssueDate = new DateTime(2015, 02, 28),
+            ExpirationDate = new DateTime(2019, 02, 28),
+            RevisionDate = new DateTime(2010, 07, 23),
+
+            HasTemporaryLawfulStatus = false,
+            Jurisdiction = new DriversLicenseJurisdiction
+            {
+                VehicleClass = "D"
+            }
+        };
+
+        var file = License("NJ HZL Eyes");
+        var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+        LogUnhandledElementIds(idCard, unhandledElementIds);
+
+        AssertIdCard(expected, idCard);
+        AssertLicense(expected, idCard);
+
+        Assert.Equal("07418-2554", idCard.Address.PostalCodeDisplay);
+        Assert.Equal("New Jersey", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
+    }
+
+    [Fact]
     public void TestNCLicense()
     {
         var expected = new DriversLicense
