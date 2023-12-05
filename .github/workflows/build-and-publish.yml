@@ -79,6 +79,8 @@ jobs:
     # https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
     # You can update this logic if you want to manage releases differently
     # if: github.event_name == 'release'
+    # For now, deploy packages only when this is NOT a pull request.
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     needs: [ pack_nuget, run_test ]
     steps:
