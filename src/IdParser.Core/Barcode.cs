@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using IdParser.Core.Constants;
 using IdParser.Core.Parsers;
+using Microsoft.Extensions.Logging;
 
 namespace IdParser.Core;
 
@@ -53,8 +54,8 @@ public static class Barcode
     /// No validation will be performed if none is specified and exceptions will not be thrown
     /// for elements that do not match or do not adversely affect parsing.
     /// </param>
-    /// <param name="log">The <see cref="TextWriter"/> to log to.</param>
-    public static BarcodeParseResult Parse(string rawPdf417Input, Validation validationLevel = Validation.Strict, TextWriter? log = null)
+    /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use to create an <see cref="ILogger"/> for logging.</param>
+    public static BarcodeParseResult Parse(string rawPdf417Input, Validation validationLevel = Validation.Strict, ILoggerFactory? loggerFactory = null)
     {
         ArgumentNullException.ThrowIfNull(rawPdf417Input);
 
@@ -63,7 +64,7 @@ public static class Barcode
             throw new ArgumentException($"The input is missing required header elements and is not a valid AAMVA format. Expected at least 31 characters. Received {rawPdf417Input.Length}.", nameof(rawPdf417Input));
         }
 
-        using var logProxy = LogProxy.TryCreate(log);
+        ILogger? logger = loggerFactory?.CreateLogger(typeof(Barcode));
 
         if (validationLevel == Validation.Strict)
         {
@@ -71,7 +72,7 @@ public static class Barcode
         }
         else
         {
-            rawPdf417Input = Fixes.TryToCorrectHeader(rawPdf417Input, logProxy);
+            rawPdf417Input = Fixes.TryToCorrectHeader(rawPdf417Input, loggerFactory);
         }
 
         var aamvaVersion = ParseAAMVAVersion(rawPdf417Input);
@@ -82,10 +83,10 @@ public static class Barcode
         var country = ParseCountry(idCard.IssuerIdentificationNumber, aamvaVersion, subfileRecords);
         idCard.Address.Country = country;
 
-        var unhandledElementIds = PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, logProxy);
+        var unhandledElementIds = PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, logger);
         if (unhandledElementIds.Count > 0)
         {
-            logProxy?.WriteLine($"[{nameof(Barcode)}] One or more ElementIds were not handled by the ID or Driver's License parsers: {string.Join(", ", unhandledElementIds)}");
+            logger?.LogError($"One or more ElementIds were not handled by the ID or Driver's License parsers: {{UnhandledElementIds}}", string.Join(", ", unhandledElementIds));
         }
 
         return new BarcodeParseResult(idCard, unhandledElementIds);
@@ -217,7 +218,7 @@ public static class Barcode
         return idCard;
     }
 
-    
+
     private static readonly Regex _rxSubfile = new Regex("(DL|ID)([\\d\\w]{3,8})(DL|ID|Z\\w)([DZ][A-Z]{2})", RegexOptions.Compiled);
 
     /// <summary>
@@ -340,7 +341,7 @@ public static class Barcode
         return IssuerMetadataHelper.GetCountry(iin);
     }
 
-    private static IReadOnlyCollection<string> PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string> subfileRecords, LogProxy? logProxy)
+    private static IReadOnlyCollection<string> PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string> subfileRecords, ILogger? logger)
     {
         List<string> unhandledElementIds = new();
 
@@ -374,7 +375,7 @@ public static class Barcode
             }
             catch (Exception ex)
             {
-                logProxy?.WriteLine($"[{nameof(Barcode)}] Unhandled exception in {nameof(PopulateIdCard)} while trying to parse element Id {elementId}: {ex}");
+                logger?.LogError(ex, $"Unhandled exception in {nameof(PopulateIdCard)} while trying to parse element Id {{ElementId}}", elementId);
                 throw;
             }
         }
