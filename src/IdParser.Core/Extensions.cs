@@ -13,6 +13,14 @@ public static class Extensions
         : data;
 
     /// <summary>
+    /// If <paramref name="data"/> is null or white space, return null. Otherwise, return data as-is.
+    /// </summary>
+    internal static string? ToNullIfWhiteSpace(this string? data)
+        => string.IsNullOrWhiteSpace(data)
+        ? null
+        : data;
+
+    /// <summary>
     /// UTF8-encode the string and convert the bytes to hex. Prefix the return string with 0x.
     /// </summary>
     internal static string ToHexString(this string value)

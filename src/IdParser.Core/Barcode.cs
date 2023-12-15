@@ -127,31 +127,16 @@ public static class Barcode
             rawPdf417Input = Fixes.TryToCorrectHeader(rawPdf417Input, loggerFactory);
         }
 
-        //var aamvaVersion = ParseAAMVAVersion(rawPdf417Input);
-        //var idCard = GetIdCardInstance(rawPdf417Input, aamvaVersion);
-        //var subfileRecords = GetSubfileRecords(rawPdf417Input, aamvaVersion, idCard);
-
-        //// We have to parse and retrieve Country from the subfile first because other fields depends on its value.
-        //var country = ParseCountry(idCard.IssuerIdentificationNumber, aamvaVersion, subfileRecords);
-        //idCard.Address.Country = country;
-
-        //var unhandledElementIds = PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, logger);
-        //if (unhandledElementIds.Count > 0)
-        //{
-        //    logger?.LogError($"One or more ElementIds were not handled by the ID or Driver's License parsers: {{UnhandledElementIds}}", string.Join(", ", unhandledElementIds));
-        //}
-
-        //return new BarcodeParseResult(idCard, unhandledElementIds);
-
         var aamvaVersionResult = ParseAAMVAVersion(rawPdf417Input);
         var idCard = GetIdCardInstance2(rawPdf417Input, aamvaVersionResult);
 
 #warning TODO: Need to bail here because we couldn't parse the IssuerIdentificationNumber, and we can't continue trying to parse the rest of the ID.
 
+        // NOTE: any elementIds without a value will have "" as the value, NOT null.
         var subfileRecords = GetSubfileRecords2(rawPdf417Input, idCard.AAMVAVersionNumber.Value, idCard);
 
         // We have to parse and retrieve Country from the subfile first because other fields depends on its value.
-        var country = ParseCountry(idCard.IssuerIdentificationNumber.Value, idCard.AAMVAVersionNumber.Value, subfileRecords);
+        var country = ParseCountry2(idCard.IssuerIdentificationNumber.Value, idCard.AAMVAVersionNumber.Value, subfileRecords);
         //idCard.Address.Country = country;
 
         PopulateIdCard2(idCard, idCard.AAMVAVersionNumber.Value, country, subfileRecords, logger);
@@ -494,12 +479,12 @@ public static class Barcode
     /// <summary>
     /// Get a list of all the data records (name and value as a single string) that we need to parse.
     /// </summary>
-    private static Dictionary<string, string> GetSubfileRecords2(string rawPdf417Input, AAMVAVersion version, IdentificationCard2 idCard)
+    private static Dictionary<string, string?> GetSubfileRecords2(string rawPdf417Input, AAMVAVersion version, IdentificationCard2 idCard)
     {
-        var ixSubfile = ParseSubfileOffset2(rawPdf417Input, version, idCard);
+        var ixSubfileStart = ParseSubfileOffset2(rawPdf417Input, version, idCard);
 
         var records = rawPdf417Input
-            .Substring(startIndex: ixSubfile)
+            .Substring(startIndex: ixSubfileStart)
             .Split(new[] { ParseDataElementSeparator(rawPdf417Input), ParseSegmentTerminator(rawPdf417Input) }, StringSplitOptions.RemoveEmptyEntries)
             .ToList();
 
@@ -517,10 +502,10 @@ public static class Barcode
 
         // Discard any records with length < 3 because we can't parse them into element Ids.
         // First three characters are the element id.
-        // The remaining characters are the value.
+        // The remaining characters are the value. If there are none, return null.
         return records
             .Where(r => r.Length >= 3)
-            .ToDictionary(r => r.Substring(startIndex: 0, length: 3), r => r.Substring(startIndex: 3).Trim());
+            .ToDictionary(r => r.Substring(startIndex: 0, length: 3), r => r.Substring(startIndex: 3).Trim().ToNullIfWhiteSpace());
     }
 
     /// <summary>
@@ -528,6 +513,34 @@ public static class Barcode
     /// Gets the country from the IIN if no matching subfile record was found.
     /// </summary>
     private static Country ParseCountry(IssuerIdentificationNumber iin, AAMVAVersion version, Dictionary<string, string> subfileRecords)
+    {
+        // Country is not a subfile record in the AAMVA 2000 standard.
+        if (version == AAMVAVersion.AAMVA2000)
+        {
+            return Country.USA;
+        }
+
+        if (subfileRecords.TryGetValue(SubfileElementIds.Country, out string? data))
+        {
+            if (data == "USA")
+            {
+                return Country.USA;
+            }
+
+            if (data == "CAN" || data == "CDN")
+            {
+                return Country.Canada;
+            }
+        }
+
+        return IssuerMetadataHelper.GetCountry(iin);
+    }
+
+    /// <summary>
+    /// Parses the country based on the DCG subfile record.
+    /// Gets the country from the IIN if no matching subfile record was found.
+    /// </summary>
+    private static Country ParseCountry2(IssuerIdentificationNumber iin, AAMVAVersion version, Dictionary<string, string?> subfileRecords)
     {
         // Country is not a subfile record in the AAMVA 2000 standard.
         if (version == AAMVAVersion.AAMVA2000)
@@ -593,25 +606,25 @@ public static class Barcode
         return unhandledElementIds;
     }
 
-    private static void PopulateIdCard2(IdentificationCard2 idCard, AAMVAVersion version, Country country, Dictionary<string, string> subfileRecords, ILogger? logger)
+    private static void PopulateIdCard2(IdentificationCard2 idCard, AAMVAVersion version, Country country, Dictionary<string, string?> subfileRecords, ILogger? logger)
     {
         foreach (var elementId in subfileRecords.Keys)
         {
-            var data = subfileRecords[elementId];
+            var rawValue = subfileRecords[elementId];
 
             if (elementId.StartsWith("Z", StringComparison.Ordinal) && !idCard.AdditionalJurisdictionElements.ContainsKey(elementId))
             {
-                idCard.AdditionalJurisdictionElements.Add(elementId, FieldHelpers.ParsedField<string?>(elementId: elementId, value: data, rawValue: data));
+                idCard.AdditionalJurisdictionElements.Add(elementId, FieldHelpers.ParsedField(elementId: elementId, value: rawValue, rawValue: rawValue));
                 continue;
             }
 
             try
             {
-                var handled = Parser2.ParseAndSetIdElements(elementId: elementId, data: data, country, version, idCard);
+                var handled = Parser2.ParseAndSetIdElements(elementId: elementId, rawValue: rawValue, country, version, idCard);
 
                 if (!handled && idCard is DriversLicense2 driversLicense)
                 {
-                    handled = Parser2.ParseAndSetDriversLicenseElements(elementId: elementId, data: data, country, version, driversLicense);
+                    handled = Parser2.ParseAndSetDriversLicenseElements(elementId: elementId, rawValue: rawValue, country, version, driversLicense);
                 }
 
                 if (!handled)

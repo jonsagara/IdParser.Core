@@ -1,10 +1,11 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace IdParser.Core.Parsers;
 
 internal static class ParserHelper
 {
-    internal static bool StringHasNoValue(string? input)
+    internal static bool StringHasNoValue([NotNullWhen(false)] string? input)
     {
         return string.IsNullOrWhiteSpace(input)
             || input == "NONE"

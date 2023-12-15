@@ -69,8 +69,11 @@ public static class FieldHelpers
     public static readonly Field<IssuerIdentificationNumber> UninitializedIssuerIdentificationNumber= Uninitialized<IssuerIdentificationNumber>(elementId: null);
     public static readonly Field<AAMVAVersion> UninitializedAAMVAVersion = Uninitialized<AAMVAVersion>(elementId: null);
 
-    public static readonly Field<int> UninitializedInt32 = Uninitialized<int>(elementId: null);
+    public static readonly Field<bool?> UninitializedNullableBoolean = Uninitialized<bool?>(elementId: null);
     public static readonly Field<DateTime?> UninitializedNullableDateTime = Uninitialized<DateTime?>(null);
+    public static readonly Field<int> UninitializedInt32 = Uninitialized<int>(elementId: null);
+    public static readonly Field<string> UninitializedString = Uninitialized<string>(elementId: null);
+    public static readonly Field<string?> UninitializedNullableString = Uninitialized<string?>(elementId: null);
 }
 
 
@@ -80,9 +83,21 @@ public class IdentificationCard2
 
     public Field<AAMVAVersion> AAMVAVersionNumber { get; internal set; } = FieldHelpers.UninitializedAAMVAVersion;
     public Field<int> JurisdictionVersionNumber { get; internal set; } = FieldHelpers.UninitializedInt32;
-    //public string IdNumber { get; set; } = null!;
+    public Field<string> IdNumber { get; internal set; } = FieldHelpers.UninitializedString;
 
-    //public Name Name { get; init; } = new Name();
+    public Field<string?> FirstName { get; internal set; } = FieldHelpers.UninitializedNullableString;
+    public Field<string?> MiddleName { get; internal set; } = FieldHelpers.UninitializedNullableString;
+    public Field<string?> LastName { get; internal set; } = FieldHelpers.UninitializedNullableString;
+    public Field<string?> Suffix { get; internal set; } = FieldHelpers.UninitializedNullableString;
+
+    public Field<bool?> WasFirstNameTruncated { get; internal set; } = FieldHelpers.UninitializedNullableBoolean;
+    public Field<bool?> WasMiddleNameTruncated { get; internal set; } = FieldHelpers.UninitializedNullableBoolean;
+    public Field<bool?> WasLastNameTruncated { get; internal set; } = FieldHelpers.UninitializedNullableBoolean;
+
+    //public string? AliasFirst { get; set; }
+    //public string? AliasLast { get; set; }
+    //public string? AliasSuffix { get; set; }
+
     //public Address Address { get; init; } = new Address();
 
     public Field<DateTime?> DateOfBirth { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
