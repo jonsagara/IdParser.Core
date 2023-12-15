@@ -137,7 +137,7 @@ public static class Barcode
 
         // We have to parse and retrieve Country from the subfile first because other fields depends on its value.
         var country = ParseCountry2(idCard.IssuerIdentificationNumber.Value, idCard.AAMVAVersionNumber.Value, subfileRecords);
-        //idCard.Address.Country = country;
+        idCard.Country = FieldHelpers.ParsedField(elementId: SubfileElementIds.Country, value: country, rawValue: null);
 
         PopulateIdCard2(idCard, idCard.AAMVAVersionNumber.Value, country, subfileRecords, logger);
         if (idCard.UnhandledElementIds.Count > 0)

@@ -1,6 +1,4 @@
-﻿using IdParser.Core.Constants;
-
-namespace IdParser.Core.Parsers.Id;
+﻿namespace IdParser.Core.Parsers.Id;
 
 internal static class DateOfBirthParser
 {
@@ -20,7 +18,7 @@ internal static class DateOfBirthParser
 
         if (ParserHelper.DateHasNoValue(input))
         {
-            return FieldHelpers.ParsedField<DateTime?>(elementId: elementId, value: default, rawValue: input);
+            return FieldHelpers.ParsedField<DateTime?>(elementId: elementId, value: null, rawValue: input);
         }
 
         return ParserHelper.ParseDate2(elementId: elementId, input: input, country, version);

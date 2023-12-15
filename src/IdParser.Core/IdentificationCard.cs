@@ -68,6 +68,7 @@ public static class FieldHelpers
 
     public static readonly Field<IssuerIdentificationNumber> UninitializedIssuerIdentificationNumber= Uninitialized<IssuerIdentificationNumber>(elementId: null);
     public static readonly Field<AAMVAVersion> UninitializedAAMVAVersion = Uninitialized<AAMVAVersion>(elementId: null);
+    public static readonly Field<Country> UninitializedCountry = Uninitialized<Country>(elementId: SubfileElementIds.Country);
 
     public static readonly Field<bool?> UninitializedNullableBoolean = Uninitialized<bool?>(elementId: null);
     public static readonly Field<DateTime?> UninitializedNullableDateTime = Uninitialized<DateTime?>(null);
@@ -98,7 +99,12 @@ public class IdentificationCard2
     public Field<string?> AliasLastName { get; internal set; } = FieldHelpers.UninitializedNullableString;
     public Field<string?> AliasSuffix { get; internal set; } = FieldHelpers.UninitializedNullableString;
 
-    //public Address Address { get; init; } = new Address();
+    public Field<string?> StreetLine1 { get; internal set; } = FieldHelpers.UninitializedNullableString;
+    public Field<string?> StreetLine2 { get; internal set; } = FieldHelpers.UninitializedNullableString;
+    public Field<string?> City { get; internal set; } = FieldHelpers.UninitializedNullableString;
+    public Field<string?> JurisdictionCode { get; internal set; } = FieldHelpers.UninitializedNullableString;
+    public Field<string?> PostalCode { get; internal set; } = FieldHelpers.UninitializedNullableString;
+    public Field<Country> Country { get; internal set; } = FieldHelpers.UninitializedCountry;
 
     public Field<DateTime?> DateOfBirth { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
     //public DateTime? Under18Until { get; set; }
