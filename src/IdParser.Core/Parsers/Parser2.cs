@@ -16,17 +16,17 @@ internal static class Parser2
 
         switch (elementId)
         {
-            //case SubfileElementIds.AliasFirstName:
-            //    idCard.Name.AliasFirst = AliasFirstNameParser.Parse(input: rawValue, version);
-            //    break;
+            case SubfileElementIds.AliasFirstName:
+                idCard.AliasFirstName = AliasFirstNameParser.Parse2(elementId: elementId, rawValue: rawValue, version);
+                break;
 
-            //case SubfileElementIds.AliasLastName:
-            //    idCard.Name.AliasLast = AliasLastNameParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.AliasLastName:
+                idCard.AliasLastName = AliasLastNameParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
-            //case SubfileElementIds.AliasSuffix:
-            //    idCard.Name.AliasSuffix = AliasSuffixParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.AliasSuffix:
+                idCard.AliasSuffix = AliasSuffixParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
             //case SubfileElementIds.AuditInformation:
             //    idCard.AuditInformation = AuditInformationParser.Parse(input: rawValue);

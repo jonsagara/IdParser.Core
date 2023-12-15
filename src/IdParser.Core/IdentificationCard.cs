@@ -94,9 +94,9 @@ public class IdentificationCard2
     public Field<bool?> WasMiddleNameTruncated { get; internal set; } = FieldHelpers.UninitializedNullableBoolean;
     public Field<bool?> WasLastNameTruncated { get; internal set; } = FieldHelpers.UninitializedNullableBoolean;
 
-    //public string? AliasFirst { get; set; }
-    //public string? AliasLast { get; set; }
-    //public string? AliasSuffix { get; set; }
+    public Field<string?> AliasFirstName { get; internal set; } = FieldHelpers.UninitializedNullableString;
+    public Field<string?> AliasLastName { get; internal set; } = FieldHelpers.UninitializedNullableString;
+    public Field<string?> AliasSuffix { get; internal set; } = FieldHelpers.UninitializedNullableString;
 
     //public Address Address { get; init; } = new Address();
 
