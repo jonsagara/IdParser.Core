@@ -73,6 +73,9 @@ public static class FieldHelpers
     public static readonly Field<EyeColor?> UninitializedNullableEyeColor = Uninitialized<EyeColor?>(elementId: SubfileElementIds.EyeColor);
     public static readonly Field<HairColor?> UninitializedNullableHairColor = Uninitialized<HairColor?>(elementId: SubfileElementIds.HairColor);
     public static readonly Field<Ethnicity?> UninitializedNullableEthnicity = Uninitialized<Ethnicity?>(elementId: SubfileElementIds.Ethnicity);
+    public static readonly Field<Height?> UninitializedNullableHeight = Uninitialized<Height?>(elementId: SubfileElementIds.Height);
+    public static readonly Field<Weight?> UninitializedNullableWeight = Uninitialized<Weight?>(elementId: null); // Could be WeightInPounds or WeightInKilograms.
+    public static readonly Field<WeightRange?> UninitializedNullableWeightRange = Uninitialized<WeightRange?>(elementId: SubfileElementIds.WeightRange);
 
     public static readonly Field<bool?> UninitializedNullableBoolean = Uninitialized<bool?>(elementId: null);
     public static readonly Field<DateTime?> UninitializedNullableDateTime = Uninitialized<DateTime?>(null);
@@ -123,9 +126,9 @@ public class IdentificationCard2
     public Field<EyeColor?> EyeColor { get; internal set; } = FieldHelpers.UninitializedNullableEyeColor;
     public Field<HairColor?> HairColor { get; internal set; } = FieldHelpers.UninitializedNullableHairColor;
     public Field<Ethnicity?> Ethnicity { get; internal set; } = FieldHelpers.UninitializedNullableEthnicity;
-    //public Height? Height { get; set; }
-    //public Weight Weight { get; set; } = null!;
-    //public WeightRange? WeightRange { get; set; }
+    public Field<Height?> Height { get; internal set; } = FieldHelpers.UninitializedNullableHeight;
+    public Field<Weight?> Weight { get; internal set; } = FieldHelpers.UninitializedNullableWeight;
+    public Field<WeightRange?> WeightRange { get; internal set; } = FieldHelpers.UninitializedNullableWeightRange;
 
     //public string? DocumentDiscriminator { get; set; }
 

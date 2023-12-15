@@ -18,6 +18,25 @@ internal static class WeightInPoundsParser
         return new Weight(pounds: weightLbs);
     }
 
+    internal static Field<Weight?> Parse2(string elementId, string? rawValue)
+    {
+        ArgumentNullException.ThrowIfNull(elementId);
+
+        if (ParserHelper.StringHasNoValue(rawValue))
+        {
+            return FieldHelpers.ParsedField<Weight?>(elementId: elementId, value: null, rawValue: rawValue);
+        }
+
+        if (TryParseMetric(rawValue, out Weight? weight))
+        {
+            return FieldHelpers.ParsedField<Weight?>(elementId: elementId, value: weight, rawValue: rawValue);
+        }
+
+        var weightLbs = short.Parse(rawValue.AsSpan(), provider: CultureInfo.InvariantCulture);
+
+        return FieldHelpers.ParsedField<Weight?>(elementId: elementId, value: new Weight(pounds: weightLbs), rawValue: rawValue);
+    }
+
 
     private static readonly Regex _rxMetricWeight = new Regex("(?<Weight>\\d+)+\\s*KG", RegexOptions.Compiled);
 

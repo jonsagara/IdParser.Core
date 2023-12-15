@@ -82,9 +82,9 @@ internal static class Parser2
             //    idCard.HasTemporaryLawfulStatus = HasTemporaryLawfulStatusParser.Parse(input: rawValue);
             //    break;
 
-            //case SubfileElementIds.Height:
-            //    idCard.Height = HeightParser.Parse(input: rawValue, version);
-            //    break;
+            case SubfileElementIds.Height:
+                idCard.Height = HeightParser.Parse2(elementId: elementId, rawValue: rawValue, version);
+                break;
 
             case SubfileElementIds.IdNumber:
                 idCard.IdNumber = IdNumberParser.Parse2(elementId: elementId, input: rawValue);
@@ -188,17 +188,17 @@ internal static class Parser2
                 idCard.WasMiddleNameTruncated = WasMiddleNameTruncatedParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
-            //case SubfileElementIds.WeightInKilograms:
-            //    idCard.Weight = WeightInKilogramsParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.WeightInKilograms:
+                idCard.Weight = WeightInKilogramsParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
-            //case SubfileElementIds.WeightInPounds:
-            //    idCard.Weight = WeightInPoundsParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.WeightInPounds:
+                idCard.Weight = WeightInPoundsParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
-            //case SubfileElementIds.WeightRange:
-            //    idCard.WeightRange = WeightRangeParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.WeightRange:
+                idCard.WeightRange = WeightRangeParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
             default:
                 handled = false;
