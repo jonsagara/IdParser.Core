@@ -48,17 +48,17 @@ internal static class Parser2
             //    idCard.DocumentDiscriminator = DocumentDiscriminatorParser.Parse(input: rawValue);
             //    break;
 
-            //case SubfileElementIds.Ethnicity:
-            //    idCard.Ethnicity = EthnicityParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.Ethnicity:
+                idCard.Ethnicity = EthnicityParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
             case SubfileElementIds.ExpirationDate:
                 idCard.ExpirationDate = ExpirationDateParser.Parse2(elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
-            //case SubfileElementIds.EyeColor:
-            //    idCard.EyeColor = EyeColorParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.EyeColor:
+                idCard.EyeColor = EyeColorParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
             case SubfileElementIds.FirstName:
                 var firstNameParts = FirstNameParser.Parse2(rawValue: rawValue);
@@ -74,9 +74,9 @@ internal static class Parser2
                 idCard.MiddleName = FieldHelpers.ParsedField(elementId: elementId, value: givenNameParts?.Middle ?? idCard.MiddleName.Value, rawValue: rawValue);
                 break;
 
-            //case SubfileElementIds.HairColor:
-            //    idCard.HairColor = HairColorParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.HairColor:
+                idCard.HairColor = HairColorParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
             //case SubfileElementIds.HasTemporaryLawfulStatus:
             //    idCard.HasTemporaryLawfulStatus = HasTemporaryLawfulStatusParser.Parse(input: rawValue);
@@ -148,9 +148,9 @@ internal static class Parser2
                 idCard.RevisionDate = RevisionDateParser.Parse2(elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
-            //case SubfileElementIds.Sex:
-            //    idCard.Sex = SexParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.Sex:
+                idCard.Sex = SexParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
             case SubfileElementIds.StreetLine1:
                 idCard.StreetLine1 = StreetLine1Parser.Parse2(elementId: elementId, rawValue: rawValue);

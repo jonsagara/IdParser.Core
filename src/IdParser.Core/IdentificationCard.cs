@@ -69,6 +69,10 @@ public static class FieldHelpers
     public static readonly Field<IssuerIdentificationNumber> UninitializedIssuerIdentificationNumber= Uninitialized<IssuerIdentificationNumber>(elementId: null);
     public static readonly Field<AAMVAVersion> UninitializedAAMVAVersion = Uninitialized<AAMVAVersion>(elementId: null);
     public static readonly Field<Country> UninitializedCountry = Uninitialized<Country>(elementId: SubfileElementIds.Country);
+    public static readonly Field<Sex?> UninitializedNullableSex = Uninitialized<Sex?>(elementId: SubfileElementIds.Sex);
+    public static readonly Field<EyeColor?> UninitializedNullableEyeColor = Uninitialized<EyeColor?>(elementId: SubfileElementIds.EyeColor);
+    public static readonly Field<HairColor?> UninitializedNullableHairColor = Uninitialized<HairColor?>(elementId: SubfileElementIds.HairColor);
+    public static readonly Field<Ethnicity?> UninitializedNullableEthnicity = Uninitialized<Ethnicity?>(elementId: SubfileElementIds.Ethnicity);
 
     public static readonly Field<bool?> UninitializedNullableBoolean = Uninitialized<bool?>(elementId: null);
     public static readonly Field<DateTime?> UninitializedNullableDateTime = Uninitialized<DateTime?>(null);
@@ -115,10 +119,10 @@ public class IdentificationCard2
     public Field<DateTime?> IssueDate { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
     public Field<DateTime?> RevisionDate { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
 
-    //public Sex Sex { get; set; }
-    //public EyeColor? EyeColor { get; set; }
-    //public HairColor? HairColor { get; set; }
-    //public Ethnicity? Ethnicity { get; set; }
+    public Field<Sex?> Sex { get; internal set; } = FieldHelpers.UninitializedNullableSex;
+    public Field<EyeColor?> EyeColor { get; internal set; } = FieldHelpers.UninitializedNullableEyeColor;
+    public Field<HairColor?> HairColor { get; internal set; } = FieldHelpers.UninitializedNullableHairColor;
+    public Field<Ethnicity?> Ethnicity { get; internal set; } = FieldHelpers.UninitializedNullableEthnicity;
     //public Height? Height { get; set; }
     //public Weight Weight { get; set; } = null!;
     //public WeightRange? WeightRange { get; set; }
