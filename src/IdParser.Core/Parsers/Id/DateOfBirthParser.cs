@@ -1,4 +1,6 @@
-﻿namespace IdParser.Core.Parsers.Id;
+﻿using IdParser.Core.Constants;
+
+namespace IdParser.Core.Parsers.Id;
 
 internal static class DateOfBirthParser
 {
@@ -10,5 +12,17 @@ internal static class DateOfBirthParser
         }
 
         return ParserHelper.ParseDate(input, country, version);
+    }
+
+    internal static Field<DateTime?> Parse2(string elementId, string? input, Country country, AAMVAVersion version)
+    {
+        ArgumentNullException.ThrowIfNull(elementId);
+
+        if (ParserHelper.DateHasNoValue(input))
+        {
+            return FieldHelpers.ParsedField<DateTime?>(elementId: elementId, value: default, rawValue: input);
+        }
+
+        return ParserHelper.ParseDate2(elementId: elementId, input: input, country, version);
     }
 }

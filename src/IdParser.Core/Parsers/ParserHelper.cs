@@ -4,7 +4,7 @@ namespace IdParser.Core.Parsers;
 
 internal static class ParserHelper
 {
-    internal static bool StringHasNoValue(string input)
+    internal static bool StringHasNoValue(string? input)
     {
         return string.IsNullOrWhiteSpace(input)
             || input == "NONE"
@@ -12,7 +12,7 @@ internal static class ParserHelper
             || input == "unavail";
     }
 
-    internal static bool DateHasNoValue(string input)
+    internal static bool DateHasNoValue(string? input)
     {
         return string.IsNullOrWhiteSpace(input)
             || input == "00000000";
@@ -46,6 +46,39 @@ internal static class ParserHelper
         }
 
         throw new ArgumentException($"Failed to parse the date '{input}' for country '{country}' using version '{version}'.", nameof(input));
+    }
+
+    internal static Field<DateTime?> ParseDate2(string elementId, string? input, Country? country, AAMVAVersion version)
+    {
+        ArgumentNullException.ThrowIfNull(elementId);
+
+        const string usaFormat = "MMddyyyy";
+        const string canadaFormat = "yyyyMMdd";
+        bool tryCanadaFormatFirst = country is not null && country == Country.Canada || version == AAMVAVersion.AAMVA2000;
+
+        // Some jurisdictions, like New Hampshire (version 2013), don't follow the standard and have trailing
+        // characters (like 'M') after the date in the same record. In an attempt to parse the date successfully,
+        // only try parsing the positions we know should contain a date.
+        if (input is not null && input.Length > usaFormat.Length)
+        {
+            input = input.Substring(0, usaFormat.Length);
+        }
+
+        // Some jurisdictions, like Wyoming (version 2009), don't follow the standard and use the wrong date format.
+        // In an attempt to parse the ID successfully, attempt to parse using both formats if the first attempt fails.
+        // Hopefully between the two one will work.
+        if (DateTime.TryParseExact(input, tryCanadaFormatFirst ? canadaFormat : usaFormat, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out var firstAttemptResult))
+        {
+            return new Field<DateTime?>(ElementId: elementId, Value: firstAttemptResult, RawValue: input, Error: null, Present: true);
+        }
+
+        if (DateTime.TryParseExact(input, !tryCanadaFormatFirst ? canadaFormat : usaFormat, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out var secondAttemptResult))
+        {
+            //return new Field<DateTime?>(ElementId: elementId, Value: secondAttemptResult, RawValue: input, Error: null, Present: true);
+            return FieldHelpers.ParsedField<DateTime?>(elementId: elementId, value: secondAttemptResult, rawValue: input);
+        }
+
+        return FieldHelpers.UnparsedField<DateTime?>(elementId: elementId, rawValue: input, $"[{elementId}] Failed to parse the date '{input}' for country '{country}' using version '{version}'.");
     }
 
     internal static bool? ParseBool(string input)
