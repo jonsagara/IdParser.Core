@@ -107,13 +107,13 @@ public class IdentificationCard2
     public Field<Country> Country { get; internal set; } = FieldHelpers.UninitializedCountry;
 
     public Field<DateTime?> DateOfBirth { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
-    //public DateTime? Under18Until { get; set; }
-    //public DateTime? Under19Until { get; set; }
-    //public DateTime? Under21Until { get; set; }
+    public Field<DateTime?> Under18Until { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
+    public Field<DateTime?> Under19Until { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
+    public Field<DateTime?> Under21Until { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
 
-    //public DateTime ExpirationDate { get; set; }
-    //public DateTime IssueDate { get; set; }
-    //public DateTime? RevisionDate { get; set; }
+    public Field<DateTime?> ExpirationDate { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
+    public Field<DateTime?> IssueDate { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
+    public Field<DateTime?> RevisionDate { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
 
     //public Sex Sex { get; set; }
     //public EyeColor? EyeColor { get; set; }

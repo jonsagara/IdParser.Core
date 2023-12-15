@@ -52,9 +52,9 @@ internal static class Parser2
             //    idCard.Ethnicity = EthnicityParser.Parse(input: rawValue);
             //    break;
 
-            //case SubfileElementIds.ExpirationDate:
-            //    idCard.ExpirationDate = ExpirationDateParser.Parse(input: rawValue, country, version);
-            //    break;
+            case SubfileElementIds.ExpirationDate:
+                idCard.ExpirationDate = ExpirationDateParser.Parse2(elementId: elementId, rawValue: rawValue, country, version);
+                break;
 
             //case SubfileElementIds.EyeColor:
             //    idCard.EyeColor = EyeColorParser.Parse(input: rawValue);
@@ -102,9 +102,9 @@ internal static class Parser2
             //    idCard.IsOrganDonor = IsOrganDonorLegacyParser.Parse(rawValue, version);
             //    break;
 
-            //case SubfileElementIds.IssueDate:
-            //    idCard.IssueDate = IssueDateParser.Parse(input: rawValue, country, version);
-            //    break;
+            case SubfileElementIds.IssueDate:
+                idCard.IssueDate = IssueDateParser.Parse2(elementId: elementId, rawValue: rawValue, country, version);
+                break;
 
             //case SubfileElementIds.IsVeteran:
             //    idCard.IsVeteran = IsVeteranParser.Parse(input: rawValue);
@@ -144,9 +144,9 @@ internal static class Parser2
                 idCard.PostalCode = PostalCodeParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
-            //case SubfileElementIds.RevisionDate:
-            //    idCard.RevisionDate = RevisionDateParser.Parse(input: rawValue, country, version);
-            //    break;
+            case SubfileElementIds.RevisionDate:
+                idCard.RevisionDate = RevisionDateParser.Parse2(elementId: elementId, rawValue: rawValue, country, version);
+                break;
 
             //case SubfileElementIds.Sex:
             //    idCard.Sex = SexParser.Parse(input: rawValue);
@@ -164,17 +164,17 @@ internal static class Parser2
                 idCard.StreetLine2 = StreetLine2Parser.Parse2(elementId: elementId, rawValue: rawValue, city: idCard.City.Value, jurisdictionCode: idCard.JurisdictionCode.Value, postalCode: idCard.PostalCode.Value);
                 break;
 
-            //case SubfileElementIds.Under18Until:
-            //    idCard.Under18Until = Under18UntilParser.Parse(input: rawValue, country, version);
-            //    break;
+            case SubfileElementIds.Under18Until:
+                idCard.Under18Until = Under18UntilParser.Parse2(elementId: elementId, rawValue: rawValue, country, version);
+                break;
 
-            //case SubfileElementIds.Under19Until:
-            //    idCard.Under19Until = Under19UntilParser.Parse(input: rawValue, country, version);
-            //    break;
+            case SubfileElementIds.Under19Until:
+                idCard.Under19Until = Under19UntilParser.Parse2(elementId: elementId, rawValue: rawValue, country, version);
+                break;
 
-            //case SubfileElementIds.Under21Until:
-            //    idCard.Under21Until = Under21UntilParser.Parse(input: rawValue, country, version);
-            //    break;
+            case SubfileElementIds.Under21Until:
+                idCard.Under21Until = Under21UntilParser.Parse2(elementId: elementId, rawValue: rawValue, country, version);
+                break;
 
             case SubfileElementIds.WasFirstNameTruncated:
                 idCard.WasFirstNameTruncated = WasFirstNameTruncatedParser.Parse2(elementId: elementId, rawValue: rawValue);
