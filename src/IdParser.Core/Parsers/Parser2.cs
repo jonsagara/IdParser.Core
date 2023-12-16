@@ -9,7 +9,6 @@ internal static class Parser2
     internal static bool ParseAndSetIdElements(string elementId, string? rawValue, Country country, AAMVAVersion version, IdentificationCard2 idCard)
     {
         ArgumentNullException.ThrowIfNull(elementId);
-        ArgumentNullException.ThrowIfNull(rawValue);
         ArgumentNullException.ThrowIfNull(idCard);
 
         var handled = true;

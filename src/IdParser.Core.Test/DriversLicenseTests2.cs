@@ -283,161 +283,134 @@ public class DriversLicenseTests2 : BaseTest2
         Assert.Equal("Georgia", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     }
 
-    //[Fact]
-    //public void TestCTLicense()
-    //{
-    //    var expected = new DriversLicense
-    //    {
-    //        Name = new Name
-    //        {
-    //            First = "ADULT",
-    //            Middle = "A",
-    //            Last = "CTLIC"
-    //        },
+    [Fact]
+    public void TestCTLicense()
+    {
+        var expected = new DriversLicense2
+        {
+            FirstName = FV<string?>(SubfileElementIds.FirstName, "ADULT"),
+            MiddleName = FV<string?>(SubfileElementIds.MiddleName, "A"),
+            LastName = FV<string?>(SubfileElementIds.LastName, "CTLIC"),
 
-    //        Address = new Address
-    //        {
-    //            StreetLine1 = "60 STATE ST",
-    //            City = "WETHERSFIELD",
-    //            JurisdictionCode = "CT",
-    //            PostalCode = "061091896",
-    //            Country = Country.USA
-    //        },
+            StreetLine1 = FV<string?>(SubfileElementIds.StreetLine1, "60 STATE ST"),
+            City = FV<string?>(SubfileElementIds.City, "WETHERSFIELD"),
+            JurisdictionCode = FV<string?>(SubfileElementIds.JurisdictionCode, "CT"),
+            PostalCode = FV<string?>(SubfileElementIds.PostalCode, "061091896"),
+            Country = FV<Country>(SubfileElementIds.Country, Country.USA),
 
-    //        DateOfBirth = new DateTime(1961, 01, 01),
-    //        Sex = Sex.Female,
-    //        Height = new Height(feet: 5, inches: 6),
-    //        EyeColor = EyeColor.Blue,
+            DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(1961, 1, 1)),
+            Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Female),
+            Height = FV<Height?>(SubfileElementIds.Height, new Height(feet: 5, inches: 6)),
+            EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Blue),
 
-    //        IdNumber = "990000001",
-    //        AAMVAVersionNumber = AAMVAVersion.AAMVA2000,
+            IdNumber = FV(SubfileElementIds.IdNumber, "990000001"),
+            AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2000),
 
-    //        IssueDate = new DateTime(2009, 02, 23),
-    //        ExpirationDate = new DateTime(2015, 01, 01),
+            IssueDate = FV<DateTime?>(SubfileElementIds.IssueDate, new DateTime(2009, 2, 23)),
+            ExpirationDate = FV<DateTime?>(SubfileElementIds.ExpirationDate, new DateTime(2015, 1, 1)),
 
-    //        IsOrganDonor = true,
-    //        Jurisdiction = new DriversLicenseJurisdiction
-    //        {
-    //            VehicleClass = "D",
-    //            RestrictionCodes = "B"
-    //        }
-    //    };
+            IsOrganDonor = FV<bool?>(SubfileElementIds.IsOrganDonor, true),
+            VehicleClass = FV<string?>(SubfileElementIds.VehicleClass, "D"),
+            RestrictionCodes = FV<string?>(SubfileElementIds.RestrictionCodes, "B")
+        };
 
-    //    var file = License("CT");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(parseResult.Card);
+        var file = License("CT");
+        var parseResult = Barcode.Parse2(file, Validation.None);
+        LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, parseResult.Card);
-    //    AssertLicense(expected, parseResult.Card);
+        AssertIdCard(expected, parseResult.Card);
+        AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("Connecticut", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
+        Assert.Equal("Connecticut", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
 
-    //    Assert.IsType<DriversLicense2>(idCard);
+        Assert.IsType<DriversLicense2>(parseResult.Card);
 
-    //    if (idCard is DriversLicense2 license)
-    //    {
-    //        Assert.Equal("D", license.Jurisdiction.VehicleClass);
-    //        Assert.Equal("B", license.Jurisdiction.RestrictionCodes);
-    //    }
-    //}
+        if (parseResult.Card is DriversLicense2 license)
+        {
+            Assert.Equal("D", license.VehicleClass.Value);
+            Assert.Equal("B", license.RestrictionCodes.Value);
+        }
+    }
 
-    //[Fact]
-    //public void TestCTLicenseWebBrowser()
-    //{
-    //    var expected = new DriversLicense
-    //    {
-    //        Name = new Name
-    //        {
-    //            First = "ADULT",
-    //            Middle = "A",
-    //            Last = "CTLIC"
-    //        },
+    [Fact]
+    public void TestCTLicenseWebBrowser()
+    {
+        var expected = new DriversLicense2
+        {
+            FirstName = FV<string?>(SubfileElementIds.FirstName, "ADULT"),
+            MiddleName = FV<string?>(SubfileElementIds.MiddleName, "A"),
+            LastName = FV<string?>(SubfileElementIds.LastName, "CTLIC"),
 
-    //        Address = new Address
-    //        {
-    //            StreetLine1 = "60 STATE ST",
-    //            City = "WETHERSFIELD",
-    //            JurisdictionCode = "CT",
-    //            PostalCode = "061091896",
-    //            Country = Country.USA
-    //        },
+            StreetLine1 = FV<string?>(SubfileElementIds.StreetLine1, "60 STATE ST"),
+            City = FV<string?>(SubfileElementIds.City, "WETHERSFIELD"),
+            JurisdictionCode = FV<string?>(SubfileElementIds.JurisdictionCode, "CT"),
+            PostalCode = FV<string?>(SubfileElementIds.PostalCode, "061091896"),
+            Country = FV<Country>(SubfileElementIds.Country, Country.USA),
 
-    //        DateOfBirth = new DateTime(1961, 01, 01),
-    //        Sex = Sex.Female,
-    //        Height = new Height(feet: 5, inches: 6),
-    //        EyeColor = EyeColor.Blue,
+            DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(1961, 1, 1)),
+            Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Female),
+            Height = FV<Height?>(SubfileElementIds.Height, new Height(feet: 5, inches: 6)),
+            EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Blue),
 
-    //        IdNumber = "990000001",
-    //        AAMVAVersionNumber = AAMVAVersion.AAMVA2000,
+            IdNumber = FV(SubfileElementIds.IdNumber, "990000001"),
+            AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2000),
 
-    //        IssueDate = new DateTime(2009, 02, 23),
-    //        ExpirationDate = new DateTime(2015, 01, 01),
+            IssueDate = FV<DateTime?>(SubfileElementIds.IssueDate, new DateTime(2009, 2, 23)),
+            ExpirationDate = FV<DateTime?>(SubfileElementIds.ExpirationDate, new DateTime(2015, 1, 1)),
 
-    //        IsOrganDonor = true,
-    //        Jurisdiction = new DriversLicenseJurisdiction
-    //        {
-    //            VehicleClass = "D",
-    //            RestrictionCodes = "B"
-    //        }
-    //    };
+            IsOrganDonor = FV<bool?>(SubfileElementIds.IsOrganDonor, true),
+            VehicleClass = FV<string?>(SubfileElementIds.VehicleClass, "D"),
+            RestrictionCodes = FV<string?>(SubfileElementIds.RestrictionCodes, "B")
+        };
 
-    //    var file = License("CT Web Browser");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(parseResult.Card);
+        var file = License("CT Web Browser");
+        var parseResult = Barcode.Parse2(file, Validation.None);
+        LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, parseResult.Card);
-    //    AssertLicense(expected, parseResult.Card);
+        AssertIdCard(expected, parseResult.Card);
+        AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("Connecticut", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
-    //}
+        Assert.Equal("Connecticut", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
+    }
 
-    //[Fact]
-    //public void TestCTLicenseNoMiddleName()
-    //{
-    //    var expected = new DriversLicense
-    //    {
-    //        Name = new Name
-    //        {
-    //            First = "CHUNG",
-    //            Last = "WANG"
-    //        },
+    [Fact]
+    public void TestCTLicenseNoMiddleName()
+    {
+        var expected = new DriversLicense2
+        {
+            FirstName = FV<string?>(SubfileElementIds.FirstName, "CHUNG"),
+            LastName = FV<string?>(SubfileElementIds.LastName, "WANG"),
 
-    //        Address = new Address
-    //        {
-    //            StreetLine1 = "123 SIDE ST",
-    //            City = "WATERBURY",
-    //            JurisdictionCode = "CT",
-    //            PostalCode = "067081897",
-    //            Country = Country.USA
-    //        },
+            StreetLine1 = FV<string?>(SubfileElementIds.StreetLine1, "123 SIDE ST"),
+            City = FV<string?>(SubfileElementIds.City, "WATERBURY"),
+            JurisdictionCode = FV<string?>(SubfileElementIds.JurisdictionCode, "CT"),
+            PostalCode = FV<string?>(SubfileElementIds.PostalCode, "067081897"),
+            Country = FV<Country>(SubfileElementIds.Country, Country.USA),
 
-    //        DateOfBirth = new DateTime(1949, 03, 03),
-    //        Sex = Sex.Male,
-    //        Height = new Height(feet: 5, inches: 8),
-    //        EyeColor = EyeColor.Brown,
+            DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(1949, 3, 3)),
+            Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
+            Height = FV<Height?>(SubfileElementIds.Height, new Height(feet: 5, inches: 8)),
+            EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Brown),
 
-    //        IdNumber = "035032278",
-    //        AAMVAVersionNumber = AAMVAVersion.AAMVA2000,
+            IdNumber = FV(SubfileElementIds.IdNumber, "035032278"),
+            AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2000),
 
-    //        IssueDate = new DateTime(2017, 01, 19),
-    //        ExpirationDate = new DateTime(2023, 03, 03),
+            IssueDate = FV<DateTime?>(SubfileElementIds.IssueDate, new DateTime(2017, 1, 19)),
+            ExpirationDate = FV<DateTime?>(SubfileElementIds.ExpirationDate, new DateTime(2023, 3, 3)),
 
-    //        IsOrganDonor = false,
-    //        Jurisdiction = new DriversLicenseJurisdiction
-    //        {
-    //            VehicleClass = "D"
-    //        }
-    //    };
+            IsOrganDonor = FV<bool?>(SubfileElementIds.IsOrganDonor, false),
+            VehicleClass = FV<string?>(SubfileElementIds.VehicleClass, "D"),
+        };
 
-    //    var file = License("CT No Middle Name");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(parseResult.Card);
+        var file = License("CT No Middle Name");
+        var parseResult = Barcode.Parse2(file, Validation.None);
+        LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, parseResult.Card);
-    //    AssertLicense(expected, parseResult.Card);
+        AssertIdCard(expected, parseResult.Card);
+        AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("Connecticut", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
-    //}
+        Assert.Equal("Connecticut", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
+    }
 
     //[Fact]
     //public void TestMOLicense()
@@ -478,7 +451,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("MO");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -489,9 +462,9 @@ public class DriversLicenseTests2 : BaseTest2
     //    Assert.Equal("MAST LOUIS CITY", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZMZ").Value);
     //    Assert.Equal("112001810097", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZMB").Value);
 
-    //    Assert.IsType<DriversLicense2>(idCard);
+    //    Assert.IsType<DriversLicense2>(parseResult.Card);
 
-    //    if (idCard is DriversLicense2 license)
+    //    if (parseResult.Card is DriversLicense2 license)
     //    {
     //        Assert.Equal("F", license.Jurisdiction.VehicleClass);
     //    }
@@ -536,7 +509,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("FL");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -548,7 +521,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    Assert.Equal(5, idCard.AdditionalJurisdictionElements.Count);
     //    Assert.Equal("FA", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZFZ").Value);
 
-    //    if (idCard is DriversLicense2 license)
+    //    if (parseResult.Card is DriversLicense2 license)
     //    {
     //        Assert.Equal("A", license.Jurisdiction.RestrictionCodes);
     //        Assert.Equal("E", license.Jurisdiction.VehicleClass);
@@ -602,7 +575,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("NH");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -651,7 +624,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("TX");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -703,7 +676,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("PA");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -755,7 +728,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("PA Two Middle Names");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -776,7 +749,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("PA Three Middle Names");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    Assert.Equal(expected.First, idCard.Name.First);
@@ -831,7 +804,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("PA 2016");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -889,7 +862,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("RI");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -944,7 +917,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("NJ");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -999,7 +972,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("NJ HZL Eyes");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1055,7 +1028,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("NC");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1106,7 +1079,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("SC");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1160,7 +1133,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("ME");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1220,7 +1193,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("OH");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1261,7 +1234,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("MI");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1309,7 +1282,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("ON");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1367,7 +1340,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("VT");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1421,7 +1394,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("PR");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1477,7 +1450,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("MD");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1531,7 +1504,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("CA");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1580,7 +1553,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("NM");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1640,7 +1613,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("UT");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1695,7 +1668,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("IA");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1745,7 +1718,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("OR");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1795,7 +1768,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("LA");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1850,7 +1823,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("KY");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1908,7 +1881,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("WI");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -1966,7 +1939,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("DE");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2017,7 +1990,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("CO");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2077,7 +2050,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("CO 2013");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2130,7 +2103,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("AL");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2183,7 +2156,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("AZ");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2237,7 +2210,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("AR");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2282,7 +2255,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("WA");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2332,7 +2305,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("MT");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2389,7 +2362,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("KS");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2438,7 +2411,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("IN");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2495,7 +2468,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("IL");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2547,7 +2520,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("HI");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2598,7 +2571,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("WV");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2655,7 +2628,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("AK");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2707,7 +2680,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("DC");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2760,7 +2733,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("PE");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2827,7 +2800,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("NV");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2890,7 +2863,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("ND");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -2954,7 +2927,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("CT Undefined Characters");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -3007,7 +2980,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("AB");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -3072,7 +3045,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("MN");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -3141,7 +3114,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("MS");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -3203,7 +3176,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("ID");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -3258,7 +3231,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = File.ReadAllText("Leading Whitespace.txt");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -3308,7 +3281,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = File.ReadAllText("Invalid Header.txt");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -3358,7 +3331,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("CT Suffix");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -3409,7 +3382,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("CT Multiple Middle Names");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -3452,7 +3425,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("NB");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
@@ -3503,7 +3476,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("WY");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
+    //    var parseResult = Barcode.Parse2(file, Validation.None);
     //    LogUnhandledElementIds(parseResult.Card);
 
     //    AssertIdCard(expected, parseResult.Card);
