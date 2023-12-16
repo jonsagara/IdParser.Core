@@ -11,9 +11,6 @@ public class DriversLicenseTests2 : BaseTest2
     {
     }
 
-    private Field<T> FV<T>(string? elementId, T value)
-        => FieldHelpers.ParsedField(elementId, value, rawValue: null);
-
 
     [Fact]
     public void TestMA2009License()

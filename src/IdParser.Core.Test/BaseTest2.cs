@@ -19,6 +19,12 @@ public class BaseTest2
     protected string License(string jurisdiction) 
         => File.ReadAllText(Path.Combine("Licenses", $"{jurisdiction}.txt"));
 
+    /// <summary>
+    /// Create a Field value. elementId and rawValue don't matter.
+    /// </summary>
+    protected Field<T> FV<T>(string? elementId, T value)
+        => FieldHelpers.ParsedField(elementId, value, rawValue: null);
+
     protected void AssertIdCard(IdentificationCard2 expected, IdentificationCard2 actual)
     {
         Assert.NotNull(expected);
