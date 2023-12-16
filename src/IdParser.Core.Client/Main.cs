@@ -201,7 +201,7 @@ namespace IdParser.Core.Client
 
                 var parseResult = Barcode.Parse2(input, Validation.None);
 
-                if (parseResult.Card is DriversLicense2)
+                if (parseResult.Card is DriversLicense)
                 {
                     lblIdType.Text = "Drivers License";
                 }

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 namespace IdParser.Core;
 
 public record BarcodeParseResult2(
-    IdentificationCard2 Card
+    IdentificationCard Card
     );
 
 public static class Barcode
@@ -206,14 +206,14 @@ public static class Barcode
             : input.Substring(startIndex: 21, length: 2);
 
     /// <summary>
-    /// If it's a driver's license, return a <see cref="DriversLicense2"/> instance. Otherwise, return an
-    /// <see cref="IdentificationCard2"/> instance.
+    /// If it's a driver's license, return a <see cref="DriversLicense"/> instance. Otherwise, return an
+    /// <see cref="IdentificationCard"/> instance.
     /// </summary>
-    private static IdentificationCard2 GetIdCardInstance2(string rawPdf417Input, AAMVAVersionResult aamvaVersionResult)
+    private static IdentificationCard GetIdCardInstance2(string rawPdf417Input, AAMVAVersionResult aamvaVersionResult)
     {
         var idCard = ParseSubfileType(rawPdf417Input, aamvaVersionResult.Version) == "DL"
-            ? new DriversLicense2()
-            : new IdentificationCard2();
+            ? new DriversLicense()
+            : new IdentificationCard();
 
 
         var issuerIdentificationNumberRawValue = rawPdf417Input.AsSpan(9, 6).ToString();
@@ -248,7 +248,7 @@ public static class Barcode
     /// <summary>
     /// Get the index of the subfile starting position.
     /// </summary>
-    private static int ParseSubfileOffset2(string rawPdf417Input, AAMVAVersion version, IdentificationCard2 idCard)
+    private static int ParseSubfileOffset2(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
     {
         var ixSubfileStartPosition = 0;
 
@@ -315,7 +315,7 @@ public static class Barcode
     /// <summary>
     /// Get a list of all the data records (name and value as a single string) that we need to parse.
     /// </summary>
-    private static Dictionary<string, string?> GetSubfileRecords2(string rawPdf417Input, AAMVAVersion version, IdentificationCard2 idCard)
+    private static Dictionary<string, string?> GetSubfileRecords2(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
     {
         var ixSubfileStart = ParseSubfileOffset2(rawPdf417Input, version, idCard);
 
@@ -400,7 +400,7 @@ public static class Barcode
         return IssuerMetadataHelper.GetCountry(iin);
     }
 
-    private static void PopulateIdCard2(IdentificationCard2 idCard, AAMVAVersion version, Country country, Dictionary<string, string?> subfileRecords, ILogger? logger)
+    private static void PopulateIdCard2(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string?> subfileRecords, ILogger? logger)
     {
         foreach (var elementId in subfileRecords.Keys)
         {
@@ -414,11 +414,11 @@ public static class Barcode
 
             try
             {
-                var handled = Parser2.ParseAndSetIdElements(elementId: elementId, rawValue: rawValue, country, version, idCard);
+                var handled = Parser.ParseAndSetIdElements(elementId: elementId, rawValue: rawValue, country, version, idCard);
 
-                if (!handled && idCard is DriversLicense2 driversLicense)
+                if (!handled && idCard is DriversLicense driversLicense)
                 {
-                    handled = Parser2.ParseAndSetDriversLicenseElements(elementId: elementId, rawValue: rawValue, country, version, driversLicense);
+                    handled = Parser.ParseAndSetDriversLicenseElements(elementId: elementId, rawValue: rawValue, country, version, driversLicense);
                 }
 
                 if (!handled)

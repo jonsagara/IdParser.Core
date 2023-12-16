@@ -2,7 +2,7 @@
 
 namespace IdParser.Core;
 
-public class IdentificationCard2
+public class IdentificationCard
 {
     public Field<IssuerIdentificationNumber> IssuerIdentificationNumber { get; internal set; } = FieldHelpers.UninitializedIssuerIdentificationNumber;
 

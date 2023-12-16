@@ -25,7 +25,7 @@ public class BaseTest
     protected Field<T> FV<T>(string? elementId, T value)
         => FieldHelpers.ParsedField(elementId, value, rawValue: null);
 
-    protected void AssertIdCard(IdentificationCard2 expected, IdentificationCard2 actual)
+    protected void AssertIdCard(IdentificationCard expected, IdentificationCard actual)
     {
         Assert.NotNull(expected);
         Assert.NotNull(actual);
@@ -75,13 +75,13 @@ public class BaseTest
         Assert.Equal(expected.IsVeteran.Value, actual.IsVeteran.Value);
     }
 
-    protected void AssertLicense(DriversLicense2 expected, IdentificationCard2 actualId)
+    protected void AssertLicense(DriversLicense expected, IdentificationCard actualId)
     {
         Assert.NotNull(expected);
         Assert.NotNull(actualId);
-        Assert.IsType<DriversLicense2>(actualId);
+        Assert.IsType<DriversLicense>(actualId);
 
-        var actual = (DriversLicense2)actualId;
+        var actual = (DriversLicense)actualId;
 
         Assert.Equal(expected.VehicleClass.Value, actual.VehicleClass.Value);
         Assert.Equal(expected.RestrictionCodes.Value, actual.RestrictionCodes.Value);
@@ -96,7 +96,7 @@ public class BaseTest
         Assert.Equal(expected.HazmatEndorsementExpirationDate.Value, actual.HazmatEndorsementExpirationDate.Value);
     }
 
-    protected void LogUnhandledElementIds(IdentificationCard2 idCard)
+    protected void LogUnhandledElementIds(IdentificationCard idCard)
     {
         if (idCard.UnhandledElementIds.Count == 0)
         {

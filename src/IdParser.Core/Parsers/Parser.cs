@@ -4,9 +4,9 @@ using IdParser.Core.Parsers.License;
 
 namespace IdParser.Core.Parsers;
 
-internal static class Parser2
+internal static class Parser
 {
-    internal static bool ParseAndSetIdElements(string elementId, string? rawValue, Country country, AAMVAVersion version, IdentificationCard2 idCard)
+    internal static bool ParseAndSetIdElements(string elementId, string? rawValue, Country country, AAMVAVersion version, IdentificationCard idCard)
     {
         ArgumentNullException.ThrowIfNull(elementId);
         ArgumentNullException.ThrowIfNull(idCard);
@@ -207,7 +207,7 @@ internal static class Parser2
         return handled;
     }
 
-    internal static bool ParseAndSetDriversLicenseElements(string elementId, string? rawValue, Country country, AAMVAVersion version, DriversLicense2 driversLicense)
+    internal static bool ParseAndSetDriversLicenseElements(string elementId, string? rawValue, Country country, AAMVAVersion version, DriversLicense driversLicense)
     {
         ArgumentNullException.ThrowIfNull(elementId);
         ArgumentNullException.ThrowIfNull(driversLicense);

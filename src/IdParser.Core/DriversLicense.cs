@@ -1,6 +1,6 @@
 ﻿namespace IdParser.Core;
 
-public class DriversLicense2 : IdentificationCard2
+public class DriversLicense : IdentificationCard
 {
     //
     // Jurisdiction

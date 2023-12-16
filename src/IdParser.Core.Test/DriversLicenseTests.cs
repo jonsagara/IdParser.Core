@@ -15,7 +15,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestMA2009License()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "ROBERT"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "LOWNEY"),
@@ -58,7 +58,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestMA2016License()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MORRIS"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "T"),
@@ -108,7 +108,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestMALicenseWithNoMiddleName()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "TONY"),
             LastName = FV<string?>(SubfileElementIds.LastName, "ROBERT"),
@@ -150,7 +150,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestNYLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "M"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "Motorist"),
@@ -191,7 +191,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestVALicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "JUSTIN"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "WILLIAM"),
@@ -231,9 +231,9 @@ public class DriversLicenseTests : BaseTest
 
         Assert.Equal("Virginia", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
 
-        Assert.IsType<DriversLicense2>(parseResult.Card);
+        Assert.IsType<DriversLicense>(parseResult.Card);
 
-        if (parseResult.Card is DriversLicense2 license)
+        if (parseResult.Card is DriversLicense license)
         {
             Assert.Equal("158X9", license.RestrictionCodes.Value);
         }
@@ -242,7 +242,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestGALicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "JANICE"),
             LastName = FV<string?>(SubfileElementIds.LastName, "SAMPLE"),
@@ -283,7 +283,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestCTLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "ADULT"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "A"),
@@ -320,9 +320,9 @@ public class DriversLicenseTests : BaseTest
 
         Assert.Equal("Connecticut", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
 
-        Assert.IsType<DriversLicense2>(parseResult.Card);
+        Assert.IsType<DriversLicense>(parseResult.Card);
 
-        if (parseResult.Card is DriversLicense2 license)
+        if (parseResult.Card is DriversLicense license)
         {
             Assert.Equal("D", license.VehicleClass.Value);
             Assert.Equal("B", license.RestrictionCodes.Value);
@@ -332,7 +332,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestCTLicenseWebBrowser()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "ADULT"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "A"),
@@ -373,7 +373,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestCTLicenseNoMiddleName()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "CHUNG"),
             LastName = FV<string?>(SubfileElementIds.LastName, "WANG"),
@@ -412,7 +412,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestMOLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "FirstNameTest"),
             LastName = FV<string?>(SubfileElementIds.LastName, "LastNameTest"),
@@ -450,9 +450,9 @@ public class DriversLicenseTests : BaseTest
         Assert.Equal("MAST LOUIS CITY", parseResult.Card.AdditionalJurisdictionElements.Single(e => e.Key == "ZMZ").Value.Value);
         Assert.Equal("112001810097", parseResult.Card.AdditionalJurisdictionElements.Single(e => e.Key == "ZMB").Value.Value);
 
-        Assert.IsType<DriversLicense2>(parseResult.Card);
+        Assert.IsType<DriversLicense>(parseResult.Card);
 
-        if (parseResult.Card is DriversLicense2 license)
+        if (parseResult.Card is DriversLicense license)
         {
             Assert.Equal("F", license.VehicleClass.Value);
         }
@@ -461,7 +461,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestFLLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "JOEY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "MIDLAND"),
@@ -500,7 +500,7 @@ public class DriversLicenseTests : BaseTest
         Assert.Equal(5, parseResult.Card.AdditionalJurisdictionElements.Count);
         Assert.Equal("FA", parseResult.Card.AdditionalJurisdictionElements.Single(e => e.Key == "ZFZ").Value.Value);
 
-        if (parseResult.Card is DriversLicense2 license)
+        if (parseResult.Card is DriversLicense license)
         {
             Assert.Equal("A", license.RestrictionCodes.Value);
             Assert.Equal("E", license.VehicleClass.Value);
@@ -510,7 +510,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestNHLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "DONNIE"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "G"),
@@ -558,7 +558,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestTXLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "ROBERTO"),
             LastName = FV<string?>(SubfileElementIds.LastName, "GONSALVES"),
@@ -598,7 +598,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestPALicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "JOHN"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "P"),
@@ -641,7 +641,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestPALicenseTwoMiddleNames()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "JOHN"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "ROBERT LEE"),
@@ -704,7 +704,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestPA2016License()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "CAPTAIN"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "JACK"),
@@ -751,7 +751,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestRILicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "LOIS"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "PATRICE"),
@@ -800,7 +800,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestNJLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MELISSA"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "R"),
@@ -846,7 +846,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestNJHZLEyesLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MELISSA"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "R"),
@@ -892,7 +892,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestNCLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "RICK"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "SANTIAGO"),
@@ -939,7 +939,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestSCLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MARY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "ROBINS"),
@@ -981,7 +981,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestMELicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "HARRY"),
             LastName = FV<string?>(SubfileElementIds.LastName, "DRIVER"),
@@ -1026,7 +1026,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestOHLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "DEBBIE"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "T"),
@@ -1077,7 +1077,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestMILicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "ROBERT"),
             LastName = FV<string?>(SubfileElementIds.LastName, "SMITH"),
@@ -1112,7 +1112,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestONLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MARY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "ANN"),
@@ -1151,7 +1151,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestVTLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "BOBBY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "L"),
@@ -1199,7 +1199,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestPRLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "LAURENCIA"),
             LastName = FV<string?>(SubfileElementIds.LastName, "ORTIZ ORTIZ"),
@@ -1244,7 +1244,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestMDLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "DIANA"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "ROSE"),
@@ -1291,7 +1291,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestCALicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "ELIJAH"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "MASON"),
@@ -1335,7 +1335,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestNMLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "LUIS"),
             LastName = FV<string?>(SubfileElementIds.LastName, "SINCLAIR-ESCUEVA"),
@@ -1375,7 +1375,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestUTLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MARIE"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "RAYE"),
@@ -1425,7 +1425,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestIALicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MARK"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "MOTORIST"),
@@ -1471,7 +1471,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestORLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MARY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "JONES"),
@@ -1512,7 +1512,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestLALicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MARCIA"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "MOTORIST"),
@@ -1553,7 +1553,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestKYLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MARY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "ANN"),
@@ -1600,7 +1600,7 @@ public class DriversLicenseTests : BaseTest
     public void TestWILicense()
     {
         // Wisconsin defines a subfile in the header but we don't follow it
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "JOEY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "M"),
@@ -1648,7 +1648,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestDELicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MOTORIST"),
             LastName = FV<string?>(SubfileElementIds.LastName, "TESTER"),
@@ -1696,7 +1696,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestCOLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MICHAEL"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "CODY"),
@@ -1738,7 +1738,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestCO2013License()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "JANE"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "LYNN"),
@@ -1787,7 +1787,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestALLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MICHAEL"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "MOTORIST"),
@@ -1831,7 +1831,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestAZLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "SUSAN"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "T"),
@@ -1875,7 +1875,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestARLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MICHAEL"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "RALPH"),
@@ -1919,7 +1919,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestWALicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MARY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "S"),
@@ -1958,7 +1958,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestMTLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MARY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "ROSE"),
@@ -1998,7 +1998,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestKSLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "JOEY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "SMITH"),
@@ -2045,7 +2045,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestINLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "RYAN"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "MICHAEL"),
@@ -2088,7 +2088,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestILLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "SUSAN"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "T"),
@@ -2136,7 +2136,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestHILicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MICHAEL"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "JAY"),
@@ -2179,7 +2179,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestWVLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "JOE"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "BOB"),
@@ -2221,7 +2221,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestAKLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MARY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "JOE"),
@@ -2268,7 +2268,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestDCLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "DIANA"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "ROBIN"),
@@ -2310,7 +2310,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestPELicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "PATTY"),
             LastName = FV<string?>(SubfileElementIds.LastName, "FLOWERS"),
@@ -2354,7 +2354,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestNVLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MICHAEL"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "M"),
@@ -2411,7 +2411,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestNDLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MICHAEL"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "DOE"),
@@ -2466,7 +2466,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestCTLicenseUndefinedCharacters()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "WENDY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "SMITH"),
@@ -2522,7 +2522,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestABLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MARY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "SMITH"),
@@ -2566,7 +2566,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestMNLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "DALE"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "THOR"),
@@ -2624,7 +2624,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestMSLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MICHAEL"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "PATRICK"),
@@ -2684,7 +2684,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestIDLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "CLAY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "MOTORIST"),
@@ -2737,7 +2737,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestLeadingWhitespaceLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MOTORIST"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "R"),
@@ -2782,7 +2782,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestInvalidHeader()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MICHAEL"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "G"),
@@ -2823,7 +2823,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestCTLicenseSuffix()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "PABLO"),
             LastName = FV<string?>(SubfileElementIds.LastName, "CORTEZ"),
@@ -2864,7 +2864,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestCTLicenseMultipleMiddleNames()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "PABLO"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "LUIS RODRIGUEZ"),
@@ -2906,7 +2906,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestNBLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MARY"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "M"),
@@ -2943,7 +2943,7 @@ public class DriversLicenseTests : BaseTest
     [Fact]
     public void TestWYLicense()
     {
-        var expected = new DriversLicense2
+        var expected = new DriversLicense
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "MOTORIST"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "E"),

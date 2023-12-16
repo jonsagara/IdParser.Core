@@ -14,7 +14,7 @@ public class IdentificationCardTests : BaseTest
     [Fact]
     public void TestTNIdCard()
     {
-        var expected = new IdentificationCard2
+        var expected = new IdentificationCard
         {
             FirstName = FV<string?>(SubfileElementIds.FirstName, "ELIZABETH"),
             MiddleName = FV<string?>(SubfileElementIds.MiddleName, "MOTORIST"),
