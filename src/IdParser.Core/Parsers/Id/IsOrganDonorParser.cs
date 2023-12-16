@@ -5,11 +5,14 @@ internal static class IsOrganDonorParser
     internal static bool Parse(string input)
         => ParserHelper.ParseBool(input) ?? false;
 
-    internal static Field<bool?> Parse2(string elementId, string? rawValue)
+    internal static Field<bool> Parse2(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 
-        return FieldHelpers.ParsedField(elementId: elementId, value: ParserHelper.ParseBool2(rawValue), rawValue: rawValue);
+        // If the element and/or value are not present, default to false.
+        var isOrganDonor = ParserHelper.ParseBool2(rawValue) ?? false;
+
+        return FieldHelpers.ParsedField(elementId: elementId, value: isOrganDonor, rawValue: rawValue);
     }
 }
 
@@ -32,15 +35,17 @@ internal static class IsOrganDonorLegacyParser
         return isOrganDonor;
     }
 
-    internal static Field<bool?> Parse2(string elementId, string? rawValue, AAMVAVersion version)
+    internal static Field<bool> Parse2(string elementId, string? rawValue, AAMVAVersion version)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 
-        bool? isOrganDonor = null;
+        // If the element and/or value are not present, default to false.
+
+        var isOrganDonor = false;
 
         if (version == AAMVAVersion.AAMVA2000)
         {
-            isOrganDonor = ParserHelper.ParseBool2(rawValue);
+            isOrganDonor = ParserHelper.ParseBool2(rawValue) ?? false;
 
             if (rawValue?.Equals("DONOR", StringComparison.OrdinalIgnoreCase) == true)
             {

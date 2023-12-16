@@ -26,10 +26,10 @@ internal static class SexParser
     {
         ArgumentNullException.ThrowIfNull(elementId);
 
-        //if (ParserHelper.StringHasNoValue(rawValue))
-        //{
-        //    return FieldHelpers.ParsedField<Sex?>(elementId: elementId, value: null, rawValue: rawValue);
-        //}
+        if (ParserHelper.StringHasNoValue(rawValue))
+        {
+            return FieldHelpers.ParsedField<Sex?>(elementId: elementId, value: null, rawValue: rawValue);
+        }
 
         if (Enum.TryParse(rawValue.AsSpan(), ignoreCase: true, out Sex sex) && Enum.IsDefined(sex))
         {

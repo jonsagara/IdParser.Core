@@ -145,8 +145,8 @@ public class IdentificationCard2
     public Field<ComplianceType?> ComplianceType { get; internal set; } = FieldHelpers.UninitializedNullableComplianceType;
 
     public Field<bool> HasTemporaryLawfulStatus { get; internal set; } = FieldHelpers.UninitializedBoolean;
-    public Field<bool?> IsOrganDonor { get; internal set; } = FieldHelpers.UninitializedNullableBoolean;
-    public Field<bool?> IsVeteran { get; internal set; } = FieldHelpers.UninitializedNullableBoolean;
+    public Field<bool> IsOrganDonor { get; internal set; } = FieldHelpers.UninitializedBoolean;
+    public Field<bool> IsVeteran { get; internal set; } = FieldHelpers.UninitializedBoolean;
 
     public Dictionary<string, Field<string?>> AdditionalJurisdictionElements { get; } = new();
 
