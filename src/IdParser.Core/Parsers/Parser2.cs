@@ -86,7 +86,7 @@ internal static class Parser2
                 break;
 
             case SubfileElementIds.IdNumber:
-                idCard.IdNumber = IdNumberParser.Parse2(elementId: elementId, input: rawValue);
+                idCard.IdNumber = IdNumberParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.InventoryControlNumber:

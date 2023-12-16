@@ -79,6 +79,7 @@ public static class FieldHelpers
     public static readonly Field<Weight?> UninitializedNullableWeight = Uninitialized<Weight?>(elementId: null); // Could be WeightInPounds or WeightInKilograms.
     public static readonly Field<WeightRange?> UninitializedNullableWeightRange = Uninitialized<WeightRange?>(elementId: SubfileElementIds.WeightRange);
 
+    public static readonly Field<bool> UninitializedBoolean = Uninitialized<bool>(elementId: null);
     public static readonly Field<bool?> UninitializedNullableBoolean = Uninitialized<bool?>(elementId: null);
     public static readonly Field<DateTime?> UninitializedNullableDateTime = Uninitialized<DateTime?>(null);
     public static readonly Field<int> UninitializedInt32 = Uninitialized<int>(elementId: null);
@@ -143,7 +144,7 @@ public class IdentificationCard2
 
     public Field<ComplianceType?> ComplianceType { get; internal set; } = FieldHelpers.UninitializedNullableComplianceType;
 
-    public Field<bool?> HasTemporaryLawfulStatus { get; internal set; } = FieldHelpers.UninitializedNullableBoolean;
+    public Field<bool> HasTemporaryLawfulStatus { get; internal set; } = FieldHelpers.UninitializedBoolean;
     public Field<bool?> IsOrganDonor { get; internal set; } = FieldHelpers.UninitializedNullableBoolean;
     public Field<bool?> IsVeteran { get; internal set; } = FieldHelpers.UninitializedNullableBoolean;
 

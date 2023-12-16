@@ -5,10 +5,13 @@ internal static class HasTemporaryLawfulStatusParser
     internal static bool Parse(string input)
         => ParserHelper.ParseBool(input) ?? false;
 
-    internal static Field<bool?> Parse2(string elementId, string? rawValue)
+    internal static Field<bool> Parse2(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 
-        return FieldHelpers.ParsedField(elementId: elementId, value: ParserHelper.ParseBool2(rawValue), rawValue: rawValue);
+        // If the elementId is present, but there is no value, default to false.
+        var hasTemporaryLawfulStatus = ParserHelper.ParseBool2(rawValue) ?? false;
+
+        return FieldHelpers.ParsedField(elementId: elementId, value: hasTemporaryLawfulStatus, rawValue: rawValue);
     }
 }
