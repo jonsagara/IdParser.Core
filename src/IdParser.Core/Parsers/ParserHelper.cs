@@ -5,6 +5,10 @@ namespace IdParser.Core.Parsers;
 
 internal static class ParserHelper
 {
+    /// <summary>
+    /// Returns true if the string is null or white space, or contains one of the special strings denoting
+    /// no value; false otherwise.
+    /// </summary>
     internal static bool StringHasNoValue([NotNullWhen(false)] string? input)
     {
         return string.IsNullOrWhiteSpace(input)
@@ -13,13 +17,20 @@ internal static class ParserHelper
             || input == "unavail";
     }
 
+    /// <summary>
+    /// Returns true if the string is null or white space, or contains one of the special strings denoting
+    /// no value; false otherwise.
+    /// </summary>
     internal static bool DateHasNoValue(string? input)
     {
         return string.IsNullOrWhiteSpace(input)
             || input == "00000000";
     }
 
-    internal static Field<DateTime?> ParseDate2(string elementId, string? rawValue, Country? country, AAMVAVersion version)
+    /// <summary>
+    /// Parse the date accouring to the country and/or AAMVAVersion.
+    /// </summary>
+    internal static Field<DateTime?> ParseDate(string elementId, string? rawValue, Country? country, AAMVAVersion version)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 
@@ -52,7 +63,10 @@ internal static class ParserHelper
         return FieldHelpers.UnparsedField<DateTime?>(elementId: elementId, rawValue: rawValue, $"[{elementId}] Failed to parse the date '{rawValue}' for country '{country}' using version '{version}'.");
     }
 
-    internal static bool? ParseBool2(string? rawValue)
+    /// <summary>
+    /// Parse the boolean value based on special strings that denote true or false.
+    /// </summary>
+    internal static bool? ParseBool(string? rawValue)
     {
         return (rawValue?.ToUpperInvariant()) switch
         {

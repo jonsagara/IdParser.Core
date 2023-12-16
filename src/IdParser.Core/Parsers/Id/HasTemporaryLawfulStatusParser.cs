@@ -7,7 +7,7 @@ internal static class HasTemporaryLawfulStatusParser
         ArgumentNullException.ThrowIfNull(elementId);
 
         // If the elementId is present, but there is no value, default to false.
-        var hasTemporaryLawfulStatus = ParserHelper.ParseBool2(rawValue) ?? false;
+        var hasTemporaryLawfulStatus = ParserHelper.ParseBool(rawValue) ?? false;
 
         return FieldHelpers.ParsedField(elementId: elementId, value: hasTemporaryLawfulStatus, rawValue: rawValue);
     }

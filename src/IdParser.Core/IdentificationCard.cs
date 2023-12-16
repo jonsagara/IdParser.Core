@@ -31,7 +31,7 @@ public class IdentificationCard
     public Field<Country> Country { get; internal set; } = FieldHelpers.UninitializedCountry;
 
     public string? PostalCodeDisplay
-        => IdentificationCard2Helper.PostalCodeDisplay(PostalCode.Value, Country.Value);
+        => IdentificationCardHelper.PostalCodeDisplay(PostalCode.Value, Country.Value);
 
     public Field<DateTime?> DateOfBirth { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
     public Field<DateTime?> Under18Until { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;

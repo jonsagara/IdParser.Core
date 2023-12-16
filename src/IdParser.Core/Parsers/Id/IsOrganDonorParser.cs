@@ -7,7 +7,7 @@ internal static class IsOrganDonorParser
         ArgumentNullException.ThrowIfNull(elementId);
 
         // If the element and/or value are not present, default to false.
-        var isOrganDonor = ParserHelper.ParseBool2(rawValue) ?? false;
+        var isOrganDonor = ParserHelper.ParseBool(rawValue) ?? false;
 
         return FieldHelpers.ParsedField(elementId: elementId, value: isOrganDonor, rawValue: rawValue);
     }
@@ -25,7 +25,7 @@ internal static class IsOrganDonorLegacyParser
 
         if (version == AAMVAVersion.AAMVA2000)
         {
-            isOrganDonor = ParserHelper.ParseBool2(rawValue) ?? false;
+            isOrganDonor = ParserHelper.ParseBool(rawValue) ?? false;
 
             if (rawValue?.Equals("DONOR", StringComparison.OrdinalIgnoreCase) == true)
             {

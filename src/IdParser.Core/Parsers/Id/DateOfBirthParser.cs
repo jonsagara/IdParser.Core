@@ -11,6 +11,6 @@ internal static class DateOfBirthParser
             return FieldHelpers.ParsedField<DateTime?>(elementId: elementId, value: null, rawValue: rawValue);
         }
 
-        return ParserHelper.ParseDate2(elementId: elementId, rawValue: rawValue, country, version);
+        return ParserHelper.ParseDate(elementId: elementId, rawValue: rawValue, country, version);
     }
 }

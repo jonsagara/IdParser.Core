@@ -1,6 +1,6 @@
 ﻿namespace IdParser.Core.Parsers;
 
-internal static class IdentificationCard2Helper
+internal static class IdentificationCardHelper
 {
     internal static string? PostalCodeDisplay(string? postalCode, Country country)
     {

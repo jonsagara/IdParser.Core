@@ -6,7 +6,7 @@ internal static class WasFirstNameTruncatedParser
     {
         var wasFirstNameTruncated = ParserHelper.StringHasNoValue(rawValue)
             ? null
-            : ParserHelper.ParseBool2(rawValue);
+            : ParserHelper.ParseBool(rawValue);
 
         return FieldHelpers.ParsedField(elementId: elementId, value: wasFirstNameTruncated, rawValue: rawValue);
     }
