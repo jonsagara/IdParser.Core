@@ -1,8 +1,10 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 using IdParser.Core.Constants;
+using IdParser.Core.Logging;
 using IdParser.Core.Parsers;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace IdParser.Core;
 
@@ -63,7 +65,8 @@ public static class Barcode
             throw new ArgumentException($"The input is missing required header elements and is not a valid AAMVA format. Expected at least 31 characters. Received {rawPdf417Input.Length}.", nameof(rawPdf417Input));
         }
 
-        ILogger? logger = loggerFactory?.CreateLogger(typeof(Barcode));
+        loggerFactory ??= NullLoggerFactory.Instance;
+        ILogger logger = loggerFactory.CreateLogger(typeof(Barcode));
 
         if (validationLevel == Validation.Strict)
         {
@@ -89,7 +92,7 @@ public static class Barcode
         PopulateIdCard(idCard, idCard.AAMVAVersionNumber.Value, country, subfileRecords, logger);
         if (idCard.UnhandledElementIds.Count > 0)
         {
-            logger?.LogError($"One or more ElementIds were not handled by the ID or Driver's License parsers: {{UnhandledElementIds}}", string.Join(", ", idCard.UnhandledElementIds));
+            BarcodeLogger.UnhandledElementIds(logger, string.Join(", ", idCard.UnhandledElementIds));
         }
 
         return new BarcodeParseResult2(idCard);
@@ -391,7 +394,7 @@ public static class Barcode
         return IssuerMetadataHelper.GetCountry(iin);
     }
 
-    private static void PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string?> subfileRecords, ILogger? logger)
+    private static void PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string?> subfileRecords, ILogger logger)
     {
         foreach (var elementId in subfileRecords.Keys)
         {
@@ -423,7 +426,7 @@ public static class Barcode
             }
             catch (Exception ex)
             {
-                logger?.LogError(ex, $"Unhandled exception in {nameof(PopulateIdCard)} while trying to parse element Id {{ElementId}}", elementId);
+                BarcodeLogger.PopulateIdCardUnhandledException(logger, methodName: nameof(PopulateIdCard), elementId: elementId);
                 throw;
             }
         }
