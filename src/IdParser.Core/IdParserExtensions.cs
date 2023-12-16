@@ -2,7 +2,7 @@
 
 namespace IdParser.Core;
 
-public static class Extensions
+public static class IdParserExtensions
 {
     /// <summary>
     /// If <paramref name="data"/> is an empty string, return null. Otherwise, return data as-is.
