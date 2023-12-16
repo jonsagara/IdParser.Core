@@ -80,13 +80,13 @@ public static class Barcode
 #warning TODO: Need to bail here because we couldn't parse the IssuerIdentificationNumber, and we can't continue trying to parse the rest of the ID.
 
         // NOTE: any elementIds without a value will have "" as the value, NOT null.
-        var subfileRecords = GetSubfileRecords2(rawPdf417Input, idCard.AAMVAVersionNumber.Value, idCard);
+        var subfileRecords = GetSubfileRecords(rawPdf417Input, idCard.AAMVAVersionNumber.Value, idCard);
 
         // We have to parse and retrieve Country from the subfile first because other fields depends on its value.
-        var country = ParseCountry2(idCard.IssuerIdentificationNumber.Value, idCard.AAMVAVersionNumber.Value, subfileRecords);
+        var country = ParseCountry(idCard.IssuerIdentificationNumber.Value, idCard.AAMVAVersionNumber.Value, subfileRecords);
         idCard.Country = FieldHelpers.ParsedField(elementId: SubfileElementIds.Country, value: country, rawValue: null);
 
-        PopulateIdCard2(idCard, idCard.AAMVAVersionNumber.Value, country, subfileRecords, logger);
+        PopulateIdCard(idCard, idCard.AAMVAVersionNumber.Value, country, subfileRecords, logger);
         if (idCard.UnhandledElementIds.Count > 0)
         {
             logger?.LogError($"One or more ElementIds were not handled by the ID or Driver's License parsers: {{UnhandledElementIds}}", string.Join(", ", idCard.UnhandledElementIds));
@@ -255,7 +255,7 @@ public static class Barcode
         {
             idCard.JurisdictionVersionNumber = int.TryParse(jurisdictionVersionNumberRawValue.AsSpan(), NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out var jurisdictionVersionNumber)
                 ? FieldHelpers.ParsedField(elementId: null, value: jurisdictionVersionNumber, rawValue: jurisdictionVersionNumberRawValue)
-                : FieldHelpers.UnparsedField<int>(elementId: null, rawValue: jurisdictionVersionNumberRawValue, error: $"[JurisdictionVersionNumber] Unable to parse Jurisdiction Version Number from value '{jurisdictionVersionNumberRawValue}'.");
+                : FieldHelpers.UnparsedField<int>(elementId: null, rawValue: jurisdictionVersionNumberRawValue, error: $"Unable to parse Jurisdiction Version Number from value '{jurisdictionVersionNumberRawValue}'.");
         }
 
         return idCard;
@@ -334,7 +334,7 @@ public static class Barcode
     /// <summary>
     /// Get a list of all the data records (name and value as a single string) that we need to parse.
     /// </summary>
-    private static Dictionary<string, string?> GetSubfileRecords2(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
+    private static Dictionary<string, string?> GetSubfileRecords(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
     {
         var ixSubfileStart = ParseSubfileOffset(rawPdf417Input, version, idCard);
 
@@ -367,7 +367,7 @@ public static class Barcode
     /// Parses the country based on the DCG subfile record.
     /// Gets the country from the IIN if no matching subfile record was found.
     /// </summary>
-    private static Country ParseCountry(IssuerIdentificationNumber iin, AAMVAVersion version, Dictionary<string, string> subfileRecords)
+    private static Country ParseCountry(IssuerIdentificationNumber iin, AAMVAVersion version, Dictionary<string, string?> subfileRecords)
     {
         // Country is not a subfile record in the AAMVA 2000 standard.
         if (version == AAMVAVersion.AAMVA2000)
@@ -391,35 +391,7 @@ public static class Barcode
         return IssuerMetadataHelper.GetCountry(iin);
     }
 
-    /// <summary>
-    /// Parses the country based on the DCG subfile record.
-    /// Gets the country from the IIN if no matching subfile record was found.
-    /// </summary>
-    private static Country ParseCountry2(IssuerIdentificationNumber iin, AAMVAVersion version, Dictionary<string, string?> subfileRecords)
-    {
-        // Country is not a subfile record in the AAMVA 2000 standard.
-        if (version == AAMVAVersion.AAMVA2000)
-        {
-            return Country.USA;
-        }
-
-        if (subfileRecords.TryGetValue(SubfileElementIds.Country, out string? data))
-        {
-            if (data == "USA")
-            {
-                return Country.USA;
-            }
-
-            if (data == "CAN" || data == "CDN")
-            {
-                return Country.Canada;
-            }
-        }
-
-        return IssuerMetadataHelper.GetCountry(iin);
-    }
-
-    private static void PopulateIdCard2(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string?> subfileRecords, ILogger? logger)
+    private static void PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string?> subfileRecords, ILogger? logger)
     {
         foreach (var elementId in subfileRecords.Keys)
         {
@@ -451,7 +423,7 @@ public static class Barcode
             }
             catch (Exception ex)
             {
-                logger?.LogError(ex, $"Unhandled exception in {nameof(PopulateIdCard2)} while trying to parse element Id {{ElementId}}", elementId);
+                logger?.LogError(ex, $"Unhandled exception in {nameof(PopulateIdCard)} while trying to parse element Id {{ElementId}}", elementId);
                 throw;
             }
         }
