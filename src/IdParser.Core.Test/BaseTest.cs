@@ -3,11 +3,11 @@ using Xunit.Abstractions;
 
 namespace IdParser.Core.Test;
 
-public class BaseTest2
+public class BaseTest
 {
     protected readonly XUnitTextWriter _output;
 
-    public BaseTest2(ITestOutputHelper output)
+    public BaseTest(ITestOutputHelper output)
     {
         _output = new XUnitTextWriter(output);
         Console.SetOut(_output);

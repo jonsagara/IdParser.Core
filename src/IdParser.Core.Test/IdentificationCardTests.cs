@@ -4,9 +4,9 @@ using Xunit.Abstractions;
 
 namespace IdParser.Core.Test;
 
-public class IdentificationCardTests2 : BaseTest2
+public class IdentificationCardTests : BaseTest
 {
-    public IdentificationCardTests2(ITestOutputHelper output)
+    public IdentificationCardTests(ITestOutputHelper output)
         : base(output)
     {
     }

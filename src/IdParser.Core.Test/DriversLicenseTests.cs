@@ -4,9 +4,9 @@ using Xunit.Abstractions;
 
 namespace IdParser.Core.Test;
 
-public class DriversLicenseTests2 : BaseTest2
+public class DriversLicenseTests : BaseTest
 {
-    public DriversLicenseTests2(ITestOutputHelper output)
+    public DriversLicenseTests(ITestOutputHelper output)
         : base(output)
     {
     }
