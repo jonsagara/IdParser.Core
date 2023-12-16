@@ -2,7 +2,7 @@
 
 internal static class SexParser
 {
-    internal static Field<Sex?> Parse2(string elementId, string? rawValue)
+    internal static Field<Sex?> Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

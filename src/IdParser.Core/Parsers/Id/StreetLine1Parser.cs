@@ -2,7 +2,7 @@
 
 internal static class StreetLine1Parser
 {
-    internal static Field<string?> Parse2(string elementId, string? rawValue)
+    internal static Field<string?> Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 
@@ -12,7 +12,7 @@ internal static class StreetLine1Parser
 
 internal static class StreetLine1LegacyParser
 {
-    internal static Field<string?> Parse2(string elementId, string? rawValue)
+    internal static Field<string?> Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

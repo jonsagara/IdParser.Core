@@ -188,7 +188,7 @@ namespace IdParser.Core.Client
             {
                 SetStatus(Level.Info, "Parsing ID");
 
-                var parseResult = Barcode.Parse2(input, Validation.None);
+                var parseResult = Barcode.Parse(input, Validation.None);
 
                 if (parseResult.Card is DriversLicense)
                 {

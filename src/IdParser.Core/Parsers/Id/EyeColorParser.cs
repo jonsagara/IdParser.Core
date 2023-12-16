@@ -2,7 +2,7 @@
 
 internal static class EyeColorParser
 {
-    internal static Field<EyeColor?> Parse2(string elementId, string? rawValue)
+    internal static Field<EyeColor?> Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

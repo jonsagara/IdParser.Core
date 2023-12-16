@@ -2,7 +2,7 @@
 
 internal static class EthnicityParser
 {
-    internal static Field<Ethnicity?> Parse2(string elementId, string? rawValue)
+    internal static Field<Ethnicity?> Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

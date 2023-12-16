@@ -2,7 +2,7 @@
 
 internal static class IsOrganDonorParser
 {
-    internal static Field<bool> Parse2(string elementId, string? rawValue)
+    internal static Field<bool> Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 
@@ -15,7 +15,7 @@ internal static class IsOrganDonorParser
 
 internal static class IsOrganDonorLegacyParser
 {
-    internal static Field<bool> Parse2(string elementId, string? rawValue, AAMVAVersion version)
+    internal static Field<bool> Parse(string elementId, string? rawValue, AAMVAVersion version)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

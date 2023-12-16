@@ -9,7 +9,7 @@ internal static class NameParser
     private const char SpaceSeparator = ' ';
 
     // AAMVA 2000
-    internal static NameParts? Parse2(string elementId, string? rawValue)
+    internal static NameParts? Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

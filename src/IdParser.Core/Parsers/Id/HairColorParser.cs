@@ -2,7 +2,7 @@
 
 internal static class HairColorParser
 {
-    internal static Field<HairColor?> Parse2(string elementId, string? rawValue)
+    internal static Field<HairColor?> Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

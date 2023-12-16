@@ -4,7 +4,7 @@ internal record FirstNameParts(string? First, string? Middle);
 
 internal static class FirstNameParser
 {
-    internal static FirstNameParts? Parse2(string? rawValue)
+    internal static FirstNameParts? Parse(string? rawValue)
     {
         if (ParserHelper.StringHasNoValue(rawValue))
         {

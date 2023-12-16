@@ -4,7 +4,7 @@ namespace IdParser.Core.Parsers.Id;
 
 internal static class HeightParser
 {
-    internal static Field<Height?> Parse2(string elementId, string? rawValue, AAMVAVersion version)
+    internal static Field<Height?> Parse(string elementId, string? rawValue, AAMVAVersion version)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

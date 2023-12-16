@@ -54,7 +54,7 @@ public static class Barcode
     /// for elements that do not match or do not adversely affect parsing.
     /// </param>
     /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use to create an <see cref="ILogger"/> for logging.</param>
-    public static BarcodeParseResult2 Parse2(string rawPdf417Input, Validation validationLevel = Validation.Strict, ILoggerFactory? loggerFactory = null)
+    public static BarcodeParseResult2 Parse(string rawPdf417Input, Validation validationLevel = Validation.Strict, ILoggerFactory? loggerFactory = null)
     {
         ArgumentNullException.ThrowIfNull(rawPdf417Input);
 

@@ -2,7 +2,7 @@
 
 internal static class RestrictionCodesParser
 {
-    internal static Field<string?> Parse2(string elementId, string? rawValue)
+    internal static Field<string?> Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 
@@ -16,7 +16,7 @@ internal static class RestrictionCodesParser
 
 internal static class RestrictionCodesLegacyParser
 {
-    internal static Field<string?> Parse2(string elementId, string? rawValue)
+    internal static Field<string?> Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

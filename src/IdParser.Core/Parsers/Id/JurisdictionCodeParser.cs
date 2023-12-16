@@ -2,7 +2,7 @@
 
 internal static class JurisdictionCodeParser
 {
-    internal static Field<string?> Parse2(string elementId, string? rawValue)
+    internal static Field<string?> Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

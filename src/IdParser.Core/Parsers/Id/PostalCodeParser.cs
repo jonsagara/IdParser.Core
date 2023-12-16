@@ -6,7 +6,7 @@ internal static class PostalCodeParser
 {
     private static readonly Regex _rxNonAlphaNumeric = new Regex(@"[^\w\d]", RegexOptions.Compiled);
 
-    internal static Field<string?> Parse2(string elementId, string? rawValue)
+    internal static Field<string?> Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

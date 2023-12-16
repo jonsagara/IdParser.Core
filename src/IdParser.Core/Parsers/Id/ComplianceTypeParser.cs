@@ -2,7 +2,7 @@
 
 internal static class ComplianceTypeParser
 {
-    internal static Field<ComplianceType?> Parse2(string elementId, string? rawValue)
+    internal static Field<ComplianceType?> Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

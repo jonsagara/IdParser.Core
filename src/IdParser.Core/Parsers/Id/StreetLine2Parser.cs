@@ -4,7 +4,7 @@ namespace IdParser.Core.Parsers.Id;
 
 internal static class StreetLine2Parser
 {
-    internal static Field<string?> Parse2(string elementId, string? rawValue, string? city, string? jurisdictionCode, string? postalCode)
+    internal static Field<string?> Parse(string elementId, string? rawValue, string? city, string? jurisdictionCode, string? postalCode)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

@@ -2,7 +2,7 @@
 
 internal static class AliasFirstNameParser
 {
-    internal static Field<string?> Parse2(string elementId, string? rawValue, AAMVAVersion version)
+    internal static Field<string?> Parse(string elementId, string? rawValue, AAMVAVersion version)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 

@@ -9,7 +9,7 @@ internal static class GivenNameParser
 {
     private static readonly char[] _splits = new[] { ',', '$', ' ' };
 
-    internal static GivenNameParts? Parse2(string? rawValue)
+    internal static GivenNameParts? Parse(string? rawValue)
     {
         if (ParserHelper.StringHasNoValue(rawValue))
         {
