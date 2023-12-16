@@ -426,7 +426,7 @@ public static class Barcode
             }
             catch (Exception ex)
             {
-                BarcodeLogger.PopulateIdCardUnhandledException(logger, methodName: nameof(PopulateIdCard), elementId: elementId);
+                BarcodeLogger.PopulateIdCardUnhandledException(logger, ex, methodName: nameof(PopulateIdCard), elementId: elementId);
                 throw;
             }
         }
