@@ -2,14 +2,11 @@
 
 internal static class WasMiddleNameTruncatedParser
 {
-    internal static bool? Parse(string input)
-        => ParserHelper.ParseBool(input);
-
     internal static Field<bool?> Parse2(string elementId, string? rawValue)
     {
         var wasMiddleNameTruncated = ParserHelper.StringHasNoValue(rawValue)
             ? null
-            : ParserHelper.ParseBool(rawValue);
+            : ParserHelper.ParseBool2(rawValue);
 
         return FieldHelpers.ParsedField(elementId: elementId, value: wasMiddleNameTruncated, rawValue: rawValue);
     }

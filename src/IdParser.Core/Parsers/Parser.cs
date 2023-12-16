@@ -40,7 +40,7 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.DateOfBirth:
-                idCard.DateOfBirth = DateOfBirthParser.Parse2(elementId: elementId, input: rawValue, country, version);
+                idCard.DateOfBirth = DateOfBirthParser.Parse2(elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.DocumentDiscriminator:
@@ -67,7 +67,7 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.GivenName:
-                var givenNameParts = GivenNameParser.Parse(input: rawValue);
+                var givenNameParts = GivenNameParser.Parse2(rawValue: rawValue);
                 idCard.FirstName = FieldHelpers.ParsedField(elementId: elementId, value: givenNameParts?.First, rawValue: rawValue);
                 // If we didn't parse a middle name out of the input, keep the existing middle name.
                 idCard.MiddleName = FieldHelpers.ParsedField(elementId: elementId, value: givenNameParts?.Middle ?? idCard.MiddleName.Value, rawValue: rawValue);
@@ -124,7 +124,7 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.Name:
-                var nameParts = NameParser2.Parse2(elementId: elementId, rawValue: rawValue);
+                var nameParts = NameParser.Parse2(elementId: elementId, rawValue: rawValue);
                 idCard.FirstName = FieldHelpers.ParsedField(elementId: elementId, value: nameParts?.First, rawValue: rawValue);
                 idCard.MiddleName = FieldHelpers.ParsedField(elementId: elementId, value: nameParts?.Middle, rawValue: rawValue);
                 idCard.LastName = FieldHelpers.ParsedField(elementId: elementId, value: nameParts?.Last, rawValue: rawValue);

@@ -2,9 +2,6 @@
 
 internal static class HasTemporaryLawfulStatusParser
 {
-    internal static bool Parse(string input)
-        => ParserHelper.ParseBool(input) ?? false;
-
     internal static Field<bool> Parse2(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);

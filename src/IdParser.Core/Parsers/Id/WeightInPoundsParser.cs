@@ -6,18 +6,6 @@ namespace IdParser.Core.Parsers.Id;
 
 internal static class WeightInPoundsParser
 {
-    internal static Weight Parse(string input)
-    {
-        if (TryParseMetric(input, out Weight? weight))
-        {
-            return weight;
-        }
-
-        var weightLbs = short.Parse(input.AsSpan(), provider: CultureInfo.InvariantCulture);
-
-        return new Weight(pounds: weightLbs);
-    }
-
     internal static Field<Weight?> Parse2(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);

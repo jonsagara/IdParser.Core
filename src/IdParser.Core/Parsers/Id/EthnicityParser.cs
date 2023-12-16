@@ -2,45 +2,6 @@
 
 internal static class EthnicityParser
 {
-    internal static Ethnicity? Parse(string input)
-    {
-        if (string.IsNullOrWhiteSpace(input) || input.EqualsIgnoreCase("U"))
-        {
-            return null;
-        }
-
-        if (input.EqualsIgnoreCase(Ethnicity.AlaskanAmericanIndian.GetAbbreviationOrDefault()))
-        {
-            return Ethnicity.AlaskanAmericanIndian;
-        }
-        else if (input.EqualsIgnoreCase(Ethnicity.AsianPacificIslander.GetAbbreviationOrDefault()))
-        {
-            return Ethnicity.AsianPacificIslander;
-        }
-        else if (input.EqualsIgnoreCase(Ethnicity.Black.GetAbbreviationOrDefault()))
-        {
-            return Ethnicity.Black;
-        }
-        else if (input.EqualsIgnoreCase(Ethnicity.HispanicOrigin.GetAbbreviationOrDefault()))
-        {
-            return Ethnicity.HispanicOrigin;
-        }
-        else if (input.EqualsIgnoreCase(Ethnicity.NonHispanic.GetAbbreviationOrDefault()))
-        {
-            return Ethnicity.NonHispanic;
-        }
-        else if (input.EqualsIgnoreCase(Ethnicity.White.GetAbbreviationOrDefault()))
-        {
-            return Ethnicity.White;
-        }
-
-        return null;
-    }
-
-
-    private static Field<Ethnicity?> ParsedValue(string elementId, Ethnicity? value, string? rawValue)
-        => FieldHelpers.ParsedField(elementId: elementId, value: value, rawValue: rawValue);
-
     internal static Field<Ethnicity?> Parse2(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
@@ -77,4 +38,8 @@ internal static class EthnicityParser
 
         return ParsedValue(elementId: elementId, value: null, rawValue: rawValue);
     }
+
+
+    private static Field<Ethnicity?> ParsedValue(string elementId, Ethnicity? value, string? rawValue)
+        => FieldHelpers.ParsedField(elementId: elementId, value: value, rawValue: rawValue);
 }

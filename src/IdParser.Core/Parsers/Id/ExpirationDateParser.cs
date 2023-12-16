@@ -2,16 +2,6 @@
 
 internal static class ExpirationDateParser
 {
-    internal static DateTime Parse(string input, Country country, AAMVAVersion version)
-    {
-        if (ParserHelper.DateHasNoValue(input))
-        {
-            return DateTime.MinValue;
-        }
-
-        return ParserHelper.ParseDate(input, country, version);
-    }
-
     internal static Field<DateTime?> Parse2(string elementId, string? rawValue, Country country, AAMVAVersion version)
     {
         ArgumentNullException.ThrowIfNull(elementId);
