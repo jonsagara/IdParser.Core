@@ -89,7 +89,7 @@ internal static class NameParser
 
     /// <summary>
     /// Parse the few suffixes allowed by AAMVA. Any other non-standard suffix (e.g. ESQ)
-    /// will not be parsed and set in the <see cref="Name.Suffix"/> property.
+    /// will not be parsed and set.
     /// </summary>
     private static string? ParseSuffix(List<string> names)
     {

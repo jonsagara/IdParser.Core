@@ -75,7 +75,7 @@ public static class Barcode
         }
 
         var aamvaVersionResult = ParseAAMVAVersion(rawPdf417Input);
-        var idCard = GetIdCardInstance2(rawPdf417Input, aamvaVersionResult);
+        var idCard = GetIdCardInstance(rawPdf417Input, aamvaVersionResult);
 
 #warning TODO: Need to bail here because we couldn't parse the IssuerIdentificationNumber, and we can't continue trying to parse the rest of the ID.
 
@@ -209,21 +209,40 @@ public static class Barcode
     /// If it's a driver's license, return a <see cref="DriversLicense"/> instance. Otherwise, return an
     /// <see cref="IdentificationCard"/> instance.
     /// </summary>
-    private static IdentificationCard GetIdCardInstance2(string rawPdf417Input, AAMVAVersionResult aamvaVersionResult)
+    private static IdentificationCard GetIdCardInstance(string rawPdf417Input, AAMVAVersionResult aamvaVersionResult)
     {
+        // Create either a Drivers License or an Identification Card, based on the contents of the scanned text.
         var idCard = ParseSubfileType(rawPdf417Input, aamvaVersionResult.Version) == "DL"
             ? new DriversLicense()
             : new IdentificationCard();
 
 
-        var issuerIdentificationNumberRawValue = rawPdf417Input.AsSpan(9, 6).ToString();
+        //
+        // Parse the Issuer Identification Number
+        //
 
-        idCard.IssuerIdentificationNumber = int.TryParse(issuerIdentificationNumberRawValue.AsSpan(), NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out var issuerIdentificationNumber)
-            ? FieldHelpers.ParsedField(elementId: null, (IssuerIdentificationNumber)issuerIdentificationNumber, issuerIdentificationNumberRawValue)
-            : FieldHelpers.UnparsedField<IssuerIdentificationNumber>(elementId: null, rawValue: issuerIdentificationNumberRawValue, $"[IssuerIdentificationNumber] Unable to parse Issuer Identification Number from value '{issuerIdentificationNumberRawValue}'.");
+        var issuerIdNumberRawValue = rawPdf417Input.Substring(9, 6);
+
+        if (Enum.TryParse<IssuerIdentificationNumber>(issuerIdNumberRawValue.AsSpan(), out var issuerIdentificationNumber) && Enum.IsDefined(issuerIdentificationNumber))
+        {
+            idCard.IssuerIdentificationNumber = FieldHelpers.ParsedField(elementId: null, value: issuerIdentificationNumber, rawValue: issuerIdNumberRawValue);
+        }
+        else
+        {
+            idCard.IssuerIdentificationNumber = FieldHelpers.UnparsedField<IssuerIdentificationNumber>(elementId: null, rawValue: issuerIdNumberRawValue, error: $"Unable to parse Issuer Identification Number from value '{issuerIdNumberRawValue}'.");
+        }
+
+
+        //
+        // Set the previously parsed AAMVA Version Number
+        //
 
         idCard.AAMVAVersionNumber = FieldHelpers.ParsedField(elementId: null, value: aamvaVersionResult.Version, rawValue: aamvaVersionResult.RawValue);
 
+
+        //
+        // Parse the Jurisdiction Version Number
+        //
 
         var jurisdictionVersionNumberRawValue = rawPdf417Input.Substring(startIndex: 17, length: 2);
 
@@ -248,7 +267,7 @@ public static class Barcode
     /// <summary>
     /// Get the index of the subfile starting position.
     /// </summary>
-    private static int ParseSubfileOffset2(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
+    private static int ParseSubfileOffset(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
     {
         var ixSubfileStartPosition = 0;
 
@@ -317,7 +336,7 @@ public static class Barcode
     /// </summary>
     private static Dictionary<string, string?> GetSubfileRecords2(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
     {
-        var ixSubfileStart = ParseSubfileOffset2(rawPdf417Input, version, idCard);
+        var ixSubfileStart = ParseSubfileOffset(rawPdf417Input, version, idCard);
 
         var records = rawPdf417Input
             .Substring(startIndex: ixSubfileStart)
