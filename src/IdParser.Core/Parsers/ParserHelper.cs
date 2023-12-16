@@ -107,4 +107,19 @@ internal static class ParserHelper
                 return null;
         }
     }
+
+    internal static bool? ParseBool2(string? rawValue)
+    {
+        return (rawValue?.ToUpperInvariant()) switch
+        {
+            "T" => true,
+            "Y" => true,
+            "N" => false,
+            "F" => false,
+            "1" => true,
+            "0" => false,
+            "U" => null,// Unknown whether truncated
+            _ => null,
+        };
+    }
 }

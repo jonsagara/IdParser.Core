@@ -28,25 +28,25 @@ internal static class Parser2
                 idCard.AliasSuffix = AliasSuffixParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
-            //case SubfileElementIds.AuditInformation:
-            //    idCard.AuditInformation = AuditInformationParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.AuditInformation:
+                idCard.AuditInformation = AuditInformationParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
             case SubfileElementIds.City:
                 idCard.City = CityParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
-            //case SubfileElementIds.ComplianceType:
-            //    idCard.ComplianceType = ComplianceTypeParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.ComplianceType:
+                idCard.ComplianceType = ComplianceTypeParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
             case SubfileElementIds.DateOfBirth:
                 idCard.DateOfBirth = DateOfBirthParser.Parse2(elementId: elementId, input: rawValue, country, version);
                 break;
 
-            //case SubfileElementIds.DocumentDiscriminator:
-            //    idCard.DocumentDiscriminator = DocumentDiscriminatorParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.DocumentDiscriminator:
+                idCard.DocumentDiscriminator = DocumentDiscriminatorParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
             case SubfileElementIds.Ethnicity:
                 idCard.Ethnicity = EthnicityParser.Parse2(elementId: elementId, rawValue: rawValue);
@@ -78,9 +78,9 @@ internal static class Parser2
                 idCard.HairColor = HairColorParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
-            //case SubfileElementIds.HasTemporaryLawfulStatus:
-            //    idCard.HasTemporaryLawfulStatus = HasTemporaryLawfulStatusParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.HasTemporaryLawfulStatus:
+                idCard.HasTemporaryLawfulStatus = HasTemporaryLawfulStatusParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
             case SubfileElementIds.Height:
                 idCard.Height = HeightParser.Parse2(elementId: elementId, rawValue: rawValue, version);
@@ -90,25 +90,25 @@ internal static class Parser2
                 idCard.IdNumber = IdNumberParser.Parse2(elementId: elementId, input: rawValue);
                 break;
 
-            //case SubfileElementIds.InventoryControlNumber:
-            //    idCard.InventoryControlNumber = InventoryControlNumberParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.InventoryControlNumber:
+                idCard.InventoryControlNumber = InventoryControlNumberParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
-            //case SubfileElementIds.IsOrganDonor:
-            //    idCard.IsOrganDonor = IsOrganDonorParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.IsOrganDonor:
+                idCard.IsOrganDonor = IsOrganDonorParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
-            //case SubfileElementIds.IsOrganDonorLegacy:
-            //    idCard.IsOrganDonor = IsOrganDonorLegacyParser.Parse(rawValue, version);
-            //    break;
+            case SubfileElementIds.IsOrganDonorLegacy:
+                idCard.IsOrganDonor = IsOrganDonorLegacyParser.Parse2(elementId: elementId, rawValue: rawValue, version);
+                break;
 
             case SubfileElementIds.IssueDate:
                 idCard.IssueDate = IssueDateParser.Parse2(elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
-            //case SubfileElementIds.IsVeteran:
-            //    idCard.IsVeteran = IsVeteranParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.IsVeteran:
+                idCard.IsVeteran = IsVeteranParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
             case SubfileElementIds.JurisdictionCode:
                 idCard.JurisdictionCode = JurisdictionCodeParser.Parse2(elementId: elementId, rawValue: rawValue);
@@ -136,9 +136,9 @@ internal static class Parser2
                 idCard.Suffix = NameSuffixParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
-            //case SubfileElementIds.PlaceOfBirth:
-            //    idCard.PlaceOfBirth = PlaceOfBirthParser.Parse(input: rawValue);
-            //    break;
+            case SubfileElementIds.PlaceOfBirth:
+                idCard.PlaceOfBirth = PlaceOfBirthParser.Parse2(elementId: elementId, rawValue: rawValue);
+                break;
 
             case SubfileElementIds.PostalCode:
                 idCard.PostalCode = PostalCodeParser.Parse2(elementId: elementId, rawValue: rawValue);

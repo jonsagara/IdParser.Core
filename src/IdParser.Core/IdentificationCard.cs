@@ -68,6 +68,7 @@ public static class FieldHelpers
 
     public static readonly Field<IssuerIdentificationNumber> UninitializedIssuerIdentificationNumber= Uninitialized<IssuerIdentificationNumber>(elementId: null);
     public static readonly Field<AAMVAVersion> UninitializedAAMVAVersion = Uninitialized<AAMVAVersion>(elementId: null);
+    public static readonly Field<ComplianceType?> UninitializedNullableComplianceType = Uninitialized<ComplianceType?>(elementId: SubfileElementIds.ComplianceType);
     public static readonly Field<Country> UninitializedCountry = Uninitialized<Country>(elementId: SubfileElementIds.Country);
     public static readonly Field<Sex?> UninitializedNullableSex = Uninitialized<Sex?>(elementId: SubfileElementIds.Sex);
     public static readonly Field<EyeColor?> UninitializedNullableEyeColor = Uninitialized<EyeColor?>(elementId: SubfileElementIds.EyeColor);
@@ -130,17 +131,17 @@ public class IdentificationCard2
     public Field<Weight?> Weight { get; internal set; } = FieldHelpers.UninitializedNullableWeight;
     public Field<WeightRange?> WeightRange { get; internal set; } = FieldHelpers.UninitializedNullableWeightRange;
 
-    //public string? DocumentDiscriminator { get; set; }
+    public Field<string?> DocumentDiscriminator { get; internal set; } = FieldHelpers.UninitializedNullableString;
 
-    //public string PlaceOfBirth { get; set; } = null!;
-    //public string AuditInformation { get; set; } = null!;
-    //public string InventoryControlNumber { get; set; } = null!;
+    public Field<string?> PlaceOfBirth { get; internal set; } = FieldHelpers.UninitializedNullableString;
+    public Field<string?> AuditInformation { get; internal set; } = FieldHelpers.UninitializedNullableString;
+    public Field<string?> InventoryControlNumber { get; internal set; } = FieldHelpers.UninitializedNullableString;
 
-    //public ComplianceType? ComplianceType { get; set; }
+    public Field<ComplianceType?> ComplianceType { get; internal set; } = FieldHelpers.UninitializedNullableComplianceType;
 
-    //public bool? HasTemporaryLawfulStatus { get; set; }
-    //public bool? IsOrganDonor { get; set; }
-    //public bool? IsVeteran { get; set; }
+    public Field<bool?> HasTemporaryLawfulStatus { get; internal set; } = FieldHelpers.UninitializedNullableBoolean;
+    public Field<bool?> IsOrganDonor { get; internal set; } = FieldHelpers.UninitializedNullableBoolean;
+    public Field<bool?> IsVeteran { get; internal set; } = FieldHelpers.UninitializedNullableBoolean;
 
     public Dictionary<string, Field<string?>> AdditionalJurisdictionElements { get; } = new();
 
