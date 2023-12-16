@@ -461,169 +461,142 @@ public class DriversLicenseTests2 : BaseTest2
         }
     }
 
-    //[Fact]
-    //public void TestFLLicense()
-    //{
-    //    var expected = new DriversLicense
-    //    {
-    //        Name = new Name
-    //        {
-    //            First = "JOEY",
-    //            Middle = "MIDLAND",
-    //            Last = "TESTER"
-    //        },
+    [Fact]
+    public void TestFLLicense()
+    {
+        var expected = new DriversLicense2
+        {
+            FirstName = FV<string?>(SubfileElementIds.FirstName, "JOEY"),
+            MiddleName = FV<string?>(SubfileElementIds.MiddleName, "MIDLAND"),
+            LastName = FV<string?>(SubfileElementIds.LastName, "TESTER"),
 
-    //        Address = new Address
-    //        {
-    //            StreetLine1 = "1234 PARK ST LOT 504",
-    //            City = "KEY WEST",
-    //            JurisdictionCode = "FL",
-    //            PostalCode = "330400504",
-    //            Country = Country.USA
-    //        },
+            StreetLine1 = FV<string?>(SubfileElementIds.StreetLine1, "1234 PARK ST LOT 504"),
+            City = FV<string?>(SubfileElementIds.City, "KEY WEST"),
+            JurisdictionCode = FV<string?>(SubfileElementIds.JurisdictionCode, "FL"),
+            PostalCode = FV<string?>(SubfileElementIds.PostalCode, "330400504"),
+            Country = FV<Country>(SubfileElementIds.Country, Country.USA),
 
-    //        DateOfBirth = new DateTime(1941, 05, 09),
-    //        Sex = Sex.Male,
-    //        Height = new Height(feet: 6, inches: 1),
+            DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(1941, 5, 9)),
+            Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
+            Height = FV<Height?>(SubfileElementIds.Height, new Height(feet: 6, inches: 1)),
 
-    //        IdNumber = "H574712510891",
-    //        AAMVAVersionNumber = AAMVAVersion.AAMVA2000,
+            IdNumber = FV(SubfileElementIds.IdNumber, "H574712510891"),
+            AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2000),
 
-    //        IssueDate = new DateTime(2014, 05, 01),
-    //        ExpirationDate = new DateTime(2022, 03, 09),
+            IssueDate = FV<DateTime?>(SubfileElementIds.IssueDate, new DateTime(2014, 5, 1)),
+            ExpirationDate = FV<DateTime?>(SubfileElementIds.ExpirationDate, new DateTime(2022, 3, 9)),
 
-    //        Jurisdiction = new DriversLicenseJurisdiction
-    //        {
-    //            VehicleClass = "E",
-    //            RestrictionCodes = "A"
-    //        }
-    //    };
+            VehicleClass = FV<string?>(SubfileElementIds.VehicleClass, "E"),
+            RestrictionCodes = FV<string?>(SubfileElementIds.RestrictionCodes, "A"),
+        };
 
-    //    var file = License("FL");
-    //    var parseResult = Barcode.Parse2(file, Validation.None);
-    //    LogUnhandledElementIds(parseResult.Card);
+        var file = License("FL");
+        var parseResult = Barcode.Parse2(file, Validation.None);
+        LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, parseResult.Card);
-    //    AssertLicense(expected, parseResult.Card);
+        AssertIdCard(expected, parseResult.Card);
+        AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("33040-0504", idCard.Address.PostalCodeDisplay);
-    //    Assert.Equal("Florida", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
+        Assert.Equal("33040-0504", parseResult.Card.PostalCodeDisplay);
+        Assert.Equal("Florida", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
 
-    //    Assert.Equal(5, idCard.AdditionalJurisdictionElements.Count);
-    //    Assert.Equal("FA", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZFZ").Value);
+        Assert.Equal(5, parseResult.Card.AdditionalJurisdictionElements.Count);
+        Assert.Equal("FA", parseResult.Card.AdditionalJurisdictionElements.Single(e => e.Key == "ZFZ").Value.Value);
 
-    //    if (parseResult.Card is DriversLicense2 license)
-    //    {
-    //        Assert.Equal("A", license.Jurisdiction.RestrictionCodes);
-    //        Assert.Equal("E", license.Jurisdiction.VehicleClass);
-    //    }
-    //}
+        if (parseResult.Card is DriversLicense2 license)
+        {
+            Assert.Equal("A", license.RestrictionCodes.Value);
+            Assert.Equal("E", license.VehicleClass.Value);
+        }
+    }
 
-    //[Fact]
-    //public void TestNHLicense()
-    //{
-    //    var expected = new DriversLicense
-    //    {
-    //        Name = new Name
-    //        {
-    //            First = "DONNIE",
-    //            Middle = "G",
-    //            Last = "TESTER",
+    [Fact]
+    public void TestNHLicense()
+    {
+        var expected = new DriversLicense2
+        {
+            FirstName = FV<string?>(SubfileElementIds.FirstName, "DONNIE"),
+            MiddleName = FV<string?>(SubfileElementIds.MiddleName, "G"),
+            LastName = FV<string?>(SubfileElementIds.LastName, "TESTER"),
 
-    //            WasFirstTruncated = false,
-    //            WasMiddleTruncated = false,
-    //            WasLastTruncated = false
-    //        },
+            WasFirstNameTruncated = FV<bool?>(SubfileElementIds.WasFirstNameTruncated, false),
+            WasMiddleNameTruncated = FV<bool?>(SubfileElementIds.WasFirstNameTruncated, false),
+            WasLastNameTruncated = FV<bool?>(SubfileElementIds.WasFirstNameTruncated, false),
 
-    //        Address = new Address
-    //        {
-    //            City = "SOMETOWN",
-    //            StreetLine1 = "802 WILLIAMS ST",
-    //            JurisdictionCode = "NH",
-    //            PostalCode = "01234",
-    //            Country = Country.USA
-    //        },
+            StreetLine1 = FV<string?>(SubfileElementIds.StreetLine1, "802 WILLIAMS ST"),
+            City = FV<string?>(SubfileElementIds.City, "SOMETOWN"),
+            JurisdictionCode = FV<string?>(SubfileElementIds.JurisdictionCode, "NH"),
+            PostalCode = FV<string?>(SubfileElementIds.PostalCode, "01234"),
+            Country = FV<Country>(SubfileElementIds.Country, Country.USA),
 
-    //        DateOfBirth = new DateTime(1977, 11, 06),
-    //        Sex = Sex.Male,
-    //        Height = new Height(totalInches: 69),
-    //        EyeColor = EyeColor.Green,
+            DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(1977, 11, 6)),
+            Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
+            Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 69)),
+            EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Green),
 
-    //        IdNumber = "NHI17128755",
-    //        AAMVAVersionNumber = AAMVAVersion.AAMVA2013,
+            IdNumber = FV(SubfileElementIds.IdNumber, "NHI17128755"),
+            AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2013),
 
-    //        IssueDate = new DateTime(2017, 12, 19),
-    //        ExpirationDate = new DateTime(2022, 11, 06),
-    //        RevisionDate = new DateTime(2016, 06, 09),
+            IssueDate = FV<DateTime?>(SubfileElementIds.IssueDate, new DateTime(2017, 12, 19)),
+            ExpirationDate = FV<DateTime?>(SubfileElementIds.ExpirationDate, new DateTime(2022, 11, 6)),
+            RevisionDate = FV<DateTime?>(SubfileElementIds.RevisionDate, new DateTime(2016, 6, 9)),
 
-    //        ComplianceType = ComplianceType.NonCompliant,
-    //        Jurisdiction = new DriversLicenseJurisdiction
-    //        {
-    //            VehicleClass = "D",
-    //            RestrictionCodes = "C",
-    //            EndorsementCodes = "MC"
-    //        }
-    //    };
+            ComplianceType = FV<ComplianceType?>(SubfileElementIds.ComplianceType, ComplianceType.NonCompliant),
+            VehicleClass = FV<string?>(SubfileElementIds.VehicleClass, "D"),
+            RestrictionCodes = FV<string?>(SubfileElementIds.RestrictionCodes, "C"),
+            EndorsementCodes = FV<string?>(SubfileElementIds.EndorsementCodes, "MC"),
+        };
 
-    //    var file = License("NH");
-    //    var parseResult = Barcode.Parse2(file, Validation.None);
-    //    LogUnhandledElementIds(parseResult.Card);
+        var file = License("NH");
+        var parseResult = Barcode.Parse2(file, Validation.None);
+        LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, parseResult.Card);
-    //    AssertLicense(expected, parseResult.Card);
+        AssertIdCard(expected, parseResult.Card);
+        AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("01234", idCard.Address.PostalCodeDisplay);
-    //    Assert.Equal("New Hampshire", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
-    //}
+        Assert.Equal("01234", parseResult.Card.PostalCodeDisplay);
+        Assert.Equal("New Hampshire", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
+    }
 
-    //[Fact]
-    //public void TestTXLicense()
-    //{
-    //    var expected = new DriversLicense
-    //    {
-    //        Name = new Name
-    //        {
-    //            First = "ROBERTO",
-    //            Last = "GONSALVES"
-    //        },
+    [Fact]
+    public void TestTXLicense()
+    {
+        var expected = new DriversLicense2
+        {
+            FirstName = FV<string?>(SubfileElementIds.FirstName, "ROBERTO"),
+            LastName = FV<string?>(SubfileElementIds.LastName, "GONSALVES"),
 
-    //        Address = new Address
-    //        {
-    //            StreetLine1 = "1254 FIRST",
-    //            City = "EL PASO",
-    //            JurisdictionCode = "TX",
-    //            PostalCode = "79936",
-    //            Country = Country.USA
-    //        },
+            StreetLine1 = FV<string?>(SubfileElementIds.StreetLine1, "1254 FIRST"),
+            City = FV<string?>(SubfileElementIds.City, "EL PASO"),
+            JurisdictionCode = FV<string?>(SubfileElementIds.JurisdictionCode, "TX"),
+            PostalCode = FV<string?>(SubfileElementIds.PostalCode, "79936"),
+            Country = FV<Country>(SubfileElementIds.Country, Country.USA),
 
-    //        DateOfBirth = new DateTime(1993, 10, 24),
-    //        Sex = Sex.Male,
-    //        Height = new Height(totalInches: 65),
-    //        EyeColor = EyeColor.Brown,
-    //        HairColor = HairColor.Brown,
+            DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(1993, 10, 24)),
+            Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
+            Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 65)),
+            EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Brown),
+            HairColor = FV<HairColor?>(SubfileElementIds.HairColor, HairColor.Brown),
 
-    //        IdNumber = "37110073",
-    //        AAMVAVersionNumber = AAMVAVersion.AAMVA2005,
+            IdNumber = FV(SubfileElementIds.IdNumber, "37110073"),
+            AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2005),
 
-    //        IssueDate = new DateTime(2014, 10, 25),
-    //        ExpirationDate = new DateTime(2019, 10, 24),
+            IssueDate = FV<DateTime?>(SubfileElementIds.IssueDate, new DateTime(2014, 10, 25)),
+            ExpirationDate = FV<DateTime?>(SubfileElementIds.ExpirationDate, new DateTime(2019, 10, 24)),
 
-    //        Jurisdiction = new DriversLicenseJurisdiction
-    //        {
-    //            VehicleClass = "C"
-    //        }
-    //    };
+            VehicleClass = FV<string?>(SubfileElementIds.VehicleClass, "C"),
+        };
 
-    //    var file = License("TX");
-    //    var parseResult = Barcode.Parse2(file, Validation.None);
-    //    LogUnhandledElementIds(parseResult.Card);
+        var file = License("TX");
+        var parseResult = Barcode.Parse2(file, Validation.None);
+        LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, parseResult.Card);
-    //    AssertLicense(expected, parseResult.Card);
+        AssertIdCard(expected, parseResult.Card);
+        AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("79936", idCard.Address.PostalCodeDisplay);
-    //    Assert.Equal("Texas", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
-    //}
+        Assert.Equal("79936", parseResult.Card.PostalCodeDisplay);
+        Assert.Equal("Texas", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
+    }
 
     //[Fact]
     //public void TestPALicense()
@@ -673,7 +646,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("19130", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("19130", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Pennsylvania", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -725,7 +698,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("19130", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("19130", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Pennsylvania", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -801,7 +774,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("18503", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("18503", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Pennsylvania", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -859,7 +832,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("00093-1760", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("00093-1760", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Rhode Island", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -914,7 +887,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("07418-2554", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("07418-2554", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("New Jersey", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -969,7 +942,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("07418-2554", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("07418-2554", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("New Jersey", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1025,7 +998,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("28304-1234", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("28304-1234", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("North Carolina", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1076,7 +1049,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("29575-4321", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("29575-4321", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("South Carolina", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1130,7 +1103,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("04401", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("04401", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Maine", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1190,7 +1163,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("43619-1234", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("43619-1234", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Ohio", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1231,7 +1204,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("48306-4321", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("48306-4321", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Michigan", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1279,7 +1252,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("N1M 3J6", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("N1M 3J6", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Ontario", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1337,7 +1310,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("05201", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("05201", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Vermont", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1391,7 +1364,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("00783", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("00783", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Puerto Rico", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1447,7 +1420,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("21201", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("21201", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Maryland", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1501,7 +1474,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("95035", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("95035", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("California", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1550,7 +1523,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("87544", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("87544", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("New Mexico", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1610,7 +1583,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("84043", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("84043", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Utah", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1665,7 +1638,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("51566", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("51566", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Iowa", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1715,7 +1688,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("97330", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("97330", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Oregon", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1765,7 +1738,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("71238", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("71238", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Louisiana", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1820,7 +1793,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("40218", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("40218", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Kentucky", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1878,7 +1851,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("54767", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("54767", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Wisconsin", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1936,7 +1909,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("19752-1234", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("19752-1234", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Delaware", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -1987,7 +1960,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("81635", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("81635", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Colorado", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2047,7 +2020,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("80401", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("80401", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Colorado", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2100,7 +2073,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("36093-1234", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("36093-1234", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Alabama", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2153,7 +2126,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("85641-4321", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("85641-4321", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Arizona", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2207,7 +2180,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("71901-4455", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("71901-4455", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Arkansas", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2252,7 +2225,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("98008-1234", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("98008-1234", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Washington", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2302,7 +2275,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("59601", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("59601", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Montana", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2359,7 +2332,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("66210", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("66210", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Kansas", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2408,7 +2381,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("47458", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("47458", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Indiana", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2465,7 +2438,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("60611", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("60611", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Illinois", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2517,7 +2490,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("96826", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("96826", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Hawaii", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2568,7 +2541,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("12345", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("12345", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("West Virginia", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2625,7 +2598,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("99645", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("99645", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Alaska", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2677,7 +2650,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("20009-1234", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("20009-1234", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("District of Columbia", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2730,7 +2703,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("C0A 2B4", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("C0A 2B4", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Price Edward Island", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2797,7 +2770,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("89031-1234", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("89031-1234", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Nevada", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2860,7 +2833,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("58503", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("58503", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("North Dakota", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2924,7 +2897,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("06117-1234", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("06117-1234", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Connecticut", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -2977,7 +2950,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("T4G 7A7", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("T4G 7A7", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Alberta", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -3042,10 +3015,10 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("56431-1234", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("56431-1234", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Minnesota", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
 
-    //    Assert.Equal(expected.AdditionalJurisdictionElements.Count, idCard.AdditionalJurisdictionElements.Count);
+    //    Assert.Equal(expected.AdditionalJurisdictionElements.Count, parseResult.Card.AdditionalJurisdictionElements.Count);
     //}
 
     //[Fact]
@@ -3111,10 +3084,10 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("39402", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("39402", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Mississippi", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
 
-    //    Assert.Equal(expected.AdditionalJurisdictionElements.Count, idCard.AdditionalJurisdictionElements.Count);
+    //    Assert.Equal(expected.AdditionalJurisdictionElements.Count, parseResult.Card.AdditionalJurisdictionElements.Count);
     //}
 
     //[Fact]
@@ -3173,10 +3146,10 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("83530", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("83530", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Idaho", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
 
-    //    Assert.Equal(expected.AdditionalJurisdictionElements.Count, idCard.AdditionalJurisdictionElements.Count);
+    //    Assert.Equal(expected.AdditionalJurisdictionElements.Count, parseResult.Card.AdditionalJurisdictionElements.Count);
     //}
 
     //[Fact]
@@ -3228,7 +3201,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("02360-1234", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("02360-1234", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Massachusetts", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -3278,7 +3251,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("06516", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("06516", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Connecticut", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -3328,7 +3301,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("06614-0123", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("06614-0123", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Connecticut", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -3379,7 +3352,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("06614-0123", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("06614-0123", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Connecticut", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -3422,7 +3395,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("E5K 1Y3", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("E5K 1Y3", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("New Brunswick", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 
@@ -3473,7 +3446,7 @@ public class DriversLicenseTests2 : BaseTest2
     //    AssertIdCard(expected, parseResult.Card);
     //    AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("82930", idCard.Address.PostalCodeDisplay);
+    //    Assert.Equal("82930", parseResult.Card.PostalCodeDisplay);
     //    Assert.Equal("Wyoming", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     //}
 }
