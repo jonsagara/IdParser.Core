@@ -2943,54 +2943,45 @@ public class DriversLicenseTests2 : BaseTest2
         Assert.Equal("New Brunswick", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     }
 
-    //[Fact]
-    //public void TestWYLicense()
-    //{
-    //    var expected = new DriversLicense
-    //    {
-    //        Name = new Name
-    //        {
-    //            First = "MOTORIST",
-    //            Middle = "E",
-    //            Last = "O NEIL"
-    //        },
+    [Fact]
+    public void TestWYLicense()
+    {
+        var expected = new DriversLicense2
+        {
+            FirstName = FV<string?>(SubfileElementIds.FirstName, "MOTORIST"),
+            MiddleName = FV<string?>(SubfileElementIds.MiddleName, "E"),
+            LastName = FV<string?>(SubfileElementIds.LastName, "O NEIL"),
 
-    //        Address = new Address
-    //        {
-    //            StreetLine1 = "1234 MAIN WAY",
-    //            //StreetLine2 = "BLUE STREAM, WY  82930", TODO: Check if this is the same as city, state, zip and remove if so
-    //            City = "BLUE STREAM",
-    //            JurisdictionCode = "WY",
-    //            PostalCode = "82930",
-    //            Country = Country.USA
-    //        },
+            StreetLine1 = FV<string?>(SubfileElementIds.StreetLine1, "1234 MAIN WAY"),
+            //StreetLine2 = FV<string?>(SubfileElementIds.StreetLine2, "BLUE STREAM, WY  82930"), // TODO: Check if this is the same as city, state, zip and remove if so
+            City = FV<string?>(SubfileElementIds.City, "BLUE STREAM"),
+            JurisdictionCode = FV<string?>(SubfileElementIds.JurisdictionCode, "WY"),
+            PostalCode = FV<string?>(SubfileElementIds.PostalCode, "82930"),
+            Country = FV<Country>(SubfileElementIds.Country, Country.USA),
 
-    //        DateOfBirth = new DateTime(1958, 10, 31),
-    //        Sex = Sex.Female,
-    //        EyeColor = EyeColor.Blue,
-    //        HairColor = HairColor.Blond,
-    //        Height = new Height(totalInches: 69),
+            DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(1958, 10, 31)),
+            Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Female),
+            EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Blue),
+            HairColor = FV<HairColor?>(SubfileElementIds.EyeColor, HairColor.Blond),
+            Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 69)),
+            
+            IdNumber = FV(SubfileElementIds.IdNumber, "123456-789"),
+            AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2009),
 
-    //        IdNumber = "123456-789",
-    //        AAMVAVersionNumber = AAMVAVersion.AAMVA2009,
+            IssueDate = FV<DateTime?>(SubfileElementIds.IssueDate, new DateTime(2017, 10, 11)),
+            ExpirationDate = FV<DateTime?>(SubfileElementIds.ExpirationDate, new DateTime(2021, 10, 31)),
 
-    //        IssueDate = new DateTime(2017, 10, 11),
-    //        ExpirationDate = new DateTime(2021, 10, 31),
+            VehicleClass = FV<string?>(SubfileElementIds.VehicleClass, "C"),
+        };
 
-    //        Jurisdiction = new DriversLicenseJurisdiction
-    //        {
-    //            VehicleClass = "C"
-    //        }
-    //    };
+        var file = License("WY");
+        var parseResult = Barcode.Parse2(file, Validation.None);
+        LogUnhandledElementIds(parseResult.Card);
 
-    //    var file = License("WY");
-    //    var parseResult = Barcode.Parse2(file, Validation.None);
-    //    LogUnhandledElementIds(parseResult.Card);
+        AssertIdCard(expected, parseResult.Card);
+        AssertLicense(expected, parseResult.Card);
 
-    //    AssertIdCard(expected, parseResult.Card);
-    //    AssertLicense(expected, parseResult.Card);
-
-    //    Assert.Equal("82930", parseResult.Card.PostalCodeDisplay);
-    //    Assert.Equal("Wyoming", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
-    //}
+        Assert.Equal("82930", parseResult.Card.PostalCodeDisplay);
+        Assert.Equal("Wyoming", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
+    }
 }
