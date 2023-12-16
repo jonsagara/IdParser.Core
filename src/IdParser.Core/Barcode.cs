@@ -6,11 +6,6 @@ using Microsoft.Extensions.Logging;
 
 namespace IdParser.Core;
 
-public record BarcodeParseResult(
-    IdentificationCard Card,
-    IReadOnlyCollection<string> UnhandledElementIds
-    );
-
 public record BarcodeParseResult2(
     IdentificationCard2 Card
     );
@@ -47,54 +42,6 @@ public static class Barcode
     /// </summary>
     internal static readonly string ExpectedHeader = $"@{ExpectedSegmentTerminator}{ExpectedDataElementSeparator}{ExpectedRecordSeparator}{ExpectedSegmentTerminator}{ExpectedDataElementSeparator}{ExpectedFileType}";
 
-
-    /// <summary>
-    /// Parses the raw input from the PDF417 barcode into an IdentificationCard or DriversLicense object.
-    /// </summary>
-    /// <param name="rawPdf417Input">The string to parse the information out of</param>
-    /// <param name="validationLevel">
-    /// Specifies the level of <see cref="Validation"/> that will be performed.
-    /// Strict validation will ensure the input fully conforms to the AAMVA standard.
-    /// No validation will be performed if none is specified and exceptions will not be thrown
-    /// for elements that do not match or do not adversely affect parsing.
-    /// </param>
-    /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use to create an <see cref="ILogger"/> for logging.</param>
-    public static BarcodeParseResult Parse(string rawPdf417Input, Validation validationLevel = Validation.Strict, ILoggerFactory? loggerFactory = null)
-    {
-        ArgumentNullException.ThrowIfNull(rawPdf417Input);
-
-        if (rawPdf417Input.Length < 31)
-        {
-            throw new ArgumentException($"The input is missing required header elements and is not a valid AAMVA format. Expected at least 31 characters. Received {rawPdf417Input.Length}.", nameof(rawPdf417Input));
-        }
-
-        ILogger? logger = loggerFactory?.CreateLogger(typeof(Barcode));
-
-        if (validationLevel == Validation.Strict)
-        {
-            ValidateHeaderFormat(rawPdf417Input);
-        }
-        else
-        {
-            rawPdf417Input = Fixes.TryToCorrectHeader(rawPdf417Input, loggerFactory);
-        }
-
-        var aamvaVersionResult = ParseAAMVAVersion(rawPdf417Input);
-        var idCard = GetIdCardInstance(rawPdf417Input, aamvaVersionResult.Version);
-        var subfileRecords = GetSubfileRecords(rawPdf417Input, aamvaVersionResult.Version, idCard);
-
-        // We have to parse and retrieve Country from the subfile first because other fields depends on its value.
-        var country = ParseCountry(idCard.IssuerIdentificationNumber, aamvaVersionResult.Version, subfileRecords);
-        idCard.Address.Country = country;
-
-        var unhandledElementIds = PopulateIdCard(idCard, aamvaVersionResult.Version, country, subfileRecords, logger);
-        if (unhandledElementIds.Count > 0)
-        {
-            logger?.LogError($"One or more ElementIds were not handled by the ID or Driver's License parsers: {{UnhandledElementIds}}", string.Join(", ", unhandledElementIds));
-        }
-
-        return new BarcodeParseResult(idCard, unhandledElementIds);
-    }
 
     /// <summary>
     /// Parses the raw input from the PDF417 barcode into an IdentificationCard or DriversLicense object.
@@ -259,25 +206,6 @@ public static class Barcode
             : input.Substring(startIndex: 21, length: 2);
 
     /// <summary>
-    /// If it's a driver's license, return a <see cref="DriversLicense"/> instance. Otherwise, return an
-    /// <see cref="IdentificationCard"/> instance.
-    /// </summary>
-    private static IdentificationCard GetIdCardInstance(string rawPdf417Input, AAMVAVersion version)
-    {
-        var idCard = ParseSubfileType(rawPdf417Input, version) == "DL"
-            ? new DriversLicense()
-            : new IdentificationCard();
-
-        idCard.IssuerIdentificationNumber = (IssuerIdentificationNumber)int.Parse(rawPdf417Input.AsSpan(9, 6), provider: CultureInfo.InvariantCulture);
-        idCard.AAMVAVersionNumber = version;
-        idCard.JurisdictionVersionNumber = version == AAMVAVersion.AAMVA2000
-            ? 0
-            : int.Parse(rawPdf417Input.AsSpan(17, 2), provider: CultureInfo.InvariantCulture);
-
-        return idCard;
-    }
-
-    /// <summary>
     /// If it's a driver's license, return a <see cref="DriversLicense2"/> instance. Otherwise, return an
     /// <see cref="IdentificationCard2"/> instance.
     /// </summary>
@@ -316,66 +244,6 @@ public static class Barcode
 
 
     private static readonly Regex _rxSubfile = new Regex("(DL|ID)([\\d\\w]{3,8})(DL|ID|Z\\w)([DZ][A-Z]{2})", RegexOptions.Compiled);
-
-    /// <summary>
-    /// Get the index of the subfile starting position.
-    /// </summary>
-    private static int ParseSubfileOffset(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
-    {
-        var offset = 0;
-
-        if (version == AAMVAVersion.AAMVA2000)
-        {
-            offset = int.Parse(rawPdf417Input.AsSpan(start: 21, length: 4), provider: CultureInfo.InvariantCulture);
-
-            // South Carolina's offset is off by one byte which causes the parsing of the IdNumber to fail
-            if (idCard.IssuerIdentificationNumber == IssuerIdentificationNumber.SouthCarolina && offset == 30)
-            {
-                offset--;
-            }
-        }
-        else if (version >= AAMVAVersion.AAMVA2003)
-        {
-            // Change to use Span to reduce memory allocations.
-            var offsetAsSpan = rawPdf417Input.AsSpan(start: 23, length: 4);
-            var allOffsetCharsAreDigits = true;
-
-            foreach (var offsetChar in offsetAsSpan)
-            {
-                if (char.IsDigit(offsetChar))
-                {
-                    continue;
-                }
-
-                allOffsetCharsAreDigits = false;
-                break;
-            }
-
-            // Alberta specifies characters, like "abac", in the place of the expected offset
-            // which causes the parsing of the subfile records to fail.
-            if (allOffsetCharsAreDigits)
-            {
-                offset = int.Parse(offsetAsSpan, provider: CultureInfo.InvariantCulture);
-            }
-        }
-
-        if (offset == 0)
-        {
-            // Some jurisdictions, like Ontario, have a zero offset, which is incorrect.
-            // Set the offset to the start of the subfile type indicator.
-            var match = _rxSubfile.Match(rawPdf417Input);
-
-            if (match.Success)
-            {
-                const int subfileTypeLength = 2;
-                const int firstElementIdLength = 3;
-
-                offset = match.Index + match.Length - subfileTypeLength - firstElementIdLength;
-            }
-        }
-
-        return offset;
-    }
 
     /// <summary>
     /// Get the index of the subfile starting position.
@@ -442,38 +310,6 @@ public static class Barcode
         }
 
         return ixSubfileStartPosition;
-    }
-
-    /// <summary>
-    /// Get a list of all the data records (name and value as a single string) that we need to parse.
-    /// </summary>
-    private static Dictionary<string, string> GetSubfileRecords(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
-    {
-        var ixSubfile = ParseSubfileOffset(rawPdf417Input, version, idCard);
-
-        var records = rawPdf417Input
-            .Substring(startIndex: ixSubfile)
-            .Split(new[] { ParseDataElementSeparator(rawPdf417Input), ParseSegmentTerminator(rawPdf417Input) }, StringSplitOptions.RemoveEmptyEntries)
-            .ToList();
-
-        if (records[0] == "DL" || records[0] == "ID")
-        {
-            // We don't care about a record that just says "DL" or "ID", so remove it.
-            //   We already know whether it's a DL or ID.
-            records.RemoveAt(0);
-        }
-        else if (records[0].StartsWith("DL", StringComparison.Ordinal) || records[0].StartsWith("ID", StringComparison.Ordinal))
-        {
-            // The initial record starts with DL or ID. Discard the first two characters, and keep everything after it.
-            records[0] = records[0].Substring(startIndex: 2);
-        }
-
-        // Discard any records with length < 3 because we can't parse them into element Ids.
-        // First three characters are the element id.
-        // The remaining characters are the value.
-        return records
-            .Where(r => r.Length >= 3)
-            .ToDictionary(r => r.Substring(startIndex: 0, length: 3), r => r.Substring(startIndex: 3).Trim());
     }
 
     /// <summary>
@@ -564,48 +400,6 @@ public static class Barcode
         return IssuerMetadataHelper.GetCountry(iin);
     }
 
-    private static IReadOnlyCollection<string> PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string> subfileRecords, ILogger? logger)
-    {
-        List<string> unhandledElementIds = new();
-
-        foreach (var elementId in subfileRecords.Keys)
-        {
-            var data = subfileRecords[elementId];
-
-            if (elementId.StartsWith("Z", StringComparison.Ordinal) && !idCard.AdditionalJurisdictionElements.ContainsKey(elementId))
-            {
-                idCard.AdditionalJurisdictionElements.Add(elementId, data);
-                continue;
-            }
-
-            try
-            {
-                var handled = Parser.ParseAndSetIdElements(elementId: elementId, data: data, country, version, idCard);
-
-                if (!handled && idCard is DriversLicense driversLicense)
-                {
-                    handled = Parser.ParseAndSetDriversLicenseElements(elementId: elementId, data: data, country, version, driversLicense);
-                }
-
-                if (!handled)
-                {
-                    // We parse Country separately because various other fields rely on it for parsing.
-                    if (elementId != SubfileElementIds.Country)
-                    {
-                        unhandledElementIds.Add(elementId);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                logger?.LogError(ex, $"Unhandled exception in {nameof(PopulateIdCard)} while trying to parse element Id {{ElementId}}", elementId);
-                throw;
-            }
-        }
-
-        return unhandledElementIds;
-    }
-
     private static void PopulateIdCard2(IdentificationCard2 idCard, AAMVAVersion version, Country country, Dictionary<string, string?> subfileRecords, ILogger? logger)
     {
         foreach (var elementId in subfileRecords.Keys)
@@ -638,7 +432,7 @@ public static class Barcode
             }
             catch (Exception ex)
             {
-                logger?.LogError(ex, $"Unhandled exception in {nameof(PopulateIdCard)} while trying to parse element Id {{ElementId}}", elementId);
+                logger?.LogError(ex, $"Unhandled exception in {nameof(PopulateIdCard2)} while trying to parse element Id {{ElementId}}", elementId);
                 throw;
             }
         }

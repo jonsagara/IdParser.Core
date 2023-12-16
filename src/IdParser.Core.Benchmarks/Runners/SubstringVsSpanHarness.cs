@@ -16,7 +16,7 @@ public class SubstringVsSpanHarness
 
     [Benchmark(Baseline = true)]
     public void Substring_ParseLicense()
-        => Barcode.Parse(_licenseText, Validation.None);
+        => Barcode.Parse2(_licenseText, Validation.None);
 
 
 /* Substring results

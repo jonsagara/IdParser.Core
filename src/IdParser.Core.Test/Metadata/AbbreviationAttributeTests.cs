@@ -5,7 +5,7 @@ using Xunit.Abstractions;
 
 namespace IdParser.Core.Test.Metadata;
 
-public class AbbreviationAttributeTests : BaseTest
+public class AbbreviationAttributeTests : BaseTest2
 {
     public AbbreviationAttributeTests(ITestOutputHelper output)
         : base(output)
