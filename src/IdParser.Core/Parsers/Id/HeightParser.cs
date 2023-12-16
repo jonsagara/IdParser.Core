@@ -15,9 +15,17 @@ internal static class HeightParser
 
         if (version == AAMVAVersion.AAMVA2000)
         {
-#warning TODO: Don't int.Parse
-            var feet = int.Parse(rawValue.AsSpan(start: 0, length: 1), provider: CultureInfo.InvariantCulture);
-            var inches = int.Parse(rawValue.AsSpan(start: 1, length: 2), provider: CultureInfo.InvariantCulture);
+            var feetSpan = rawValue.AsSpan(start: 0, length: 1);
+            if (!int.TryParse(feetSpan, NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out int feet))
+            {
+                return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Height feet from '{feetSpan}'.");
+            }
+
+            var inchesSpan = rawValue.AsSpan(start: 1, length: 2);
+            if (!int.TryParse(inchesSpan, NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out int inches))
+            {
+                return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Height inches from '{inchesSpan}'.");
+            }
 
             return FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(feet: feet, inches: inches), rawValue: rawValue);
         }

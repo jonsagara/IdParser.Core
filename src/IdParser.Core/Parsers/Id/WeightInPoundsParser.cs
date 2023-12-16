@@ -39,6 +39,7 @@ internal static class WeightInPoundsParser
 
         if (match.Success)
         {
+            // Parse is okay here because the regex guarantees that the Weight capturing group will only contain digits.
             var weightKg = short.Parse(match.Groups["Weight"].Value.AsSpan(), provider: CultureInfo.InvariantCulture);
 
             weight = new Weight(kilograms: weightKg);

@@ -289,7 +289,7 @@ public static class Barcode
             // which causes the parsing of the subfile records to fail.
             if (allOffsetCharsAreDigits)
             {
-                // Don't try parse, as we know the span contains all decimal digits.
+                // Parse is fine because we know the span contains all decimal digits.
                 ixSubfileStartPosition = int.Parse(offsetAsSpan, provider: CultureInfo.InvariantCulture);
             }
         }
