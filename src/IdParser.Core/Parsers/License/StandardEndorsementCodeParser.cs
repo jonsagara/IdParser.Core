@@ -11,4 +11,15 @@ internal static class StandardEndorsementCodeParser
 
         return input;
     }
+
+    internal static Field<string?> Parse2(string elementId, string? rawValue)
+    {
+        ArgumentNullException.ThrowIfNull(elementId);
+
+        var standardEndorsementCode = ParserHelper.StringHasNoValue(rawValue)
+            ? null
+            : rawValue;
+
+        return FieldHelpers.ParsedField(elementId: elementId, value: standardEndorsementCode, rawValue: rawValue);
+    }
 }

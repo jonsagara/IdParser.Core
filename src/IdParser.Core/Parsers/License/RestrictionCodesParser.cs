@@ -11,6 +11,17 @@ internal static class RestrictionCodesParser
 
         return input;
     }
+
+    internal static Field<string?> Parse2(string elementId, string? rawValue)
+    {
+        ArgumentNullException.ThrowIfNull(elementId);
+
+        var restrictionCodes = ParserHelper.StringHasNoValue(rawValue)
+            ? null
+            : rawValue;
+
+        return FieldHelpers.ParsedField(elementId: elementId, value: restrictionCodes, rawValue: rawValue);
+    }
 }
 
 internal static class RestrictionCodesLegacyParser
@@ -23,5 +34,16 @@ internal static class RestrictionCodesLegacyParser
         }
 
         return input;
+    }
+
+    internal static Field<string?> Parse2(string elementId, string? rawValue)
+    {
+        ArgumentNullException.ThrowIfNull(elementId);
+
+        var restrictionCodes = ParserHelper.StringHasNoValue(rawValue)
+            ? null
+            : rawValue;
+
+        return FieldHelpers.ParsedField(elementId: elementId, value: restrictionCodes, rawValue: rawValue);
     }
 }

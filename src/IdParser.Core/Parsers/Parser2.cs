@@ -218,55 +218,55 @@ internal static class Parser2
         switch (elementId)
         {
             case SubfileElementIds.EndorsementCodeDescription:
-                driversLicense.Jurisdiction.EndorsementCodeDescription = EndorsementCodeDescriptionParser.Parse(input: rawValue);
+                driversLicense.EndorsementCodeDescription = EndorsementCodeDescriptionParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.EndorsementCodes:
-                driversLicense.Jurisdiction.EndorsementCodes = EndorsementCodesParser.Parse(input: rawValue);
+                driversLicense.EndorsementCodes = EndorsementCodesParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.EndorsementCodesLegacy:
-                driversLicense.Jurisdiction.EndorsementCodes = EndorsementCodesLegacyParser.Parse(input: rawValue);
+                driversLicense.EndorsementCodes = EndorsementCodesLegacyParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.HazmatEndorsementExpirationDate:
-                driversLicense.HazmatEndorsementExpirationDate = HazmatEndorsementExpirationDateParser.Parse(input: rawValue, country, version);
+                driversLicense.HazmatEndorsementExpirationDate = HazmatEndorsementExpirationDateParser.Parse2(elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.RestrictionCodeDescription:
-                driversLicense.Jurisdiction.RestrictionCodeDescription = RestrictionCodeDescriptionParser.Parse(input: rawValue);
+                driversLicense.RestrictionCodeDescription = RestrictionCodeDescriptionParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.RestrictionCodes:
-                driversLicense.Jurisdiction.RestrictionCodes = RestrictionCodesParser.Parse(input: rawValue);
+                driversLicense.RestrictionCodes = RestrictionCodesParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.RestrictionCodesLegacy:
-                driversLicense.Jurisdiction.RestrictionCodes = RestrictionCodesLegacyParser.Parse(input: rawValue);
+                driversLicense.RestrictionCodes = RestrictionCodesLegacyParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StandardEndorsementCode:
-                driversLicense.StandardEndorsementCode = StandardEndorsementCodeParser.Parse(input: rawValue);
+                driversLicense.StandardEndorsementCode = StandardEndorsementCodeParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StandardRestrictionCode:
-                driversLicense.StandardRestrictionCode = StandardRestrictionCodeParser.Parse(input: rawValue);
+                driversLicense.StandardRestrictionCode = StandardRestrictionCodeParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StandardVehicleClassification:
-                driversLicense.StandardVehicleClassification = StandardVehicleClassificationParser.Parse(input: rawValue);
+                driversLicense.StandardVehicleClassification = StandardVehicleClassificationParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.VehicleClassificationDescription:
-                driversLicense.Jurisdiction.VehicleClassificationDescription = VehicleClassificationDescriptionParser.Parse(input: rawValue);
+                driversLicense.VehicleClassificationDescription = VehicleClassificationDescriptionParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.VehicleClass:
-                driversLicense.Jurisdiction.VehicleClass = VehicleClassParser.Parse(input: rawValue);
+                driversLicense.VehicleClass = VehicleClassParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.VehicleClassLegacy:
-                driversLicense.Jurisdiction.VehicleClass = VehicleClassLegacyParser.Parse(input: rawValue);
+                driversLicense.VehicleClass = VehicleClassLegacyParser.Parse2(elementId: elementId, rawValue: rawValue);
                 break;
 
             default:
