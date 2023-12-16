@@ -191,65 +191,56 @@ public class DriversLicenseTests2 : BaseTest2
         Assert.Equal("New York", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     }
 
-    //[Fact]
-    //public void TestVALicense()
-    //{
-    //    var expected = new DriversLicense
-    //    {
-    //        Name = new Name
-    //        {
-    //            First = "JUSTIN",
-    //            Middle = "WILLIAM",
-    //            Last = "MAURY"
-    //        },
+    [Fact]
+    public void TestVALicense()
+    {
+        var expected = new DriversLicense2
+        {
+            FirstName = FV<string?>(SubfileElementIds.FirstName, "JUSTIN"),
+            MiddleName = FV<string?>(SubfileElementIds.MiddleName, "WILLIAM"),
+            LastName = FV<string?>(SubfileElementIds.LastName, "MAURY"),
 
-    //        Address = new Address
-    //        {
-    //            StreetLine1 = "17 FIRST STREET",
-    //            City = "STAUNTON",
-    //            JurisdictionCode = "VA",
-    //            PostalCode = "24401",
-    //            Country = Country.USA
-    //        },
+            StreetLine1 = FV<string?>(SubfileElementIds.StreetLine1, "17 FIRST STREET"),
+            City = FV<string?>(SubfileElementIds.City, "STAUNTON"),
+            JurisdictionCode = FV<string?>(SubfileElementIds.JurisdictionCode, "VA"),
+            PostalCode = FV<string?>(SubfileElementIds.PostalCode, "24401"),
+            Country = FV<Country>(SubfileElementIds.Country, Country.USA),
 
-    //        DateOfBirth = new DateTime(1958, 07, 15),
-    //        Sex = Sex.Male,
-    //        Height = new Height(totalInches: 75),
-    //        EyeColor = EyeColor.Brown,
+            DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(1958, 7, 15)),
+            Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
+            Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 75)),
+            EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Brown),
 
-    //        IdNumber = "T16700185",
-    //        AAMVAVersionNumber = AAMVAVersion.AAMVA2005,
+            IdNumber = FV(SubfileElementIds.IdNumber, "T16700185"),
+            AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2005),
 
-    //        IssueDate = new DateTime(2009, 08, 14),
-    //        ExpirationDate = new DateTime(2017, 08, 14),
-    //        RevisionDate = new DateTime(2008, 12, 10),
+            IssueDate = FV<DateTime?>(SubfileElementIds.IssueDate, new DateTime(2009, 8, 14)),
+            ExpirationDate = FV<DateTime?>(SubfileElementIds.ExpirationDate, new DateTime(2017, 8, 14)),
+            RevisionDate = FV<DateTime?>(SubfileElementIds.RevisionDate, new DateTime(2008, 12, 10)),
 
-    //        HasTemporaryLawfulStatus = false,
-    //        ComplianceType = ComplianceType.NonCompliant,
+            HasTemporaryLawfulStatus = FV<bool?>(SubfileElementIds.HasTemporaryLawfulStatus, false),
+            ComplianceType = FV<ComplianceType?>(SubfileElementIds.ComplianceType, ComplianceType.NonCompliant),
 
-    //        Jurisdiction = new DriversLicenseJurisdiction
-    //        {
-    //            RestrictionCodes = "158X9",
-    //            EndorsementCodes = "S"
-    //        }
-    //    };
+            RestrictionCodes = FV<string?>(SubfileElementIds.RestrictionCodes, "158X9"),
+            EndorsementCodes = FV<string?>(SubfileElementIds.EndorsementCodes, "S")
+        };
 
-    //    var file = License("VA");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+        var file = License("VA");
+        var parseResult = Barcode.Parse2(file);
+        LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+        AssertIdCard(expected, parseResult.Card);
+        AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("Virginia", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
+        Assert.Equal("Virginia", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
 
-    //    Assert.IsType<DriversLicense>(idCard);
+        Assert.IsType<DriversLicense2>(parseResult.Card);
 
-    //    if (idCard is DriversLicense license)
-    //    {
-    //        Assert.Equal("158X9", license.Jurisdiction.RestrictionCodes);
-    //    }
-    //}
+        if (parseResult.Card is DriversLicense2 license)
+        {
+            Assert.Equal("158X9", license.RestrictionCodes.Value);
+        }
+    }
 
     //[Fact]
     //public void TestGALicense()
@@ -292,11 +283,11 @@ public class DriversLicenseTests2 : BaseTest2
     //    };
 
     //    var file = License("GA");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    var parseResult = Barcode.Parse2(file);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("Georgia", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
     //}
@@ -343,10 +334,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("CT");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
 
@@ -401,10 +392,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("CT Web Browser");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
     //}
@@ -449,10 +440,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("CT No Middle Name");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
     //}
@@ -497,10 +488,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("MO");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("Missouri", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
 
@@ -555,10 +546,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("FL");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("33040-0504", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Florida", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -621,10 +612,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("NH");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("01234", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("New Hampshire", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -670,10 +661,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("TX");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("79936", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Texas", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -722,10 +713,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("PA");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("19130", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Pennsylvania", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -774,10 +765,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("PA Two Middle Names");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("19130", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Pennsylvania", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -795,7 +786,7 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("PA Three Middle Names");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
     //    Assert.Equal(expected.First, idCard.Name.First);
     //    Assert.Equal(expected.Middle, idCard.Name.Middle);
@@ -850,10 +841,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("PA 2016");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("18503", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Pennsylvania", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -908,10 +899,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("RI");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("00093-1760", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Rhode Island", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -963,10 +954,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("NJ");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("07418-2554", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("New Jersey", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1018,10 +1009,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("NJ HZL Eyes");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("07418-2554", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("New Jersey", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1074,10 +1065,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("NC");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("28304-1234", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("North Carolina", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1125,10 +1116,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("SC");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("29575-4321", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("South Carolina", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1179,10 +1170,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("ME");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("04401", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Maine", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1239,10 +1230,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("OH");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("43619-1234", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Ohio", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1280,10 +1271,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("MI");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("48306-4321", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Michigan", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1328,10 +1319,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("ON");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("N1M 3J6", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Ontario", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1386,10 +1377,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("VT");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("05201", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Vermont", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1440,10 +1431,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("PR");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("00783", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Puerto Rico", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1496,10 +1487,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("MD");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("21201", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Maryland", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1550,10 +1541,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("CA");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("95035", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("California", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1599,10 +1590,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("NM");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("87544", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("New Mexico", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1659,10 +1650,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("UT");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("84043", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Utah", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1714,10 +1705,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("IA");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("51566", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Iowa", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1764,10 +1755,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("OR");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("97330", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Oregon", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1814,10 +1805,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("LA");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("71238", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Louisiana", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1869,10 +1860,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("KY");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("40218", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Kentucky", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1927,10 +1918,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("WI");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("54767", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Wisconsin", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -1985,10 +1976,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("DE");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("19752-1234", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Delaware", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2036,10 +2027,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("CO");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("81635", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Colorado", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2096,10 +2087,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("CO 2013");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("80401", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Colorado", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2149,10 +2140,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("AL");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("36093-1234", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Alabama", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2202,10 +2193,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("AZ");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("85641-4321", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Arizona", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2256,10 +2247,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("AR");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("71901-4455", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Arkansas", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2301,10 +2292,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("WA");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("98008-1234", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Washington", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2351,10 +2342,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("MT");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("59601", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Montana", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2408,10 +2399,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("KS");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("66210", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Kansas", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2457,10 +2448,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("IN");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("47458", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Indiana", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2514,10 +2505,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("IL");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("60611", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Illinois", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2566,10 +2557,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("HI");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("96826", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Hawaii", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2617,10 +2608,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("WV");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("12345", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("West Virginia", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2674,10 +2665,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("AK");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("99645", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Alaska", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2726,10 +2717,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("DC");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("20009-1234", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("District of Columbia", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2779,10 +2770,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("PE");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("C0A 2B4", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Price Edward Island", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2846,10 +2837,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("NV");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("89031-1234", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Nevada", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2909,10 +2900,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("ND");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("58503", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("North Dakota", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -2973,10 +2964,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("CT Undefined Characters");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("06117-1234", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -3026,10 +3017,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("AB");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("T4G 7A7", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Alberta", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -3091,10 +3082,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("MN");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("56431-1234", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Minnesota", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -3160,10 +3151,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("MS");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("39402", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Mississippi", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -3222,10 +3213,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("ID");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("83530", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Idaho", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -3277,10 +3268,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = File.ReadAllText("Leading Whitespace.txt");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("02360-1234", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Massachusetts", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -3327,10 +3318,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = File.ReadAllText("Invalid Header.txt");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("06516", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -3377,10 +3368,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("CT Suffix");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("06614-0123", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -3428,10 +3419,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("CT Multiple Middle Names");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("06614-0123", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Connecticut", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -3471,10 +3462,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("NB");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("E5K 1Y3", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("New Brunswick", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
@@ -3522,10 +3513,10 @@ public class DriversLicenseTests2 : BaseTest2
 
     //    var file = License("WY");
     //    var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+    //    LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+    //    AssertIdCard(expected, parseResult.Card);
+    //    AssertLicense(expected, parseResult.Card);
 
     //    Assert.Equal("82930", idCard.Address.PostalCodeDisplay);
     //    Assert.Equal("Wyoming", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
