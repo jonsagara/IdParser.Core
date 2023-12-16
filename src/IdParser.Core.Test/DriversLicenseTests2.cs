@@ -412,63 +412,54 @@ public class DriversLicenseTests2 : BaseTest2
         Assert.Equal("Connecticut", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     }
 
-    //[Fact]
-    //public void TestMOLicense()
-    //{
-    //    var expected = new DriversLicense
-    //    {
-    //        Name = new Name
-    //        {
-    //            First = "FirstNameTest",
-    //            Last = "LastNameTest"
-    //        },
+    [Fact]
+    public void TestMOLicense()
+    {
+        var expected = new DriversLicense2
+        {
+            FirstName = FV<string?>(SubfileElementIds.FirstName, "FirstNameTest"),
+            LastName = FV<string?>(SubfileElementIds.LastName, "LastNameTest"),
 
-    //        Address = new Address
-    //        {
-    //            StreetLine1 = "123 ABC TEST ADDRESS 2ND FL",
-    //            City = "ST LOUIS",
-    //            JurisdictionCode = "MO",
-    //            PostalCode = "633011",
-    //            Country = Country.USA
-    //        },
+            StreetLine1 = FV<string?>(SubfileElementIds.StreetLine1, "123 ABC TEST ADDRESS 2ND FL"),
+            City = FV<string?>(SubfileElementIds.City, "ST LOUIS"),
+            JurisdictionCode = FV<string?>(SubfileElementIds.JurisdictionCode, "MO"),
+            PostalCode = FV<string?>(SubfileElementIds.PostalCode, "633011"),
+            Country = FV<Country>(SubfileElementIds.Country, Country.USA),
 
-    //        DateOfBirth = new DateTime(2017, 08, 09),
-    //        Sex = Sex.Male,
-    //        Height = new Height(feet: 5, inches: 8),
-    //        Weight = new Weight(pounds: 155),
-    //        EyeColor = EyeColor.Brown,
+            DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(2017, 8, 9)),
+            Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
+            Height = FV<Height?>(SubfileElementIds.Height, new Height(feet: 5, inches: 8)),
+            Weight = FV<Weight?>(SubfileElementIds.WeightInPounds, new Weight(pounds: 155)),
+            EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Brown),
 
-    //        IdNumber = "X100097001",
-    //        AAMVAVersionNumber = AAMVAVersion.AAMVA2000,
+            IdNumber = FV(SubfileElementIds.IdNumber, "X100097001"),
+            AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2000),
 
-    //        IssueDate = new DateTime(2011, 06, 30),
-    //        ExpirationDate = new DateTime(2018, 02, 04),
+            IssueDate = FV<DateTime?>(SubfileElementIds.IssueDate, new DateTime(2011, 6, 30)),
+            ExpirationDate = FV<DateTime?>(SubfileElementIds.ExpirationDate, new DateTime(2018, 2, 4)),
 
-    //        Jurisdiction = new DriversLicenseJurisdiction
-    //        {
-    //            VehicleClass = "F"
-    //        }
-    //    };
+            VehicleClass = FV<string?>(SubfileElementIds.VehicleClass, "F"),
+        };
 
-    //    var file = License("MO");
-    //    var parseResult = Barcode.Parse2(file, Validation.None);
-    //    LogUnhandledElementIds(parseResult.Card);
+        var file = License("MO");
+        var parseResult = Barcode.Parse2(file, Validation.None);
+        LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, parseResult.Card);
-    //    AssertLicense(expected, parseResult.Card);
+        AssertIdCard(expected, parseResult.Card);
+        AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("Missouri", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
+        Assert.Equal("Missouri", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
 
-    //    Assert.Equal("MAST LOUIS CITY", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZMZ").Value);
-    //    Assert.Equal("112001810097", idCard.AdditionalJurisdictionElements.Single(e => e.Key == "ZMB").Value);
+        Assert.Equal("MAST LOUIS CITY", parseResult.Card.AdditionalJurisdictionElements.Single(e => e.Key == "ZMZ").Value.Value);
+        Assert.Equal("112001810097", parseResult.Card.AdditionalJurisdictionElements.Single(e => e.Key == "ZMB").Value.Value);
 
-    //    Assert.IsType<DriversLicense2>(parseResult.Card);
+        Assert.IsType<DriversLicense2>(parseResult.Card);
 
-    //    if (parseResult.Card is DriversLicense2 license)
-    //    {
-    //        Assert.Equal("F", license.Jurisdiction.VehicleClass);
-    //    }
-    //}
+        if (parseResult.Card is DriversLicense2 license)
+        {
+            Assert.Equal("F", license.VehicleClass.Value);
+        }
+    }
 
     //[Fact]
     //public void TestFLLicense()
