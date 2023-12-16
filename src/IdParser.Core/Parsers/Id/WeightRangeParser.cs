@@ -4,7 +4,7 @@ namespace IdParser.Core.Parsers.Id;
 
 internal static class WeightRangeParser
 {
-    internal static Field<WeightRange?> Parse(string elementId, string rawValue)
+    internal static Field<WeightRange?> Parse(string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(elementId);
 
