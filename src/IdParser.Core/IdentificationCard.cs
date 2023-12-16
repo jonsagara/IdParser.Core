@@ -1,4 +1,5 @@
 ﻿using IdParser.Core.Constants;
+using IdParser.Core.Parsers;
 
 namespace IdParser.Core;
 
@@ -113,6 +114,9 @@ public class IdentificationCard2
     public Field<string?> JurisdictionCode { get; internal set; } = FieldHelpers.UninitializedNullableString;
     public Field<string?> PostalCode { get; internal set; } = FieldHelpers.UninitializedNullableString;
     public Field<Country> Country { get; internal set; } = FieldHelpers.UninitializedCountry;
+
+    public string? PostalCodeDisplay
+        => IdentificationCard2Helper.PostalCodeDisplay(PostalCode.Value, Country.Value);
 
     public Field<DateTime?> DateOfBirth { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
     public Field<DateTime?> Under18Until { get; internal set; } = FieldHelpers.UninitializedNullableDateTime;
