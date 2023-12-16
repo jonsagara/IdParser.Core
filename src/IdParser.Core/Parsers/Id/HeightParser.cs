@@ -46,13 +46,13 @@ internal static class HeightParser
             return FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(feet: feet, inches: inches), rawValue: rawValue);
         }
 
-        var height = int.Parse(rawValue.AsSpan(start: 0, length: rawValue.Length - 2), provider: CultureInfo.InvariantCulture);
-
-        if (rawValue.Contains("cm", StringComparison.OrdinalIgnoreCase))
+        if (int.TryParse(rawValue.AsSpan(start: 0, length: rawValue.Length - 2), NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out int height))
         {
-            return FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(centimeters: height), rawValue: rawValue);
+            return rawValue.Contains("cm", StringComparison.OrdinalIgnoreCase)
+                ? FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(centimeters: height), rawValue: rawValue)
+                : FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(totalInches: height), rawValue: rawValue);
         }
 
-        return FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(totalInches: height), rawValue: rawValue);
+        return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, error: $"Unable to parse Height from '{rawValue}'.");
     }
 }

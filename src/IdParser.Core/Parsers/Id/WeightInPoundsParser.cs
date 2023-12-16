@@ -32,9 +32,9 @@ internal static class WeightInPoundsParser
             return FieldHelpers.ParsedField<Weight?>(elementId: elementId, value: weight, rawValue: rawValue);
         }
 
-        var weightLbs = short.Parse(rawValue.AsSpan(), provider: CultureInfo.InvariantCulture);
-
-        return FieldHelpers.ParsedField<Weight?>(elementId: elementId, value: new Weight(pounds: weightLbs), rawValue: rawValue);
+        return short.TryParse(rawValue.AsSpan(), NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out short weightLbs)
+            ? FieldHelpers.ParsedField<Weight?>(elementId: elementId, value: new Weight(pounds: weightLbs), rawValue: rawValue)
+            : FieldHelpers.UnparsedField<Weight?>(elementId: elementId, rawValue: rawValue, error: $"Unable to parse Weight in pounds from '{rawValue}'");
     }
 
 
