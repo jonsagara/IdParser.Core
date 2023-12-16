@@ -6,16 +6,16 @@ internal record IssuerMetadata(Country Country, string Abbreviation, string Desc
 
 public static class IssuerMetadataHelper
 {
-    private static readonly Dictionary<IssuerIdentificationNumber, string> _issuerIdentificationNumberAbbreviations = Enum
-        .GetValues<IssuerIdentificationNumber>()
+    private static readonly Dictionary<IssuerIdentificationNumber, string> _issuerIdentificationNumberAbbreviations =
+        GetValidValues()
         .ToDictionary(iin => iin, ec => ec.GetAbbreviationOrDefaultFromAbbreviationAttribute());
 
-    private static readonly Dictionary<IssuerIdentificationNumber, Country> _issuerIdentificationNumberCountries = Enum
-        .GetValues<IssuerIdentificationNumber>()
+    private static readonly Dictionary<IssuerIdentificationNumber, Country> _issuerIdentificationNumberCountries =
+        GetValidValues()
         .ToDictionary(iin => iin, ec => ec.GetCountryFromCountryAttribute());
 
-    private static readonly Dictionary<IssuerIdentificationNumber, string> _issuerIdentificationNumberDescriptions = Enum
-        .GetValues<IssuerIdentificationNumber>()
+    private static readonly Dictionary<IssuerIdentificationNumber, string> _issuerIdentificationNumberDescriptions =
+        GetValidValues()
         .ToDictionary(iin => iin, ec => ec.GetDescriptionFromDescriptionAttribute());
 
     /// <summary>
@@ -47,6 +47,19 @@ public static class IssuerMetadataHelper
     /// </summary>
     public static string GetDescriptionOrDefault(this IssuerIdentificationNumber issuerIdentificationNumber)
         => _issuerIdentificationNumberDescriptions.TryGetValue(issuerIdentificationNumber, out string? description)
-        ? description 
+        ? description
         : issuerIdentificationNumber.ToString();
+
+
+    //
+    // Private methods
+    //
+
+    /// <summary>
+    /// Get all values that are not None.
+    /// </summary>
+    private static IEnumerable<IssuerIdentificationNumber> GetValidValues()
+        => Enum
+        .GetValues<IssuerIdentificationNumber>()
+        .Where(iin => iin != IssuerIdentificationNumber.None);
 }
