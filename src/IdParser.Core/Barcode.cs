@@ -15,7 +15,7 @@ public record BarcodeParseResult2(
 public static class Barcode
 {
     /// <summary>
-    /// The text should begin with an @ sign (ASCII Decimal 64, Hex 0x40).x
+    /// The text should begin with an @ sign (ASCII Decimal 64, Hex 0x40).
     /// </summary>
     internal const char ExpectedComplianceIndicator = (char)64;
 

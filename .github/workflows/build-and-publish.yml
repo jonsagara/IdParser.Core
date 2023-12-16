@@ -6,7 +6,7 @@ on:
   push:
     branches: 
       - 'main'        # Run the workflow when pushing to the main branch
-      - 'release/+'   # Run the workflow when pusing to a release branch
+      - 'release/**'   # Run the workflow when pusing to a release branch
   pull_request:
     branches:
       - '*'         # Run the workflow for all pull requests
