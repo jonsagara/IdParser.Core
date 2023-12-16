@@ -150,52 +150,46 @@ public class DriversLicenseTests2 : BaseTest2
         Assert.Equal("Massachusetts", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     }
 
-    //[Fact]
-    //public void TestNYLicense()
-    //{
-    //    var expected = new DriversLicense
-    //    {
-    //        Name = new Name
-    //        {
-    //            First = "M",
-    //            Middle = "Motorist",
-    //            Last = "Michael",
+    [Fact]
+    public void TestNYLicense()
+    {
+        var expected = new DriversLicense2
+        {
+            FirstName = FV<string?>(SubfileElementIds.FirstName, "M"),
+            MiddleName = FV<string?>(SubfileElementIds.MiddleName, "Motorist"),
+            LastName = FV<string?>(SubfileElementIds.LastName, "Michael"),
 
-    //            WasFirstTruncated = false,
-    //            WasMiddleTruncated = false,
-    //            WasLastTruncated = false
-    //        },
+            WasFirstNameTruncated = FV<bool?>(SubfileElementIds.WasFirstNameTruncated, false),
+            WasMiddleNameTruncated = FV<bool?>(SubfileElementIds.WasFirstNameTruncated, false),
+            WasLastNameTruncated = FV<bool?>(SubfileElementIds.WasFirstNameTruncated, false),
 
-    //        Address = new Address
-    //        {
-    //            StreetLine1 = "2345 ANYWHERE STREET",
-    //            City = "YOUR CITY",
-    //            JurisdictionCode = "NY",
-    //            PostalCode = "12345",
-    //            Country = Country.USA
-    //        },
+            StreetLine1 = FV<string?>(SubfileElementIds.StreetLine1, "2345 ANYWHERE STREET"),
+            City = FV<string?>(SubfileElementIds.City, "YOUR CITY"),
+            JurisdictionCode = FV<string?>(SubfileElementIds.JurisdictionCode, "NY"),
+            PostalCode = FV<string?>(SubfileElementIds.PostalCode, "12345"),
+            Country = FV<Country>(SubfileElementIds.Country, Country.USA),
 
-    //        DateOfBirth = new DateTime(2013, 08, 31),
-    //        Sex = Sex.Male,
-    //        Height = new Height(totalInches: 64),
-    //        EyeColor = EyeColor.Brown,
+            DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(2013, 8, 31)),
+            Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
+            Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 64)),
+            EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Brown),
 
-    //        IdNumber = "NONE",
-    //        AAMVAVersionNumber = AAMVAVersion.AAMVA2012,
+            IdNumber = FV(SubfileElementIds.IdNumber, "NONE"),
+            AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2012),
 
-    //        IssueDate = new DateTime(2013, 08, 31),
-    //        ExpirationDate = new DateTime(2013, 08, 31)
-    //    };
+            IssueDate = FV<DateTime?>(SubfileElementIds.IssueDate, new DateTime(2013, 8, 31)),
+            ExpirationDate = FV<DateTime?>(SubfileElementIds.ExpirationDate, new DateTime(2013, 8, 31)),
+        };
 
-    //    var file = License("NY");
-    //    var (idCard, unhandledElementIds) = Barcode.Parse(file);
-    //    LogUnhandledElementIds(idCard, unhandledElementIds);
+        var file = License("NY");
+        var parseResult = Barcode.Parse2(file);
+        LogUnhandledElementIds(parseResult.Card);
 
-    //    AssertIdCard(expected, idCard);
-    //    AssertLicense(expected, idCard);
+        AssertIdCard(expected, parseResult.Card);
+        AssertLicense(expected, parseResult.Card);
 
-    //    Assert.Equal("New York", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
-    //}
+        Assert.Equal("New York", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
+    }
 
     //[Fact]
     //public void TestVALicense()
