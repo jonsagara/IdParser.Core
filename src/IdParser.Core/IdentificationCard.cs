@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using IdParser.Core.Parsers;
+﻿using IdParser.Core.Parsers;
 
 namespace IdParser.Core;
 

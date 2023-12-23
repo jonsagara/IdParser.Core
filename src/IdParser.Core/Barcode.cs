@@ -8,34 +8,34 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace IdParser.Core;
 
-public record BarcodeParseResult2(
+public record BarcodeParseResult(
     IdentificationCard Card
     );
 
 public static class Barcode
 {
     /// <summary>
-    /// The text should begin with an @ sign (ASCII Decimal 64, Hex 0x40).
+    /// The text should begin with an '@' character (ASCII Decimal 64, Hex 0x40).
     /// </summary>
     internal const char ExpectedComplianceIndicator = (char)64;
 
     /// <summary>
-    /// The second character should be a linefeed (ASCII Decimal 10, Hex 0x0A).
+    /// The second character should be a linefeed character '\n' (ASCII Decimal 10, Hex 0x0A).
     /// </summary>
     internal const char ExpectedDataElementSeparator = (char)10;
 
     /// <summary>
-    /// The third character should be a Record Separator (ASCII Decimal 30, Hex 0x1E).
+    /// The third character should be a Record Separator character '\u0030' (ASCII Decimal 30, Hex 0x1E).
     /// </summary>
     internal const char ExpectedRecordSeparator = (char)30;
 
     /// <summary>
-    /// The fourth character should be a carriage return (ASCII Decimal 13, Hex 0x0D).
+    /// The fourth character should be a carriage return character '\r' (ASCII Decimal 13, Hex 0x0D).
     /// </summary>
     internal const char ExpectedSegmentTerminator = (char)13;
 
     /// <summary>
-    /// The expected file type should be ANSI, followed by a space.
+    /// The expected file type should be ANSI, followed by a space: &quot;ANSI &quot;
     /// </summary>
     internal const string ExpectedFileType = "ANSI ";
 
@@ -56,7 +56,7 @@ public static class Barcode
     /// for elements that do not match or do not adversely affect parsing.
     /// </param>
     /// <param name="loggerFactory"><see cref="ILoggerFactory"/> to use to create an <see cref="ILogger"/> for logging.</param>
-    public static BarcodeParseResult2 Parse(string rawPdf417Input, Validation validationLevel = Validation.Strict, ILoggerFactory? loggerFactory = null)
+    public static BarcodeParseResult Parse(string rawPdf417Input, Validation validationLevel = Validation.Strict, ILoggerFactory? loggerFactory = null)
     {
         ArgumentNullException.ThrowIfNull(rawPdf417Input);
 
@@ -82,20 +82,20 @@ public static class Barcode
 
 #warning TODO: Need to bail here because we couldn't parse the IssuerIdentificationNumber, and we can't continue trying to parse the rest of the ID.
 
-        // NOTE: any elementIds without a value will have "" as the value, NOT null.
+        // NOTE: any elementIds without a value will have null as the value, NOT "".
         var subfileRecords = GetSubfileRecords(rawPdf417Input, idCard.AAMVAVersionNumber.Value, idCard);
 
         // We have to parse and retrieve Country from the subfile first because other fields depends on its value.
-        var country = ParseCountry(idCard.IssuerIdentificationNumber.Value, idCard.AAMVAVersionNumber.Value, subfileRecords);
-        idCard.Country = FieldHelpers.ParsedField(elementId: SubfileElementIds.Country, value: country, rawValue: null);
+        var countryResult = ParseCountry(idCard.IssuerIdentificationNumber.Value, idCard.AAMVAVersionNumber.Value, subfileRecords);
+        idCard.Country = FieldHelpers.ParsedField(elementId: SubfileElementIds.Country, value: countryResult.Country, rawValue: countryResult.RawValue);
 
-        PopulateIdCard(idCard, idCard.AAMVAVersionNumber.Value, country, subfileRecords, logger);
+        PopulateIdCard(idCard, idCard.AAMVAVersionNumber.Value, countryResult.Country, subfileRecords, logger);
         if (idCard.UnhandledElementIds.Count > 0)
         {
-            BarcodeLogger.UnhandledElementIds(logger, string.Join(", ", idCard.UnhandledElementIds));
+            logger.UnhandledElementIds(string.Join(", ", idCard.UnhandledElementIds));
         }
 
-        return new BarcodeParseResult2(idCard);
+        return new BarcodeParseResult(idCard);
     }
 
 
@@ -104,37 +104,37 @@ public static class Barcode
     //
 
     /// <summary>
-    /// Get the <see cref="ExpectedComplianceIndicator"/> from the scanned text.
+    /// Get the <see cref="ExpectedComplianceIndicator"/> '@' from the scanned text.
     /// </summary>
     private static char ParseComplianceIndicator(string input)
         => input.AsSpan(start: 0, length: 1)[0];
 
     /// <summary>
-    /// Get the <see cref="ExpectedDataElementSeparator"/> from the scanned text.
+    /// Get the <see cref="ExpectedDataElementSeparator"/> '\n' from the scanned text.
     /// </summary>
     private static char ParseDataElementSeparator(string input)
         => input.AsSpan(start: 1, length: 1)[0];
 
     /// <summary>
-    /// Get the <see cref="ExpectedRecordSeparator"/> from the scanned text.
+    /// Get the <see cref="ExpectedRecordSeparator"/> '\u0030' from the scanned text.
     /// </summary>
     private static char ParseRecordSeparator(string input)
         => input.AsSpan(start: 2, length: 1)[0];
 
     /// <summary>
-    /// Get the <see cref="ExpectedSegmentTerminator"/> from the scanned text.
+    /// Get the <see cref="ExpectedSegmentTerminator"/> '\r' from the scanned text.
     /// </summary>
     private static char ParseSegmentTerminator(string input)
         => input.AsSpan(start: 3, length: 1)[0];
 
     /// <summary>
-    /// Get the <see cref="ExpectedFileType"/> (e.g., ANSI ) from the scanned text.
+    /// Get the <see cref="ExpectedFileType"/> (e.g., &quot;ANSI &quot;) from the scanned text.
     /// </summary>
     private static string ParseFileType(string input)
         => input.Substring(startIndex: 4, length: 5);
 
     /// <summary>
-    /// Ensure the header has the required and expected fields.
+    /// Ensure the header has the required and expected characters: &quot;@\n\u0030\rANSI &quot;.
     /// </summary>
     private static void ValidateHeaderFormat(string input)
     {
@@ -366,32 +366,35 @@ public static class Barcode
             .ToDictionary(r => r.Substring(startIndex: 0, length: 3), r => r.Substring(startIndex: 3).Trim().ToNullIfWhiteSpace());
     }
 
+
+    private readonly record struct ParseCountryResult(Country Country, string? RawValue);
+
     /// <summary>
     /// Parses the country based on the DCG subfile record.
     /// Gets the country from the IIN if no matching subfile record was found.
     /// </summary>
-    private static Country ParseCountry(IssuerIdentificationNumber iin, AAMVAVersion version, Dictionary<string, string?> subfileRecords)
+    private static ParseCountryResult ParseCountry(IssuerIdentificationNumber iin, AAMVAVersion version, Dictionary<string, string?> subfileRecords)
     {
         // Country is not a subfile record in the AAMVA 2000 standard.
         if (version == AAMVAVersion.AAMVA2000)
         {
-            return Country.USA;
+            return new ParseCountryResult(Country.USA, null);
         }
 
         if (subfileRecords.TryGetValue(SubfileElementIds.Country, out string? data))
         {
             if (data == "USA")
             {
-                return Country.USA;
+                return new ParseCountryResult(Country.USA, data);
             }
 
             if (data == "CAN" || data == "CDN")
             {
-                return Country.Canada;
+                return new ParseCountryResult(Country.Canada, data);
             }
         }
 
-        return IssuerMetadataHelper.GetCountry(iin);
+        return new ParseCountryResult(IssuerMetadataHelper.GetCountry(iin), null);
     }
 
     private static void PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string?> subfileRecords, ILogger logger)
@@ -426,7 +429,7 @@ public static class Barcode
             }
             catch (Exception ex)
             {
-                BarcodeLogger.PopulateIdCardUnhandledException(logger, ex, methodName: nameof(PopulateIdCard), elementId: elementId);
+                logger.PopulateIdCardUnhandledException(ex, methodName: nameof(PopulateIdCard), elementId: elementId);
                 throw;
             }
         }

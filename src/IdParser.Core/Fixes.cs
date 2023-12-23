@@ -8,11 +8,11 @@ internal static class Fixes
     /// <summary>
     /// If the header is invalid, try to correct it. Otherwise, return the string as-is.
     /// </summary>
-    internal static string TryToCorrectHeader(string input, ILoggerFactory loggerFactory)
+    internal static string TryToCorrectHeader(string rawPdf417Input, ILoggerFactory loggerFactory)
     {
         var logger = loggerFactory.CreateLogger(typeof(Fixes));
 
-        return input
+        return rawPdf417Input
             .RemoveUndefinedCharacters()
             .RemoveInvalidCharactersFromHeader(logger)
             .FixIncorrectHeader(logger)
@@ -65,8 +65,8 @@ internal static class Fixes
 
         if (input[0] != '@')
         {
-            // Text doesn't start with an input. Don't try to parse it further. Return it as-is.
-            FixesLogger.InputDoesntStartWithExpectedComplianceIndicator(logger, Barcode.ExpectedComplianceIndicator, nameof(RemoveInvalidCharactersFromHeader));
+            // Text doesn't start with a '@' character. Don't try to parse it further. Return it as-is.
+            logger.InputDoesntStartWithExpectedComplianceIndicator(Barcode.ExpectedComplianceIndicator, nameof(RemoveInvalidCharactersFromHeader));
             return input;
         }
 
@@ -84,7 +84,7 @@ internal static class Fixes
             // The string "ANSI " exists in the text. Starting with the expected header value, append everything from
             //   the input string after the "ANSI " text.
             // This ensures that the input text has a valid header.
-            FixesLogger.ForcefullyEnsuringValidHeader(logger, Barcode.ExpectedFileType);
+            logger.ForcefullyEnsuringValidHeader(Barcode.ExpectedFileType);
             return string.Concat(Barcode.ExpectedHeader, input.AsSpan(start: ixANSI + Barcode.ExpectedFileType.Length));
         }
 
@@ -97,7 +97,7 @@ internal static class Fixes
             // Earlier versions of the spec must have had "AMMVA" instead of "ANSI " in the header. Starting with 
             //   the current expected header value, append everything from the input string after the "AMMVA" text.
             // This ensures that the input text has a valid header.
-            FixesLogger.ReplacingOldAAMVAHeaderWithCurrentValidHeader(logger);
+            logger.ReplacingOldAAMVAHeaderWithCurrentValidHeader();
             return string.Concat(Barcode.ExpectedHeader, input.AsSpan(start: aamvaPosition + AAMVA.Length));
         }
 
@@ -119,7 +119,7 @@ internal static class Fixes
         {
             // Header is expected to be "@\n\u0030\rANSI ", but is currently "@\r\n\u0030A". Insert "\r\n" in
             //   front of the A. We'll correct this later by removing incorrect "\r" characters.
-            FixesLogger.FixingMalformedHeader(logger);
+            logger.FixingMalformedHeader();
             return input.Insert(startIndex: 4, value: $"{Barcode.ExpectedSegmentTerminator}{Barcode.ExpectedDataElementSeparator}");
         }
 
@@ -135,11 +135,11 @@ internal static class Fixes
         if (input.Contains("\r\n", StringComparison.Ordinal))
         {
             // Input contains CRLFs (\r\n). Remove all CRs (\r).
-            FixesLogger.TextContainsCarriageReturns(logger);
+            logger.TextContainsCarriageReturns();
             var inputWithoutCRs = input.Replace("\r", string.Empty, StringComparison.Ordinal);
 
             // Add back the one CR (\r) that is required in the header.
-            FixesLogger.AddingRequiredCarriageReturnToHeader(logger);
+            logger.AddingRequiredCarriageReturnToHeader();
             return $"{inputWithoutCRs.AsSpan(start: 0, length: 3)}\r{inputWithoutCRs.AsSpan(start: 4)}";
         }
 
