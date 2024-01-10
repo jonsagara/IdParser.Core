@@ -80,7 +80,7 @@ public static class Barcode
         var aamvaVersionResult = ParseAAMVAVersion(rawPdf417Input);
         var idCard = GetIdCardInstance(rawPdf417Input, aamvaVersionResult);
 
-#warning TODO: Need to bail here because we couldn't parse the IssuerIdentificationNumber, and we can't continue trying to parse the rest of the ID.
+#warning TODO: Need to bail here if we couldn't parse the IssuerIdentificationNumber, and we can't continue trying to parse the rest of the ID.
 
         // NOTE: any elementIds without a value will have null as the value, NOT "".
         var subfileRecords = GetSubfileRecords(rawPdf417Input, idCard.AAMVAVersionNumber.Value, idCard);
