@@ -18,6 +18,12 @@ internal static class ParserHelper
     }
 
     /// <summary>
+    /// Returns true if the string equals "NONE"; false otherwise.
+    /// </summary>
+    internal static bool StringIsNone([NotNullWhen(true)] string? input)
+        => input == "NONE";
+
+    /// <summary>
     /// Returns true if the string is null or white space, or contains one of the special strings denoting
     /// no value; false otherwise.
     /// </summary>
