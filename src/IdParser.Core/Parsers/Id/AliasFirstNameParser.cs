@@ -9,7 +9,7 @@ internal static class AliasFirstNameParser
         // DBG was designated for Medical Indicator/Codes only in AAMVA 2000 but we don't support this deprecated property
         if (version == AAMVAVersion.AAMVA2000)
         {
-            return FieldHelpers.UnparsedField<string?>(elementId: elementId, rawValue: rawValue, $"DBG was designated for Medical Indicator/Codes only in AAMVA 2000 but we don't support this deprecated property. AAMVA Version = {version}.");
+            return FieldHelpers.UnparsedField<string?>(elementId: elementId, rawValue: rawValue, $"Field 'DBG' was designated for Medical Indicator/Codes only in AAMVA 2000 but we don't support this deprecated property. AAMVA Version = {version}.");
         }
 
         var aliasFirstName = ParserHelper.StringHasNoValue(rawValue)

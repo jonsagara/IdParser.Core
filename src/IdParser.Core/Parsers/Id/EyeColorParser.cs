@@ -1,4 +1,6 @@
-﻿namespace IdParser.Core.Parsers.Id;
+﻿using IdParser.Core.Constants;
+
+namespace IdParser.Core.Parsers.Id;
 
 internal static class EyeColorParser
 {
@@ -110,7 +112,7 @@ internal static class EyeColorParser
             return ParsedValue(elementId: elementId, value: EyeColor.Pink, rawValue: rawValue);
         }
 
-        return FieldHelpers.UnparsedField<EyeColor?>(elementId: elementId, rawValue: rawValue, $"Eye color '{rawValue}' not supported by enum {nameof(EyeColor)}.");
+        return FieldHelpers.UnparsedField<EyeColor?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Eye Color from field '{SubfileElementIds.EyeColor}': '{rawValue}' is not supported by enum {nameof(EyeColor)}.");
     }
 
 

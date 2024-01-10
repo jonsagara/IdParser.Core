@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using IdParser.Core.Constants;
 
 namespace IdParser.Core.Parsers.Id;
 
@@ -15,6 +16,6 @@ internal static class WeightInKilogramsParser
 
         return short.TryParse(rawValue.AsSpan(), NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out short weight)
             ? FieldHelpers.ParsedField<Weight?>(elementId: elementId, value: new Weight(kilograms: weight), rawValue: rawValue)
-            : FieldHelpers.UnparsedField<Weight?>(elementId: elementId, rawValue: rawValue, error: $"Unable to parse Weight in kilograms from '{rawValue}'");
+            : FieldHelpers.UnparsedField<Weight?>(elementId: elementId, rawValue: rawValue, error: $"Unable to parse Weight in kilograms from field '{SubfileElementIds.WeightInKilograms}': '{rawValue}' is not a valid integer.");
     }
 }

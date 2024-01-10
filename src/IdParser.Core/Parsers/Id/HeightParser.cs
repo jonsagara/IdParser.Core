@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using IdParser.Core.Constants;
 
 namespace IdParser.Core.Parsers.Id;
 
@@ -10,7 +11,7 @@ internal static class HeightParser
 
         if (string.IsNullOrEmpty(rawValue) || rawValue.Length < 3)
         {
-            return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, "Height field has no value, or has less than 3 characters, and can't be parsed.");
+            return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Height from field '{SubfileElementIds.Height}': the field has no value, or has less than 3 characters: '{rawValue}'");
         }
 
         if (version == AAMVAVersion.AAMVA2000)
@@ -18,13 +19,13 @@ internal static class HeightParser
             var feetSpan = rawValue.AsSpan(start: 0, length: 1);
             if (!int.TryParse(feetSpan, NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out int feet))
             {
-                return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Height feet from '{feetSpan}'.");
+                return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Height Feet from field '{SubfileElementIds.Height}': '{feetSpan}' is not a valid integer.");
             }
 
             var inchesSpan = rawValue.AsSpan(start: 1, length: 2);
             if (!int.TryParse(inchesSpan, NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out int inches))
             {
-                return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Height inches from '{inchesSpan}'.");
+                return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Height Inches from field '{SubfileElementIds.Height}': '{inchesSpan}' is not a valid integer.");
             }
 
             return FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(feet: feet, inches: inches), rawValue: rawValue);
@@ -37,6 +38,6 @@ internal static class HeightParser
                 : FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(totalInches: height), rawValue: rawValue);
         }
 
-        return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, error: $"Unable to parse Height from '{rawValue}'.");
+        return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, error: $"Unable to parse Height from field '{SubfileElementIds.Height}': '{rawValue}'.");
     }
 }
