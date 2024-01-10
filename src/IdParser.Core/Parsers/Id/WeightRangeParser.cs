@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using IdParser.Core.Constants;
 
 namespace IdParser.Core.Parsers.Id;
 
@@ -15,6 +16,6 @@ internal static class WeightRangeParser
 
         return int.TryParse(rawValue.AsSpan(), NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out int weightRange)
             ? FieldHelpers.ParsedField(elementId: elementId, value: (WeightRange?)weightRange, rawValue: rawValue)
-            : FieldHelpers.UnparsedField<WeightRange?>(elementId: elementId, rawValue: rawValue, error: $"Weight range '{rawValue}' not supported by enum {nameof(WeightRange)}.");
+            : FieldHelpers.UnparsedField<WeightRange?>(elementId: elementId, rawValue: rawValue, error: $"Unable to parse Weight Range from field '{SubfileElementIds.WeightRange}': '{rawValue}' is not supported by enum {nameof(WeightRange)}.");
     }
 }

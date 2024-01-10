@@ -1,4 +1,6 @@
-﻿namespace IdParser.Core.Parsers.Id;
+﻿using IdParser.Core.Constants;
+
+namespace IdParser.Core.Parsers.Id;
 
 internal static class HairColorParser
 {
@@ -91,7 +93,7 @@ internal static class HairColorParser
             return ParsedValue(elementId: elementId, value: HairColor.White, rawValue: rawValue);
         }
 
-        return FieldHelpers.UnparsedField<HairColor?>(elementId: elementId, rawValue: rawValue, $"Hair color '{rawValue}' not supported by enum {nameof(HairColor)}.");
+        return FieldHelpers.UnparsedField<HairColor?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Hair Color from field '{SubfileElementIds.HairColor}': '{rawValue}' is not supported by enum {nameof(HairColor)}.");
     }
 
 

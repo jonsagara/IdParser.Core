@@ -66,7 +66,7 @@ internal static class ParserHelper
             return FieldHelpers.ParsedField<DateTime?>(elementId: elementId, value: secondAttemptResult, rawValue: rawValue);
         }
 
-        return FieldHelpers.UnparsedField<DateTime?>(elementId: elementId, rawValue: rawValue, $"[{elementId}] Failed to parse the date '{rawValue}' for country '{country}' using version '{version}'.");
+        return FieldHelpers.UnparsedField<DateTime?>(elementId: elementId, rawValue: rawValue, $"Unable to parse the date '{rawValue}' from field '{elementId}' for country '{country}' using version '{version}'.");
     }
 
     /// <summary>
