@@ -596,6 +596,46 @@ public class DriversLicenseTests : BaseTest
     }
 
     [Fact]
+    public void TestTX_DBDNONE_License()
+    {
+        var expected = new DriversLicense
+        {
+            FirstName = FV<string?>(SubfileElementIds.FirstName, "ROBERTO"),
+            LastName = FV<string?>(SubfileElementIds.LastName, "GONSALVES"),
+
+            StreetLine1 = FV<string?>(SubfileElementIds.StreetLine1, "1254 FIRST"),
+            City = FV<string?>(SubfileElementIds.City, "EL PASO"),
+            JurisdictionCode = FV<string?>(SubfileElementIds.JurisdictionCode, "TX"),
+            PostalCode = FV<string?>(SubfileElementIds.PostalCode, "79936"),
+            Country = FV<Country>(SubfileElementIds.Country, Country.USA),
+
+            DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(1993, 10, 24)),
+            Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
+            Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 65)),
+            EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Brown),
+            HairColor = FV<HairColor?>(SubfileElementIds.HairColor, HairColor.Brown),
+
+            IdNumber = FV(SubfileElementIds.IdNumber, "37110073"),
+            AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2005),
+
+            IssueDate = FV<DateTime?>(SubfileElementIds.IssueDate, null),
+            ExpirationDate = FV<DateTime?>(SubfileElementIds.ExpirationDate, new DateTime(2019, 10, 24)),
+
+            VehicleClass = FV<string?>(SubfileElementIds.VehicleClass, "C"),
+        };
+
+        var file = License("TX_DBDNONE");
+        var parseResult = Barcode.Parse(file, Validation.None);
+        LogUnhandledElementIds(parseResult.Card);
+
+        AssertIdCard(expected, parseResult.Card);
+        AssertLicense(expected, parseResult.Card);
+
+        Assert.Equal("79936", parseResult.Card.PostalCodeDisplay);
+        Assert.Equal("Texas", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
+    }
+
+    [Fact]
     public void TestPALicense()
     {
         var expected = new DriversLicense
