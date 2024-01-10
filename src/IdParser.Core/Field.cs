@@ -17,7 +17,14 @@ public readonly record struct Field<T>(
     string? RawValue,
     string? Error,
     bool Present
-    );
+    )
+{
+    /// <summary>
+    /// Returns true if the field has a non-null, non-white space <see cref="Error"/> message; false otherwise.
+    /// </summary>
+    public bool HasError
+        => !string.IsNullOrWhiteSpace(Error);
+}
 
 internal static class FieldHelpers
 {
