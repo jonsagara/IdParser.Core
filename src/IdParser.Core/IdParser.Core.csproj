@@ -59,5 +59,9 @@
 	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
+	
+	<ItemGroup>
+		<InternalsVisibleTo Include="IdParser.Core.Test" />
+	</ItemGroup>
 
 </Project>
