@@ -9,9 +9,14 @@ internal static class NameParser
     private const char SpaceSeparator = ' ';
 
     // AAMVA 2000
-    internal static NameParts? Parse(string input)
+    internal static NameParts? Parse(string elementId, string? rawValue)
     {
-        ArgumentNullException.ThrowIfNull(input);
+        ArgumentNullException.ThrowIfNull(elementId);
+
+        if (ParserHelper.StringHasNoValue(rawValue))
+        {
+            return null;
+        }
 
         // According to A.2.1 (AAMVA Person Name Rule) in the D20 Data Dictionary,
         // last names can only contain alphabetic characters and up to one embedded hyphen.
@@ -23,15 +28,15 @@ internal static class NameParser
         // As such, don't throw if we can't parse.
 
         // Jurisdictions that (mostly) follow the AAMVA 2000 standard
-        if (input.IndexOfAny(StandardSeparators) >= 0)
+        if (rawValue.IndexOfAny(StandardSeparators) >= 0)
         {
-            return ParseWithStandardSeparators(input);
+            return ParseWithStandardSeparators(rawValue);
         }
 
         // Jurisdictions like Pennsylvania that use non-standard separators
-        if (input.Contains(SpaceSeparator, StringComparison.Ordinal))
+        if (rawValue.Contains(SpaceSeparator, StringComparison.Ordinal))
         {
-            return ParseWithSpaceSeparator(input);
+            return ParseWithSpaceSeparator(rawValue);
         }
 
         return null;
@@ -84,7 +89,7 @@ internal static class NameParser
 
     /// <summary>
     /// Parse the few suffixes allowed by AAMVA. Any other non-standard suffix (e.g. ESQ)
-    /// will not be parsed and set in the <see cref="Name.Suffix"/> property.
+    /// will not be parsed and set.
     /// </summary>
     private static string? ParseSuffix(List<string> names)
     {

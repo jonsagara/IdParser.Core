@@ -4,24 +4,29 @@ namespace IdParser.Core.Parsers.Id;
 
 internal static class StreetLine2Parser
 {
-    internal static string? Parse(string input, Address address)
+    internal static Field<string?> Parse(string elementId, string? rawValue, string? city, string? jurisdictionCode, string? postalCode)
     {
-        ArgumentNullException.ThrowIfNull(address);
+        ArgumentNullException.ThrowIfNull(elementId);
 
-        if (ParserHelper.StringHasNoValue(input))
+        string? streetLine2;
+
+        if (ParserHelper.StringHasNoValue(rawValue))
         {
-            return null;
+            streetLine2 = null;
+        }
+        else if (city is not null &&
+            jurisdictionCode is not null &&
+            postalCode is not null &&
+            Regex.IsMatch(rawValue, $@"\s*{city}(\s|,)*{jurisdictionCode}(\s|,)*{postalCode}"))
+        {
+            // Jurisdictions like Wyoming set the StreetLine2 to the City, State, and Postal Code when it
+            streetLine2 = null;
+        }
+        else
+        {
+            streetLine2 = rawValue?.TrimEnd(',');
         }
 
-        // Jurisdictions like Wyoming set the StreetLine2 to the City, State, and Postal Code when it
-        if (address.City is not null &&
-            address.JurisdictionCode is not null &&
-            address.PostalCode is not null &&
-            Regex.IsMatch(input, $@"\s*{address.City}(\s|,)*{address.JurisdictionCode}(\s|,)*{address.PostalCode}"))
-        {
-            return null;
-        }
-
-        return input.TrimEnd(',');
+        return FieldHelpers.ParsedField(elementId: elementId, value: streetLine2, rawValue: rawValue);
     }
 }

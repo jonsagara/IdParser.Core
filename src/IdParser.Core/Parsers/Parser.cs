@@ -6,10 +6,9 @@ namespace IdParser.Core.Parsers;
 
 internal static class Parser
 {
-    internal static bool ParseAndSetIdElements(string elementId, string data, Country country, AAMVAVersion version, IdentificationCard idCard)
+    internal static bool ParseAndSetIdElements(string elementId, string? rawValue, Country country, AAMVAVersion version, IdentificationCard idCard)
     {
         ArgumentNullException.ThrowIfNull(elementId);
-        ArgumentNullException.ThrowIfNull(data);
         ArgumentNullException.ThrowIfNull(idCard);
 
         var handled = true;
@@ -17,187 +16,187 @@ internal static class Parser
         switch (elementId)
         {
             case SubfileElementIds.AliasFirstName:
-                idCard.Name.AliasFirst = AliasFirstNameParser.Parse(input: data, version);
+                idCard.AliasFirstName = AliasFirstNameParser.Parse(elementId: elementId, rawValue: rawValue, version);
                 break;
 
             case SubfileElementIds.AliasLastName:
-                idCard.Name.AliasLast = AliasLastNameParser.Parse(input: data);
+                idCard.AliasLastName = AliasLastNameParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.AliasSuffix:
-                idCard.Name.AliasSuffix = AliasSuffixParser.Parse(input: data);
+                idCard.AliasSuffix = AliasSuffixParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.AuditInformation:
-                idCard.AuditInformation = AuditInformationParser.Parse(input: data);
+                idCard.AuditInformation = AuditInformationParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.City:
-                idCard.Address.City = CityParser.Parse(input: data);
+                idCard.City = CityParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.ComplianceType:
-                idCard.ComplianceType = ComplianceTypeParser.Parse(input: data);
+                idCard.ComplianceType = ComplianceTypeParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.DateOfBirth:
-                idCard.DateOfBirth = DateOfBirthParser.Parse(input: data, country, version);
+                idCard.DateOfBirth = DateOfBirthParser.Parse(elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.DocumentDiscriminator:
-                idCard.DocumentDiscriminator = DocumentDiscriminatorParser.Parse(input: data);
+                idCard.DocumentDiscriminator = DocumentDiscriminatorParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.Ethnicity:
-                idCard.Ethnicity = EthnicityParser.Parse(input: data);
+                idCard.Ethnicity = EthnicityParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.ExpirationDate:
-                idCard.ExpirationDate = ExpirationDateParser.Parse(input: data, country, version);
+                idCard.ExpirationDate = ExpirationDateParser.Parse(elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.EyeColor:
-                idCard.EyeColor = EyeColorParser.Parse(input: data);
+                idCard.EyeColor = EyeColorParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.FirstName:
-                var firstNameParts = FirstNameParser.Parse(input: data);
-                idCard.Name.First = firstNameParts?.First;
+                var firstNameParts = FirstNameParser.Parse(rawValue: rawValue);
+                idCard.FirstName = FieldHelpers.ParsedField(elementId: elementId, value: firstNameParts?.First, rawValue: rawValue);
                 // If we didn't parse a middle name out of the input, keep the existing middle name.
-                idCard.Name.Middle = firstNameParts?.Middle ?? idCard.Name.Middle;
+                idCard.MiddleName = FieldHelpers.ParsedField(elementId: elementId, value: firstNameParts?.Middle ?? idCard.MiddleName.Value, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.GivenName:
-                var givenNameParts = GivenNameParser.Parse(input: data);
-                idCard.Name.First = givenNameParts.First;
+                var givenNameParts = GivenNameParser.Parse(rawValue: rawValue);
+                idCard.FirstName = FieldHelpers.ParsedField(elementId: elementId, value: givenNameParts?.First, rawValue: rawValue);
                 // If we didn't parse a middle name out of the input, keep the existing middle name.
-                idCard.Name.Middle = givenNameParts.Middle ?? idCard.Name.Middle;
+                idCard.MiddleName = FieldHelpers.ParsedField(elementId: elementId, value: givenNameParts?.Middle ?? idCard.MiddleName.Value, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.HairColor:
-                idCard.HairColor = HairColorParser.Parse(input: data);
+                idCard.HairColor = HairColorParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.HasTemporaryLawfulStatus:
-                idCard.HasTemporaryLawfulStatus = HasTemporaryLawfulStatusParser.Parse(input: data);
+                idCard.HasTemporaryLawfulStatus = HasTemporaryLawfulStatusParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.Height:
-                idCard.Height = HeightParser.Parse(input: data, version);
+                idCard.Height = HeightParser.Parse(elementId: elementId, rawValue: rawValue, version);
                 break;
 
             case SubfileElementIds.IdNumber:
-                idCard.IdNumber = IdNumberParser.Parse(input: data);
+                idCard.IdNumber = IdNumberParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.InventoryControlNumber:
-                idCard.InventoryControlNumber = InventoryControlNumberParser.Parse(input: data);
+                idCard.InventoryControlNumber = InventoryControlNumberParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.IsOrganDonor:
-                idCard.IsOrganDonor = IsOrganDonorParser.Parse(input: data);
+                idCard.IsOrganDonor = IsOrganDonorParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.IsOrganDonorLegacy:
-                idCard.IsOrganDonor = IsOrganDonorLegacyParser.Parse(data, version);
+                idCard.IsOrganDonor = IsOrganDonorLegacyParser.Parse(elementId: elementId, rawValue: rawValue, version);
                 break;
 
             case SubfileElementIds.IssueDate:
-                idCard.IssueDate = IssueDateParser.Parse(input: data, country, version);
+                idCard.IssueDate = IssueDateParser.Parse(elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.IsVeteran:
-                idCard.IsVeteran = IsVeteranParser.Parse(input: data);
+                idCard.IsVeteran = IsVeteranParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.JurisdictionCode:
-                idCard.Address.JurisdictionCode = JurisdictionCodeParser.Parse(input: data);
+                idCard.JurisdictionCode = JurisdictionCodeParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.LastName:
-                idCard.Name.Last = LastNameParser.Parse(input: data);
+                idCard.LastName = LastNameParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.MiddleName:
                 // Some jurisdictions like Wyoming put the middle initial in the FirstName field. If we have
                 //   already written that, and if middle name is null, keep the one parsed from first name.
-                idCard.Name.Middle = MiddleNameParser.Parse(input: data) ?? idCard.Name.Middle;
+                idCard.MiddleName = MiddleNameParser.Parse(elementId: elementId, rawValue: rawValue ?? idCard.MiddleName.Value);
                 break;
 
             case SubfileElementIds.Name:
-                var nameParts = NameParser.Parse(input: data);
-                idCard.Name.First = nameParts?.First;
-                idCard.Name.Middle = nameParts?.Middle;
-                idCard.Name.Last = nameParts?.Last;
-                idCard.Name.Suffix = nameParts?.Suffix;
+                var nameParts = NameParser.Parse(elementId: elementId, rawValue: rawValue);
+                idCard.FirstName = FieldHelpers.ParsedField(elementId: elementId, value: nameParts?.First, rawValue: rawValue);
+                idCard.MiddleName = FieldHelpers.ParsedField(elementId: elementId, value: nameParts?.Middle, rawValue: rawValue);
+                idCard.LastName = FieldHelpers.ParsedField(elementId: elementId, value: nameParts?.Last, rawValue: rawValue);
+                idCard.Suffix = FieldHelpers.ParsedField(elementId: elementId, value: nameParts?.Suffix, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.NameSuffix:
-                idCard.Name.Suffix = NameSuffixParser.Parse(input: data);
+                idCard.Suffix = NameSuffixParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.PlaceOfBirth:
-                idCard.PlaceOfBirth = PlaceOfBirthParser.Parse(input: data);
+                idCard.PlaceOfBirth = PlaceOfBirthParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.PostalCode:
-                idCard.Address.PostalCode = PostalCodeParser.Parse(input: data);
+                idCard.PostalCode = PostalCodeParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.RevisionDate:
-                idCard.RevisionDate = RevisionDateParser.Parse(input: data, country, version);
+                idCard.RevisionDate = RevisionDateParser.Parse(elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.Sex:
-                idCard.Sex = SexParser.Parse(input: data);
+                idCard.Sex = SexParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StreetLine1:
-                idCard.Address.StreetLine1 = StreetLine1Parser.Parse(input: data);
+                idCard.StreetLine1 = StreetLine1Parser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StreetLine1Legacy:
-                idCard.Address.StreetLine1 = StreetLine1LegacyParser.Parse(input: data);
+                idCard.StreetLine1 = StreetLine1LegacyParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StreetLine2:
-                idCard.Address.StreetLine2 = StreetLine2Parser.Parse(input: data, idCard.Address);
+                idCard.StreetLine2 = StreetLine2Parser.Parse(elementId: elementId, rawValue: rawValue, city: idCard.City.Value, jurisdictionCode: idCard.JurisdictionCode.Value, postalCode: idCard.PostalCode.Value);
                 break;
 
             case SubfileElementIds.Under18Until:
-                idCard.Under18Until = Under18UntilParser.Parse(input: data, country, version);
+                idCard.Under18Until = Under18UntilParser.Parse(elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.Under19Until:
-                idCard.Under19Until = Under19UntilParser.Parse(input: data, country, version);
+                idCard.Under19Until = Under19UntilParser.Parse(elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.Under21Until:
-                idCard.Under21Until = Under21UntilParser.Parse(input: data, country, version);
+                idCard.Under21Until = Under21UntilParser.Parse(elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.WasFirstNameTruncated:
-                idCard.Name.WasFirstTruncated = WasFirstNameTruncatedParser.Parse(input: data);
+                idCard.WasFirstNameTruncated = WasFirstNameTruncatedParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.WasLastNameTruncated:
-                idCard.Name.WasLastTruncated = WasLastNameTruncatedParser.Parse(input: data);
+                idCard.WasLastNameTruncated = WasLastNameTruncatedParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.WasMiddleNameTruncated:
-                idCard.Name.WasMiddleTruncated = WasMiddleNameTruncatedParser.Parse(input: data);
+                idCard.WasMiddleNameTruncated = WasMiddleNameTruncatedParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.WeightInKilograms:
-                idCard.Weight = WeightInKilogramsParser.Parse(input: data);
+                idCard.Weight = WeightInKilogramsParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.WeightInPounds:
-                idCard.Weight = WeightInPoundsParser.Parse(input: data);
+                idCard.Weight = WeightInPoundsParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.WeightRange:
-                idCard.WeightRange = WeightRangeParser.Parse(input: data);
+                idCard.WeightRange = WeightRangeParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             default:
@@ -208,10 +207,9 @@ internal static class Parser
         return handled;
     }
 
-    internal static bool ParseAndSetDriversLicenseElements(string elementId, string data, Country country, AAMVAVersion version, DriversLicense driversLicense)
+    internal static bool ParseAndSetDriversLicenseElements(string elementId, string? rawValue, Country country, AAMVAVersion version, DriversLicense driversLicense)
     {
         ArgumentNullException.ThrowIfNull(elementId);
-        ArgumentNullException.ThrowIfNull(data);
         ArgumentNullException.ThrowIfNull(driversLicense);
 
         var handled = true;
@@ -219,55 +217,55 @@ internal static class Parser
         switch (elementId)
         {
             case SubfileElementIds.EndorsementCodeDescription:
-                driversLicense.Jurisdiction.EndorsementCodeDescription = EndorsementCodeDescriptionParser.Parse(input: data);
+                driversLicense.EndorsementCodeDescription = EndorsementCodeDescriptionParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.EndorsementCodes:
-                driversLicense.Jurisdiction.EndorsementCodes = EndorsementCodesParser.Parse(input: data);
+                driversLicense.EndorsementCodes = EndorsementCodesParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.EndorsementCodesLegacy:
-                driversLicense.Jurisdiction.EndorsementCodes = EndorsementCodesLegacyParser.Parse(input: data);
+                driversLicense.EndorsementCodes = EndorsementCodesLegacyParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.HazmatEndorsementExpirationDate:
-                driversLicense.HazmatEndorsementExpirationDate = HazmatEndorsementExpirationDateParser.Parse(input: data, country, version);
+                driversLicense.HazmatEndorsementExpirationDate = HazmatEndorsementExpirationDateParser.Parse(elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.RestrictionCodeDescription:
-                driversLicense.Jurisdiction.RestrictionCodeDescription = RestrictionCodeDescriptionParser.Parse(input: data);
+                driversLicense.RestrictionCodeDescription = RestrictionCodeDescriptionParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.RestrictionCodes:
-                driversLicense.Jurisdiction.RestrictionCodes = RestrictionCodesParser.Parse(input: data);
+                driversLicense.RestrictionCodes = RestrictionCodesParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.RestrictionCodesLegacy:
-                driversLicense.Jurisdiction.RestrictionCodes = RestrictionCodesLegacyParser.Parse(input: data);
+                driversLicense.RestrictionCodes = RestrictionCodesLegacyParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StandardEndorsementCode:
-                driversLicense.StandardEndorsementCode = StandardEndorsementCodeParser.Parse(input: data);
+                driversLicense.StandardEndorsementCode = StandardEndorsementCodeParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StandardRestrictionCode:
-                driversLicense.StandardRestrictionCode = StandardRestrictionCodeParser.Parse(input: data);
+                driversLicense.StandardRestrictionCode = StandardRestrictionCodeParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StandardVehicleClassification:
-                driversLicense.StandardVehicleClassification = StandardVehicleClassificationParser.Parse(input: data);
+                driversLicense.StandardVehicleClassification = StandardVehicleClassificationParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.VehicleClassificationDescription:
-                driversLicense.Jurisdiction.VehicleClassificationDescription = VehicleClassificationDescriptionParser.Parse(input: data);
+                driversLicense.VehicleClassificationDescription = VehicleClassificationDescriptionParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.VehicleClass:
-                driversLicense.Jurisdiction.VehicleClass = VehicleClassParser.Parse(input: data);
+                driversLicense.VehicleClass = VehicleClassParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.VehicleClassLegacy:
-                driversLicense.Jurisdiction.VehicleClass = VehicleClassLegacyParser.Parse(input: data);
+                driversLicense.VehicleClass = VehicleClassLegacyParser.Parse(elementId: elementId, rawValue: rawValue);
                 break;
 
             default:

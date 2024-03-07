@@ -13,58 +13,66 @@ public class BaseTest
         Console.SetOut(_output);
     }
 
-    protected string Id(string jurisdiction) => File.ReadAllText(Path.Combine("Ids", $"{jurisdiction}.txt"));
+    protected string Id(string jurisdiction) 
+        => File.ReadAllText(Path.Combine("Ids", $"{jurisdiction}.txt"));
 
-    protected string License(string jurisdiction) => File.ReadAllText(Path.Combine("Licenses", $"{jurisdiction}.txt"));
+    protected string License(string jurisdiction) 
+        => File.ReadAllText(Path.Combine("Licenses", $"{jurisdiction}.txt"));
+
+    /// <summary>
+    /// Create a Field value. elementId and rawValue don't matter.
+    /// </summary>
+    protected Field<T> FV<T>(string? elementId, T value)
+        => FieldHelpers.ParsedField(elementId, value, rawValue: null);
 
     protected void AssertIdCard(IdentificationCard expected, IdentificationCard actual)
     {
         Assert.NotNull(expected);
         Assert.NotNull(actual);
 
-        Assert.Equal(expected.Name.First, actual.Name.First);
-        Assert.Equal(expected.Name.Middle, actual.Name.Middle);
-        Assert.Equal(expected.Name.Last, actual.Name.Last);
-        Assert.Equal(expected.Name.Suffix, actual.Name.Suffix);
+        Assert.Equal(expected.FirstName.Value, actual.FirstName.Value);
+        Assert.Equal(expected.MiddleName.Value, actual.MiddleName.Value);
+        Assert.Equal(expected.LastName.Value, actual.LastName.Value);
+        Assert.Equal(expected.Suffix.Value, actual.Suffix.Value);
 
-        Assert.Equal(expected.Name.WasFirstTruncated, actual.Name.WasFirstTruncated);
-        Assert.Equal(expected.Name.WasMiddleTruncated, actual.Name.WasMiddleTruncated);
-        Assert.Equal(expected.Name.WasLastTruncated, actual.Name.WasLastTruncated);
+        Assert.Equal(expected.WasFirstNameTruncated.Value, actual.WasFirstNameTruncated.Value);
+        Assert.Equal(expected.WasMiddleNameTruncated.Value, actual.WasMiddleNameTruncated.Value);
+        Assert.Equal(expected.WasLastNameTruncated.Value, actual.WasLastNameTruncated.Value);
 
-        Assert.Equal(expected.Address.City, actual.Address.City);
-        Assert.Equal(expected.Address.StreetLine1, actual.Address.StreetLine1);
-        Assert.Equal(expected.Address.StreetLine2, actual.Address.StreetLine2);
-        Assert.Equal(expected.Address.JurisdictionCode, actual.Address.JurisdictionCode);
-        Assert.Equal(expected.Address.JurisdictionCode, actual.IssuerIdentificationNumber.GetAbbreviationOrDefault());
-        Assert.Equal(expected.Address.PostalCode, actual.Address.PostalCode);
-        Assert.Equal(expected.Address.Country, actual.Address.Country);
+        Assert.Equal(expected.City.Value, actual.City.Value);
+        Assert.Equal(expected.StreetLine1.Value, actual.StreetLine1.Value);
+        Assert.Equal(expected.StreetLine2.Value, actual.StreetLine2.Value);
+        Assert.Equal(expected.JurisdictionCode.Value, actual.JurisdictionCode.Value);
+        Assert.Equal(expected.JurisdictionCode.Value, actual.IssuerIdentificationNumber.Value.GetAbbreviationOrDefault());
+        Assert.Equal(expected.PostalCode.Value, actual.PostalCode.Value);
+        Assert.Equal(expected.Country.Value, actual.Country.Value);
 
-        Assert.Equal(expected.DateOfBirth, actual.DateOfBirth);
-        Assert.Equal(expected.PlaceOfBirth, actual.PlaceOfBirth);
-        Assert.Equal(expected.Sex, actual.Sex);
-        Assert.Equal(expected.Height, actual.Height);
-        Assert.Equal(expected.Weight, actual.Weight);
-        Assert.Equal(expected.WeightRange, actual.WeightRange);
+        Assert.Equal(expected.DateOfBirth.Value, actual.DateOfBirth.Value);
+        Assert.Equal(expected.PlaceOfBirth.Value, actual.PlaceOfBirth.Value);
+        Assert.Equal(expected.Sex.Value, actual.Sex.Value);
+        Assert.Equal(expected.Height.Value, actual.Height.Value);
+        Assert.Equal(expected.Weight.Value, actual.Weight.Value);
+        Assert.Equal(expected.WeightRange.Value, actual.WeightRange.Value);
 
-        Assert.Equal(expected.EyeColor, actual.EyeColor);
-        Assert.Equal(expected.HairColor, actual.HairColor);
-        Assert.Equal(expected.Ethnicity, actual.Ethnicity);
+        Assert.Equal(expected.EyeColor.Value, actual.EyeColor.Value);
+        Assert.Equal(expected.HairColor.Value, actual.HairColor.Value);
+        Assert.Equal(expected.Ethnicity.Value, actual.Ethnicity.Value);
 
-        Assert.Equal(expected.IdNumber, actual.IdNumber);
-        Assert.Equal(expected.AAMVAVersionNumber, actual.AAMVAVersionNumber);
+        Assert.Equal(expected.IdNumber.Value, actual.IdNumber.Value);
+        Assert.Equal(expected.AAMVAVersionNumber.Value, actual.AAMVAVersionNumber.Value);
 
-        Assert.Equal(expected.IssueDate, actual.IssueDate);
-        Assert.Equal(expected.ExpirationDate, actual.ExpirationDate);
-        Assert.Equal(expected.RevisionDate, actual.RevisionDate);
+        Assert.Equal(expected.IssueDate.Value, actual.IssueDate.Value);
+        Assert.Equal(expected.ExpirationDate.Value, actual.ExpirationDate.Value);
+        Assert.Equal(expected.RevisionDate.Value, actual.RevisionDate.Value);
 
-        Assert.Equal(expected.Under18Until, actual.Under18Until);
-        Assert.Equal(expected.Under19Until, actual.Under19Until);
-        Assert.Equal(expected.Under21Until, actual.Under21Until);
+        Assert.Equal(expected.Under18Until.Value, actual.Under18Until.Value);
+        Assert.Equal(expected.Under19Until.Value, actual.Under19Until.Value);
+        Assert.Equal(expected.Under21Until.Value, actual.Under21Until.Value);
 
-        Assert.Equal(expected.ComplianceType, actual.ComplianceType);
-        Assert.Equal(expected.HasTemporaryLawfulStatus, actual.HasTemporaryLawfulStatus);
-        Assert.Equal(expected.IsOrganDonor, actual.IsOrganDonor);
-        Assert.Equal(expected.IsVeteran, actual.IsVeteran);
+        Assert.Equal(expected.ComplianceType.Value, actual.ComplianceType.Value);
+        Assert.Equal(expected.HasTemporaryLawfulStatus.Value, actual.HasTemporaryLawfulStatus.Value);
+        Assert.Equal(expected.IsOrganDonor.Value, actual.IsOrganDonor.Value);
+        Assert.Equal(expected.IsVeteran.Value, actual.IsVeteran.Value);
     }
 
     protected void AssertLicense(DriversLicense expected, IdentificationCard actualId)
@@ -74,28 +82,27 @@ public class BaseTest
         Assert.IsType<DriversLicense>(actualId);
 
         var actual = (DriversLicense)actualId;
-        Assert.NotNull(actual.Jurisdiction);
 
-        Assert.Equal(expected.Jurisdiction.VehicleClass, actual.Jurisdiction.VehicleClass);
-        Assert.Equal(expected.Jurisdiction.RestrictionCodes, actual.Jurisdiction.RestrictionCodes);
-        Assert.Equal(expected.Jurisdiction.EndorsementCodes, actual.Jurisdiction.EndorsementCodes);
-        Assert.Equal(expected.Jurisdiction.VehicleClassificationDescription, actual.Jurisdiction.VehicleClassificationDescription);
-        Assert.Equal(expected.Jurisdiction.EndorsementCodeDescription, actual.Jurisdiction.EndorsementCodeDescription);
-        Assert.Equal(expected.Jurisdiction.RestrictionCodeDescription, actual.Jurisdiction.RestrictionCodeDescription);
+        Assert.Equal(expected.VehicleClass.Value, actual.VehicleClass.Value);
+        Assert.Equal(expected.RestrictionCodes.Value, actual.RestrictionCodes.Value);
+        Assert.Equal(expected.EndorsementCodes.Value, actual.EndorsementCodes.Value);
+        Assert.Equal(expected.VehicleClassificationDescription.Value, actual.VehicleClassificationDescription.Value);
+        Assert.Equal(expected.EndorsementCodeDescription.Value, actual.EndorsementCodeDescription.Value);
+        Assert.Equal(expected.RestrictionCodeDescription.Value, actual.RestrictionCodeDescription.Value);
 
-        Assert.Equal(expected.StandardVehicleClassification, actual.StandardVehicleClassification);
-        Assert.Equal(expected.StandardEndorsementCode, actual.StandardEndorsementCode);
-        Assert.Equal(expected.StandardRestrictionCode, actual.StandardRestrictionCode);
-        Assert.Equal(expected.HazmatEndorsementExpirationDate, actual.HazmatEndorsementExpirationDate);
+        Assert.Equal(expected.StandardVehicleClassification.Value, actual.StandardVehicleClassification.Value);
+        Assert.Equal(expected.StandardEndorsementCode.Value, actual.StandardEndorsementCode.Value);
+        Assert.Equal(expected.StandardRestrictionCode.Value, actual.StandardRestrictionCode.Value);
+        Assert.Equal(expected.HazmatEndorsementExpirationDate.Value, actual.HazmatEndorsementExpirationDate.Value);
     }
 
-    protected void LogUnhandledElementIds(IdentificationCard idCard, IReadOnlyCollection<string> unhandledElementIds)
+    protected void LogUnhandledElementIds(IdentificationCard idCard)
     {
-        if (unhandledElementIds.Count == 0)
+        if (idCard.UnhandledElementIds.Count == 0)
         {
             return;
         }
 
-        _output.WriteLine($"State '{idCard.IssuerIdentificationNumber.GetAbbreviationOrDefault()}' has unhandled element Ids: {string.Join(", ", unhandledElementIds)}.");
+        _output.WriteLine($"State '{idCard.IssuerIdentificationNumber.Value.GetAbbreviationOrDefault()}' has unhandled element Ids: {string.Join(", ", idCard.UnhandledElementIds)}.");
     }
 }

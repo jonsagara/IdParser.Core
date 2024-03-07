@@ -1,21 +1,29 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using IdParser.Core.Constants;
 
 namespace IdParser.Core.Parsers.Id;
 
 internal static class WeightInPoundsParser
 {
-    internal static Weight Parse(string input)
+    internal static Field<Weight?> Parse(string elementId, string? rawValue)
     {
-        if (TryParseMetric(input, out Weight? weight))
+        ArgumentNullException.ThrowIfNull(elementId);
+
+        if (ParserHelper.StringHasNoValue(rawValue))
         {
-            return weight;
+            return FieldHelpers.ParsedField<Weight?>(elementId: elementId, value: null, rawValue: rawValue);
         }
 
-        var weightLbs = short.Parse(input.AsSpan(), provider: CultureInfo.InvariantCulture);
+        if (TryParseMetric(rawValue, out Weight? weight))
+        {
+            return FieldHelpers.ParsedField<Weight?>(elementId: elementId, value: weight, rawValue: rawValue);
+        }
 
-        return new Weight(pounds: weightLbs);
+        return short.TryParse(rawValue.AsSpan(), NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out short weightLbs)
+            ? FieldHelpers.ParsedField<Weight?>(elementId: elementId, value: new Weight(pounds: weightLbs), rawValue: rawValue)
+            : FieldHelpers.UnparsedField<Weight?>(elementId: elementId, rawValue: rawValue, error: $"Unable to parse Weight in pounds from field '{SubfileElementIds.WeightInPounds}': '{rawValue}' is not a valid integer.");
     }
 
 
@@ -32,6 +40,7 @@ internal static class WeightInPoundsParser
 
         if (match.Success)
         {
+            // Parse is okay here because the regex guarantees that the Weight capturing group will only contain digits.
             var weightKg = short.Parse(match.Groups["Weight"].Value.AsSpan(), provider: CultureInfo.InvariantCulture);
 
             weight = new Weight(kilograms: weightKg);

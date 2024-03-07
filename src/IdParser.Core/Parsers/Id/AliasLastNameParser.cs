@@ -2,13 +2,14 @@
 
 internal static class AliasLastNameParser
 {
-    internal static string? Parse(string input)
+    internal static Field<string?> Parse(string elementId, string? rawValue)
     {
-        if (ParserHelper.StringHasNoValue(input))
-        {
-            return null;
-        }
+        ArgumentNullException.ThrowIfNull(elementId);
 
-        return input;
+        var aliasLastName = ParserHelper.StringHasNoValue(rawValue)
+            ? null
+            : rawValue;
+
+        return FieldHelpers.ParsedField(elementId: elementId, value: aliasLastName, rawValue: rawValue);
     }
 }

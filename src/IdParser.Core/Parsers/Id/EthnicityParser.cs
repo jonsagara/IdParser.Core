@@ -2,38 +2,44 @@
 
 internal static class EthnicityParser
 {
-    internal static Ethnicity? Parse(string input)
+    internal static Field<Ethnicity?> Parse(string elementId, string? rawValue)
     {
-        if (string.IsNullOrWhiteSpace(input) || input.EqualsIgnoreCase("U"))
+        ArgumentNullException.ThrowIfNull(elementId);
+
+        if (string.IsNullOrWhiteSpace(rawValue) || rawValue.EqualsIgnoreCase("U"))
         {
-            return null;
+            return ParsedValue(elementId: elementId, value: null, rawValue: rawValue);
         }
 
-        if (input.EqualsIgnoreCase(Ethnicity.AlaskanAmericanIndian.GetAbbreviationOrDefault()))
+        if (rawValue.EqualsIgnoreCase(Ethnicity.AlaskanAmericanIndian.GetAbbreviationOrDefault()))
         {
-            return Ethnicity.AlaskanAmericanIndian;
+            return ParsedValue(elementId: elementId, value: Ethnicity.AlaskanAmericanIndian, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(Ethnicity.AsianPacificIslander.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(Ethnicity.AsianPacificIslander.GetAbbreviationOrDefault()))
         {
-            return Ethnicity.AsianPacificIslander;
+            return ParsedValue(elementId: elementId, value: Ethnicity.AsianPacificIslander, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(Ethnicity.Black.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(Ethnicity.Black.GetAbbreviationOrDefault()))
         {
-            return Ethnicity.Black;
+            return ParsedValue(elementId: elementId, value: Ethnicity.Black, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(Ethnicity.HispanicOrigin.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(Ethnicity.HispanicOrigin.GetAbbreviationOrDefault()))
         {
-            return Ethnicity.HispanicOrigin;
+            return ParsedValue(elementId: elementId, value: Ethnicity.HispanicOrigin, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(Ethnicity.NonHispanic.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(Ethnicity.NonHispanic.GetAbbreviationOrDefault()))
         {
-            return Ethnicity.NonHispanic;
+            return ParsedValue(elementId: elementId, value: Ethnicity.NonHispanic, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(Ethnicity.White.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(Ethnicity.White.GetAbbreviationOrDefault()))
         {
-            return Ethnicity.White;
+            return ParsedValue(elementId: elementId, value: Ethnicity.White, rawValue: rawValue);
         }
 
-        return null;
+        return ParsedValue(elementId: elementId, value: null, rawValue: rawValue);
     }
+
+
+    private static Field<Ethnicity?> ParsedValue(string elementId, Ethnicity? value, string? rawValue)
+        => FieldHelpers.ParsedField(elementId: elementId, value: value, rawValue: rawValue);
 }

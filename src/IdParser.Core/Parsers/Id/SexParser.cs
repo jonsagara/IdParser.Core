@@ -2,23 +2,30 @@
 
 internal static class SexParser
 {
-    internal static Sex Parse(string input)
+    internal static Field<Sex?> Parse(string elementId, string? rawValue)
     {
-        if (Enum.TryParse(input.AsSpan(), ignoreCase: true, out Sex sex) && Enum.IsDefined(sex))
+        ArgumentNullException.ThrowIfNull(elementId);
+
+        if (ParserHelper.StringHasNoValue(rawValue))
         {
-            return sex;
+            return FieldHelpers.ParsedField<Sex?>(elementId: elementId, value: null, rawValue: rawValue);
         }
 
-        if (input.Equals("M", StringComparison.OrdinalIgnoreCase))
+        if (Enum.TryParse(rawValue.AsSpan(), ignoreCase: true, out Sex sex) && Enum.IsDefined(sex))
         {
-            return Sex.Male;
+            return FieldHelpers.ParsedField<Sex?>(elementId: elementId, value: sex, rawValue: rawValue);
         }
 
-        if (input.Equals("F", StringComparison.OrdinalIgnoreCase))
+        if (rawValue.Equals("M", StringComparison.OrdinalIgnoreCase))
         {
-            return Sex.Female;
+            return FieldHelpers.ParsedField<Sex?>(elementId: elementId, value: Sex.Male, rawValue: rawValue);
         }
 
-        return Sex.NotSpecified;
+        if (rawValue.Equals("F", StringComparison.OrdinalIgnoreCase))
+        {
+            return FieldHelpers.ParsedField<Sex?>(elementId: elementId, value: Sex.Female, rawValue: rawValue);
+        }
+
+        return FieldHelpers.ParsedField<Sex?>(elementId: elementId, value: Sex.NotSpecified, rawValue: rawValue);
     }
 }

@@ -1,10 +1,15 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace IdParser.Core.Parsers;
 
 internal static class ParserHelper
 {
-    internal static bool StringHasNoValue(string input)
+    /// <summary>
+    /// Returns true if the string is null or white space, or contains one of the special strings denoting
+    /// no value; false otherwise.
+    /// </summary>
+    internal static bool StringHasNoValue([NotNullWhen(false)] string? input)
     {
         return string.IsNullOrWhiteSpace(input)
             || input == "NONE"
@@ -12,14 +17,29 @@ internal static class ParserHelper
             || input == "unavail";
     }
 
-    internal static bool DateHasNoValue(string input)
+    /// <summary>
+    /// Returns true if the string equals "NONE"; false otherwise.
+    /// </summary>
+    internal static bool StringIsNone([NotNullWhen(true)] string? input)
+        => input == "NONE";
+
+    /// <summary>
+    /// Returns true if the string is null or white space, or contains one of the special strings denoting
+    /// no value; false otherwise.
+    /// </summary>
+    internal static bool DateHasNoValue(string? input)
     {
         return string.IsNullOrWhiteSpace(input)
             || input == "00000000";
     }
 
-    internal static DateTime ParseDate(string input, Country? country, AAMVAVersion version)
+    /// <summary>
+    /// Parse the date accouring to the country and/or AAMVAVersion.
+    /// </summary>
+    internal static Field<DateTime?> ParseDate(string elementId, string? rawValue, Country? country, AAMVAVersion version)
     {
+        ArgumentNullException.ThrowIfNull(elementId);
+
         const string usaFormat = "MMddyyyy";
         const string canadaFormat = "yyyyMMdd";
         bool tryCanadaFormatFirst = country is not null && country == Country.Canada || version == AAMVAVersion.AAMVA2000;
@@ -27,50 +47,43 @@ internal static class ParserHelper
         // Some jurisdictions, like New Hampshire (version 2013), don't follow the standard and have trailing
         // characters (like 'M') after the date in the same record. In an attempt to parse the date successfully,
         // only try parsing the positions we know should contain a date.
-        if (input is not null && input.Length > usaFormat.Length)
+        if (rawValue is not null && rawValue.Length > usaFormat.Length)
         {
-            input = input.Substring(0, usaFormat.Length);
+            rawValue = rawValue.Substring(0, usaFormat.Length);
         }
 
         // Some jurisdictions, like Wyoming (version 2009), don't follow the standard and use the wrong date format.
         // In an attempt to parse the ID successfully, attempt to parse using both formats if the first attempt fails.
         // Hopefully between the two one will work.
-        if (DateTime.TryParseExact(input, tryCanadaFormatFirst ? canadaFormat : usaFormat, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out var firstAttemptResult))
+        if (DateTime.TryParseExact(rawValue, tryCanadaFormatFirst ? canadaFormat : usaFormat, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out var firstAttemptResult))
         {
-            return firstAttemptResult;
+            return new Field<DateTime?>(ElementId: elementId, Value: firstAttemptResult, RawValue: rawValue, Error: null, Present: true);
         }
 
-        if (DateTime.TryParseExact(input, !tryCanadaFormatFirst ? canadaFormat : usaFormat, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out var secondAttemptResult))
+        if (DateTime.TryParseExact(rawValue, !tryCanadaFormatFirst ? canadaFormat : usaFormat, CultureInfo.CurrentCulture, DateTimeStyles.AllowWhiteSpaces, out var secondAttemptResult))
         {
-            return secondAttemptResult;
+            //return new Field<DateTime?>(ElementId: elementId, Value: secondAttemptResult, RawValue: input, Error: null, Present: true);
+            return FieldHelpers.ParsedField<DateTime?>(elementId: elementId, value: secondAttemptResult, rawValue: rawValue);
         }
 
-        throw new ArgumentException($"Failed to parse the date '{input}' for country '{country}' using version '{version}'.", nameof(input));
+        return FieldHelpers.UnparsedField<DateTime?>(elementId: elementId, rawValue: rawValue, $"Unable to parse the date '{rawValue}' from field '{elementId}' for country '{country}' using version '{version}'.");
     }
 
-    internal static bool? ParseBool(string input)
+    /// <summary>
+    /// Parse the boolean value based on special strings that denote true or false.
+    /// </summary>
+    internal static bool? ParseBool(string? rawValue)
     {
-        ArgumentNullException.ThrowIfNull(input);
-
-        switch (input.ToUpperInvariant())
+        return (rawValue?.ToUpperInvariant()) switch
         {
-            case "T":
-                return true;
-            case "Y":
-                return true;
-            case "N":
-                return false;
-            case "F":
-                return false;
-            case "1":
-                return true;
-            case "0":
-                return false;
-            case "U":
-                // Unknown whether truncated
-                return null;
-            default:
-                return null;
-        }
+            "T" => true,
+            "Y" => true,
+            "N" => false,
+            "F" => false,
+            "1" => true,
+            "0" => false,
+            "U" => null,// Unknown whether truncated
+            _ => null,
+        };
     }
 }

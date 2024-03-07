@@ -187,9 +187,10 @@ namespace IdParser.Core.Client
             try
             {
                 SetStatus(Level.Info, "Parsing ID");
-                var (id, _) = Barcode.Parse(input, Validation.None);
 
-                if (id is DriversLicense)
+                var parseResult = Barcode.Parse(input, Validation.None);
+
+                if (parseResult.Card is DriversLicense)
                 {
                     lblIdType.Text = "Drivers License";
                 }
@@ -201,7 +202,7 @@ namespace IdParser.Core.Client
                 // System.Text.Json in .NET 6 doesn't support serializing properties from derived types, so we're
                 //   stuck with Json.NET for the time being.
                 //txtParsedId.Text = JsonSerializer.Serialize(id, _jsonSerializerOptions);
-                txtParsedId.Text = JsonConvert.SerializeObject(id, _jsonSerializerSettings);
+                txtParsedId.Text = JsonConvert.SerializeObject(parseResult, _jsonSerializerSettings);
 
                 SetStatus(Level.Info, "");
             }

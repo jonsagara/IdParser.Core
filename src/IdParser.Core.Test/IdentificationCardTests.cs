@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using IdParser.Core.Constants;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace IdParser.Core.Test;
@@ -15,48 +16,42 @@ public class IdentificationCardTests : BaseTest
     {
         var expected = new IdentificationCard
         {
-            Name = new Name
-            {
-                First = "ELIZABETH",
-                Middle = "MOTORIST",
-                Last = "SMITH",
+            FirstName = FV<string?>(SubfileElementIds.FirstName, "ELIZABETH"),
+            MiddleName = FV<string?>(SubfileElementIds.MiddleName, "MOTORIST"),
+            LastName = FV<string?>(SubfileElementIds.LastName, "SMITH"),
 
-                WasFirstTruncated = false,
-                WasMiddleTruncated = false,
-                WasLastTruncated = false
-            },
+            WasFirstNameTruncated = FV<bool?>(SubfileElementIds.WasFirstNameTruncated, false),
+            WasMiddleNameTruncated = FV<bool?>(SubfileElementIds.WasMiddleNameTruncated, false),
+            WasLastNameTruncated = FV<bool?>(SubfileElementIds.WasFirstNameTruncated, false),
 
-            Address = new Address
-            {
-                StreetLine1 = "21078 MAGNOLIA RD",
-                City = "NASHVILLE",
-                JurisdictionCode = "TN",
-                PostalCode = "370115509",
-                Country = Country.USA
-            },
+            StreetLine1 = FV<string?>(SubfileElementIds.StreetLine1, "21078 MAGNOLIA RD"),
+            City = FV<string?>(SubfileElementIds.City, "NASHVILLE"),
+            JurisdictionCode = FV<string?>(SubfileElementIds.JurisdictionCode, "TN"),
+            PostalCode = FV<string?>(SubfileElementIds.PostalCode, "370115509"),
+            Country = FV<Country>(SubfileElementIds.Country, Country.USA),
 
-            DateOfBirth = new DateTime(1961, 12, 13),
-            Sex = Sex.Female,
-            EyeColor = EyeColor.Green,
-            Height = new Height(totalInches: 63),
+            DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(1961, 12, 13)),
+            Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Female),
+            EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Green),
+            Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 63)),
 
-            IdNumber = "115775955",
-            AAMVAVersionNumber = AAMVAVersion.AAMVA2011,
+            IdNumber = FV(SubfileElementIds.IdNumber, "115775955"),
+            AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2011),
 
-            IssueDate = new DateTime(2018, 02, 06),
-            ExpirationDate = new DateTime(2026, 02, 06),
-            RevisionDate = new DateTime(2011, 12, 02),
+            IssueDate = FV<DateTime?>(SubfileElementIds.IssueDate, new DateTime(2018, 2, 6)),
+            ExpirationDate = FV<DateTime?>(SubfileElementIds.ExpirationDate, new DateTime(2026, 2, 6)),
+            RevisionDate = FV<DateTime?>(SubfileElementIds.RevisionDate, new DateTime(2011, 12, 2)),
 
-            IsOrganDonor = true
+            IsOrganDonor = FV(SubfileElementIds.IsOrganDonor, true),
         };
 
         var file = Id("TN");
-        var (idCard, unhandledElementIds) = Barcode.Parse(file, Validation.None);
-        LogUnhandledElementIds(idCard, unhandledElementIds);
+        var parseResult = Barcode.Parse(file, Validation.None);
+        LogUnhandledElementIds(parseResult.Card);
 
-        AssertIdCard(expected, idCard);
+        AssertIdCard(expected, parseResult.Card);
 
-        Assert.Equal("37011-5509", idCard.Address.PostalCodeDisplay);
-        Assert.Equal("Tennessee", idCard.IssuerIdentificationNumber.GetDescriptionOrDefault());
+        Assert.Equal("37011-5509", parseResult.Card.PostalCodeDisplay);
+        Assert.Equal("Tennessee", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
     }
 }

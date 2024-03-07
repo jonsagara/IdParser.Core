@@ -1,40 +1,41 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 using IdParser.Core.Constants;
+using IdParser.Core.Logging;
 using IdParser.Core.Parsers;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace IdParser.Core;
 
 public record BarcodeParseResult(
-    IdentificationCard Card,
-    IReadOnlyCollection<string> UnhandledElementIds
+    IdentificationCard Card
     );
 
 public static class Barcode
 {
     /// <summary>
-    /// The text should begin with an @ sign (ASCII Decimal 64, Hex 0x40).
+    /// The text should begin with an '@' character (ASCII Decimal 64, Hex 0x40).
     /// </summary>
     internal const char ExpectedComplianceIndicator = (char)64;
 
     /// <summary>
-    /// The second character should be a linefeed (ASCII Decimal 10, Hex 0x0A).
+    /// The second character should be a linefeed character '\n' (ASCII Decimal 10, Hex 0x0A).
     /// </summary>
     internal const char ExpectedDataElementSeparator = (char)10;
 
     /// <summary>
-    /// The third character should be a Record Separator (ASCII Decimal 30, Hex 0x1E).
+    /// The third character should be a Record Separator character '\u0030' (ASCII Decimal 30, Hex 0x1E).
     /// </summary>
     internal const char ExpectedRecordSeparator = (char)30;
 
     /// <summary>
-    /// The fourth character should be a carriage return (ASCII Decimal 13, Hex 0x0D).
+    /// The fourth character should be a carriage return character '\r' (ASCII Decimal 13, Hex 0x0D).
     /// </summary>
     internal const char ExpectedSegmentTerminator = (char)13;
 
     /// <summary>
-    /// The expected file type should be ANSI, followed by a space.
+    /// The expected file type should be ANSI, followed by a space: &quot;ANSI &quot;
     /// </summary>
     internal const string ExpectedFileType = "ANSI ";
 
@@ -64,7 +65,8 @@ public static class Barcode
             throw new ArgumentException($"The input is missing required header elements and is not a valid AAMVA format. Expected at least 31 characters. Received {rawPdf417Input.Length}.", nameof(rawPdf417Input));
         }
 
-        ILogger? logger = loggerFactory?.CreateLogger(typeof(Barcode));
+        loggerFactory ??= NullLoggerFactory.Instance;
+        ILogger logger = loggerFactory.CreateLogger(typeof(Barcode));
 
         if (validationLevel == Validation.Strict)
         {
@@ -75,21 +77,25 @@ public static class Barcode
             rawPdf417Input = Fixes.TryToCorrectHeader(rawPdf417Input, loggerFactory);
         }
 
-        var aamvaVersion = ParseAAMVAVersion(rawPdf417Input);
-        var idCard = GetIdCardInstance(rawPdf417Input, aamvaVersion);
-        var subfileRecords = GetSubfileRecords(rawPdf417Input, aamvaVersion, idCard);
+        var aamvaVersionResult = ParseAAMVAVersion(rawPdf417Input);
+        var idCard = GetIdCardInstance(rawPdf417Input, aamvaVersionResult);
+
+#warning TODO: Need to bail here if we couldn't parse the IssuerIdentificationNumber, and we can't continue trying to parse the rest of the ID.
+
+        // NOTE: any elementIds without a value will have null as the value, NOT "".
+        var subfileRecords = GetSubfileRecords(rawPdf417Input, idCard.AAMVAVersionNumber.Value, idCard);
 
         // We have to parse and retrieve Country from the subfile first because other fields depends on its value.
-        var country = ParseCountry(idCard.IssuerIdentificationNumber, aamvaVersion, subfileRecords);
-        idCard.Address.Country = country;
+        var countryResult = ParseCountry(idCard.IssuerIdentificationNumber.Value, idCard.AAMVAVersionNumber.Value, subfileRecords);
+        idCard.Country = FieldHelpers.ParsedField(elementId: SubfileElementIds.Country, value: countryResult.Country, rawValue: countryResult.RawValue);
 
-        var unhandledElementIds = PopulateIdCard(idCard, aamvaVersion, country, subfileRecords, logger);
-        if (unhandledElementIds.Count > 0)
+        PopulateIdCard(idCard, idCard.AAMVAVersionNumber.Value, countryResult.Country, subfileRecords, logger);
+        if (idCard.UnhandledElementIds.Count > 0)
         {
-            logger?.LogError($"One or more ElementIds were not handled by the ID or Driver's License parsers: {{UnhandledElementIds}}", string.Join(", ", unhandledElementIds));
+            logger.UnhandledElementIds(string.Join(", ", idCard.UnhandledElementIds));
         }
 
-        return new BarcodeParseResult(idCard, unhandledElementIds);
+        return new BarcodeParseResult(idCard);
     }
 
 
@@ -98,37 +104,37 @@ public static class Barcode
     //
 
     /// <summary>
-    /// Get the <see cref="ExpectedComplianceIndicator"/> from the scanned text.
+    /// Get the <see cref="ExpectedComplianceIndicator"/> '@' from the scanned text.
     /// </summary>
     private static char ParseComplianceIndicator(string input)
         => input.AsSpan(start: 0, length: 1)[0];
 
     /// <summary>
-    /// Get the <see cref="ExpectedDataElementSeparator"/> from the scanned text.
+    /// Get the <see cref="ExpectedDataElementSeparator"/> '\n' from the scanned text.
     /// </summary>
     private static char ParseDataElementSeparator(string input)
         => input.AsSpan(start: 1, length: 1)[0];
 
     /// <summary>
-    /// Get the <see cref="ExpectedRecordSeparator"/> from the scanned text.
+    /// Get the <see cref="ExpectedRecordSeparator"/> '\u0030' from the scanned text.
     /// </summary>
     private static char ParseRecordSeparator(string input)
         => input.AsSpan(start: 2, length: 1)[0];
 
     /// <summary>
-    /// Get the <see cref="ExpectedSegmentTerminator"/> from the scanned text.
+    /// Get the <see cref="ExpectedSegmentTerminator"/> '\r' from the scanned text.
     /// </summary>
     private static char ParseSegmentTerminator(string input)
         => input.AsSpan(start: 3, length: 1)[0];
 
     /// <summary>
-    /// Get the <see cref="ExpectedFileType"/> (e.g., ANSI ) from the scanned text.
+    /// Get the <see cref="ExpectedFileType"/> (e.g., &quot;ANSI &quot;) from the scanned text.
     /// </summary>
     private static string ParseFileType(string input)
         => input.Substring(startIndex: 4, length: 5);
 
     /// <summary>
-    /// Ensure the header has the required and expected fields.
+    /// Ensure the header has the required and expected characters: &quot;@\n\u0030\rANSI &quot;.
     /// </summary>
     private static void ValidateHeaderFormat(string input)
     {
@@ -163,11 +169,13 @@ public static class Barcode
         }
     }
 
+    private readonly record struct AAMVAVersionResult(AAMVAVersion Version, string RawValue);
+
     /// <summary>
-    /// Gets the AAMVA version of the input.
+    /// Gets the AAMVA version of the input. If not a defined <see cref="AAMVAVersion"/> enum value, return &quot;Future&quot;.
     /// </summary>
     /// <param name="input">The raw PDF417 barcode data</param>
-    private static AAMVAVersion ParseAAMVAVersion(string input)
+    private static AAMVAVersionResult ParseAAMVAVersion(string input)
     {
         ArgumentNullException.ThrowIfNull(nameof(input));
 
@@ -176,16 +184,17 @@ public static class Barcode
             throw new ArgumentException("Input must not be less than 17 characters in order to parse the AAMVA version.", nameof(input));
         }
 
-        if (Enum.TryParse<AAMVAVersion>(input.AsSpan(start: 15, length: 2), out var version) && Enum.IsDefined(version))
+        var aamvaVersionRawValue = input.Substring(startIndex: 15, length: 2);
+        if (Enum.TryParse<AAMVAVersion>(aamvaVersionRawValue.AsSpan(), out var version) && Enum.IsDefined(version))
         {
             // We parsed the version number from the text, -AND- the number is actually a defined 
             //   enum value. Return it.
-            return version;
+            return new AAMVAVersionResult(Version: version, RawValue: aamvaVersionRawValue);
         }
 
         // Unable to parse the version number from the text, -OR- the parsed number is not a defined
         //   enum value. Return "Future".
-        return AAMVAVersion.Future;
+        return new AAMVAVersionResult(Version: AAMVAVersion.Future, RawValue: aamvaVersionRawValue);
     }
 
     /// <summary>
@@ -203,17 +212,54 @@ public static class Barcode
     /// If it's a driver's license, return a <see cref="DriversLicense"/> instance. Otherwise, return an
     /// <see cref="IdentificationCard"/> instance.
     /// </summary>
-    private static IdentificationCard GetIdCardInstance(string rawPdf417Input, AAMVAVersion version)
+    private static IdentificationCard GetIdCardInstance(string rawPdf417Input, AAMVAVersionResult aamvaVersionResult)
     {
-        var idCard = ParseSubfileType(rawPdf417Input, version) == "DL"
+        // Create either a Drivers License or an Identification Card, based on the contents of the scanned text.
+        var idCard = ParseSubfileType(rawPdf417Input, aamvaVersionResult.Version) == "DL"
             ? new DriversLicense()
             : new IdentificationCard();
 
-        idCard.IssuerIdentificationNumber = (IssuerIdentificationNumber)int.Parse(rawPdf417Input.AsSpan(9, 6), provider: CultureInfo.InvariantCulture);
-        idCard.AAMVAVersionNumber = version;
-        idCard.JurisdictionVersionNumber = version == AAMVAVersion.AAMVA2000
-            ? 0
-            : int.Parse(rawPdf417Input.AsSpan(17, 2), provider: CultureInfo.InvariantCulture);
+
+        //
+        // Parse the Issuer Identification Number
+        //
+
+        var issuerIdNumberRawValue = rawPdf417Input.Substring(9, 6);
+
+        if (Enum.TryParse<IssuerIdentificationNumber>(issuerIdNumberRawValue.AsSpan(), out var issuerIdentificationNumber) && Enum.IsDefined(issuerIdentificationNumber))
+        {
+            idCard.IssuerIdentificationNumber = FieldHelpers.ParsedField(elementId: null, value: issuerIdentificationNumber, rawValue: issuerIdNumberRawValue);
+        }
+        else
+        {
+            idCard.IssuerIdentificationNumber = FieldHelpers.UnparsedField<IssuerIdentificationNumber>(elementId: null, rawValue: issuerIdNumberRawValue, error: $"Unable to parse Issuer Identification Number from value '{issuerIdNumberRawValue}'.");
+        }
+
+
+        //
+        // Set the previously parsed AAMVA Version Number
+        //
+
+        idCard.AAMVAVersionNumber = FieldHelpers.ParsedField(elementId: null, value: aamvaVersionResult.Version, rawValue: aamvaVersionResult.RawValue);
+
+
+        //
+        // Parse the Jurisdiction Version Number
+        //
+
+        var jurisdictionVersionNumberRawValue = rawPdf417Input.Substring(startIndex: 17, length: 2);
+
+        if (aamvaVersionResult.Version == AAMVAVersion.AAMVA2000)
+        {
+            // Evidently, the 2000 spec didn't have this field, or has an implied version number of 0.
+            idCard.JurisdictionVersionNumber = FieldHelpers.ParsedField(elementId: null, value: 0, rawValue: null);
+        }
+        else
+        {
+            idCard.JurisdictionVersionNumber = int.TryParse(jurisdictionVersionNumberRawValue.AsSpan(), NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out var jurisdictionVersionNumber)
+                ? FieldHelpers.ParsedField(elementId: null, value: jurisdictionVersionNumber, rawValue: jurisdictionVersionNumberRawValue)
+                : FieldHelpers.UnparsedField<int>(elementId: null, rawValue: jurisdictionVersionNumberRawValue, error: $"Unable to parse Jurisdiction Version Number from value '{jurisdictionVersionNumberRawValue}'.");
+        }
 
         return idCard;
     }
@@ -226,16 +272,22 @@ public static class Barcode
     /// </summary>
     private static int ParseSubfileOffset(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
     {
-        var offset = 0;
+        var ixSubfileStartPosition = 0;
 
         if (version == AAMVAVersion.AAMVA2000)
         {
-            offset = int.Parse(rawPdf417Input.AsSpan(start: 21, length: 4), provider: CultureInfo.InvariantCulture);
+            var aamva2000OffsetSpan = rawPdf417Input.AsSpan(start: 21, length: 4);
+
+            if (!int.TryParse(aamva2000OffsetSpan, NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out ixSubfileStartPosition))
+            {
+                // Throw a more useful error message than int.Parse.
+                throw new ArgumentException($"[Subfile Start Index] Unable to parse the subfile start index from the value '{aamva2000OffsetSpan}'.");
+            }
 
             // South Carolina's offset is off by one byte which causes the parsing of the IdNumber to fail
-            if (idCard.IssuerIdentificationNumber == IssuerIdentificationNumber.SouthCarolina && offset == 30)
+            if (idCard.IssuerIdentificationNumber.Value == IssuerIdentificationNumber.SouthCarolina && ixSubfileStartPosition == 30)
             {
-                offset--;
+                ixSubfileStartPosition--;
             }
         }
         else if (version >= AAMVAVersion.AAMVA2003)
@@ -259,11 +311,12 @@ public static class Barcode
             // which causes the parsing of the subfile records to fail.
             if (allOffsetCharsAreDigits)
             {
-                offset = int.Parse(offsetAsSpan, provider: CultureInfo.InvariantCulture);
+                // Parse is fine because we know the span contains all decimal digits.
+                ixSubfileStartPosition = int.Parse(offsetAsSpan, provider: CultureInfo.InvariantCulture);
             }
         }
 
-        if (offset == 0)
+        if (ixSubfileStartPosition == 0)
         {
             // Some jurisdictions, like Ontario, have a zero offset, which is incorrect.
             // Set the offset to the start of the subfile type indicator.
@@ -274,22 +327,22 @@ public static class Barcode
                 const int subfileTypeLength = 2;
                 const int firstElementIdLength = 3;
 
-                offset = match.Index + match.Length - subfileTypeLength - firstElementIdLength;
+                ixSubfileStartPosition = match.Index + match.Length - subfileTypeLength - firstElementIdLength;
             }
         }
 
-        return offset;
+        return ixSubfileStartPosition;
     }
 
     /// <summary>
     /// Get a list of all the data records (name and value as a single string) that we need to parse.
     /// </summary>
-    private static Dictionary<string, string> GetSubfileRecords(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
+    private static Dictionary<string, string?> GetSubfileRecords(string rawPdf417Input, AAMVAVersion version, IdentificationCard idCard)
     {
-        var ixSubfile = ParseSubfileOffset(rawPdf417Input, version, idCard);
+        var ixSubfileStart = ParseSubfileOffset(rawPdf417Input, version, idCard);
 
         var records = rawPdf417Input
-            .Substring(startIndex: ixSubfile)
+            .Substring(startIndex: ixSubfileStart)
             .Split(new[] { ParseDataElementSeparator(rawPdf417Input), ParseSegmentTerminator(rawPdf417Input) }, StringSplitOptions.RemoveEmptyEntries)
             .ToList();
 
@@ -307,61 +360,62 @@ public static class Barcode
 
         // Discard any records with length < 3 because we can't parse them into element Ids.
         // First three characters are the element id.
-        // The remaining characters are the value.
+        // The remaining characters are the value. If there are none, return null.
         return records
             .Where(r => r.Length >= 3)
-            .ToDictionary(r => r.Substring(startIndex: 0, length: 3), r => r.Substring(startIndex: 3).Trim());
+            .ToDictionary(r => r.Substring(startIndex: 0, length: 3), r => r.Substring(startIndex: 3).Trim().ToNullIfWhiteSpace());
     }
+
+
+    private readonly record struct ParseCountryResult(Country Country, string? RawValue);
 
     /// <summary>
     /// Parses the country based on the DCG subfile record.
     /// Gets the country from the IIN if no matching subfile record was found.
     /// </summary>
-    private static Country ParseCountry(IssuerIdentificationNumber iin, AAMVAVersion version, Dictionary<string, string> subfileRecords)
+    private static ParseCountryResult ParseCountry(IssuerIdentificationNumber iin, AAMVAVersion version, Dictionary<string, string?> subfileRecords)
     {
         // Country is not a subfile record in the AAMVA 2000 standard.
         if (version == AAMVAVersion.AAMVA2000)
         {
-            return Country.USA;
+            return new ParseCountryResult(Country.USA, null);
         }
 
         if (subfileRecords.TryGetValue(SubfileElementIds.Country, out string? data))
         {
             if (data == "USA")
             {
-                return Country.USA;
+                return new ParseCountryResult(Country.USA, data);
             }
 
             if (data == "CAN" || data == "CDN")
             {
-                return Country.Canada;
+                return new ParseCountryResult(Country.Canada, data);
             }
         }
 
-        return IssuerMetadataHelper.GetCountry(iin);
+        return new ParseCountryResult(IssuerMetadataHelper.GetCountry(iin), null);
     }
 
-    private static IReadOnlyCollection<string> PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string> subfileRecords, ILogger? logger)
+    private static void PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string?> subfileRecords, ILogger logger)
     {
-        List<string> unhandledElementIds = new();
-
         foreach (var elementId in subfileRecords.Keys)
         {
-            var data = subfileRecords[elementId];
+            var rawValue = subfileRecords[elementId];
 
             if (elementId.StartsWith("Z", StringComparison.Ordinal) && !idCard.AdditionalJurisdictionElements.ContainsKey(elementId))
             {
-                idCard.AdditionalJurisdictionElements.Add(elementId, data);
+                idCard.AdditionalJurisdictionElements.Add(elementId, FieldHelpers.ParsedField(elementId: elementId, value: rawValue, rawValue: rawValue));
                 continue;
             }
 
             try
             {
-                var handled = Parser.ParseAndSetIdElements(elementId: elementId, data: data, country, version, idCard);
+                var handled = Parser.ParseAndSetIdElements(elementId: elementId, rawValue: rawValue, country, version, idCard);
 
                 if (!handled && idCard is DriversLicense driversLicense)
                 {
-                    handled = Parser.ParseAndSetDriversLicenseElements(elementId: elementId, data: data, country, version, driversLicense);
+                    handled = Parser.ParseAndSetDriversLicenseElements(elementId: elementId, rawValue: rawValue, country, version, driversLicense);
                 }
 
                 if (!handled)
@@ -369,17 +423,15 @@ public static class Barcode
                     // We parse Country separately because various other fields rely on it for parsing.
                     if (elementId != SubfileElementIds.Country)
                     {
-                        unhandledElementIds.Add(elementId);
+                        idCard.UnhandledElementIds.Add(elementId);
                     }
                 }
             }
             catch (Exception ex)
             {
-                logger?.LogError(ex, $"Unhandled exception in {nameof(PopulateIdCard)} while trying to parse element Id {{ElementId}}", elementId);
+                logger.PopulateIdCardUnhandledException(ex, methodName: nameof(PopulateIdCard), elementId: elementId);
                 throw;
             }
         }
-
-        return unhandledElementIds;
     }
 }

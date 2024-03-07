@@ -7,6 +7,8 @@ namespace IdParser.Core;
 /// </remarks>
 public enum IssuerIdentificationNumber
 {
+    None = 0,
+
     [Country(Country.USA)]
     [Abbreviation("AL")]
     Alabama = 636033,

@@ -2,21 +2,18 @@
 
 internal static class ComplianceTypeParser
 {
-    internal static ComplianceType? Parse(string input)
+    internal static Field<ComplianceType?> Parse(string elementId, string? rawValue)
     {
-        switch (input)
+        ArgumentNullException.ThrowIfNull(elementId);
+
+        ComplianceType? complianceType = rawValue switch
         {
-            case "M":
-                return ComplianceType.MateriallyCompliant;
+            "M" => ComplianceType.MateriallyCompliant,
+            "F" => ComplianceType.FullyCompliant,
+            "N" => ComplianceType.NonCompliant,
+            _ => null,
+        };
 
-            case "F":
-                return ComplianceType.FullyCompliant;
-
-            case "N":
-                return ComplianceType.NonCompliant;
-
-            default:
-                return null;
-        }
+        return FieldHelpers.ParsedField(elementId: elementId, value: complianceType, rawValue: rawValue);
     }
 }

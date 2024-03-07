@@ -2,19 +2,20 @@
 
 internal static class AliasFirstNameParser
 {
-    internal static string? Parse(string input, AAMVAVersion version)
+    internal static Field<string?> Parse(string elementId, string? rawValue, AAMVAVersion version)
     {
+        ArgumentNullException.ThrowIfNull(elementId);
+
         // DBG was designated for Medical Indicator/Codes only in AAMVA 2000 but we don't support this deprecated property
         if (version == AAMVAVersion.AAMVA2000)
         {
-            return null;
+            return FieldHelpers.UnparsedField<string?>(elementId: elementId, rawValue: rawValue, $"Field 'DBG' was designated for Medical Indicator/Codes only in AAMVA 2000 but we don't support this deprecated property. AAMVA Version = {version}.");
         }
 
-        if (ParserHelper.StringHasNoValue(input))
-        {
-            return null;
-        }
+        var aliasFirstName = ParserHelper.StringHasNoValue(rawValue)
+            ? null
+            : rawValue;
 
-        return input;
+        return FieldHelpers.ParsedField(elementId: elementId, value: aliasFirstName, rawValue: rawValue);
     }
 }

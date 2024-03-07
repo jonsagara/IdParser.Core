@@ -4,9 +4,9 @@ internal record FirstNameParts(string? First, string? Middle);
 
 internal static class FirstNameParser
 {
-    internal static FirstNameParts? Parse(string input)
+    internal static FirstNameParts? Parse(string? rawValue)
     {
-        if (ParserHelper.StringHasNoValue(input))
+        if (ParserHelper.StringHasNoValue(rawValue))
         {
             return null;
         }
@@ -16,17 +16,17 @@ internal static class FirstNameParser
         // are deleted and not encoded. Middle names are allowed to have spaces.
         // Jurisdictions like Wyoming put the middle initial in the first name field.
 
-        var spaceIndex = input.LastIndexOf(' ');
+        var spaceIndex = rawValue!.LastIndexOf(' ');
         if (spaceIndex < 0)
         {
-            return new FirstNameParts(First: input, Middle: null);
+            return new FirstNameParts(First: rawValue, Middle: null);
         }
 
         // First name is everything up to the last space.
-        var first = input.Substring(startIndex: 0, length: spaceIndex).Trim().ReplaceEmptyWithNull();
+        var first = rawValue.Substring(startIndex: 0, length: spaceIndex).Trim().ReplaceEmptyWithNull();
 
         // Middle name is everything after the space.
-        var middle = input.Substring(startIndex: spaceIndex + 1).Trim().ReplaceEmptyWithNull();
+        var middle = rawValue.Substring(startIndex: spaceIndex + 1).Trim().ReplaceEmptyWithNull();
 
         return new FirstNameParts(First: first, Middle: middle);
     }

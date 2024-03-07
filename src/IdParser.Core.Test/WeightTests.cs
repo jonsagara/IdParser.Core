@@ -15,17 +15,6 @@ public class WeightTests
         Assert.NotSame(left, right);
     }
 
-    // I don't see the value in making Weight an IComparable.
-    //[Fact]
-    //public void ComparableTest()
-    //{
-    //    var first = new Weight(pounds: 150);
-    //    var second = new Weight(pounds: 125);
-
-    //    Assert.True(first.CompareTo(second) > 0);
-    //    Assert.True(second.CompareTo(first) < 0);
-    //}
-
     [Fact]
     public void ImperialDisplayTest()
     {

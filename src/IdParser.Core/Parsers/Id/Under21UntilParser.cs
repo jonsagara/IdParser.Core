@@ -2,13 +2,13 @@
 
 internal static class Under21UntilParser
 {
-    internal static DateTime? Parse(string input, Country country, AAMVAVersion version)
+    internal static Field<DateTime?> Parse(string elementId, string? rawValue, Country country, AAMVAVersion version)
     {
-        if (ParserHelper.DateHasNoValue(input) || version < AAMVAVersion.AAMVA2000)
+        if (ParserHelper.DateHasNoValue(rawValue) || version < AAMVAVersion.AAMVA2000)
         {
-            return null;
+            return FieldHelpers.ParsedField<DateTime?>(elementId: elementId, value: null, rawValue: rawValue);
         }
 
-        return ParserHelper.ParseDate(input, country, version);
+        return ParserHelper.ParseDate(elementId: elementId, rawValue: rawValue, country, version);
     }
 }

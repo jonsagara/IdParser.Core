@@ -2,13 +2,14 @@
 
 internal static class MiddleNameParser
 {
-    internal static string? Parse(string input)
+    internal static Field<string?> Parse(string elementId, string? rawValue)
     {
-        if (ParserHelper.StringHasNoValue(input))
-        {
-            return null;
-        }
+        ArgumentNullException.ThrowIfNull(elementId);
 
-        return input;
+        var middleName = ParserHelper.StringHasNoValue(rawValue)
+            ? null
+            : rawValue;
+
+        return FieldHelpers.ParsedField(elementId: elementId, value: middleName, rawValue: rawValue);
     }
 }

@@ -1,113 +1,121 @@
-﻿namespace IdParser.Core.Parsers.Id;
+﻿using IdParser.Core.Constants;
+
+namespace IdParser.Core.Parsers.Id;
 
 internal static class EyeColorParser
 {
-    internal static EyeColor? Parse(string input)
+    internal static Field<EyeColor?> Parse(string elementId, string? rawValue)
     {
+        ArgumentNullException.ThrowIfNull(elementId);
+
         // #3: This handles the unsupported "NONE" value that can come from ON.
-        if (ParserHelper.StringHasNoValue(input))
+        if (ParserHelper.StringHasNoValue(rawValue))
         {
-            return null;
+            return ParsedValue(elementId: elementId, value: null, rawValue: rawValue);
         }
 
-        if (input.EqualsIgnoreCase("UNK"))
+        if (rawValue.EqualsIgnoreCase("UNK"))
         {
-            return null;
+            return ParsedValue(elementId: elementId, value: null, rawValue: rawValue);
         }
 
-        if (input.EqualsIgnoreCase(EyeColor.Black.GetAbbreviationOrDefault()))
+        if (rawValue.EqualsIgnoreCase(EyeColor.Black.GetAbbreviationOrDefault()))
         {
-            return EyeColor.Black;
+            return ParsedValue(elementId: elementId, value: EyeColor.Black, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Blue.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Blue.GetAbbreviationOrDefault()))
         {
-            return EyeColor.Blue;
+            return ParsedValue(elementId: elementId, value: EyeColor.Blue, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Brown.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Brown.GetAbbreviationOrDefault()))
         {
-            return EyeColor.Brown;
+            return ParsedValue(elementId: elementId, value: EyeColor.Brown, rawValue: rawValue);
         }
         // California doesn't follow the abbreviation scheme for brown
-        else if (input.EqualsIgnoreCase("BRN"))
+        else if (rawValue.EqualsIgnoreCase("BRN"))
         {
-            return EyeColor.Brown;
+            return ParsedValue(elementId: elementId, value: EyeColor.Brown, rawValue: rawValue);
         }
         // Arizona doesn't follow the abbreviation scheme for brown
-        else if (input.EqualsIgnoreCase("BR"))
+        else if (rawValue.EqualsIgnoreCase("BR"))
         {
-            return EyeColor.Brown;
+            return ParsedValue(elementId: elementId, value: EyeColor.Brown, rawValue: rawValue);
         }
         // West Virginia doesn't follow the abbreviation scheme for brown
-        else if (input.EqualsIgnoreCase("BN"))
+        else if (rawValue.EqualsIgnoreCase("BN"))
         {
-            return EyeColor.Brown;
+            return ParsedValue(elementId: elementId, value: EyeColor.Brown, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Dichromatic.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Dichromatic.GetAbbreviationOrDefault()))
         {
-            return EyeColor.Dichromatic;
+            return ParsedValue(elementId: elementId, value: EyeColor.Dichromatic, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Gray.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Gray.GetAbbreviationOrDefault()))
         {
-            return EyeColor.Gray;
+            return ParsedValue(elementId: elementId, value: EyeColor.Gray, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Green.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Green.GetAbbreviationOrDefault()))
         {
-            return EyeColor.Green;
+            return ParsedValue(elementId: elementId, value: EyeColor.Green, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Hazel.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Hazel.GetAbbreviationOrDefault()))
         {
-            return EyeColor.Hazel;
+            return ParsedValue(elementId: elementId, value: EyeColor.Hazel, rawValue: rawValue);
         }
         // New Jersey doesn't follow the abbreviation scheme for hazel
-        else if (input.EqualsIgnoreCase("HZL"))
+        else if (rawValue.EqualsIgnoreCase("HZL"))
         {
-            return EyeColor.Hazel;
+            return ParsedValue(elementId: elementId, value: EyeColor.Hazel, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Maroon.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Maroon.GetAbbreviationOrDefault()))
         {
-            return EyeColor.Maroon;
+            return ParsedValue(elementId: elementId, value: EyeColor.Maroon, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Pink.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Pink.GetAbbreviationOrDefault()))
         {
-            return EyeColor.Pink;
+            return ParsedValue(elementId: elementId, value: EyeColor.Pink, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Black.ToString()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Black.ToString()))
         {
-            return EyeColor.Black;
+            return ParsedValue(elementId: elementId, value: EyeColor.Black, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Blue.ToString()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Blue.ToString()))
         {
-            return EyeColor.Blue;
+            return ParsedValue(elementId: elementId, value: EyeColor.Blue, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Brown.ToString()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Brown.ToString()))
         {
-            return EyeColor.Brown;
+            return ParsedValue(elementId: elementId, value: EyeColor.Brown, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Dichromatic.ToString()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Dichromatic.ToString()))
         {
-            return EyeColor.Dichromatic;
+            return ParsedValue(elementId: elementId, value: EyeColor.Dichromatic, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Gray.ToString()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Gray.ToString()))
         {
-            return EyeColor.Gray;
+            return ParsedValue(elementId: elementId, value: EyeColor.Gray, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Green.ToString()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Green.ToString()))
         {
-            return EyeColor.Green;
+            return ParsedValue(elementId: elementId, value: EyeColor.Green, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Hazel.ToString()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Hazel.ToString()))
         {
-            return EyeColor.Hazel;
+            return ParsedValue(elementId: elementId, value: EyeColor.Hazel, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Maroon.ToString()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Maroon.ToString()))
         {
-            return EyeColor.Maroon;
+            return ParsedValue(elementId: elementId, value: EyeColor.Maroon, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(EyeColor.Pink.ToString()))
+        else if (rawValue.EqualsIgnoreCase(EyeColor.Pink.ToString()))
         {
-            return EyeColor.Pink;
+            return ParsedValue(elementId: elementId, value: EyeColor.Pink, rawValue: rawValue);
         }
 
-        throw new ArgumentOutOfRangeException(nameof(input), $"Eye color '{input}' not supported by enum {nameof(EyeColor)}.");
+        return FieldHelpers.UnparsedField<EyeColor?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Eye Color from field '{SubfileElementIds.EyeColor}': '{rawValue}' is not supported by enum {nameof(EyeColor)}.");
     }
+
+
+    private static Field<EyeColor?> ParsedValue(string elementId, EyeColor? value, string? rawValue)
+        => FieldHelpers.ParsedField(elementId: elementId, value: value, rawValue: rawValue);
 }

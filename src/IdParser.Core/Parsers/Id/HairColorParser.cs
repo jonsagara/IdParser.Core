@@ -1,94 +1,102 @@
-﻿namespace IdParser.Core.Parsers.Id;
+﻿using IdParser.Core.Constants;
+
+namespace IdParser.Core.Parsers.Id;
 
 internal static class HairColorParser
 {
-    internal static HairColor? Parse(string input)
+    internal static Field<HairColor?> Parse(string elementId, string? rawValue)
     {
-        if (string.IsNullOrEmpty(input) || input.EqualsIgnoreCase("UNK"))
+        ArgumentNullException.ThrowIfNull(elementId);
+
+        if (string.IsNullOrEmpty(rawValue) || rawValue.EqualsIgnoreCase("UNK"))
         {
-            return null;
+            return ParsedValue(elementId: elementId, value: null, rawValue: rawValue);
         }
 
-        if (input.EqualsIgnoreCase(HairColor.Bald.GetAbbreviationOrDefault()))
+        if (rawValue.EqualsIgnoreCase(HairColor.Bald.GetAbbreviationOrDefault()))
         {
-            return HairColor.Bald;
+            return ParsedValue(elementId: elementId, value: HairColor.Bald, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.Black.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.Black.GetAbbreviationOrDefault()))
         {
-            return HairColor.Black;
+            return ParsedValue(elementId: elementId, value: HairColor.Black, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.Blond.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.Blond.GetAbbreviationOrDefault()))
         {
-            return HairColor.Blond;
+            return ParsedValue(elementId: elementId, value: HairColor.Blond, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.Brown.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.Brown.GetAbbreviationOrDefault()))
         {
-            return HairColor.Brown;
+            return ParsedValue(elementId: elementId, value: HairColor.Brown, rawValue: rawValue);
         }
         // California doesn't follow the abbreviation scheme for brown
-        else if (input.EqualsIgnoreCase("BRN"))
+        else if (rawValue.EqualsIgnoreCase("BRN"))
         {
-            return HairColor.Brown;
+            return ParsedValue(elementId: elementId, value: HairColor.Brown, rawValue: rawValue);
         }
         // Arizona doesn't follow the abbreviation scheme for brown
-        else if (input.EqualsIgnoreCase("BR"))
+        else if (rawValue.EqualsIgnoreCase("BR"))
         {
-            return HairColor.Brown;
+            return ParsedValue(elementId: elementId, value: HairColor.Brown, rawValue: rawValue);
         }
         // West Virginia doesn't follow the abbreviation scheme for brown
-        else if (input.EqualsIgnoreCase("BN"))
+        else if (rawValue.EqualsIgnoreCase("BN"))
         {
-            return HairColor.Brown;
+            return ParsedValue(elementId: elementId, value: HairColor.Brown, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.Gray.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.Gray.GetAbbreviationOrDefault()))
         {
-            return HairColor.Gray;
+            return ParsedValue(elementId: elementId, value: HairColor.Gray, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.RedAuburn.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.RedAuburn.GetAbbreviationOrDefault()))
         {
-            return HairColor.RedAuburn;
+            return ParsedValue(elementId: elementId, value: HairColor.RedAuburn, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.Sandy.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.Sandy.GetAbbreviationOrDefault()))
         {
-            return HairColor.Sandy;
+            return ParsedValue(elementId: elementId, value: HairColor.Sandy, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.White.GetAbbreviationOrDefault()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.White.GetAbbreviationOrDefault()))
         {
-            return HairColor.White;
+            return ParsedValue(elementId: elementId, value: HairColor.White, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.Bald.ToString()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.Bald.ToString()))
         {
-            return HairColor.Bald;
+            return ParsedValue(elementId: elementId, value: HairColor.Bald, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.Black.ToString()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.Black.ToString()))
         {
-            return HairColor.Black;
+            return ParsedValue(elementId: elementId, value: HairColor.Black, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.Blond.ToString()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.Blond.ToString()))
         {
-            return HairColor.Blond;
+            return ParsedValue(elementId: elementId, value: HairColor.Blond, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.Brown.ToString()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.Brown.ToString()))
         {
-            return HairColor.Brown;
+            return ParsedValue(elementId: elementId, value: HairColor.Brown, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.Gray.ToString()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.Gray.ToString()))
         {
-            return HairColor.Gray;
+            return ParsedValue(elementId: elementId, value: HairColor.Gray, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.RedAuburn.ToString()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.RedAuburn.ToString()))
         {
-            return HairColor.RedAuburn;
+            return ParsedValue(elementId: elementId, value: HairColor.RedAuburn, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.Sandy.ToString()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.Sandy.ToString()))
         {
-            return HairColor.Sandy;
+            return ParsedValue(elementId: elementId, value: HairColor.Sandy, rawValue: rawValue);
         }
-        else if (input.EqualsIgnoreCase(HairColor.White.ToString()))
+        else if (rawValue.EqualsIgnoreCase(HairColor.White.ToString()))
         {
-            return HairColor.White;
+            return ParsedValue(elementId: elementId, value: HairColor.White, rawValue: rawValue);
         }
 
-        throw new ArgumentOutOfRangeException(nameof(input), $"Hair color '{input}' not supported by enum {nameof(HairColor)}.");
+        return FieldHelpers.UnparsedField<HairColor?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Hair Color from field '{SubfileElementIds.HairColor}': '{rawValue}' is not supported by enum {nameof(HairColor)}.");
     }
+
+
+    private static Field<HairColor?> ParsedValue(string elementId, HairColor? value, string? rawValue)
+        => FieldHelpers.ParsedField(elementId: elementId, value: value, rawValue: rawValue);
 }
