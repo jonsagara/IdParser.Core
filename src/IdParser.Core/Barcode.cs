@@ -403,7 +403,7 @@ public static class Barcode
         {
             var rawValue = subfileRecords[elementId];
 
-            if (elementId.StartsWith("Z", StringComparison.Ordinal) && !idCard.AdditionalJurisdictionElements.ContainsKey(elementId))
+            if (elementId.StartsWith('Z') && !idCard.AdditionalJurisdictionElements.ContainsKey(elementId))
             {
                 idCard.AdditionalJurisdictionElements.Add(elementId, FieldHelpers.ParsedField(elementId: elementId, value: rawValue, rawValue: rawValue));
                 continue;

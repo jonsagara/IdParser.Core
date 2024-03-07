@@ -6,11 +6,18 @@
 [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = false)]
 public sealed class AbbreviationAttribute : Attribute
 {
+    /// <summary>
+    /// The abbreviation text.
+    /// </summary>
     public string Abbreviation { get; }
 
+    /// <summary>
+    /// .ctor
+    /// </summary>
+    /// <param name="abbreviation">Required. The abbreviation text.</param>
     public AbbreviationAttribute(string abbreviation)
     {
-        ArgumentNullException.ThrowIfNull(abbreviation);
+        ArgumentException.ThrowIfNullOrWhiteSpace(abbreviation);
 
         Abbreviation = abbreviation;
     }

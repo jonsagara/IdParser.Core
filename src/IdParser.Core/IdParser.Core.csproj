@@ -31,6 +31,7 @@
 		<!-- Code Analysis -->
 		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
 		<WarningsAsErrors>$(WarningsAsErrors);CA1307;CA1309;CA1310</WarningsAsErrors>
+		<NoWarn>$(NoWarn);CS1591</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
