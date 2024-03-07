@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Runtime.Versioning;
 using System.Windows.Forms;
 
+[assembly: SupportedOSPlatform("windows")]
 namespace IdParser.Core.Client;
 
 static class Program
