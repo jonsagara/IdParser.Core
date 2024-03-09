@@ -12,7 +12,7 @@ public record BarcodeParseResult(
     IdentificationCard Card
     );
 
-public static class Barcode
+public static partial class Barcode
 {
     /// <summary>
     /// The text should begin with an '@' character (ASCII Decimal 64, Hex 0x40).
@@ -265,7 +265,8 @@ public static class Barcode
     }
 
 
-    private static readonly Regex _rxSubfile = new Regex("(DL|ID)([\\d\\w]{3,8})(DL|ID|Z\\w)([DZ][A-Z]{2})", RegexOptions.Compiled);
+    [GeneratedRegex(@"(DL|ID)([\d\w]{3,8})(DL|ID|Z\w)([DZ][A-Z]{2})")]
+    private static partial Regex SubfileRegex();
 
     /// <summary>
     /// Get the index of the subfile starting position.
@@ -320,7 +321,7 @@ public static class Barcode
         {
             // Some jurisdictions, like Ontario, have a zero offset, which is incorrect.
             // Set the offset to the start of the subfile type indicator.
-            var match = _rxSubfile.Match(rawPdf417Input);
+            var match = SubfileRegex().Match(rawPdf417Input);
 
             if (match.Success)
             {

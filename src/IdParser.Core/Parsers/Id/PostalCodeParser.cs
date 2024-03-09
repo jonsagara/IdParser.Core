@@ -2,9 +2,11 @@
 
 namespace IdParser.Core.Parsers.Id;
 
-internal static class PostalCodeParser
+internal static partial class PostalCodeParser
 {
-    private static readonly Regex _rxNonAlphaNumeric = new Regex(@"[^\w\d]", RegexOptions.Compiled);
+    [GeneratedRegex(@"[^\w\d]")]
+    private static partial Regex NonAlphaNumericRegex();
+
 
     internal static Field<string?> Parse(string elementId, string? rawValue)
     {
@@ -26,7 +28,7 @@ internal static class PostalCodeParser
                 rawValue = rawValue.Substring(0, indexOfSpaces);
             }
 
-            postalCode = _rxNonAlphaNumeric
+            postalCode = NonAlphaNumericRegex()
                 .Replace(rawValue, "")
                 .Replace("0000", "", StringComparison.Ordinal);
         }

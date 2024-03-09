@@ -5,7 +5,7 @@ using IdParser.Core.Constants;
 
 namespace IdParser.Core.Parsers.Id;
 
-internal static class WeightInPoundsParser
+internal static partial class WeightInPoundsParser
 {
     internal static Field<Weight?> Parse(string elementId, string? rawValue)
     {
@@ -27,7 +27,8 @@ internal static class WeightInPoundsParser
     }
 
 
-    private static readonly Regex _rxMetricWeight = new Regex("(?<Weight>\\d+)+\\s*KG", RegexOptions.Compiled);
+    [GeneratedRegex(@"(?<Weight>\d+)+\s*KG")]
+    private static partial Regex MetricWeightRegex();
 
     /// <summary>
     /// Alberta put the weight in kilograms in the weight in pounds parser ¯\_(ツ)_/¯
@@ -36,7 +37,7 @@ internal static class WeightInPoundsParser
     {
         weight = null;
 
-        var match = _rxMetricWeight.Match(input);
+        var match = MetricWeightRegex().Match(input);
 
         if (match.Success)
         {
