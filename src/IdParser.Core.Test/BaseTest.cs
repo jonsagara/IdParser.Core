@@ -96,13 +96,13 @@ public class BaseTest
         Assert.Equal(expected.HazmatEndorsementExpirationDate.Value, actual.HazmatEndorsementExpirationDate.Value);
     }
 
-    protected void LogUnhandledElementIds(IdentificationCard idCard)
+    protected void LogUnhandledElementIds(BarcodeParseResult parseResult)
     {
-        if (idCard.UnhandledElementIds.Count == 0)
+        if (parseResult.UnhandledElements.Count == 0)
         {
             return;
         }
 
-        _output.WriteLine($"State '{idCard.IssuerIdentificationNumber.Value.GetAbbreviationOrDefault()}' has unhandled element Ids: {string.Join(", ", idCard.UnhandledElementIds)}.");
+        _output.WriteLine($"State '{parseResult.Card.IssuerIdentificationNumber.Value.GetAbbreviationOrDefault()}' has unhandled element Ids: {string.Join(", ", parseResult.UnhandledElements.Select(ue => ue.ElementId))}.");
     }
 }

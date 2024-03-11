@@ -47,7 +47,7 @@ public class IdentificationCardTests : BaseTest
 
         var file = Id("TN");
         var parseResult = Barcode.Parse(file, Validation.None);
-        LogUnhandledElementIds(parseResult.Card);
+        LogUnhandledElementIds(parseResult);
 
         AssertIdCard(expected, parseResult.Card);
 

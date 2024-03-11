@@ -63,9 +63,4 @@ public class IdentificationCard
     public Field<bool> IsVeteran { get; internal set; } = FieldHelpers.UninitializedBoolean;
 
     public Dictionary<string, Field<string?>> AdditionalJurisdictionElements { get; } = new();
-
-    // Justification: this is a stupid rule.
-#pragma warning disable CA1002 // Do not expose generic lists
-    public List<string> UnhandledElementIds { get; private set; } = new();
-#pragma warning restore CA1002 // Do not expose generic lists
 }

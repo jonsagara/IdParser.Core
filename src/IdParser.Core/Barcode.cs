@@ -8,9 +8,52 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace IdParser.Core;
 
-public record BarcodeParseResult(
-    IdentificationCard Card
-    );
+/// <summary>
+/// Any element with an unrecognized 3-character element ID and its associated value.
+/// </summary>
+/// <param name="ElementId">The 3-character element ID.</param>
+/// <param name="RawValue">The raw value from the scanned ID text.</param>
+public record UnhandledElement(string ElementId, string? RawValue);
+
+/// <summary>
+/// Details about failure to parse or extract a meaningful value from an element's raw value obtained from 
+/// the scanned ID text.
+/// </summary>
+/// <param name="ElementId">The 3-character element ID.</param>
+/// <param name="RawValue">The element's raw value from the scanned ID text.</param>
+/// <param name="Error">A message describing the error that occurred.</param>
+public record ElementParseError(string ElementId, string? RawValue, string Error);
+
+/// <summary>
+/// Contains the result of parsing a scanned ID: the ID card, a collection of unhandled fields, and any
+/// field-level parsing errors that occurred.
+/// </summary>
+public class BarcodeParseResult
+{
+    /// <summary>
+    /// Contains values of any elements extracted from the scanned ID text.
+    /// </summary>
+    public IdentificationCard Card { get; }
+
+    public IReadOnlyCollection<UnhandledElement> UnhandledElements { get; }
+
+    /// <summary>
+    /// Contains element-level errors that occurred while trying to extract a meaningful value from the element's raw value.
+    /// </summary>
+    public IReadOnlyCollection<ElementParseError> ElementParseErrors { get; }
+
+
+    public BarcodeParseResult(IdentificationCard card, IReadOnlyCollection<UnhandledElement> unhandledElements, IReadOnlyCollection<ElementParseError> elementParseErrors)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        ArgumentNullException.ThrowIfNull(unhandledElements);
+        ArgumentNullException.ThrowIfNull(elementParseErrors);
+
+        Card = card;
+        UnhandledElements = unhandledElements;
+        ElementParseErrors = elementParseErrors;
+    }
+}
 
 public static partial class Barcode
 {
@@ -89,13 +132,13 @@ public static partial class Barcode
         var countryResult = ParseCountry(idCard.IssuerIdentificationNumber.Value, idCard.AAMVAVersionNumber.Value, subfileRecords);
         idCard.Country = FieldHelpers.ParsedField(elementId: SubfileElementIds.Country, value: countryResult.Country, rawValue: countryResult.RawValue);
 
-        PopulateIdCard(idCard, idCard.AAMVAVersionNumber.Value, countryResult.Country, subfileRecords, logger);
-        if (idCard.UnhandledElementIds.Count > 0)
+        var populateResult = PopulateIdCard(idCard, idCard.AAMVAVersionNumber.Value, countryResult.Country, subfileRecords, logger);
+        if (populateResult.UnhandledElements.Count > 0)
         {
-            logger.UnhandledElementIds(string.Join(", ", idCard.UnhandledElementIds));
+            logger.UnhandledElementIds(string.Join(", ", populateResult.UnhandledElements.Select(ue => ue.ElementId)));
         }
 
-        return new BarcodeParseResult(idCard);
+        return new BarcodeParseResult(idCard, populateResult.UnhandledElements, populateResult.ElementErrors);
     }
 
 
@@ -398,8 +441,14 @@ public static partial class Barcode
         return new ParseCountryResult(IssuerMetadataHelper.GetCountry(iin), null);
     }
 
-    private static void PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string?> subfileRecords, ILogger logger)
+
+    private readonly record struct PopulateResult(List<UnhandledElement> UnhandledElements, List<ElementParseError> ElementErrors);
+
+    private static PopulateResult PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string?> subfileRecords, ILogger logger)
     {
+        List<UnhandledElement> unhandledElements = new();
+        List<ElementParseError> elementErrors = new();
+
         foreach (var elementId in subfileRecords.Keys)
         {
             var rawValue = subfileRecords[elementId];
@@ -412,20 +461,31 @@ public static partial class Barcode
 
             try
             {
-                var elementHandled = Parser.ParseAndSetIdCardElement(elementId: elementId, rawValue: rawValue, country, version, idCard);
-
-                if (!elementHandled && idCard is DriversLicense driversLicense)
+                var parseAndSetResult = Parser.ParseAndSetIdCardElement(elementId: elementId, rawValue: rawValue, country, version, idCard);
+                if (parseAndSetResult.ElementHandled)
                 {
-                    elementHandled = Parser.ParseAndSetDriversLicenseElement(elementId: elementId, rawValue: rawValue, country, version, driversLicense);
+                    AddErrorIfParseAndSetFailed(parseAndSetResult, elementErrors);
+
+                    // Element handled. No need for further processing.
+                    continue;
                 }
 
-                if (!elementHandled)
+                if (idCard is DriversLicense driversLicense)
                 {
-                    // We parse Country separately because various other fields rely on it for parsing.
-                    if (elementId != SubfileElementIds.Country)
+                    parseAndSetResult = Parser.ParseAndSetDriversLicenseElement(elementId: elementId, rawValue: rawValue, country, version, driversLicense);
+                    if (parseAndSetResult.ElementHandled)
                     {
-                        idCard.UnhandledElementIds.Add(elementId);
+                        AddErrorIfParseAndSetFailed(parseAndSetResult, elementErrors);
+
+                        // Element handled. No need for further processing.
+                        continue;
                     }
+                }
+
+                // We parse Country separately because various other fields rely on it for parsing.
+                if (elementId != SubfileElementIds.Country)
+                {
+                    unhandledElements.Add(new UnhandledElement(ElementId: elementId, RawValue: rawValue));
                 }
             }
             catch (Exception ex)
@@ -434,5 +494,17 @@ public static partial class Barcode
                 throw;
             }
         }
+
+        return new PopulateResult(unhandledElements, elementErrors);
+    }
+
+    private static void AddErrorIfParseAndSetFailed(Parser.ParseAndSetElementResult parseAndSetResult, List<ElementParseError> elementErrors)
+    {
+        if (!parseAndSetResult.HasError)
+        {
+            return;
+        }
+
+        elementErrors.Add(parseAndSetResult.ElementParseError);
     }
 }
