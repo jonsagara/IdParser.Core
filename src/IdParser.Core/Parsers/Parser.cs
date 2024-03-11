@@ -39,47 +39,47 @@ internal static class Parser
         switch (elementId)
         {
             case SubfileElementIds.AliasFirstName:
-                (idCard.AliasFirstName, elementParseError) = InternalParse(AliasFirstNameParser.Parse, elementId: elementId, rawValue: rawValue, version);
+                (idCard.AliasFirstName, elementParseError) = ParseElement(AliasFirstNameParser.Parse, elementId: elementId, rawValue: rawValue, version);
                 break;
 
             case SubfileElementIds.AliasLastName:
-                (idCard.AliasLastName, elementParseError) = InternalParse(AliasLastNameParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.AliasLastName, elementParseError) = ParseElement(AliasLastNameParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.AliasSuffix:
-                (idCard.AliasSuffix, elementParseError) = InternalParse(AliasSuffixParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.AliasSuffix, elementParseError) = ParseElement(AliasSuffixParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.AuditInformation:
-                (idCard.AuditInformation, elementParseError) = InternalParse(AuditInformationParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.AuditInformation, elementParseError) = ParseElement(AuditInformationParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.City:
-                (idCard.City, elementParseError) = InternalParse(CityParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.City, elementParseError) = ParseElement(CityParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.ComplianceType:
-                (idCard.ComplianceType, elementParseError) = InternalParse(ComplianceTypeParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.ComplianceType, elementParseError) = ParseElement(ComplianceTypeParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.DateOfBirth:
-                (idCard.DateOfBirth, elementParseError) = InternalParse(DateOfBirthParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
+                (idCard.DateOfBirth, elementParseError) = ParseElement(DateOfBirthParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.DocumentDiscriminator:
-                (idCard.DocumentDiscriminator, elementParseError) = InternalParse(DocumentDiscriminatorParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.DocumentDiscriminator, elementParseError) = ParseElement(DocumentDiscriminatorParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.Ethnicity:
-                (idCard.Ethnicity, elementParseError) = InternalParse(EthnicityParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.Ethnicity, elementParseError) = ParseElement(EthnicityParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.ExpirationDate:
-                (idCard.ExpirationDate, elementParseError) = InternalParse(ExpirationDateParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
+                (idCard.ExpirationDate, elementParseError) = ParseElement(ExpirationDateParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.EyeColor:
-                (idCard.EyeColor, elementParseError) = InternalParse(EyeColorParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.EyeColor, elementParseError) = ParseElement(EyeColorParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.FirstName:
@@ -99,53 +99,53 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.HairColor:
-                (idCard.HairColor, elementParseError) = InternalParse(HairColorParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.HairColor, elementParseError) = ParseElement(HairColorParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.HasTemporaryLawfulStatus:
-                (idCard.HasTemporaryLawfulStatus, elementParseError) = InternalParse(HasTemporaryLawfulStatusParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.HasTemporaryLawfulStatus, elementParseError) = ParseElement(HasTemporaryLawfulStatusParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.Height:
-                (idCard.Height, elementParseError) = InternalParse(HeightParser.Parse, elementId: elementId, rawValue: rawValue, version);
+                (idCard.Height, elementParseError) = ParseElement(HeightParser.Parse, elementId: elementId, rawValue: rawValue, version);
                 break;
 
             case SubfileElementIds.IdNumber:
-                (idCard.IdNumber, elementParseError) = InternalParse(IdNumberParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.IdNumber, elementParseError) = ParseElement(IdNumberParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.InventoryControlNumber:
-                (idCard.InventoryControlNumber, elementParseError) = InternalParse(InventoryControlNumberParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.InventoryControlNumber, elementParseError) = ParseElement(InventoryControlNumberParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.IsOrganDonor:
-                (idCard.IsOrganDonor, elementParseError) = InternalParse(IsOrganDonorParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.IsOrganDonor, elementParseError) = ParseElement(IsOrganDonorParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.IsOrganDonorLegacy:
-                (idCard.IsOrganDonor, elementParseError) = InternalParse(IsOrganDonorLegacyParser.Parse, elementId: elementId, rawValue: rawValue, version);
+                (idCard.IsOrganDonor, elementParseError) = ParseElement(IsOrganDonorLegacyParser.Parse, elementId: elementId, rawValue: rawValue, version);
                 break;
 
             case SubfileElementIds.IssueDate:
-                (idCard.IssueDate, elementParseError) = InternalParse(IssueDateParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
+                (idCard.IssueDate, elementParseError) = ParseElement(IssueDateParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.IsVeteran:
-                (idCard.IsVeteran, elementParseError) = InternalParse(IsVeteranParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.IsVeteran, elementParseError) = ParseElement(IsVeteranParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.JurisdictionCode:
-                (idCard.JurisdictionCode, elementParseError) = InternalParse(JurisdictionCodeParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.JurisdictionCode, elementParseError) = ParseElement(JurisdictionCodeParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.LastName:
-                (idCard.LastName, elementParseError) = InternalParse(LastNameParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.LastName, elementParseError) = ParseElement(LastNameParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.MiddleName:
                 // Some jurisdictions like Wyoming put the middle initial in the FirstName field. If we have
                 //   already written that, and if middle name is null, keep the one parsed from first name.
-                (idCard.MiddleName, elementParseError) = InternalParse(MiddleNameParser.Parse, elementId: elementId, rawValue: rawValue ?? idCard.MiddleName.Value);
+                (idCard.MiddleName, elementParseError) = ParseElement(MiddleNameParser.Parse, elementId: elementId, rawValue: rawValue ?? idCard.MiddleName.Value);
                 break;
 
             case SubfileElementIds.Name:
@@ -158,71 +158,71 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.NameSuffix:
-                (idCard.Suffix, elementParseError) = InternalParse(NameSuffixParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.Suffix, elementParseError) = ParseElement(NameSuffixParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.PlaceOfBirth:
-                (idCard.PlaceOfBirth, elementParseError) = InternalParse(PlaceOfBirthParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.PlaceOfBirth, elementParseError) = ParseElement(PlaceOfBirthParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.PostalCode:
-                (idCard.PostalCode, elementParseError) = InternalParse(PostalCodeParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.PostalCode, elementParseError) = ParseElement(PostalCodeParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.RevisionDate:
-                (idCard.RevisionDate, elementParseError) = InternalParse(RevisionDateParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
+                (idCard.RevisionDate, elementParseError) = ParseElement(RevisionDateParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.Sex:
-                (idCard.Sex, elementParseError) = InternalParse(SexParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.Sex, elementParseError) = ParseElement(SexParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StreetLine1:
-                (idCard.StreetLine1, elementParseError) = InternalParse(StreetLine1Parser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.StreetLine1, elementParseError) = ParseElement(StreetLine1Parser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StreetLine1Legacy:
-                (idCard.StreetLine1, elementParseError) = InternalParse(StreetLine1LegacyParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.StreetLine1, elementParseError) = ParseElement(StreetLine1LegacyParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StreetLine2:
-                (idCard.StreetLine2, elementParseError) = InternalParse(StreetLine2Parser.Parse, elementId: elementId, rawValue: rawValue, city: idCard.City.Value, jurisdictionCode: idCard.JurisdictionCode.Value, postalCode: idCard.PostalCode.Value);
+                (idCard.StreetLine2, elementParseError) = ParseElement(StreetLine2Parser.Parse, elementId: elementId, rawValue: rawValue, city: idCard.City.Value, jurisdictionCode: idCard.JurisdictionCode.Value, postalCode: idCard.PostalCode.Value);
                 break;
 
             case SubfileElementIds.Under18Until:
-                (idCard.Under18Until, elementParseError) = InternalParse(Under18UntilParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
+                (idCard.Under18Until, elementParseError) = ParseElement(Under18UntilParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.Under19Until:
-                (idCard.Under19Until, elementParseError) = InternalParse(Under19UntilParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
+                (idCard.Under19Until, elementParseError) = ParseElement(Under19UntilParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.Under21Until:
-                (idCard.Under21Until, elementParseError) = InternalParse(Under21UntilParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
+                (idCard.Under21Until, elementParseError) = ParseElement(Under21UntilParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.WasFirstNameTruncated:
-                (idCard.WasFirstNameTruncated, elementParseError) = InternalParse(WasFirstNameTruncatedParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.WasFirstNameTruncated, elementParseError) = ParseElement(WasFirstNameTruncatedParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.WasLastNameTruncated:
-                (idCard.WasLastNameTruncated, elementParseError) = InternalParse(WasLastNameTruncatedParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.WasLastNameTruncated, elementParseError) = ParseElement(WasLastNameTruncatedParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.WasMiddleNameTruncated:
-                (idCard.WasMiddleNameTruncated, elementParseError) = InternalParse(WasMiddleNameTruncatedParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.WasMiddleNameTruncated, elementParseError) = ParseElement(WasMiddleNameTruncatedParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.WeightInKilograms:
-                (idCard.Weight, elementParseError) = InternalParse(WeightInKilogramsParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.Weight, elementParseError) = ParseElement(WeightInKilogramsParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.WeightInPounds:
-                (idCard.Weight, elementParseError) = InternalParse(WeightInPoundsParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.Weight, elementParseError) = ParseElement(WeightInPoundsParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.WeightRange:
-                (idCard.WeightRange, elementParseError) = InternalParse(WeightRangeParser.Parse, elementId: elementId, rawValue: rawValue);
+                (idCard.WeightRange, elementParseError) = ParseElement(WeightRangeParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             default:
@@ -257,55 +257,55 @@ internal static class Parser
         switch (elementId)
         {
             case SubfileElementIds.EndorsementCodeDescription:
-                (driversLicense.EndorsementCodeDescription, elementParseError) = InternalParse(EndorsementCodeDescriptionParser.Parse, elementId: elementId, rawValue: rawValue);
+                (driversLicense.EndorsementCodeDescription, elementParseError) = ParseElement(EndorsementCodeDescriptionParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.EndorsementCodes:
-                (driversLicense.EndorsementCodes, elementParseError) = InternalParse(EndorsementCodesParser.Parse, elementId: elementId, rawValue: rawValue);
+                (driversLicense.EndorsementCodes, elementParseError) = ParseElement(EndorsementCodesParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.EndorsementCodesLegacy:
-                (driversLicense.EndorsementCodes, elementParseError) = InternalParse(EndorsementCodesLegacyParser.Parse, elementId: elementId, rawValue: rawValue);
+                (driversLicense.EndorsementCodes, elementParseError) = ParseElement(EndorsementCodesLegacyParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.HazmatEndorsementExpirationDate:
-                (driversLicense.HazmatEndorsementExpirationDate, elementParseError) = InternalParse(HazmatEndorsementExpirationDateParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
+                (driversLicense.HazmatEndorsementExpirationDate, elementParseError) = ParseElement(HazmatEndorsementExpirationDateParser.Parse, elementId: elementId, rawValue: rawValue, country, version);
                 break;
 
             case SubfileElementIds.RestrictionCodeDescription:
-                (driversLicense.RestrictionCodeDescription, elementParseError) = InternalParse(RestrictionCodeDescriptionParser.Parse, elementId: elementId, rawValue: rawValue);
+                (driversLicense.RestrictionCodeDescription, elementParseError) = ParseElement(RestrictionCodeDescriptionParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.RestrictionCodes:
-                (driversLicense.RestrictionCodes, elementParseError) = InternalParse(RestrictionCodesParser.Parse, elementId: elementId, rawValue: rawValue);
+                (driversLicense.RestrictionCodes, elementParseError) = ParseElement(RestrictionCodesParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.RestrictionCodesLegacy:
-                (driversLicense.RestrictionCodes, elementParseError) = InternalParse(RestrictionCodesLegacyParser.Parse, elementId: elementId, rawValue: rawValue);
+                (driversLicense.RestrictionCodes, elementParseError) = ParseElement(RestrictionCodesLegacyParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StandardEndorsementCode:
-                (driversLicense.StandardEndorsementCode, elementParseError) = InternalParse(StandardEndorsementCodeParser.Parse, elementId: elementId, rawValue: rawValue);
+                (driversLicense.StandardEndorsementCode, elementParseError) = ParseElement(StandardEndorsementCodeParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StandardRestrictionCode:
-                (driversLicense.StandardRestrictionCode, elementParseError) = InternalParse(StandardRestrictionCodeParser.Parse, elementId: elementId, rawValue: rawValue);
+                (driversLicense.StandardRestrictionCode, elementParseError) = ParseElement(StandardRestrictionCodeParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.StandardVehicleClassification:
-                (driversLicense.StandardVehicleClassification, elementParseError) = InternalParse(StandardVehicleClassificationParser.Parse, elementId: elementId, rawValue: rawValue);
+                (driversLicense.StandardVehicleClassification, elementParseError) = ParseElement(StandardVehicleClassificationParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.VehicleClassificationDescription:
-                (driversLicense.VehicleClassificationDescription, elementParseError) = InternalParse(VehicleClassificationDescriptionParser.Parse, elementId: elementId, rawValue: rawValue);
+                (driversLicense.VehicleClassificationDescription, elementParseError) = ParseElement(VehicleClassificationDescriptionParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.VehicleClass:
-                (driversLicense.VehicleClass, elementParseError) = InternalParse(VehicleClassParser.Parse, elementId: elementId, rawValue: rawValue);
+                (driversLicense.VehicleClass, elementParseError) = ParseElement(VehicleClassParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             case SubfileElementIds.VehicleClassLegacy:
-                (driversLicense.VehicleClass, elementParseError) = InternalParse(VehicleClassLegacyParser.Parse, elementId: elementId, rawValue: rawValue);
+                (driversLicense.VehicleClass, elementParseError) = ParseElement(VehicleClassLegacyParser.Parse, elementId: elementId, rawValue: rawValue);
                 break;
 
             default:
@@ -327,12 +327,20 @@ internal static class Parser
 
     private readonly record struct InternalParseResult<T>(Field<T> Field, ElementParseError? ElementError);
 
-#warning TODO: use a delegate so that we have named parameters to parseFun
-    private static InternalParseResult<T> InternalParse<T>(Func<string, string?, Field<T>> parseFunc, string elementId, string? rawValue)
+    private delegate Field<T> ParseRawValue<T>(string elementId, string? rawValue);
+
+    private delegate Field<T> ParseRawValueWithVersion<T>(string elementId, string? rawValue, AAMVAVersion version);
+
+    private delegate Field<T> ParseRawValueWithCountryAndVersion<T>(string elementId, string? rawValue, Country country, AAMVAVersion version);
+
+    private delegate Field<T> ParseStreetAddressFunc<T>(string elementId, string? rawValue, string? city, string? jurisdictionCode, string? postalCode);
+
+
+    private static InternalParseResult<T> ParseElement<T>(ParseRawValue<T> parseFunc, string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(parseFunc);
 
-        var field = parseFunc(elementId, rawValue);
+        var field = parseFunc(elementId: elementId, rawValue: rawValue);
 
         var parseError = field.HasError
             ? new ElementParseError(elementId, rawValue, field.Error!)
@@ -341,12 +349,11 @@ internal static class Parser
         return new InternalParseResult<T>(field, parseError);
     }
 
-#warning TODO: use a delegate so that we have named parameters to parseFun
-    private static InternalParseResult<T> InternalParse<T>(Func<string, string?, AAMVAVersion, Field<T>> parseFunc, string elementId, string? rawValue, AAMVAVersion version)
+    private static InternalParseResult<T> ParseElement<T>(ParseRawValueWithVersion<T> parseFunc, string elementId, string? rawValue, AAMVAVersion version)
     {
         ArgumentNullException.ThrowIfNull(parseFunc);
 
-        var field = parseFunc(elementId, rawValue, version);
+        var field = parseFunc(elementId: elementId, rawValue: rawValue, version);
 
         var parseError = field.HasError
             ? new ElementParseError(elementId, rawValue, field.Error!)
@@ -355,12 +362,11 @@ internal static class Parser
         return new InternalParseResult<T>(field, parseError);
     }
 
-#warning TODO: use a delegate so that we have named parameters to parseFun
-    private static InternalParseResult<T> InternalParse<T>(Func<string, string?, Country, AAMVAVersion, Field<T>> parseFunc, string elementId, string? rawValue, Country country, AAMVAVersion version)
+    private static InternalParseResult<T> ParseElement<T>(ParseRawValueWithCountryAndVersion<T> parseFunc, string elementId, string? rawValue, Country country, AAMVAVersion version)
     {
         ArgumentNullException.ThrowIfNull(parseFunc);
 
-        var field = parseFunc(elementId, rawValue, country, version);
+        var field = parseFunc(elementId: elementId, rawValue: rawValue, country, version);
 
         var parseError = field.HasError
             ? new ElementParseError(elementId, rawValue, field.Error!)
@@ -369,12 +375,11 @@ internal static class Parser
         return new InternalParseResult<T>(field, parseError);
     }
 
-#warning TODO: use a delegate so that we have named parameters to parseFun
-    private static InternalParseResult<T> InternalParse<T>(Func<string, string?, string?, string?, string?, Field<T>> parseFunc, string elementId, string? rawValue, string? city, string? jurisdictionCode, string? postalCode)
+    private static InternalParseResult<T> ParseElement<T>(ParseStreetAddressFunc<T> parseFunc, string elementId, string? rawValue, string? city, string? jurisdictionCode, string? postalCode)
     {
         ArgumentNullException.ThrowIfNull(parseFunc);
 
-        var field = parseFunc(elementId, rawValue, city, jurisdictionCode, postalCode);
+        var field = parseFunc(elementId: elementId, rawValue: rawValue, city: city, jurisdictionCode: jurisdictionCode, postalCode: postalCode);
 
         var parseError = field.HasError
             ? new ElementParseError(elementId, rawValue, field.Error!)
