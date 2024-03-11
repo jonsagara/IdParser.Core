@@ -325,18 +325,18 @@ internal static class Parser
     // Private methods
     //
 
-    private readonly record struct InternalParseResult<T>(Field<T> Field, ElementParseError? ElementError);
+    private readonly record struct ParseElementResult<T>(Field<T> Field, ElementParseError? ElementParseError);
 
-    private delegate Field<T> ParseRawValue<T>(string elementId, string? rawValue);
+    private delegate Field<T> ParseFunction<T>(string elementId, string? rawValue);
 
-    private delegate Field<T> ParseRawValueWithVersion<T>(string elementId, string? rawValue, AAMVAVersion version);
+    private delegate Field<T> ParseWithVersionFunction<T>(string elementId, string? rawValue, AAMVAVersion version);
 
-    private delegate Field<T> ParseRawValueWithCountryAndVersion<T>(string elementId, string? rawValue, Country country, AAMVAVersion version);
+    private delegate Field<T> ParseWithCountryAndVersionFunction<T>(string elementId, string? rawValue, Country country, AAMVAVersion version);
 
-    private delegate Field<T> ParseStreetAddressFunc<T>(string elementId, string? rawValue, string? city, string? jurisdictionCode, string? postalCode);
+    private delegate Field<T> ParseStreetAddressFunction<T>(string elementId, string? rawValue, string? city, string? jurisdictionCode, string? postalCode);
 
 
-    private static InternalParseResult<T> ParseElement<T>(ParseRawValue<T> parseFunc, string elementId, string? rawValue)
+    private static ParseElementResult<T> ParseElement<T>(ParseFunction<T> parseFunc, string elementId, string? rawValue)
     {
         ArgumentNullException.ThrowIfNull(parseFunc);
 
@@ -346,10 +346,10 @@ internal static class Parser
             ? new ElementParseError(elementId, rawValue, field.Error!)
             : null;
 
-        return new InternalParseResult<T>(field, parseError);
+        return new ParseElementResult<T>(field, parseError);
     }
 
-    private static InternalParseResult<T> ParseElement<T>(ParseRawValueWithVersion<T> parseFunc, string elementId, string? rawValue, AAMVAVersion version)
+    private static ParseElementResult<T> ParseElement<T>(ParseWithVersionFunction<T> parseFunc, string elementId, string? rawValue, AAMVAVersion version)
     {
         ArgumentNullException.ThrowIfNull(parseFunc);
 
@@ -359,10 +359,10 @@ internal static class Parser
             ? new ElementParseError(elementId, rawValue, field.Error!)
             : null;
 
-        return new InternalParseResult<T>(field, parseError);
+        return new ParseElementResult<T>(field, parseError);
     }
 
-    private static InternalParseResult<T> ParseElement<T>(ParseRawValueWithCountryAndVersion<T> parseFunc, string elementId, string? rawValue, Country country, AAMVAVersion version)
+    private static ParseElementResult<T> ParseElement<T>(ParseWithCountryAndVersionFunction<T> parseFunc, string elementId, string? rawValue, Country country, AAMVAVersion version)
     {
         ArgumentNullException.ThrowIfNull(parseFunc);
 
@@ -372,10 +372,10 @@ internal static class Parser
             ? new ElementParseError(elementId, rawValue, field.Error!)
             : null;
 
-        return new InternalParseResult<T>(field, parseError);
+        return new ParseElementResult<T>(field, parseError);
     }
 
-    private static InternalParseResult<T> ParseElement<T>(ParseStreetAddressFunc<T> parseFunc, string elementId, string? rawValue, string? city, string? jurisdictionCode, string? postalCode)
+    private static ParseElementResult<T> ParseElement<T>(ParseStreetAddressFunction<T> parseFunc, string elementId, string? rawValue, string? city, string? jurisdictionCode, string? postalCode)
     {
         ArgumentNullException.ThrowIfNull(parseFunc);
 
@@ -385,6 +385,6 @@ internal static class Parser
             ? new ElementParseError(elementId, rawValue, field.Error!)
             : null;
 
-        return new InternalParseResult<T>(field, parseError);
+        return new ParseElementResult<T>(field, parseError);
     }
 }
