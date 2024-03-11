@@ -6,12 +6,21 @@ namespace IdParser.Core.Parsers;
 
 internal static class Parser
 {
-    internal static bool ParseAndSetIdElements(string elementId, string? rawValue, Country country, AAMVAVersion version, IdentificationCard idCard)
+    /// <summary>
+    /// Try to match <paramref name="elementId"/> to a known element ID and capture its value.
+    /// </summary>
+    /// <param name="elementId">The three-character element ID.</param>
+    /// <param name="rawValue">The element's raw string value from the scanned ID text.</param>
+    /// <param name="country">The country of jurisdiction.</param>
+    /// <param name="version">The AAMVA specification version from the ID.</param>
+    /// <param name="idCard">The <see cref="IdentificationCard" /> instance we are trying to populate.</param>
+    /// <returns>true if <paramref name="elementId"/> matched one of the known element abbreviations; false otherwise.</returns>
+    internal static bool ParseAndSetIdCardElement(string elementId, string? rawValue, Country country, AAMVAVersion version, IdentificationCard idCard)
     {
         ArgumentNullException.ThrowIfNull(elementId);
         ArgumentNullException.ThrowIfNull(idCard);
 
-        var handled = true;
+        var elementHandled = true;
 
         switch (elementId)
         {
@@ -200,19 +209,28 @@ internal static class Parser
                 break;
 
             default:
-                handled = false;
+                elementHandled = false;
                 break;
         }
 
-        return handled;
+        return elementHandled;
     }
 
-    internal static bool ParseAndSetDriversLicenseElements(string elementId, string? rawValue, Country country, AAMVAVersion version, DriversLicense driversLicense)
+    /// <summary>
+    /// Try to match <paramref name="elementId"/> to a known element ID and capture its value.
+    /// </summary>
+    /// <param name="elementId">The three-character element ID.</param>
+    /// <param name="rawValue">The element's raw string value from the scanned ID text.</param>
+    /// <param name="country">The country of jurisdiction.</param>
+    /// <param name="version">The AAMVA specification version from the ID.</param>
+    /// <param name="driversLicense">The <see cref="DriversLicense"/> instance we are trying to populate.</param>
+    /// <returns>true if <paramref name="elementId"/> matched one of the known element abbreviations; false otherwise.</returns>
+    internal static bool ParseAndSetDriversLicenseElement(string elementId, string? rawValue, Country country, AAMVAVersion version, DriversLicense driversLicense)
     {
         ArgumentNullException.ThrowIfNull(elementId);
         ArgumentNullException.ThrowIfNull(driversLicense);
 
-        var handled = true;
+        var elementHandled = true;
 
         switch (elementId)
         {
@@ -269,10 +287,10 @@ internal static class Parser
                 break;
 
             default:
-                handled = false;
+                elementHandled = false;
                 break;
         }
 
-        return handled;
+        return elementHandled;
     }
 }

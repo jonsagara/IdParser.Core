@@ -412,14 +412,14 @@ public static partial class Barcode
 
             try
             {
-                var handled = Parser.ParseAndSetIdElements(elementId: elementId, rawValue: rawValue, country, version, idCard);
+                var elementHandled = Parser.ParseAndSetIdCardElement(elementId: elementId, rawValue: rawValue, country, version, idCard);
 
-                if (!handled && idCard is DriversLicense driversLicense)
+                if (!elementHandled && idCard is DriversLicense driversLicense)
                 {
-                    handled = Parser.ParseAndSetDriversLicenseElements(elementId: elementId, rawValue: rawValue, country, version, driversLicense);
+                    elementHandled = Parser.ParseAndSetDriversLicenseElement(elementId: elementId, rawValue: rawValue, country, version, driversLicense);
                 }
 
-                if (!handled)
+                if (!elementHandled)
                 {
                     // We parse Country separately because various other fields rely on it for parsing.
                     if (elementId != SubfileElementIds.Country)
