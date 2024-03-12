@@ -37,6 +37,23 @@ if (parseResult.Card.FirstName.HasError)
 }
 ```
 
+You can iterate through all errors that occurred:
+
+```csharp
+if (parseResult.Errors.Count > 0)
+{
+    foreach (var error in parseResult.Errors)
+    {
+        // All errors have a Message describing what went wrong.
+        Console.WriteLine($"Error: {error.Message}");
+
+        // Element-level errors will have an Element ID and the element's raw value.
+        Console.WriteLine($"Element ID: {error.ElementId}");
+        Console.WriteLine($"Raw Value: {error.RawValue}");
+    }
+}
+```
+
 You can also check to see whether a field was present in the scanned ID text:
 
 ```csharp
