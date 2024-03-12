@@ -8,53 +8,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace IdParser.Core;
 
-/// <summary>
-/// Any element with an unrecognized 3-character element ID and its associated value.
-/// </summary>
-/// <param name="ElementId">The 3-character element ID.</param>
-/// <param name="RawValue">The raw value from the scanned ID text.</param>
-public record UnhandledElement(string ElementId, string? RawValue);
-
-/// <summary>
-/// Details about failure to parse or extract a meaningful value from an element's raw value obtained from 
-/// the scanned ID text.
-/// </summary>
-/// <param name="ElementId">The 3-character element ID.</param>
-/// <param name="RawValue">The element's raw value from the scanned ID text.</param>
-/// <param name="Error">A message describing the error that occurred.</param>
-public record ElementParseError(string ElementId, string? RawValue, string Error);
-
-/// <summary>
-/// Contains the result of parsing a scanned ID: the ID card, a collection of unhandled fields, and any
-/// field-level parsing errors that occurred.
-/// </summary>
-public class BarcodeParseResult
-{
-    /// <summary>
-    /// Contains values of any elements extracted from the scanned ID text.
-    /// </summary>
-    public IdentificationCard Card { get; }
-
-    public IReadOnlyCollection<UnhandledElement> UnhandledElements { get; }
-
-    /// <summary>
-    /// Contains element-level errors that occurred while trying to extract a meaningful value from the element's raw value.
-    /// </summary>
-    public IReadOnlyCollection<ElementParseError> ElementParseErrors { get; }
-
-
-    public BarcodeParseResult(IdentificationCard card, IReadOnlyCollection<UnhandledElement> unhandledElements, IReadOnlyCollection<ElementParseError> elementParseErrors)
-    {
-        ArgumentNullException.ThrowIfNull(card);
-        ArgumentNullException.ThrowIfNull(unhandledElements);
-        ArgumentNullException.ThrowIfNull(elementParseErrors);
-
-        Card = card;
-        UnhandledElements = unhandledElements;
-        ElementParseErrors = elementParseErrors;
-    }
-}
-
 public static partial class Barcode
 {
     /// <summary>
@@ -138,7 +91,7 @@ public static partial class Barcode
             logger.UnhandledElementIds(string.Join(", ", populateResult.UnhandledElements.Select(ue => ue.ElementId)));
         }
 
-        return new BarcodeParseResult(idCard, populateResult.UnhandledElements, populateResult.ElementErrors);
+        return new BarcodeParseResult(idCard, populateResult.UnhandledElements, populateResult.Errors);
     }
 
 
@@ -442,12 +395,12 @@ public static partial class Barcode
     }
 
 
-    private readonly record struct PopulateResult(List<UnhandledElement> UnhandledElements, List<ElementParseError> ElementErrors);
+    private readonly record struct PopulateResult(List<UnhandledElement> UnhandledElements, List<ParseError> Errors);
 
     private static PopulateResult PopulateIdCard(IdentificationCard idCard, AAMVAVersion version, Country country, Dictionary<string, string?> subfileRecords, ILogger logger)
     {
         List<UnhandledElement> unhandledElements = new();
-        List<ElementParseError> elementErrors = new();
+        List<ParseError> errors = new();
 
         foreach (var elementId in subfileRecords.Keys)
         {
@@ -464,7 +417,7 @@ public static partial class Barcode
                 var parseAndSetResult = Parser.ParseAndSetIdCardElement(elementId: elementId, rawValue: rawValue, country, version, idCard);
                 if (parseAndSetResult.ElementHandled)
                 {
-                    AddErrorIfParseAndSetFailed(parseAndSetResult, elementErrors);
+                    AddErrorIfParseAndSetFailed(parseAndSetResult, errors);
 
                     // Element handled. No need for further processing.
                     continue;
@@ -475,7 +428,7 @@ public static partial class Barcode
                     parseAndSetResult = Parser.ParseAndSetDriversLicenseElement(elementId: elementId, rawValue: rawValue, country, version, driversLicense);
                     if (parseAndSetResult.ElementHandled)
                     {
-                        AddErrorIfParseAndSetFailed(parseAndSetResult, elementErrors);
+                        AddErrorIfParseAndSetFailed(parseAndSetResult, errors);
 
                         // Element handled. No need for further processing.
                         continue;
@@ -495,16 +448,16 @@ public static partial class Barcode
             }
         }
 
-        return new PopulateResult(unhandledElements, elementErrors);
+        return new PopulateResult(unhandledElements, errors);
     }
 
-    private static void AddErrorIfParseAndSetFailed(Parser.ParseAndSetElementResult parseAndSetResult, List<ElementParseError> elementErrors)
+    private static void AddErrorIfParseAndSetFailed(Parser.ParseAndSetElementResult parseAndSetResult, List<ParseError> errors)
     {
         if (!parseAndSetResult.HasError)
         {
             return;
         }
 
-        elementErrors.Add(parseAndSetResult.ElementParseError);
+        errors.Add(parseAndSetResult.Error);
     }
 }
