@@ -8,53 +8,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace IdParser.Core;
 
-/// <summary>
-/// Any element with an unrecognized 3-character element ID and its associated value.
-/// </summary>
-/// <param name="ElementId">The 3-character element ID.</param>
-/// <param name="RawValue">The raw value from the scanned ID text.</param>
-public record UnhandledElement(string ElementId, string? RawValue);
-
-/// <summary>
-/// Details about failure to parse or extract a meaningful value from an element's raw value obtained from 
-/// the scanned ID text.
-/// </summary>
-/// <param name="ElementId">The 3-character element ID.</param>
-/// <param name="RawValue">The element's raw value from the scanned ID text.</param>
-/// <param name="Error">A message describing the error that occurred.</param>
-public record ElementParseError(string ElementId, string? RawValue, string Error);
-
-/// <summary>
-/// Contains the result of parsing a scanned ID: the ID card, a collection of unhandled fields, and any
-/// field-level parsing errors that occurred.
-/// </summary>
-public class BarcodeParseResult
-{
-    /// <summary>
-    /// Contains values of any elements extracted from the scanned ID text.
-    /// </summary>
-    public IdentificationCard Card { get; }
-
-    public IReadOnlyCollection<UnhandledElement> UnhandledElements { get; }
-
-    /// <summary>
-    /// Contains element-level errors that occurred while trying to extract a meaningful value from the element's raw value.
-    /// </summary>
-    public IReadOnlyCollection<ElementParseError> ElementParseErrors { get; }
-
-
-    public BarcodeParseResult(IdentificationCard card, IReadOnlyCollection<UnhandledElement> unhandledElements, IReadOnlyCollection<ElementParseError> elementParseErrors)
-    {
-        ArgumentNullException.ThrowIfNull(card);
-        ArgumentNullException.ThrowIfNull(unhandledElements);
-        ArgumentNullException.ThrowIfNull(elementParseErrors);
-
-        Card = card;
-        UnhandledElements = unhandledElements;
-        ElementParseErrors = elementParseErrors;
-    }
-}
-
 public static partial class Barcode
 {
     /// <summary>
