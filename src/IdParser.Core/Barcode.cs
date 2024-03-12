@@ -76,7 +76,16 @@ public static partial class Barcode
         var aamvaVersionResult = ParseAAMVAVersion(rawPdf417Input);
         var idCard = GetIdCardInstance(rawPdf417Input, aamvaVersionResult);
 
-#warning TODO: Need to bail here if we couldn't parse the IssuerIdentificationNumber, and we can't continue trying to parse the rest of the ID.
+        if (idCard.IssuerIdentificationNumber.HasError)
+        {
+            // If we couldn't parse IssuerIdentificationNumber, then we can't continue trying to parse the rest of the ID. For example,
+            //   IIN is required to determine country, which is used by various parsers.
+            return new BarcodeParseResult(
+                idCard,
+                Array.Empty<UnhandledElement>(),
+                [new ParseError(Message: idCard.IssuerIdentificationNumber.Error, ElementId: idCard.IssuerIdentificationNumber.ElementId, RawValue: idCard.IssuerIdentificationNumber.RawValue)]
+                );
+        }
 
         // NOTE: any elementIds without a value will have null as the value, NOT "".
         var subfileRecords = GetSubfileRecords(rawPdf417Input, idCard.AAMVAVersionNumber.Value, idCard);

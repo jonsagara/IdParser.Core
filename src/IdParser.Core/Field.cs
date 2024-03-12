@@ -1,4 +1,5 @@
-﻿using IdParser.Core.Constants;
+﻿using System.Diagnostics.CodeAnalysis;
+using IdParser.Core.Constants;
 
 namespace IdParser.Core;
 
@@ -22,6 +23,7 @@ public readonly record struct Field<T>(
     /// <summary>
     /// Returns true if the field has a non-null, non-white space <see cref="Error"/> message; false otherwise.
     /// </summary>
+    [MemberNotNullWhen(true, nameof(Error))]
     public bool HasError
         => !string.IsNullOrWhiteSpace(Error);
 }
