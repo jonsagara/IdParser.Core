@@ -17,19 +17,19 @@ public class BarcodeParseResult
     public IReadOnlyCollection<UnhandledElement> UnhandledElements { get; }
 
     /// <summary>
-    /// Contains element-level errors that occurred while trying to extract a meaningful value from the element's raw value.
+    /// Contains errors that occurred while trying to parse the scanned ID text.
     /// </summary>
-    public IReadOnlyCollection<ElementParseError> ElementParseErrors { get; }
+    public IReadOnlyCollection<ParseError> ParseErrors { get; }
 
 
-    internal BarcodeParseResult(IdentificationCard card, IReadOnlyCollection<UnhandledElement> unhandledElements, IReadOnlyCollection<ElementParseError> elementParseErrors)
+    internal BarcodeParseResult(IdentificationCard card, IReadOnlyCollection<UnhandledElement> unhandledElements, IReadOnlyCollection<ParseError> parseErrors)
     {
         ArgumentNullException.ThrowIfNull(card);
         ArgumentNullException.ThrowIfNull(unhandledElements);
-        ArgumentNullException.ThrowIfNull(elementParseErrors);
+        ArgumentNullException.ThrowIfNull(parseErrors);
 
         Card = card;
         UnhandledElements = unhandledElements;
-        ElementParseErrors = elementParseErrors;
+        ParseErrors = parseErrors;
     }
 }
