@@ -9,7 +9,7 @@ internal static class HeightParser
     {
         ArgumentNullException.ThrowIfNull(elementId);
 
-        if (string.IsNullOrWhiteSpace(rawValue))
+        if (ParserHelper.StringHasNoValue(rawValue))
         {
             // #28: For 2.0.0, I changed this to return an unparsed field error noting that the field had no value or 
             //   less than 3 characters. AAMVA says that DAU is required, and that when there is no data, it should be
