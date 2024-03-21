@@ -9,9 +9,19 @@ internal static class HeightParser
     {
         ArgumentNullException.ThrowIfNull(elementId);
 
-        if (string.IsNullOrEmpty(rawValue) || rawValue.Length < 3)
+        if (string.IsNullOrWhiteSpace(rawValue))
         {
-            return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Height from field '{SubfileElementIds.Height}': the field has no value, or has less than 3 characters: '{rawValue}'");
+            // #28: For 2.0.0, I changed this to return an unparsed field error noting that the field had no value or 
+            //   less than 3 characters. AAMVA says that DAU is required, and that when there is no data, it should be
+            //   encoded as NONE or unavl. MI does neither of those, and just leaves the field blank.
+            // Split this into two separate checks: no value is not an error; return null.
+            return FieldHelpers.ParsedField<Height?>(elementId: elementId, value: null, rawValue: rawValue);
+        }
+
+        if (rawValue.Length < 3)
+        {
+            // #28: ... but we can't parse values that are less than 3 characters in length, so that's still an error.
+            return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Height from field '{SubfileElementIds.Height}': the field has less than 3 characters: '{rawValue}'");
         }
 
         if (version == AAMVAVersion.AAMVA2000)
