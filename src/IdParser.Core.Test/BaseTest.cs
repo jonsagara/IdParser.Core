@@ -96,6 +96,11 @@ public class BaseTest
         Assert.Equal(expected.HazmatEndorsementExpirationDate.Value, actual.HazmatEndorsementExpirationDate.Value);
     }
 
+    protected void AssertNoErrors(BarcodeParseResult parseResult)
+    {
+        Assert.Empty(parseResult.Errors);
+    }
+
     protected void LogUnhandledElementIds(BarcodeParseResult parseResult)
     {
         if (parseResult.UnhandledElements.Count == 0)

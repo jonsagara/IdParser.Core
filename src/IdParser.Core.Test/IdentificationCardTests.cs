@@ -49,6 +49,7 @@ public class IdentificationCardTests : BaseTest
         var parseResult = Barcode.Parse(file, Validation.None);
         LogUnhandledElementIds(parseResult);
 
+        AssertNoErrors(parseResult);
         AssertIdCard(expected, parseResult.Card);
 
         Assert.Equal("37011-5509", parseResult.Card.PostalCodeDisplay);

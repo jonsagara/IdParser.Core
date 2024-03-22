@@ -1,8 +1,4 @@
-﻿using System.Diagnostics;
-using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Jobs;
-using BenchmarkDotNet.Running;
-using IdParser.Core;
+﻿using BenchmarkDotNet.Running;
 using IdParser.Core.Benchmarks.Runners;
 
 //Console.WriteLine("Dummy code to fix compilation when harnesses are commented out.");
@@ -10,7 +6,8 @@ using IdParser.Core.Benchmarks.Runners;
 //BenchmarkRunner.Run<DriversLicenseHarness>();
 //BenchmarkRunner.Run<DictionaryVsToDictionaryHarness>();
 //BenchmarkRunner.Run<SubstringTrimVsSliceTrimToStringHarness>();
-BenchmarkRunner.Run<SubstringVsSpanHarness>();
+//BenchmarkRunner.Run<SubstringVsSpanHarness>();
+BenchmarkRunner.Run<StringHasNoValueHarness>();
 
 
 
