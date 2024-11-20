@@ -12,11 +12,19 @@ internal static class Fixes
     {
         var logger = loggerFactory.CreateLogger(typeof(Fixes));
 
-        return rawPdf417Input
-            .RemoveUndefinedCharacters()
-            .RemoveInvalidCharactersFromHeader(logger)
-            .FixIncorrectHeader(logger)
-            .RemoveIncorrectCarriageReturns(logger);
+        // This isn't easily debuggable.
+        //return rawPdf417Input
+        //    .RemoveUndefinedCharacters()
+        //    .RemoveInvalidCharactersFromHeader(logger)
+        //    .FixIncorrectHeader(logger)
+        //    .RemoveIncorrectCarriageReturns(logger);
+
+        rawPdf417Input = rawPdf417Input.RemoveUndefinedCharacters();
+        rawPdf417Input = rawPdf417Input.RemoveInvalidCharactersFromHeader(logger);
+        rawPdf417Input = rawPdf417Input.FixIncorrectHeader(logger);
+        rawPdf417Input = rawPdf417Input.RemoveIncorrectCarriageReturns(logger);
+
+        return rawPdf417Input;
     }
 
 
