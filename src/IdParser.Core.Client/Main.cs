@@ -76,10 +76,14 @@ namespace IdParser.Core.Client
             try
             {
                 SetStatus(Level.Info, "Disconnecting scanner");
-                RemoveDataEvent(_scanner);
-                _scanner.DeviceEnabled = false;
-                _scanner.Release();
-                _scanner.Close();
+
+                if (_scanner is not null)
+                {
+                    RemoveDataEvent(_scanner);
+                    _scanner.DeviceEnabled = false;
+                    _scanner.Release();
+                    _scanner.Close();
+                }
 
                 SetStatus(Level.Success, "Scanner disconnected");
             }
