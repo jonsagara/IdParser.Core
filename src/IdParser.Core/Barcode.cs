@@ -182,7 +182,7 @@ public static partial class Barcode
     /// <param name="input">The raw PDF417 barcode data</param>
     private static AAMVAVersionResult ParseAAMVAVersion(string input)
     {
-        ArgumentNullException.ThrowIfNull(nameof(input));
+        ArgumentNullException.ThrowIfNull(input);
 
         if (input.Length < 17)
         {
