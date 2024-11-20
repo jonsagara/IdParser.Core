@@ -2,6 +2,9 @@
 
 internal record NameParts(string? First, string? Middle, string? Last, string? Suffix);
 
+/// <summary>
+/// Name parser for legacy AAMVA 2000 spec. The field code doesn't appear in the 2020 spec.
+/// </summary>
 internal static class NameParser
 {
     private static readonly char[] StandardSeparators = { ',', '$', '@' };

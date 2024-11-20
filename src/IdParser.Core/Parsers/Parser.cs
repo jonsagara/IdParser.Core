@@ -149,6 +149,7 @@ internal static class Parser
                 break;
 
             case SubfileElementIds.Name:
+                // Name parser for legacy 2000 spec. The field code doesn't appear in the 2020 spec.
                 // NOTE: this parser doesn't report errors
                 var nameParts = NameParser.Parse(elementId: elementId, rawValue: rawValue);
                 idCard.FirstName = FieldHelpers.ParsedField(elementId: elementId, value: nameParts?.First, rawValue: rawValue);
