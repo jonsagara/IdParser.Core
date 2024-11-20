@@ -193,6 +193,49 @@ public class DriversLicenseTests : BaseTest
     }
 
     [Fact]
+    public void TestNYLicenseWithAAMVA2000Height()
+    {
+        var expected = new DriversLicense
+        {
+            FirstName = FV<string?>(SubfileElementIds.FirstName, "ALDO"),
+            MiddleName = FV<string?>(SubfileElementIds.MiddleName, null),
+            LastName = FV<string?>(SubfileElementIds.LastName, "ADAMS"),
+
+            StreetLine1 = FV<string?>(SubfileElementIds.StreetLine1, "1234 ANY STREET"),
+            City = FV<string?>(SubfileElementIds.City, "ANYTOWN"),
+            JurisdictionCode = FV<string?>(SubfileElementIds.JurisdictionCode, "NY"),
+            PostalCode = FV<string?>(SubfileElementIds.PostalCode, "11111"),
+            Country = FV<Country>(SubfileElementIds.Country, Country.USA),
+
+            DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(1972, 2, 2)),
+            Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
+            Height = FV<Height?>(SubfileElementIds.Height, new Height(feet: 6, inches: 1)),
+            EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Brown),
+
+            IdNumber = FV(SubfileElementIds.IdNumber, "123456789"),
+            AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2005),
+
+            IssueDate = FV<DateTime?>(SubfileElementIds.IssueDate, new DateTime(2019, 2, 2)),
+            ExpirationDate = FV<DateTime?>(SubfileElementIds.ExpirationDate, new DateTime(2028, 2, 2)),
+
+            RevisionDate = FV<DateTime?>(SubfileElementIds.RevisionDate, new DateTime(2017, 9, 9)),
+            ComplianceType = FV<ComplianceType?>(SubfileElementIds.ComplianceType, ComplianceType.FullyCompliant),
+
+            VehicleClass = FV<string?>(SubfileElementIds.VehicleClass, "DM"),
+        };
+
+        var file = License("NY AAMVA2005 Height");
+        var parseResult = Barcode.Parse(file, Validation.None);
+        LogUnhandledElementIds(parseResult);
+
+        AssertNoErrors(parseResult);
+        AssertIdCard(expected, parseResult.Card);
+        AssertLicense(expected, parseResult.Card);
+
+        Assert.Equal("New York", parseResult.Card.IssuerIdentificationNumber.Value.GetDescriptionOrDefault());
+    }
+
+    [Fact]
     public void TestVALicense()
     {
         var expected = new DriversLicense

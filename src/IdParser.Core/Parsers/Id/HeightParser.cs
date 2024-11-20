@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using IdParser.Core.Constants;
 
 namespace IdParser.Core.Parsers.Id;
@@ -26,28 +27,72 @@ internal static class HeightParser
 
         if (version == AAMVAVersion.AAMVA2000)
         {
-            var feetSpan = rawValue.AsSpan(start: 0, length: 1);
-            if (!int.TryParse(feetSpan, NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out int feet))
+            if (!TryParseAAMVA2000Height(rawValue, out int? feet, out int? inches, out string? parseError))
             {
-                return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Height Feet from field '{SubfileElementIds.Height}': '{feetSpan}' is not a valid integer.");
+                return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, error: parseError);
             }
 
-            var inchesSpan = rawValue.AsSpan(start: 1, length: 2);
-            if (!int.TryParse(inchesSpan, NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out int inches))
-            {
-                return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, $"Unable to parse Height Inches from field '{SubfileElementIds.Height}': '{inchesSpan}' is not a valid integer.");
-            }
-
-            return FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(feet: feet, inches: inches), rawValue: rawValue);
+            return FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(feet: feet.Value, inches: inches.Value), rawValue: rawValue);
         }
 
         if (int.TryParse(rawValue.AsSpan(start: 0, length: rawValue.Length - 2), NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out int height))
         {
-            return rawValue.Contains("cm", StringComparison.OrdinalIgnoreCase)
-                ? FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(centimeters: height), rawValue: rawValue)
-                : FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(totalInches: height), rawValue: rawValue);
+            // #31: Even though AAMVA > 2000 is not supposed to have height as Feet and Inches mashed together, apparently
+            //   NY didn't get the memo because we got a report of an AAMVA 2005 NY license with the AAMVA 2000 height
+            //   formatting. Explicitly check for both cm and in, and if it's neither, try to parse it as AAMVA 2000.
+
+            if (rawValue.Contains("cm", StringComparison.OrdinalIgnoreCase))
+            {
+                return FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(centimeters: height), rawValue: rawValue);
+            }
+
+            if (rawValue.Contains("in", StringComparison.OrdinalIgnoreCase))
+            {
+                return FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(totalInches: height), rawValue: rawValue);
+            }
+
+            if (TryParseAAMVA2000Height(rawValue, out int? feet, out int? inches, out string? parseError))
+            {
+                return FieldHelpers.ParsedField<Height?>(elementId: elementId, value: new Height(feet: feet.Value, inches: inches.Value), rawValue: rawValue);
+            }
+
+            return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, error: parseError);
         }
 
         return FieldHelpers.UnparsedField<Height?>(elementId: elementId, rawValue: rawValue, error: $"Unable to parse Height from field '{SubfileElementIds.Height}': '{rawValue}'.");
+    }
+
+
+    //
+    // Private methods
+    //
+
+    private static bool TryParseAAMVA2000Height(string rawValue, [NotNullWhen(true)] out int? feet, [NotNullWhen(true)] out int? inches, [NotNullWhen(false)] out string? parseError)
+    {
+        var feetSpan = rawValue.AsSpan(start: 0, length: 1);
+        if (!int.TryParse(feetSpan, NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out int parsedFeet))
+        {
+            feet = null;
+            inches = null;
+            parseError = $"Unable to parse Height Feet from field '{SubfileElementIds.Height}': '{feetSpan}' is not a valid integer.";
+
+            return false;
+        }
+
+        var inchesSpan = rawValue.AsSpan(start: 1, length: 2);
+        if (!int.TryParse(inchesSpan, NumberStyles.Integer, provider: CultureInfo.InvariantCulture, out int parsedInches))
+        {
+            feet = null;
+            inches = null;
+            parseError = $"Unable to parse Height Inches from field '{SubfileElementIds.Height}': '{inchesSpan}' is not a valid integer.";
+
+            return false;
+        }
+
+        feet = parsedFeet;
+        inches = parsedInches;
+        parseError = null;
+
+        return true;
     }
 }
