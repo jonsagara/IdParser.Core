@@ -1,6 +1,4 @@
 ﻿using IdParser.Core.Constants;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace IdParser.Core.Test;
 

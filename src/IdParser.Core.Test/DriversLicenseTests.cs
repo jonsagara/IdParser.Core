@@ -1,6 +1,4 @@
 ﻿using IdParser.Core.Constants;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace IdParser.Core.Test;
 
@@ -2193,7 +2191,7 @@ public class DriversLicenseTests : BaseTest
             Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
             EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Green),
             Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 71)),
-            
+
             IdNumber = FV(SubfileElementIds.IdNumber, "K04-76-5990"),
             AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2016),
 
@@ -2332,7 +2330,7 @@ public class DriversLicenseTests : BaseTest
             EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Blue),
             HairColor = FV<HairColor?>(SubfileElementIds.EyeColor, HairColor.Blond),
             Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 72)),
-            
+
             IdNumber = FV(SubfileElementIds.IdNumber, "H01387330"),
             AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2009),
 
@@ -2511,7 +2509,7 @@ public class DriversLicenseTests : BaseTest
             Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Female),
             EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Blue),
             Height = FV<Height?>(SubfileElementIds.Height, new Height(centimeters: 157)),
-            
+
             IdNumber = FV(SubfileElementIds.IdNumber, "247725"),
             AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2016),
 
@@ -2615,7 +2613,7 @@ public class DriversLicenseTests : BaseTest
             Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
             EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Blue),
             Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 74)),
-            
+
             IdNumber = FV(SubfileElementIds.IdNumber, "RUN812345"),
             AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2013),
 
@@ -2671,7 +2669,7 @@ public class DriversLicenseTests : BaseTest
             Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Female),
             EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Brown),
             Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 67)),
-            
+
             IdNumber = FV(SubfileElementIds.IdNumber, "123456780"),
             AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2016),
 
@@ -2832,7 +2830,7 @@ public class DriversLicenseTests : BaseTest
             Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
             EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Blue),
             Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 70)),
-            
+
             IdNumber = FV(SubfileElementIds.IdNumber, "800448123"),
             AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2013),
 
@@ -2946,7 +2944,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(1939, 12, 7)),
             Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
             Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 71)),
-            
+
             IdNumber = FV(SubfileElementIds.IdNumber, "S58239477"),
             AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2009),
 
@@ -3031,7 +3029,7 @@ public class DriversLicenseTests : BaseTest
             Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Male),
             EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Green),
             Height = FV<Height?>(SubfileElementIds.Height, new Height(feet: 6, inches: 0)),
-            
+
             IdNumber = FV(SubfileElementIds.IdNumber, "227881513"),
             AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2000),
 
@@ -3115,7 +3113,7 @@ public class DriversLicenseTests : BaseTest
             DateOfBirth = FV<DateTime?>(SubfileElementIds.DateOfBirth, new DateTime(1962, 8, 8)),
             Sex = FV<Sex?>(SubfileElementIds.Sex, Sex.Female),
             Height = FV<Height?>(SubfileElementIds.Height, new Height(centimeters: 168)),
-            
+
             IdNumber = FV(SubfileElementIds.IdNumber, "1234567"),
             AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2003),
 
@@ -3156,7 +3154,7 @@ public class DriversLicenseTests : BaseTest
             EyeColor = FV<EyeColor?>(SubfileElementIds.EyeColor, EyeColor.Blue),
             HairColor = FV<HairColor?>(SubfileElementIds.EyeColor, HairColor.Blond),
             Height = FV<Height?>(SubfileElementIds.Height, new Height(totalInches: 69)),
-            
+
             IdNumber = FV(SubfileElementIds.IdNumber, "123456-789"),
             AAMVAVersionNumber = FV(null, AAMVAVersion.AAMVA2009),
 

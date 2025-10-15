@@ -1,7 +1,4 @@
-﻿using Xunit;
-using Xunit.Abstractions;
-
-namespace IdParser.Core.Test;
+﻿namespace IdParser.Core.Test;
 
 public class BaseTest
 {
@@ -13,10 +10,10 @@ public class BaseTest
         Console.SetOut(_output);
     }
 
-    protected string Id(string jurisdiction) 
+    protected string Id(string jurisdiction)
         => File.ReadAllText(Path.Combine("Ids", $"{jurisdiction}.txt"));
 
-    protected string License(string jurisdiction) 
+    protected string License(string jurisdiction)
         => File.ReadAllText(Path.Combine("Licenses", $"{jurisdiction}.txt"));
 
     /// <summary>
