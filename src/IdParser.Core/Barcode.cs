@@ -97,7 +97,10 @@ public static partial class Barcode
         var populateResult = PopulateIdCard(idCard, idCard.AAMVAVersionNumber.Value, countryResult.Country, subfileRecords, logger);
         if (populateResult.UnhandledElements.Count > 0)
         {
-            logger.UnhandledElementIds(string.Join(", ", populateResult.UnhandledElements.Select(ue => ue.ElementId)));
+            if (logger.IsEnabled(LogLevel.Warning))
+            {
+                logger.Warning_UnhandledElementIds(string.Join(", ", populateResult.UnhandledElements.Select(ue => ue.ElementId)));
+            }
         }
 
         return new BarcodeParseResult(idCard, populateResult.UnhandledElements, populateResult.Errors);
@@ -452,7 +455,7 @@ public static partial class Barcode
             }
             catch (Exception ex)
             {
-                logger.PopulateIdCardUnhandledException(ex, methodName: nameof(PopulateIdCard), elementId: elementId);
+                logger.Error_PopulateIdCardUnhandledException(ex, methodName: nameof(PopulateIdCard), elementId: elementId);
                 throw;
             }
         }

@@ -1,18 +1,10 @@
 ﻿using System.Reflection;
 using IdParser.Core.Attributes;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace IdParser.Core.Test.Metadata;
 
 public class AbbreviationAttributeTests : BaseTest
 {
-    public AbbreviationAttributeTests(ITestOutputHelper output)
-        : base(output)
-    {
-    }
-
-
     [Fact]
     public void AllCountryValuesHaveAnAbbreviationAttribute()
     {

@@ -1,16 +1,9 @@
 ﻿using IdParser.Core.Constants;
-using Xunit;
-using Xunit.Abstractions;
 
 namespace IdParser.Core.Test;
 
 public class IdentificationCardTests : BaseTest
 {
-    public IdentificationCardTests(ITestOutputHelper output)
-        : base(output)
-    {
-    }
-
     [Fact]
     public void TestTNIdCard()
     {
