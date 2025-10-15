@@ -4,11 +4,6 @@ namespace IdParser.Core.Test;
 
 public class IdentificationCardTests : BaseTest
 {
-    public IdentificationCardTests(ITestOutputHelper output)
-        : base(output)
-    {
-    }
-
     [Fact]
     public void TestTNIdCard()
     {

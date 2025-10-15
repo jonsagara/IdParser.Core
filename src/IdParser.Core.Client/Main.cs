@@ -1,8 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Text;
 using Microsoft.PointOfService;
 using Newtonsoft.Json;
 
@@ -10,7 +6,7 @@ namespace IdParser.Core.Client
 {
     public partial class Main : Form
     {
-        private Scanner _scanner;
+        private Scanner? _scanner;
 
         public Main()
         {
@@ -47,7 +43,7 @@ namespace IdParser.Core.Client
             try
             {
                 var explorer = new PosExplorer();
-                _scanner = explorer.CreateInstance(explorer.GetDevice(DeviceType.Scanner, txtLogicalName.Text)) as Scanner;
+                _scanner = (explorer.CreateInstance(explorer.GetDevice(DeviceType.Scanner, txtLogicalName.Text)) as Scanner)!;
 
                 AddDataEvent(_scanner);
 
@@ -153,7 +149,7 @@ namespace IdParser.Core.Client
 
             SetStatus(Level.Info, "Reading data");
 
-            var data = Encoding.ASCII.GetString(_scanner.ScanDataLabel);
+            var data = Encoding.ASCII.GetString(_scanner!.ScanDataLabel);
             var symbology = _scanner.ScanDataType;
 
             txtScanData.Text = data;

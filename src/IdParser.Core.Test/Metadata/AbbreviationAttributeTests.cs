@@ -5,12 +5,6 @@ namespace IdParser.Core.Test.Metadata;
 
 public class AbbreviationAttributeTests : BaseTest
 {
-    public AbbreviationAttributeTests(ITestOutputHelper output)
-        : base(output)
-    {
-    }
-
-
     [Fact]
     public void AllCountryValuesHaveAnAbbreviationAttribute()
     {

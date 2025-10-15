@@ -2,14 +2,6 @@
 
 public class BaseTest
 {
-    protected readonly XUnitTextWriter _output;
-
-    public BaseTest(ITestOutputHelper output)
-    {
-        _output = new XUnitTextWriter(output);
-        Console.SetOut(_output);
-    }
-
     protected string Id(string jurisdiction)
         => File.ReadAllText(Path.Combine("Ids", $"{jurisdiction}.txt"));
 
@@ -105,6 +97,6 @@ public class BaseTest
             return;
         }
 
-        _output.WriteLine($"State '{parseResult.Card.IssuerIdentificationNumber.Value.GetAbbreviationOrDefault()}' has unhandled element Ids: {string.Join(", ", parseResult.UnhandledElements.Select(ue => ue.ElementId))}.");
+        Console.WriteLine($"State '{parseResult.Card.IssuerIdentificationNumber.Value.GetAbbreviationOrDefault()}' has unhandled element Ids: {string.Join(", ", parseResult.UnhandledElements.Select(ue => ue.ElementId))}.");
     }
 }

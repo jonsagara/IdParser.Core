@@ -4,12 +4,6 @@ namespace IdParser.Core.Test;
 
 public class DriversLicenseTests : BaseTest
 {
-    public DriversLicenseTests(ITestOutputHelper output)
-        : base(output)
-    {
-    }
-
-
     [Fact]
     public void TestMA2009License()
     {
