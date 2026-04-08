@@ -10,7 +10,7 @@
 		<Company />
 		<PackageId>IdParser.Core</PackageId>
 		<Description>.NET-only version of IdParser. Parses AAMVA-compliant driver's licenses and ID cards.</Description>
-		<Copyright>Copyright 2019-2025</Copyright>
+		<Copyright>Copyright 2019-2026</Copyright>
 		<RepositoryUrl>https://github.com/jonsagara/IdParser.Core</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/jonsagara/IdParser.Core</PackageProjectUrl>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>

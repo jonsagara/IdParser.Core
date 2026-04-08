@@ -5,7 +5,7 @@
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<AssemblyTitle>IdParser.Core.Test</AssemblyTitle>
 		<Product>IdParser.Core.Test</Product>
-		<Copyright>Copyright © 2019-2024 Connor O%27Shea, Jon Sagara</Copyright>
+		<Copyright>Copyright © 2019-2026 Connor O%27Shea, Jon Sagara</Copyright>
 
 		<!--
 		This template uses native xUnit.net command line options when using 'dotnet run' and
@@ -30,7 +30,7 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="xunit.v3" Version="3.2.0" />
+		<PackageReference Include="xunit.v3" Version="3.2.2" />
 	</ItemGroup>
 
 	<ItemGroup>
